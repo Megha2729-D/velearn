@@ -1,0 +1,270 @@
+import { Component } from "react";
+import { Link } from 'react-router-dom';
+
+class Footer extends Component {
+
+    render() {
+        return (
+            <>
+                <div className="footer_sec">
+                    <div className="container">
+                        <div className="row page_links">
+                            {/* Desktop View */}
+                            <div className="d-none d-lg-flex">
+                                <div className="col-lg-3 d-flex justify-content-center">
+                                    <div>
+                                        <h3>Popular Courses</h3>
+                                        <ul className="p-0">
+                                            <li><Link to="">Web Development</Link></li>
+                                            <li><Link to="">Python Programming</Link></li>
+                                            <li><Link to="">Data Science</Link></li>
+                                            <li><Link to="">Cloud Computing (AWS & Azure)</Link></li>
+                                            <li><Link to="">Cyber Security & Ethical Hacking</Link></li>
+                                            <li><Link to="">UI/UX Design</Link></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="col-lg-3 d-flex justify-content-center">
+                                    <div>
+                                        <h3>Resources</h3>
+                                        <ul className="p-0">
+                                            <li><Link to="">Blogs & Articles</Link></li>
+                                            <li><Link to="">Free eBooks</Link></li>
+                                            <li><Link to="">Video Tutorials</Link></li>
+                                            <li><Link to="">FAQs</Link></li>
+                                            <li><Link to="">Student Support</Link></li>
+                                            <li><Link to="">Downloads</Link></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="col-lg-3 d-flex justify-content-center">
+                                    <div>
+                                        <h3>Company</h3>
+                                        <ul className="p-0">
+                                            <li><Link to="">About Us</Link></li>
+                                            <li><Link to="">Careers</Link></li>
+                                            <li><Link to="">Contact Us</Link></li>
+                                            <li><Link to="">Become an Instructor</Link></li>
+                                            <li><Link to="">Partners & Affiliates</Link></li>
+                                            <li><Link to="">Feedback</Link></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="col-lg-3 d-flex justify-content-center">
+                                    <div>
+                                        <h3>Practice Platform</h3>
+                                        <ul className="p-0">
+                                            <li><Link to="">Code Lab</Link></li>
+                                            <li><Link to="">Quiz Zone</Link></li>
+                                            <li><Link to="">Mock Tests</Link></li>
+                                            <li><Link to="">Mini Projects</Link></li>
+                                            <li><Link to="">Assignments</Link></li>
+                                            <li><Link to="">Certifications</Link></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Mobile Accordion */}
+                            <div className="accordion d-lg-none" id="footerAccordion">
+                                {/* Courses */}
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingCourses">
+                                        <button
+                                            className="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseCourses"
+                                        >
+                                            Popular Courses
+                                        </button>
+                                    </h2>
+                                    <div id="collapseCourses" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+                                        <div className="accordion-body">
+                                            <ul className="p-0">
+                                                <li><Link to="">Web Development</Link></li>
+                                                <li><Link to="">Python Programming</Link></li>
+                                                <li><Link to="">Data Science</Link></li>
+                                                <li><Link to="">Cloud Computing (AWS & Azure)</Link></li>
+                                                <li><Link to="">Cyber Security & Ethical Hacking</Link></li>
+                                                <li><Link to="">UI/UX Design</Link></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Resources */}
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingResources">
+                                        <button
+                                            className="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseResources"
+                                        >
+                                            Resources
+                                        </button>
+                                    </h2>
+                                    <div id="collapseResources" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+                                        <div className="accordion-body">
+                                            <ul className="p-0">
+                                                <li><Link to="">Blogs & Articles</Link></li>
+                                                <li><Link to="">Free eBooks</Link></li>
+                                                <li><Link to="">Video Tutorials</Link></li>
+                                                <li><Link to="">FAQs</Link></li>
+                                                <li><Link to="">Student Support</Link></li>
+                                                <li><Link to="">Downloads</Link></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Company */}
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingCompany">
+                                        <button
+                                            className="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseCompany"
+                                        >
+                                            Company
+                                        </button>
+                                    </h2>
+                                    <div id="collapseCompany" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+                                        <div className="accordion-body">
+                                            <ul className="p-0">
+                                                <li><Link to="">About Us</Link></li>
+                                                <li><Link to="">Careers</Link></li>
+                                                <li><Link to="">Contact Us</Link></li>
+                                                <li><Link to="">Become an Instructor</Link></li>
+                                                <li><Link to="">Partners & Affiliates</Link></li>
+                                                <li><Link to="">Feedback</Link></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Practice */}
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingPractice">
+                                        <button
+                                            className="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapsePractice"
+                                        >
+                                            Practice Platform
+                                        </button>
+                                    </h2>
+                                    <div id="collapsePractice" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+                                        <div className="accordion-body">
+                                            <ul className="p-0">
+                                                <li><Link to="">Code Lab</Link></li>
+                                                <li><Link to="">Quiz Zone</Link></li>
+                                                <li><Link to="">Mock Tests</Link></li>
+                                                <li><Link to="">Mini Projects</Link></li>
+                                                <li><Link to="">Assignments</Link></li>
+                                                <li><Link to="">Certifications</Link></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        {/* About & Social */}
+                        <div className="row bottom_social_media">
+                            <div className="col-lg-9">
+                                <Link to="/">
+                                    <img
+                                        src={`${process.env.PUBLIC_URL}/assets/images/velearn-logo.png`}
+                                        className="footer_logo"
+                                        alt="Velearn Logo"
+                                    />
+                                </Link>
+                                <p className="mt-3">
+                                    <strong>Velearn</strong> is a next-generation online learning platform
+                                    helping students and professionals enhance their skills in technology,
+                                    data, and business. Learn anytime, anywhere — at your own pace.
+                                </p>
+                                <p>
+                                    Our mission is to make quality education accessible and affordable to
+                                    everyone. Join Velearn to unlock expert-led courses, real-world
+                                    projects, and certifications that boost your career.
+                                </p>
+                            </div>
+
+                            <div className="col-lg-3">
+                                <h3 className="mt-4">Follow Us</h3>
+                                <div className="col-12 mb-3 mt-4">
+                                    <div className="d-flex gap-3">
+                                        <div className="footer_icons">
+                                            <a href="https://facebook.com/velearn" target="_blank" rel="noreferrer">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/facebook.png`} alt="Facebook" />
+                                            </a>
+                                        </div>
+                                        <div className="footer_icons">
+                                            <a href="https://instagram.com/velearn" target="_blank" rel="noreferrer">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/instagram.png`} alt="Instagram" />
+                                            </a>
+                                        </div>
+                                        <div className="footer_icons">
+                                            <a href="https://linkedin.com/company/velearn" target="_blank" rel="noreferrer">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/linkedin.png`} alt="LinkedIn" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 mb-3">
+                                    <div className="d-flex gap-3">
+                                        <div className="footer_icons">
+                                            <a href="https://t.me/velearn" target="_blank" rel="noreferrer">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/telegram.png`} alt="Telegram" />
+                                            </a>
+                                        </div>
+                                        <div className="footer_icons">
+                                            <a href="https://youtube.com/@velearn" target="_blank" rel="noreferrer">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/youtube.png`} alt="YouTube" />
+                                            </a>
+                                        </div>
+                                        <div className="footer_icons">
+                                            <a href="https://twitter.com/velearn" target="_blank" rel="noreferrer">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/twitter.png`} alt="Twitter" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        {/* Bottom Bar */}
+                        <div className="row d-flex flex-lg-row flex-column-reverse">
+                            <div className="col-lg-6">
+                                <div className="col-12 pt-2 d-flex justify-content-lg-start justify-content-center">
+                                    <div>
+                                        <span>© {new Date().getFullYear()} All Rights Reserved by </span>
+                                        <Link to="/">Velearn</Link>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-6">
+                                <div className="col-12 pt-2 d-flex justify-content-lg-end justify-content-center">
+                                    <div>
+                                        <Link to="/terms">Terms & Conditions</Link>
+                                        <span className="px-2">|</span>
+                                        <Link to="/privacy-policy">Privacy Policy</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    }
+}
+
+export default Footer;

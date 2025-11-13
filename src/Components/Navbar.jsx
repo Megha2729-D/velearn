@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false);
@@ -118,9 +118,13 @@ const Navbar = () => {
                             </div>
                         </div>
                         <div className="d-flex gap-2 text-white">
-                            <span className='d-none d-lg-block'><a href="/" className="text-dark text-decoration-none">Login</a></span>
+                            <span className='d-none d-lg-block'>
+                                <Link to='/login' className="text-dark text-decoration-none">Login</Link>
+                            </span>
                             <span className='d-none d-lg-block'>|</span>
-                            <span><a href="/" className="text-decoration-none signUpBut">Sign Up</a></span>
+                            <span>
+                                <Link to="/signup" className="text-decoration-none signUpBut">Sign Up</Link>
+                            </span>
                         </div>
                         {/* <div className="d-flex align-items-center">
                             <div className="d-flex align-items-center">

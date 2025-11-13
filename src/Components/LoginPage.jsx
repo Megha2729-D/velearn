@@ -81,14 +81,14 @@ class LoginPage extends Component {
                                             />
                                             <label htmlFor="remember">Remember me</label>
                                         </div>
-                                        <a href="#" className="link forgot-link">
+                                        <Link to='' className="link forgot-link">
                                             Forgot Password?
-                                        </a>
+                                        </Link>
                                     </div>
 
-                                    <a href="#" className="rounded-button login-cta">
+                                    <Link to='/login' className="rounded-button login-cta">
                                         Login
-                                    </a>
+                                    </Link>
 
                                     <div className="register-div">
                                         Not registered yet?{" "}

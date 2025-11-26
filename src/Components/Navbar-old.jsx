@@ -39,6 +39,26 @@ const Navbar = () => {
     }, [showNavbar]);
     return (
         <nav className="v-navbar flex-column w-100">
+            <div className="bg-clight text-black py-1 d-flex align-items-center overflow-hidden">
+                <div className="scroll-text text-center w-100">
+                    Master GenAI, Agentic AI, & Deep Learning with Intel AIML to be AI ready.
+                </div>
+            </div>
+            {/* <div className="bg-black login_signup_sec">
+                <div className="section_container">
+                    <div className="col-12 d-flex justify-content-between py-2">
+                        <div className="text-white">
+                            <i className="bi bi-geo text-white"></i>
+                            <span className="ps-2">TRACK YOUR ORDER</span>
+                        </div>
+                        <div className="d-flex gap-2 text-white">
+                            <span><a href="/" className="text-white text-decoration-none">LOG IN</a></span>
+                            <span>|</span>
+                            <span><a href="/" className="text-white text-decoration-none">SIGNUP</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
             <div className={`navbar_links section_container ${active ? "active" : ""}`}>
                 <div className="nav_parent py-3">
                     <div className="menu-icon" onClick={handleShowNavbar}>
@@ -50,7 +70,7 @@ const Navbar = () => {
                         </NavLink>
                     </div>
                     <div className={`nav-elements  ${showNavbar && "active"}`}>
-                        <ul className="mb-0">
+                        <ul className="mb-0 ps-lg-0">
                             <li>
                                 <NavLink to="/">Self-Paced Course</NavLink>
                             </li>
@@ -70,44 +90,52 @@ const Navbar = () => {
                                     <i className="bi bi-instagram"></i>
                                 </div>
                             </a>
+
                             <a href="/">
                                 <div className="ab-lgo-bx">
                                     <i className="bi bi-facebook"></i>
                                 </div>
                             </a>
+
                             <a href="/">
                                 <div className="ab-lgo-bx">
                                     <i className="bi bi-twitter-x"></i>
                                 </div>
                             </a>
+
                             <a href="/">
                                 <div className="ab-lgo-bx">
                                     <i className="bi bi-whatsapp"></i>
                                 </div>
                             </a>
+
                         </div>
                     </div>
                     <div className="d-flex gap-4 right_nav_icons">
-                        <div className="d-flex gap-4 text-white">
+                        <div className="d-flex align-items-center">
+                            <div className="d-flex align-items-center">
+                                <i className="bi bi-search text-black d-flex align-items-center"></i>
+                            </div>
+                        </div>
+                        <div className="d-flex gap-2 text-white">
                             <span className='d-none d-lg-block'>
                                 <Link to='/login' className="text-dark text-decoration-none">Login</Link>
                             </span>
+                            <span className='d-none d-lg-block'>|</span>
                             <span>
-                                <Link to="/signup" className="text-decoration-none signUpBut px-4">Sign Up</Link>
+                                <Link to="/signup" className="text-decoration-none signUpBut">Sign Up</Link>
                             </span>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div className="section_container search_parent">
-                <div className="col-12 d-flex justify-content-end align-items-center gap-4 py-2">
-                    <div className="w-100 d-flex justify-content-end">
-                        <input type="search" style={{width: "40%"}} placeholder='Search....' />
-                    </div>
-                    <div className="d-flex gap-2 ">
-                        <span>
-                            <Link to="/" className="text-decoration-none signUpBut px-4">Contact</Link>
-                        </span>
+                        {/* <div className="d-flex align-items-center">
+                            <div className="d-flex align-items-center">
+                                <i className="bi bi-heart text-black d-flex align-items-center"></i>
+                            </div>
+                        </div>
+                        <div className="d-flex align-items-center">
+                            <div className="d-flex align-items-center">
+                                <i className="bi bi-cart3 text-black d-flex align-items-center"></i>
+                            </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

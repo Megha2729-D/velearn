@@ -144,316 +144,35 @@ class HomePage extends Component {
         return (
             <>
                 {/* Hero Carousel */}
-                <div id="velearnHomeCarousel" className="carousel slide carousel-fade">
-                    <div className="carousel-inner mt-3 mt-lg-0">
-
-                        {/* SVG BACKGROUND (DESKTOP) */}
-                        <svg xmlns="http://www.w3.org/2000/svg" className="d-none d-lg-block w-100"
-                            id="Layer_1" viewBox="0 100 1400 600">
-                            <defs xmlns="http://www.w3.org/2000/svg">
-                                <filter id="shadowFilter" x="-20%" y="-20%" width="150%" height="150%">
-                                    <feDropShadow dx="0" dy="12" stdDeviation="25" flood-color="rgba(0,0,0,0.49)" />
-                                </filter>
-                            </defs>
-                            <path filter="url(#shadowFilter)" fill="#21346a"
-                                d="M1350,310.05V610a40,40,0,0,1-40,40H740.05a40,40,0,0,1-40-40v-39.9a40,40,0,0,0-40-40H90.05A40,40,0,0,1,50,490V190.05A40,40,0,0,1,90.05,150H660a40,40,0,0,1,40,40.05V230a40,40,0,0,0,40,40.05H1310A40,40,0,0,1,1350,310.05Z">
-                            </path>
-                        </svg>
-
-                        {/* SVG BACKGROUND (MOBILE) */}
-                        <svg xmlns="http://www.w3.org/2000/svg" className="d-block d-lg-none w-100"
-                            id="Layer_1" viewBox="0 100 1400 1700">
-                            <defs xmlns="http://www.w3.org/2000/svg">
-                                <filter id="shadowSmFilter" x="-20%" y="-20%" width="150%" height="150%">
-                                    <feDropShadow dx="0" dy="12" stdDeviation="25" flood-color="rgba(0, 0, 0, 0.49)" />
-                                </filter>
-                            </defs>
-                            <path filter="url(#shadowSmFilter)" fill="#21346a"
-                                // d="M1350,310.05V1990a40,40,0,0,1-40,40H740.05a40,40,0,0,1-40-40v-39.9a40,40,0,0,0-40-40H90.05A40,40,0,0,1,50,1970V190.05A40,40,0,0,1,90.05,150H660a40,40,0,0,1,40,40.05V230a40,40,0,0,0,40,40.05H1310A40,40,0,0,1,1350,310.05Z"
-                                d="M1350,310.05V1200a40,40,0,0,1-40,40H740.05a40,40,0,0,1-40-40v-39.9a40,40,0,0,0-40-40H90.05A40,40,0,0,1,50,1070V190.05A40,40,0,0,1,90.05,150H660a40,40,0,0,1,40,40.05V230a40,40,0,0,0,40,40.05H1310A40,40,0,0,1,1350,310.05Z"
-                            >
-                            </path>
-                        </svg>
-                        {/* SLIDE 1 – Live Learning */}
+                <div id="carouselExample" className="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div className="carousel-inner">
                         <div className="carousel-item active">
-                            <div className="carousel-caption custom-caption">
-                                <div className="row">
-                                    <div className="col-lg-7">
-                                        <div className="caption-box">
-                                            <h2 className="h1">
-                                                Master the art <br />
-                                                of <span className="highlight">Live Learning</span>
-                                            </h2>
-                                            <p>Join expert-led live classes, interact in real time, and grow your career.</p>
-                                            <div className="btn-group d-flex">
-                                                <button className="syllabus-btn">Syllabus</button>
-                                                <button className="viewmore-btn">View More</button>
-                                            </div>
-                                            <div className="d-none d-lg-block">
-                                                <div className="uiux-process-box mt-3">
-                                                    <h2 className="ux-title">LIVE LEARNING EXPERIENCE</h2>
-                                                    <ul className="ux-list">
-                                                        <li>Attend Live Sessions With Industry Experts</li>
-                                                        <li>Interactive Discussions & Group Activities</li>
-                                                        <li>Immediate Feedback to Improve Skills</li>
-                                                        <li>Real-Time Problem Solving & Mentorship</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-5">
-                                        <div className="uiux-process-box mt-3">
-                                            <div className="rings-row">
-                                                <div className="ring-item"><div className="ring"></div><span>ENGAGE</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>INTERACT</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>IMPLEMENT</span></div>
-                                            </div>
-                                            <h2 className="ux-title">LEARN WITH REAL-TIME GUIDANCE</h2>
-                                            <ul className="ux-list">
-                                                <li>Engage in Live Interactive Sessions</li>
-                                                <li>Discuss Concepts Directly With Mentors</li>
-                                                <li>Participate in Real-Time Q&A</li>
-                                                <li>Receive Immediate Practical Feedback</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <img src={`${process.env.PUBLIC_URL}/assets/images/banner-1.avif`} className="d-lg-block d-none w-100" alt="..." />
+                            <img src={`${process.env.PUBLIC_URL}/assets/images/banner-sm-1.avif`} className="d-lg-none d-block w-100" alt="..." />
                         </div>
-
-                        {/* SLIDE 2 – Self-Paced Study */}
                         <div className="carousel-item">
-                            <div className="carousel-caption custom-caption">
-                                <div className="row">
-                                    <div className="col-lg-7">
-                                        <div className="caption-box">
-                                            <h2 className="h1">
-                                                Master the art <br />
-                                                of <span className="highlight">Self-Paced Study</span>
-                                            </h2>
-                                            <p>Access high-quality recorded lessons, learn anytime, and upskill fast.</p>
-                                            <div className="btn-group d-flex">
-                                                <button className="syllabus-btn">Syllabus</button>
-                                                <button className="viewmore-btn">View More</button>
-                                            </div>
-                                            <div className=" d-none d-lg-block">
-                                                <div className="uiux-process-box mt-3">
-                                                    <h2 className="ux-title">FLEXIBLE LEARNING JOURNEY</h2>
-                                                    <ul className="ux-list">
-                                                        <li>Watch Lessons At Your Own Pace</li>
-                                                        <li>Access Resources Anytime, Anywhere</li>
-                                                        <li>Practice With Structured Exercises</li>
-                                                        <li>Track Your Progress Easily</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-5">
-                                        <div className="uiux-process-box mt-3">
-                                            <div className="rings-row">
-                                                <div className="ring-item"><div className="ring"></div><span>PLAN</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>PRACTICE</span></div>
-                                            </div>
-                                            <h2 className="ux-title">STUDY ANYTIME WITH FLEXIBILITY</h2>
-                                            <ul className="ux-list">
-                                                <li>Watch Lessons at Your Own Speed</li>
-                                                <li>Revisit Concepts Anytime You Need</li>
-                                                <li>Practice Along With Structured Modules</li>
-                                                <li>Track Progress Through Each Section</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* SLIDE 3 – Sharing & Earning */}
-                        <div className="carousel-item">
-                            <div className="carousel-caption custom-caption">
-                                <div className="row">
-                                    <div className="col-lg-7">
-                                        <div className="caption-box">
-                                            <h2 className="h1">
-                                                Master the art <br />
-                                                of <span className="highlight">Sharing & Earning</span>
-                                            </h2>
-                                            <p>Refer friends, help them grow, and earn exciting rewards effortlessly.</p>
-                                            <div className="btn-group d-flex">
-                                                <button className="syllabus-btn">Syllabus</button>
-                                                <button className="viewmore-btn">View More</button>
-                                            </div>
-                                            <div className=" d-none d-lg-block">
-                                                <div className="uiux-process-box mt-3">
-                                                    <h2 className="ux-title">GROW TOGETHER & EARN</h2>
-                                                    <ul className="ux-list">
-                                                        <li>Invite Friends To Join Courses</li>
-                                                        <li>Earn Rewards For Every Successful Referral</li>
-                                                        <li>Build A Learning Community</li>
-                                                        <li>Share Knowledge & Boost Careers</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-5">
-                                        <div className="uiux-process-box mt-3">
-                                            <div className="rings-row">
-                                                <div className="ring-item"><div className="ring"></div><span>SHARE</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>REFER</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>EARN</span></div>
-                                            </div>
-                                            <h2 className="ux-title">EARN WHILE YOU HELP OTHERS GROW</h2>
-                                            <ul className="ux-list">
-                                                <li>Share Courses With Your Network</li>
-                                                <li>Invite Friends to Learn and Upskill</li>
-                                                <li>Earn Rewards on Every Successful Refer</li>
-                                                <li>Grow a Community That Learns Together</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* SLIDE 4 – Hands-On Coding */}
-                        <div className="carousel-item">
-                            <div className="carousel-caption custom-caption">
-                                <div className="row">
-                                    <div className="col-lg-7">
-                                        <div className="caption-box">
-                                            <h2 className="h1">
-                                                Master the art <br />
-                                                of <span className="highlight">Hands-On Coding</span>
-                                            </h2>
-                                            <p>Use our powerful online IDE, practice real projects, and build skills.</p>
-                                            <div className="btn-group d-flex">
-                                                <button className="syllabus-btn">Syllabus</button>
-                                                <button className="viewmore-btn">View More</button>
-                                            </div>
-                                            <div className=" d-none d-lg-block">
-                                                <div className="uiux-process-box mt-3">
-                                                    <h2 className="ux-title">CODING MADE PRACTICAL</h2>
-                                                    <ul className="ux-list">
-                                                        <li>Practice Projects In A Live IDE</li>
-                                                        <li>Debug And Solve Real Problems</li>
-                                                        <li>Build Portfolio-Ready Skills</li>
-                                                        <li>Learn By Doing With Guidance</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-5">
-                                        <div className="uiux-process-box mt-3">
-                                            <div className="rings-row">
-                                                <div className="ring-item"><div className="ring"></div><span>CODE</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>DEBUG</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>DEPLOY</span></div>
-                                            </div>
-                                            <h2 className="ux-title">BUILD SKILLS THROUGH REAL PROJECTS</h2>
-                                            <ul className="ux-list">
-                                                <li>Practice Coding Inside the Live IDE</li>
-                                                <li>Work on Realistic Project Scenarios</li>
-                                                <li>Strengthen Logic With Guided Tasks</li>
-                                                <li>Learn By Doing in Every Module</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* SLIDE 5 – In-Demand Skills */}
-                        <div className="carousel-item">
-                            <div className="carousel-caption custom-caption">
-                                <div className="row">
-                                    <div className="col-lg-7">
-                                        <div className="caption-box">
-                                            <h2 className="h1">
-                                                Master the art <br />
-                                                of <span className="highlight">In-Demand Skills</span>
-                                            </h2>
-                                            <p>Learn today’s top technologies, upgrade your talent, and stay ahead.</p>
-                                            <div className="btn-group d-flex">
-                                                <button className="syllabus-btn">Syllabus</button>
-                                                <button className="viewmore-btn">View More</button>
-                                            </div>
-                                            <div className=" d-none d-lg-block">
-                                                <div className="uiux-process-box mt-3">
-                                                    <h2 className="ux-title">STAY AHEAD IN YOUR CAREER</h2>
-                                                    <ul className="ux-list">
-                                                        <li>Learn The Most Demanded Skills</li>
-                                                        <li>Gain Expertise In Trending Tools</li>
-                                                        <li>Enhance Job-Ready Abilities</li>
-                                                        <li>Stay Competitive In The Industry</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-5">
-                                        <div className="uiux-process-box mt-3">
-                                            <div className="rings-row">
-                                                <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>APPLY</span></div>
-                                                <div className="ring-item"><div className="ring"></div><span>GROW</span></div>
-                                            </div>
-
-                                            <h2 className="ux-title">UPSKILL WITH INDUSTRY-READY TOPICS</h2>
-                                            <ul className="ux-list">
-                                                <li>Master Trending Industry Tools</li>
-                                                <li>Learn Skills Required by Employers</li>
-                                                <li>Develop Practical, Job-Ready Ability</li>
-                                                <li>Stay Updated With Current Trends</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <img src={`${process.env.PUBLIC_URL}/assets/images/banner-2.avif`} className="d-lg-block d-none w-100" alt="..." />
+                            <img src={`${process.env.PUBLIC_URL}/assets/images/banner-sm-2.avif`} className="d-lg-none d-block w-100" alt="..." />
                         </div>
                     </div>
-
-                    {/* Controls */}
-                    <button className="carousel-control-prev" type="button"
-                        data-bs-target="#velearnHomeCarousel" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon visually-hidden"></span>
-                    </button>
-
-                    <button className="carousel-control-next" type="button"
-                        data-bs-target="#velearnHomeCarousel" data-bs-slide="next">
-                        <span className="carousel-control-next-icon visually-hidden"></span>
-                    </button>
                 </div>
 
                 {/* Achievements Section */}
-                <section className="counter py-5 " ref={this.counterRef}>
+                <section className="counter py-5 bg-light" ref={this.counterRef}>
                     <div className="container text-center mb-5">
                         <h2 className="fw-bold">Our Achievements & Growth</h2>
                         <p className="text-muted mb-0">
                             Celebrating VeLearn’s journey of transforming education through innovation and mentorship.
                         </p>
-                        <div className="row justify-content-center">
+                    </div>
+                    <div className="container">
+                        <div className="row">
                             {counters.map((item, index) => (
-                                <div className="col-lg-3 col-6 innerCounter d-flex justify-content-center py-3" key={index}>
-                                    <div
-                                        className="outer_progress_circle"
-                                        style={{
-                                            "--p": item.count
-                                        }}
-                                    >
-                                        <div className="inner_white">
-                                            <div className="counter_circle d-flex flex-column justify-content-center align-items-center">
-                                                <div className="h1">
-                                                    {item.count}{item.suffix}
-                                                </div>
-                                                <p className="mb-0">{item.label}</p>
-                                            </div>
-                                        </div>
+                                <div className="col-lg-3 col-6 my-3 innerCounter bg-white py-3" key={index}>
+                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                        <div className="h1">{item.count}{item.suffix}</div>
+                                        <p className="mb-0">{item.label}</p>
                                     </div>
-
                                 </div>
                             ))}
                         </div>
@@ -461,7 +180,7 @@ class HomePage extends Component {
                 </section>
 
                 {/* Progress Section */}
-                <section className="pb-5 " ref={this.progressRef}>
+                <section className="pb-5 bg-light" ref={this.progressRef}>
                     <div className="container">
                         <div className="row gy-4">
                             {progress.map((p, index) => (
@@ -570,61 +289,51 @@ class HomePage extends Component {
                 </section>
 
                 {/* VeLearn Courses Section */}
-                <section className="py-5 courses-section position-relative">
-                    <div className="background-shape">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="d-none d-lg-block w-100"
-                            id="Layer_1" viewBox="0 190 1400 525">
-                            <path fill="#21346a"
-                                d="M1350,320.5v340a40,40,0,0,1-40,40H1065a40,40,0,0,1-40-40h0a40,40,0,0,0-40-40H415a40,40,0,0,0-40,40h0a40,40,0,0,1-40,40H90a40,40,0,0,1-40-40v-420a40,40,0,0,1,40-40H660a40,40,0,0,1,40,40h0a40,40,0,0,0,40,40h570A40,40,0,0,1,1350,320.5Z"
-                            >
-                            </path>
-                        </svg>
-                    </div>
-                    <div className="container position-relative z-1">
-                        <div className="px-4 text-white">
-                            <h3 className="h2 mb-4 fw-bold section_title">
-                                Popular <br /><span className="text-c2"> Career Programs</span>
-                            </h3>
-                            <Swiper
-                                modules={[Autoplay]}
-                                spaceBetween={30}
-                                slidesPerView={3}
-                                autoplay={{ delay: 4000, disableOnInteraction: false }}
-                                loop={true}
-                                grabCursor={true}
-                                breakpoints={{
-                                    320: { slidesPerView: 1 },
-                                    768: { slidesPerView: 2 },
-                                    1024: { slidesPerView: 3 },
-                                }}
-                            >
-                                {courses.map((course, index) => (
-                                    <SwiperSlide key={index}>
-                                        <div className="card course-card shadow-sm border-0 h-100 d-flex flex-column">
-                                            <img
-                                                src={course.img}
-                                                className="card-img-top"
-                                                alt={course.title}
-                                                style={{ height: "200px", objectFit: "cover" }}
-                                            />
-                                            <div className="card-body d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <h5 className="text-start card-title">{course.title}</h5>
-                                                    <p className="text-start text-muted small mb-3">🌐 {course.lang}</p>
-                                                </div>
-                                                <div className="d-flex justify-content-between mt-auto">
-                                                    <button className="btn1 btn-sm">View Syllabus</button>
-                                                    <button className="btn2 btn-sm">Know More</button>
-                                                </div>
+                <section className="py-5 bg-light">
+                    <div className="container text-center">
+                        <h3 className="h2 mb-4 fw-bold">Popular Career Programs</h3>
+                        <p className="text-muted mb-5">
+                            Learn from industry experts and get guided towards a successful tech career with VeLearn.
+                        </p>
+
+                        <Swiper
+                            modules={[Autoplay]}
+                            spaceBetween={30}
+                            slidesPerView={3}
+                            autoplay={{ delay: 4000, disableOnInteraction: false }}
+                            loop={true}
+                            grabCursor={true}
+                            breakpoints={{
+                                320: { slidesPerView: 1 },
+                                768: { slidesPerView: 2 },
+                                1024: { slidesPerView: 3 },
+                            }}
+                        >
+                            {courses.map((course, index) => (
+                                <SwiperSlide key={index}>
+                                    <div className="card course-card shadow-sm border-0 h-100 d-flex flex-column">
+                                        <img
+                                            src={course.img}
+                                            className="card-img-top"
+                                            alt={course.title}
+                                            style={{ height: "200px", objectFit: "cover" }}
+                                        />
+                                        <div className="card-body d-flex flex-column justify-content-between">
+                                            <div>
+                                                <h5 className="text-start card-title">{course.title}</h5>
+                                                <p className="text-start text-muted small mb-3">🌐 {course.lang}</p>
+                                            </div>
+                                            <div className="d-flex justify-content-between mt-auto">
+                                                <button className="btn1 btn-sm">View Syllabus</button>
+                                                <button className="btn2 btn-sm">Know More</button>
                                             </div>
                                         </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                            <div className="col-12 d-flex justify-content-center">
-                                <button className="btn-c1 mt-5 px-4 py-2">Explore All Courses</button>
-                            </div>
-                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+
+                        <button className="btn-c1 mt-5 px-4 py-2">Explore All Courses</button>
                     </div>
                 </section>
                 {/* Reviews Section */}
@@ -695,31 +404,8 @@ class HomePage extends Component {
                 </section>
 
                 {/* Top 5 Recorded Courses Section */}
-                <section className="py-5  course_slider_parent position-relative">
-                    <div className="background-shape">
-                        <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1400 800">
-                            <defs></defs>
-                            <path fill="#15203A" className="cls-1" d="M1350,320.5v340a40,40,0,0,1-40,40H1065a40,40,0,0,1-40-40h0a40,40,0,0,0-40-40H415a40,40,0,0,0-40,40h0a40,40,0,0,1-40,40H90a40,40,0,0,1-40-40v-420a40,40,0,0,1,40-40H660a40,40,0,0,1,40,40h0a40,40,0,0,0,40,40h570A40,40,0,0,1,1350,320.5Z" />
-                        </svg>
-                        {/* <svg width="100%" height="100%" viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
-                                    <feGaussianBlur in="SourceGraphic" stdDeviation="25" result="blur" />
-                                    <feFlood floodColor="#15203A" floodOpacity="0.8" result="flood" />
-                                    <feComposite in="flood" in2="blur" operator="in" result="glow" />
-                                    <feMerge>
-                                        <feMergeNode in="glow" />
-                                        <feMergeNode in="SourceGraphic" />
-                                    </feMerge>
-                                </filter>
-                            </defs>
-                            <path
-                                d="M 50 25 C 20 25 0 45 0 75 L 0 225 C 0 255 20 275 50 275 L 175 275 C 205 275 225 255 225 225 L 225 150 C 225 120 245 100 275 100 L 725 100 C 755 100 775 120 775 150 L 775 225 C 775 255 795 275 825 275 L 950 275 C 980 275 1000 255 1000 225 L 1000 75 C 1000 45 980 25 950 25 L 675 25 C 645 25 625 0 595 0 L 405 0 C 375 0 355 25 325 25 L 50 25 Z"
-                                fill="#15203A"
-                            />
-                        </svg> */}
-                    </div>
-                    <div className="container text-center position-relative z-1">
+                <section className="py-5 bg-light course_slider_parent">
+                    <div className="container text-center">
                         <h3 className="fw-bold mb-4">Top 5 Recorded Courses</h3>
                         <p className="text-muted mb-5">
                             Learn at your own pace with our top-rated recorded programs.

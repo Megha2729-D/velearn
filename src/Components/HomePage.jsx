@@ -572,7 +572,7 @@ class HomePage extends Component {
                 {/* VeLearn Courses Section */}
                 <section className="py-5 courses-section position-relative">
                     <div className="background-shape">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="d-none d-lg-block w-100"
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-100"
                             id="Layer_1" viewBox="0 190 1400 525">
                             <path fill="#21346a"
                                 d="M1350,320.5v340a40,40,0,0,1-40,40H1065a40,40,0,0,1-40-40h0a40,40,0,0,0-40-40H415a40,40,0,0,0-40,40h0a40,40,0,0,1-40,40H90a40,40,0,0,1-40-40v-420a40,40,0,0,1,40-40H660a40,40,0,0,1,40,40h0a40,40,0,0,0,40,40h570A40,40,0,0,1,1350,320.5Z"

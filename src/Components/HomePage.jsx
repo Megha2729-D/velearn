@@ -114,31 +114,29 @@ class HomePage extends Component {
         ];
 
         // Courses for VeLearn
-        const courses = [
+        const coursesOne = [
             {
                 title: "Full Stack Web Development Program",
-                lang: "English, Tamil & Hindi",
+                // lang: "English, Tamil & Hindi",
                 img: `${process.env.PUBLIC_URL}/assets/images/courses-1.jpg`,
             },
             {
                 title: "Data Science & Analytics Masterclass",
-                lang: "English & Tamil",
+                // lang: "English & Tamil",
                 img: `${process.env.PUBLIC_URL}/assets/images/courses-2.jpg`,
             },
+        ];
+        // Courses for VeLearn
+        const coursesTwo = [
             {
                 title: "UI/UX Design Professional Course",
-                lang: "English, Hindi & Tamil",
+                // lang: "English, Hindi & Tamil",
                 img: `${process.env.PUBLIC_URL}/assets/images/courses-3.jpg`,
             },
             {
                 title: "Python Programming for Beginners",
-                lang: "English & Tamil",
+                // lang: "English & Tamil",
                 img: `${process.env.PUBLIC_URL}/assets/images/courses-4.jpg`,
-            },
-            {
-                title: "Artificial Intelligence Essentials",
-                lang: "English, Hindi & Tamil",
-                img: `${process.env.PUBLIC_URL}/assets/images/courses-5.jpg`,
             },
         ];
 
@@ -432,7 +430,7 @@ class HomePage extends Component {
                 </div>
 
                 {/* Achievements Section */}
-                <section className="counter py-5 " ref={this.counterRef}>
+                <section className="counter " ref={this.counterRef}>
                     <div className="container text-center mb-5">
                         {/* <h2 className="fw-bold">Our Achievements & Growth</h2>
                         <p className="text-muted mb-0">
@@ -463,89 +461,92 @@ class HomePage extends Component {
                     </div>
                 </section>
 
-                {/* Progress Section */}
-                <section className="pb-5 " ref={this.progressRef}>
+                {/* VeLearn Courses Section */}
+                <section className="courses-section position-relative">
                     <div className="container">
-                        <div className="row gy-4">
-                            {progress.map((p, index) => (
-                                <div className="col-md-4 d-flex align-items-center" key={index}>
-                                    <div className="d-flex align-items-center bg-white p-3 rounded-3 shadow-sm w-100">
-                                        <div style={{ width: 120, height: 120 }}>
-                                            <CircularProgressbar
-                                                value={p.current}
-                                                text={`${p.current}%`}
-                                                styles={buildStyles({
-                                                    textColor: "#000",
-                                                    pathColor: p.color,
-                                                    trailColor: "#ddd",
-                                                    pathTransitionDuration: 0.3,
-                                                })}
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-100"
+                            id="Layer_1" viewBox="0 100 1400 600">
+                            <path fill="#21346a"
+                                d="M1350,245.8V634.2a65.8,65.8,0,0,1-65.8,65.8H1075.11a65.67,65.67,0,0,1-58.65-36A80,80,0,0,0,945,620H455a80.07,80.07,0,0,0-71.46,44,65.65,65.65,0,0,1-58.64,36H115.8A65.8,65.8,0,0,1,50,634.2V165.8A65.8,65.8,0,0,1,115.8,100H649.88a65.66,65.66,0,0,1,58.66,36A80,80,0,0,0,780,180h504.2A65.8,65.8,0,0,1,1350,245.8Z"
+                            >
+                            </path>
+                        </svg>
+                        <div className="overlay_shape_sec text-white">
+                            <h3 className="mb-4 fw-bold section_title mt-4">
+                                Top 4 Trending <br /><span className="text-c2"> Live Courses</span>
+                            </h3>
+                            <div className="row">
+                                {coursesOne.map((course, index) => (
+                                    <div className="col-lg-6 mb-5">
+                                        <div className="card course-card shadow-sm border-0 h-100 d-flex flex-column">
+                                            <img
+                                                src={course.img}
+                                                className="card-img-top"
+                                                alt={course.title}
+                                                style={{ height: "200px", objectFit: "cover" }}
                                             />
-                                        </div>
-                                        <div className="ms-4">
-                                            <h4>{p.label}</h4>
-                                            <p className="mb-0 text-muted">{p.desc}</p>
+                                            <div className="card-body d-flex flex-column justify-content-between">
+                                                <div>
+                                                    <h5 className="text-start card-title">{course.title}</h5>
+                                                    {/* <p className="text-start text-muted small mb-3">🌐 {course.lang}</p> */}
+                                                </div>
+                                                <div className="d-flex justify-content-between">
+                                                    <button className="btn1 btn-sm">View Syllabus</button>
+                                                    <button className="btn2 btn-sm">Know More</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>
-
-                {/* About VeLearn Section */}
-                <section className="py-5 about-section position-relative overflow-hidden">
+                {/* VeLearn Courses Section - 2 */}
+                <section className="pb-5 courses-section position-relative">
                     <div className="container">
-                        <div className="row align-items-center">
-                            {/* Left Image */}
-                            <div className="col-lg-6 d-flex justify-centent-center align-items-center mb-5 mb-lg-0">
-                                <img
-                                    src={`${process.env.PUBLIC_URL}/assets/images/about-1.png`}
-                                    alt="About VeLearn"
-                                    className="abut_image"
-                                />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-100"
+                            id="Layer_1" viewBox="0 140 1400 550">
+                            <path fill="#21346a"
+                                d="M1025,400h0a40,40,0,0,0,40,40h245a40,40,0,0,1,40,40V610a40,40,0,0,1-40,40H1065a40,40,0,0,1-40-40h0a40,40,0,0,0-40-40H415a40,40,0,0,0-40,40h0a40,40,0,0,1-40,40H90a40,40,0,0,1-40-40V480a40,40,0,0,1,40-40H335a40,40,0,0,0,40-40h0a40,40,0,0,0-40-40H90a40,40,0,0,1-40-40V270a40,40,0,0,1,40-40H335a40,40,0,0,0,40-40h0a40,40,0,0,1,40-40H985a40,40,0,0,1,40,40h0a40,40,0,0,0,40,40h245a40,40,0,0,1,40,40v50a40,40,0,0,1-40,40H1065A40,40,0,0,0,1025,400Z"
+                            >
+                            </path>
+                        </svg>
+                        <div className="overlay_shape_sec text-white ">
+                            <div className="row">
+                                {coursesTwo.map((course, index) => (
+                                    <div className="col-lg-6">
+                                        <div className="card course-card shadow-sm border-0 h-100 d-flex flex-column">
+                                            <img
+                                                src={course.img}
+                                                className="card-img-top"
+                                                alt={course.title}
+                                                style={{ height: "200px", objectFit: "cover" }}
+                                            />
+                                            <div className="card-body d-flex flex-column justify-content-between">
+                                                <div>
+                                                    <h5 className="text-start card-title">{course.title}</h5>
+                                                </div>
+                                                <div className="d-flex justify-content-between">
+                                                    <button className="btn1 btn-sm">View Syllabus</button>
+                                                    <button className="btn2 btn-sm">Know More</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-
-                            {/* Right Content */}
-                            <div className="col-lg-6">
-                                <div className="heading_wrap position-relative">
-                                    <h1 className="fw-bold mb-3">About VeLearn</h1>
-                                    <div className="blur_text"> HISTORY</div>
-                                </div>
-                                <p className="text-muted mb-4">
-                                    VeLearn is an innovative e-learning platform dedicated to bridging the gap between education and employability.
-                                    Our mission is to empower learners with hands-on, mentor-led programs that prepare them for real-world success.
-                                </p>
-
-                                <ul className="list-unstyled text-start">
-                                    <li className="d-flex align-items-center mb-3">
-                                        <i className="bi bi-check2-circle text-primary me-2 fs-5"></i>
-                                        <span>Industry-aligned programs designed by experts.</span>
-                                    </li>
-                                    <li className="d-flex align-items-center mb-3">
-                                        <i className="bi bi-check2-circle text-primary me-2 fs-5"></i>
-                                        <span>Mentor-led sessions and guided learning paths.</span>
-                                    </li>
-                                    <li className="d-flex align-items-center mb-3">
-                                        <i className="bi bi-check2-circle text-primary me-2 fs-5"></i>
-                                        <span>Hands-on projects to build real-world skills.</span>
-                                    </li>
-                                    <li className="d-flex align-items-center">
-                                        <i className="bi bi-check2-circle text-primary me-2 fs-5"></i>
-                                        <span>Flexible recorded and live learning modes.</span>
-                                    </li>
-                                </ul>
-
-                                <button className="btn2 mt-3 px-4 py-2">Learn More About Us</button>
+                            <div className="col-12 d-flex justify-content-center mt-5">
+                                <button className="btn-c1 px-4 py-2">Explore All Courses</button>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Partnerships */}
-                <section className="py-5">
+                <section className="pb-5">
                     <div className="container text-center">
-                        <h3 className="mb-4 fw-bold">Our Collaborations & Partnerships</h3>
+                        <h3 className="text-c1 section_title mb-4 fw-bold">Authorised Partners</h3>
                         <Swiper
                             modules={[Autoplay]}
                             spaceBetween={30}
@@ -569,63 +570,6 @@ class HomePage extends Component {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                    </div>
-                </section>
-
-                {/* VeLearn Courses Section */}
-                <section className="py-5 courses-section position-relative">
-                    <div className="container">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-100"
-                            id="Layer_1" viewBox="0 100 1400 800">
-                            <path fill="#21346a"
-                                d="M1350,245.8V634.2a65.8,65.8,0,0,1-65.8,65.8H1075.11a65.67,65.67,0,0,1-58.65-36A80,80,0,0,0,945,620H455a80.07,80.07,0,0,0-71.46,44,65.65,65.65,0,0,1-58.64,36H115.8A65.8,65.8,0,0,1,50,634.2V165.8A65.8,65.8,0,0,1,115.8,100H649.88a65.66,65.66,0,0,1,58.66,36A80,80,0,0,0,780,180h504.2A65.8,65.8,0,0,1,1350,245.8Z"
-                            >
-                            </path>
-                        </svg>
-                        <div className="overlay_shape_sec text-white">
-                            <h3 className="h2 mb-4 fw-bold section_title">
-                                Popular <br /><span className="text-c2"> Career Programs</span>
-                            </h3>
-                            <Swiper
-                                modules={[Autoplay]}
-                                spaceBetween={30}
-                                slidesPerView={2}
-                                autoplay={{ delay: 4000, disableOnInteraction: false }}
-                                loop={true}
-                                grabCursor={true}
-                                breakpoints={{
-                                    320: { slidesPerView: 1 },
-                                    768: { slidesPerView: 2 },
-                                    1024: { slidesPerView: 2 },
-                                }}
-                            >
-                                {courses.map((course, index) => (
-                                    <SwiperSlide key={index}>
-                                        <div className="card course-card shadow-sm border-0 h-100 d-flex flex-column">
-                                            <img
-                                                src={course.img}
-                                                className="card-img-top"
-                                                alt={course.title}
-                                                style={{ height: "200px", objectFit: "cover" }}
-                                            />
-                                            <div className="card-body d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <h5 className="text-start card-title">{course.title}</h5>
-                                                    <p className="text-start text-muted small mb-3">🌐 {course.lang}</p>
-                                                </div>
-                                                <div className="d-flex justify-content-between mt-auto">
-                                                    <button className="btn1 btn-sm">View Syllabus</button>
-                                                    <button className="btn2 btn-sm">Know More</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                            <div className="col-12 d-flex justify-content-center">
-                                <button className="btn-c1 mt-5 px-4 py-2">Explore All Courses</button>
-                            </div>
-                        </div>
                     </div>
                 </section>
             </>

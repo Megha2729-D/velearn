@@ -15,10 +15,6 @@ a {
   text-decoration: none !important;
 }
 
-.bg-clight {
-  background-color: var(--c2);
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -46,6 +42,10 @@ img {
 
 .bg_light_grey {
   background: #00000008 !important;
+}
+
+.text-c1 {
+  color: var(--c1);
 }
 
 .text-c2 {
@@ -600,8 +600,18 @@ img {
 
 /* footer */
 .footer_sec {
-  background: linear-gradient(180deg, #2a2a2a, #2d2d2d);
+  background: var(--c1);
   padding: 60px 0 20px;
+  border-radius: 70px 70px 0 0;
+}
+.footer_container{
+  max-width: 1240px;
+  margin: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.footer_sec .footerLogo {
+  font-size: 40px;
 }
 
 .footer_sec h3 {
@@ -969,31 +979,19 @@ img {
   background: #000;
 }
 
-/*
-.section_title span {
-  font-size: 15px;
-  text-transform: uppercase;
-} */
-
-/*
-.section_title {
-  font-size: 40px !important;
-
-} */
-/* .courses-section {
-  position: relative;
-  min-height: 800px;
-  overflow: hidden;
-} */
 .overlay_shape_sec {
   position: absolute;
   left: 0 !important;
   right: 0 !important;
   margin: auto;
-  top: 10% !important;
-  width: 85%;
+  top: 5% !important;
+  width: 80%;
   max-width: 1120px;
   z-index: 10;
+}
+
+.section_title {
+  font-size: 45px;
 }
 
 .background-shape {
@@ -1060,7 +1058,7 @@ img {
   padding: 15px !important;
   height: 100%;
   border-radius: 30px !important;
-  min-height: 370px;
+  min-height: 342px;
   /* ensures consistent height */
   display: flex;
   flex-direction: column;

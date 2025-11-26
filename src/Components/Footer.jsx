@@ -7,11 +7,11 @@ class Footer extends Component {
         return (
             <>
                 <div className="footer_sec">
-                    <div className="container">
+                    <div className="footer_container">
                         <div className="row page_links">
                             {/* Desktop View */}
-                            <div className="d-none d-lg-flex">
-                                <div className="col-lg-3 d-flex justify-content-center">
+                            <div className="d-none d-lg-flex justify-content-between">
+                                <div className="col-lg-3">
                                     <div>
                                         <h3>Popular Courses</h3>
                                         <ul className="p-0">
@@ -24,7 +24,7 @@ class Footer extends Component {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="col-lg-3 d-flex justify-content-center">
+                                <div className="col-lg-2">
                                     <div>
                                         <h3>Resources</h3>
                                         <ul className="p-0">
@@ -37,7 +37,7 @@ class Footer extends Component {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="col-lg-3 d-flex justify-content-center">
+                                <div className="col-lg-2">
                                     <div>
                                         <h3>Company</h3>
                                         <ul className="p-0">
@@ -50,7 +50,7 @@ class Footer extends Component {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="col-lg-3 d-flex justify-content-center">
+                                <div className="col-lg-2">
                                     <div>
                                         <h3>Practice Platform</h3>
                                         <ul className="p-0">
@@ -179,11 +179,7 @@ class Footer extends Component {
                         <div className="row bottom_social_media">
                             <div className="col-lg-9">
                                 <Link to="/">
-                                    <img
-                                        src={`${process.env.PUBLIC_URL}/assets/images/velearn-logo.png`}
-                                        className="footer_logo"
-                                        alt="Velearn Logo"
-                                    />
+                                    <span className="h1 footerLogo fw-bolder text-white">Velearn</span>
                                 </Link>
                                 <p className="mt-3">
                                     <strong>Velearn</strong> is a next-generation online learning platform

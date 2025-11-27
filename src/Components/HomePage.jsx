@@ -30,6 +30,11 @@ class HomePage extends Component {
             progressStarted: false,
             activeTab: "All",
         };
+        this.rocketRef = createRef();
+        this.journeyRef = createRef();
+        this.motionPathRef = createRef();
+        this.motionPathSmRef = createRef();
+        this.stepsRef = [];
     }
 
     componentDidMount() {
@@ -54,6 +59,106 @@ class HomePage extends Component {
             { threshold: 0.5 }
         );
         if (this.progressRef.current) progressObserver.observe(this.progressRef.current);
+
+        // animation
+        const rocket = this.rocketRef.current;
+        const steps = this.stepsRef;
+
+        const duration = 10000;
+        const stepTimes = [0, 2000, 4000, 7000, 9000];
+
+        const getActivePath = () => {
+            return window.innerWidth < 992
+                ? this.motionPathSmRef.current
+                : this.motionPathRef.current;
+        };
+
+        const svgPointToContainer = (svg, point) => {
+            const rect = svg.getBoundingClientRect();
+            const svgWidth = svg.viewBox.baseVal.width;
+            const svgHeight = svg.viewBox.baseVal.height;
+            const scaleX = rect.width / svgWidth;
+            const scaleY = rect.height / svgHeight;
+            return {
+                x: point.x * scaleX,
+                y: point.y * scaleY,
+            };
+        };
+
+        const getRocketTransform = () => {
+            rocket.style.width = window.innerWidth < 992 ? "20px" : "60px";
+            return "-40%, -180%";
+        };
+
+        const highlightSteps = () => {
+            stepTimes.forEach((t, index) => {
+                setTimeout(() => {
+                    steps[index].classList.add("active");
+                }, t);
+            });
+        };
+
+        const animateRocket = (startTime) => {
+            const path = getActivePath();
+            const svg = path.ownerSVGElement;
+            const pathLength = path.getTotalLength();
+
+            path.style.strokeDasharray = pathLength;
+            path.style.strokeDashoffset = pathLength;
+
+            // Place rocket at start
+            const startPoint = svgPointToContainer(svg, path.getPointAtLength(0));
+            rocket.style.left = startPoint.x + "px";
+            rocket.style.top = startPoint.y + "px";
+            rocket.style.transform = `translate(${getRocketTransform()}) rotate(90deg)`;
+
+            const frame = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const moveLen = progress * pathLength;
+                const point = svgPointToContainer(svg, path.getPointAtLength(moveLen));
+
+                rocket.style.left = point.x + "px";
+                rocket.style.top = point.y + "px";
+                path.style.strokeDashoffset = pathLength - moveLen;
+
+                if (progress < 1) {
+                    const nextPoint = svgPointToContainer(
+                        svg,
+                        path.getPointAtLength(Math.min(moveLen + 1, pathLength))
+                    );
+                    const angle =
+                        (Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180) /
+                        Math.PI;
+                    rocket.style.transform = `translate(${getRocketTransform()}) rotate(${angle + 90
+                        }deg)`;
+                    requestAnimationFrame(frame);
+                } else {
+                    rocket.style.transform = `translate(-87%, -200%) rotate(0deg)`;
+                }
+            };
+
+            requestAnimationFrame(frame);
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    highlightSteps();
+                    animateRocket(performance.now());
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        if (this.journeyRef.current) observer.observe(this.journeyRef.current);
+
+        window.addEventListener("resize", () => {
+            const path = getActivePath();
+            const pathLength = path.getTotalLength();
+            path.style.strokeDasharray = pathLength;
+            path.style.strokeDashoffset = pathLength;
+        });
     }
 
     animateCounters() {
@@ -97,20 +202,13 @@ class HomePage extends Component {
 
         // Partner logos
         const partners = [
-            "aicte.webp",
-            "anna-university-chennai.webp",
-            "autodesk.webp",
-            "google-for-education.webp",
-            "iit-delhi.webp",
-            "iit-kanpur.webp",
-            "iitm-pravartak.webp",
-            "iit-ropar.webp",
-            "itt-gandhinagar.webp",
-            "naan-mudhalvan.webp",
-            "nasscom.webp",
-            "nsdc.webp",
-            "skill-development.webp",
-            "swayam-plus.webp",
+            "certiport.webp",
+            "aws.png",
+            "microsoft.png",
+            "meta.png",
+            "accenture.png",
+            "capgemini.png",
+
         ];
 
         // Courses for VeLearn
@@ -503,7 +601,7 @@ class HomePage extends Component {
                     </div>
                 </section>
                 {/* VeLearn Courses Section - 2 */}
-                <section className="pb-5 courses-section position-relative">
+                <section className="courses-section position-relative">
                     <div className="container">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-100"
                             id="Layer_1" viewBox="0 140 1400 550">
@@ -543,10 +641,88 @@ class HomePage extends Component {
                     </div>
                 </section>
 
+                {/* Animation */}
+                <section id="learning-journey" ref={this.journeyRef}>
+                    <div className="container">
+                        <h3 className="text-c1 section_title mb-5 text-center fw-bold">From Start to Success</h3>
+                        <div className="journey-container">
+                            {/* Desktop SVG */}
+                            <svg
+                                id="journey-path"
+                                viewBox="0 150 1000 400"
+                                className="d-none d-lg-block"
+                            >
+                                <path
+                                    ref={this.motionPathRef}
+                                    id="motionPath"
+                                    d="M100,320 C200,200 300,200 350,300 S450,380 500,280 S650,150 700,250 S820,350 920,220"
+                                    stroke="#999"
+                                    strokeDasharray="6 8"
+                                    fill="none"
+                                    strokeWidth="3"
+                                />
+                            </svg>
+
+                            {/* Mobile SVG */}
+                            <svg
+                                id="journey-path-sm"
+                                viewBox="0 0 1000 400"
+                                className="d-block d-lg-none"
+                            >
+                                <path
+                                    ref={this.motionPathSmRef}
+                                    id="motionPath-sm"
+                                    d="M100,440 C200,200 300,200 350,300 S450,380 500,280 S650,150 700,250 S820,350 900,180"
+                                    stroke="#999"
+                                    strokeDasharray="6 8"
+                                    fill="none"
+                                    strokeWidth="3"
+                                />
+                            </svg>
+
+                            {/* Rocket */}
+                            <img
+                                ref={this.rocketRef}
+                                id="rocketPNG"
+                                src={`${process.env.PUBLIC_URL}/assets/images/icons/rocket.png`}
+                                alt="rocket"
+                                style={{ position: "absolute" }}
+                            />
+
+                            {/* Steps */}
+                            {[
+                                { img: `${process.env.PUBLIC_URL}/assets/images/icons/step-1.png`, title: "Career Guidance with Free Demo Session", layout: "img-title" },
+                                { img: `${process.env.PUBLIC_URL}/assets/images/icons/step-2.png`, title: "Course Commencement", layout: "title-img" },
+                                { img: `${process.env.PUBLIC_URL}/assets/images/icons/step-3.png`, title: "Periodical Activity & Assessments", layout: "img-title" },
+                                { img: `${process.env.PUBLIC_URL}/assets/images/icons/step-4.png`, title: "Real-time Projects Submission", layout: "title-img" },
+                                { img: `${process.env.PUBLIC_URL}/assets/images/icons/step-5.png`, title: "Job Placement Assistance", layout: "img-title" },
+                            ].map((step, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`step step${idx + 1}`}
+                                    ref={(el) => (this.stepsRef[idx] = el)}
+                                >
+                                    {step.layout === "img-title" ? (
+                                        <>
+                                            <img src={step.img} alt={`Step ${idx + 1}`} />
+                                            <div>{step.title}</div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div>{step.title}</div>
+                                            <img src={step.img} alt={`Step ${idx + 1}`} />
+                                        </>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
                 {/* Partnerships */}
                 <section className="pb-5">
                     <div className="container text-center">
-                        <h3 className="text-c1 section_title mb-4 fw-bold">Authorised Partners</h3>
+                        <h3 className="text-c1 section_title mb-5 fw-bold">Authorised Partners</h3>
                         <Swiper
                             modules={[Autoplay]}
                             spaceBetween={30}
@@ -563,7 +739,7 @@ class HomePage extends Component {
                             {partners.map((logo, index) => (
                                 <SwiperSlide key={index}>
                                     <img
-                                        src={`${process.env.PUBLIC_URL}/assets/images/partner/${logo}`}
+                                        src={`${process.env.PUBLIC_URL}/assets/images/partners/${logo}`}
                                         alt={`Partner ${index + 1}`}
                                         className="partner-logo img-fluid"
                                     />
@@ -572,6 +748,7 @@ class HomePage extends Component {
                         </Swiper>
                     </div>
                 </section>
+
             </>
         );
     }

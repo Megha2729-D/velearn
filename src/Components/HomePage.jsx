@@ -247,14 +247,26 @@ class HomePage extends Component {
 
                             {/* SVG BACKGROUND (DESKTOP) */}
                             <svg xmlns="http://www.w3.org/2000/svg" className="d-none d-lg-block w-100"
-                                id="Layer_1" viewBox="0 145 1400 600">
+                                id="Layer_1" viewBox="0 130 1400 700">
                                 <defs xmlns="http://www.w3.org/2000/svg">
                                     <filter id="shadowFilter" x="-20%" y="-20%" width="150%" height="150%">
                                         <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)" />
                                     </filter>
                                 </defs>
                                 <path filter="url(#shadowFilter)" fill="#21346a"
-                                    d="M1350,310.05V610a40,40,0,0,1-40,40H740.05a40,40,0,0,1-40-40v-39.9a40,40,0,0,0-40-40H90.05A40,40,0,0,1,50,490V190.05A40,40,0,0,1,90.05,150H660a40,40,0,0,1,40,40.05V230a40,40,0,0,0,40,40.05H1310A40,40,0,0,1,1350,310.05Z">
+                                    d="M1350,263.856
+                                        V560.144
+                                        A74.82,74.82,0,0,1,1275.18,620
+                                        H124.82
+                                        A74.82,74.82,0,0,1,50,560.144
+                                        V199.856
+                                        A74.82,74.82,0,0,1,124.82,140
+                                        H644.45
+                                        c27.42,0,52.32,15.19,65.74,39.1
+                                        A80,80,0,0,0,780,204
+                                        h495.18
+                                        A74.82,74.82,0,0,1,1350,263.856
+                                        Z">
                                 </path>
                             </svg>
 
@@ -349,7 +361,7 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                         <div className="col-lg-5">
-                                            <div className="uiux-process-box mt-3">
+                                            <div className="uiux-process-box mt-5">
                                                 <div className="rings-row">
                                                     <div className="ring-item"><div className="ring"></div><span>PLAN</span></div>
                                                     <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
@@ -445,7 +457,7 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                         <div className="col-lg-5">
-                                            <div className="uiux-process-box mt-3">
+                                            <div className="uiux-process-box mt-5">
                                                 <div className="rings-row">
                                                     <div className="ring-item"><div className="ring"></div><span>CODE</span></div>
                                                     <div className="ring-item"><div className="ring"></div><span>DEBUG</span></div>
@@ -493,7 +505,7 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                         <div className="col-lg-5">
-                                            <div className="uiux-process-box mt-3">
+                                            <div className="uiux-process-box mt-5">
                                                 <div className="rings-row">
                                                     <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
                                                     <div className="ring-item"><div className="ring"></div><span>APPLY</span></div>
@@ -746,6 +758,90 @@ class HomePage extends Component {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
+                    </div>
+                </section>
+
+                {/* counts */}
+                <section className="container d-flex justify-content-center py-5">
+                    <div className="col-lg-10">
+                        <div className="row">
+                            <div className="col-lg-7">
+                                <div className="row px-0 mx-0">
+                                    <div className="col-lg-12">
+                                        <div className="count_clr count_clr1">
+                                            <div className="row">
+                                                <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                    <h6>Active Learners</h6>
+                                                    <h2>1000+</h2>
+                                                </div>
+                                                <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                    <img src={`${process.env.PUBLIC_URL}/assets/images/anime-1.png`} alt="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6 count_top_height">
+                                        <div className="count_clr count_clr2">
+                                            <div className="d-flex flex-column justify-content-center align-items-center">
+                                                <h6>Video Lessons</h6>
+                                                <h2>2000+</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6 count_top_height">
+                                        <div className="count_clr count_clr3">
+                                            <div className="d-flex justify-content-center gap-3 align-items-center">
+                                                <i className="bi bi-star-fill"></i>
+                                                <i className="bi bi-star-fill"></i>
+                                                <i className="bi bi-star-fill"></i>
+                                                <i className="bi bi-star-fill"></i>
+                                                <i className="bi bi-star-fill"></i>
+                                            </div>
+                                            <div className="d-flex justify-content-center gap-3 align-items-center">
+                                                <h6>Rating</h6>
+                                                <h2>4.7</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-5">
+                                <div className="col-lg-12 h-100">
+                                    <div className="count_clr count_clr4">
+                                        <div className="d-flex flex-column justify-content-center align-items-center">
+                                            <h6>Minutes of Video Watched</h6>
+                                            <h2>20000+</h2>
+                                        </div>
+                                        <div className="d-flex justify-content-center align-items-center">
+                                            <img src={`${process.env.PUBLIC_URL}/assets/images/anime-2.png`} alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-5 count_top_height">
+                                <div className="count_clr count_clr5">
+                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                        <h6>Doubts Cleared</h6>
+                                        <h2>4500+</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-7 count_top_height">
+                                <div className="count_clr count_clr6">
+                                    <div className="row">
+                                        <div className="col-lg-7">
+                                            <div className="px-5 d-flex flex-column justify-content-center align-items-start">
+                                                <h6>Questions Practiced</h6>
+                                                <h2>5000+</h2>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-5">
+                                            <img src={`${process.env.PUBLIC_URL}/assets/images/anime-3.png`} alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 

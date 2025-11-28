@@ -40,7 +40,7 @@ const Navbar = () => {
     return (
         <nav className="v-navbar flex-column w-100">
             <div className={`navbar_links ${active ? "active" : ""}`}>
-                <div className="container">
+                <div className="container container-p">
                     <div className="nav_parent py-3">
                         <div className="menu-icon" onClick={handleShowNavbar}>
                             <Hamburger isOpen={showNavbar} />
@@ -101,7 +101,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <div className="container search_parent">
+            <div className="container container-p search_parent">
                 <div className="col-12 d-flex justify-content-end align-items-center gap-4 py-2">
                     <div className="w-100 d-flex justify-content-end">
                         <input type="search" style={{ width: "40%" }} placeholder='Search....' />

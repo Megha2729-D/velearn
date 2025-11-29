@@ -213,7 +213,7 @@ class HomePage extends Component {
                 {
                     title: "Networking Essentials",
                     hrs: "5 hrs",
-                    img: "assets/images/courses/network.png",
+                    img: "assets/images/courses/network.jpg",
                 },
                 {
                     title: "AWS Cloud Fundamentals",
@@ -236,22 +236,22 @@ class HomePage extends Component {
                 {
                     title: "Cyber Security Basics",
                     hrs: "6 hrs",
-                    img: "assets/images/courses/cyber.png",
+                    img: "assets/images/courses/cyber.webp",
                 },
                 {
                     title: "AI & Machine Learning Intro",
                     hrs: "7 hrs",
-                    img: "assets/images/courses/ai.png",
+                    img: "assets/images/courses/ai.jpg",
                 },
                 {
                     title: "Data Analytics Essentials",
                     hrs: "5 hrs",
-                    img: "assets/images/courses/data.png",
+                    img: "assets/images/courses/data.jpg",
                 },
                 {
                     title: "UI/UX Designing Intro",
                     hrs: "4 hrs",
-                    img: "assets/images/courses/uiux.png",
+                    img: "assets/images/courses/uiux.jpg",
                 },
             ],
         };

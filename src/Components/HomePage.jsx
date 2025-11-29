@@ -24,11 +24,11 @@ class HomePage extends Component {
             // activeTab: "All",
             activeTab: "Software Development",
         };
-        this.rocketRef = createRef();
-        this.journeyRef = createRef();
-        this.motionPathRef = createRef();
-        this.motionPathSmRef = createRef();
-        this.stepsRef = [];
+        // this.rocketRef = createRef();
+        // this.journeyRef = createRef();
+        // this.motionPathRef = createRef();
+        // this.motionPathSmRef = createRef();
+        // this.stepsRef = [];
     }
 
     componentDidMount() {
@@ -53,106 +53,6 @@ class HomePage extends Component {
             { threshold: 0.5 }
         );
         if (this.progressRef.current) progressObserver.observe(this.progressRef.current);
-
-        // animation
-        const rocket = this.rocketRef.current;
-        const steps = this.stepsRef;
-
-        const duration = 10000;
-        const stepTimes = [0, 2000, 4000, 7000, 9000];
-
-        const getActivePath = () => {
-            return window.innerWidth < 992
-                ? this.motionPathSmRef.current
-                : this.motionPathRef.current;
-        };
-
-        const svgPointToContainer = (svg, point) => {
-            const rect = svg.getBoundingClientRect();
-            const svgWidth = svg.viewBox.baseVal.width;
-            const svgHeight = svg.viewBox.baseVal.height;
-            const scaleX = rect.width / svgWidth;
-            const scaleY = rect.height / svgHeight;
-            return {
-                x: point.x * scaleX,
-                y: point.y * scaleY,
-            };
-        };
-
-        const getRocketTransform = () => {
-            rocket.style.width = window.innerWidth < 992 ? "20px" : "60px";
-            return "-40%, -180%";
-        };
-
-        const highlightSteps = () => {
-            stepTimes.forEach((t, index) => {
-                setTimeout(() => {
-                    steps[index].classList.add("active");
-                }, t);
-            });
-        };
-
-        const animateRocket = (startTime) => {
-            const path = getActivePath();
-            const svg = path.ownerSVGElement;
-            const pathLength = path.getTotalLength();
-
-            path.style.strokeDasharray = pathLength;
-            path.style.strokeDashoffset = pathLength;
-
-            // Place rocket at start
-            const startPoint = svgPointToContainer(svg, path.getPointAtLength(0));
-            rocket.style.left = startPoint.x + "px";
-            rocket.style.top = startPoint.y + "px";
-            rocket.style.transform = `translate(${getRocketTransform()}) rotate(90deg)`;
-
-            const frame = (now) => {
-                const progress = Math.min((now - startTime) / duration, 1);
-                const moveLen = progress * pathLength;
-                const point = svgPointToContainer(svg, path.getPointAtLength(moveLen));
-
-                rocket.style.left = point.x + "px";
-                rocket.style.top = point.y + "px";
-                path.style.strokeDashoffset = pathLength - moveLen;
-
-                if (progress < 1) {
-                    const nextPoint = svgPointToContainer(
-                        svg,
-                        path.getPointAtLength(Math.min(moveLen + 1, pathLength))
-                    );
-                    const angle =
-                        (Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180) /
-                        Math.PI;
-                    rocket.style.transform = `translate(${getRocketTransform()}) rotate(${angle + 90
-                        }deg)`;
-                    requestAnimationFrame(frame);
-                } else {
-                    rocket.style.transform = `translate(-87%, -200%) rotate(0deg)`;
-                }
-            };
-
-            requestAnimationFrame(frame);
-        };
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    highlightSteps();
-                    animateRocket(performance.now());
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.5 }
-        );
-
-        if (this.journeyRef.current) observer.observe(this.journeyRef.current);
-
-        window.addEventListener("resize", () => {
-            const path = getActivePath();
-            const pathLength = path.getTotalLength();
-            path.style.strokeDasharray = pathLength;
-            path.style.strokeDashoffset = pathLength;
-        });
     }
 
     animateCounters() {
@@ -233,12 +133,12 @@ class HomePage extends Component {
             {
                 title: "Master in Full Stack Development",
                 // lang: "English, Tamil & Hindi",
-                img: `${process.env.PUBLIC_URL}/assets/images/courses-1.jpg`,
+                img: 'assets/images/courses-1.jpg',
             },
             {
                 title: "Advanced UI/UX Design Course",
                 // lang: "English & Tamil",
-                img: `${process.env.PUBLIC_URL}/assets/images/courses-2.jpg`,
+                img: 'assets/images/courses-2.jpg',
             },
         ];
         // Courses for VeLearn
@@ -246,12 +146,12 @@ class HomePage extends Component {
             {
                 title: "Master Data Science Course",
                 // lang: "English, Hindi & Tamil",
-                img: `${process.env.PUBLIC_URL}/assets/images/courses-3.jpg`,
+                img: 'assets/images/courses-3.jpg',
             },
             {
                 title: "Live Digital Marketing Program",
                 // lang: "English & Tamil",
-                img: `${process.env.PUBLIC_URL}/assets/images/courses-4.jpg`,
+                img: 'assets/images/courses-4.jpg',
             },
         ];
 
@@ -267,22 +167,22 @@ class HomePage extends Component {
                 {
                     title: "Python Programming For Beginners",
                     hrs: "5 hrs",
-                    img: "/images/courses/python.png",
+                    img: "assets/images/courses/python.webp",
                 },
                 {
                     title: "Master Advanced Java Programming",
-                    hrs: "6 hrs",
-                    img: "/images/courses/java.png",
+                    hrs: "5 hrs",
+                    img: "assets/images/courses/java.jpg",
                 },
                 {
                     title: "Advanced C Programming",
                     hrs: "5 hrs",
-                    img: "/images/courses/c.png",
+                    img: "assets/images/courses/c-programming.jpg",
                 },
                 {
                     title: "Fundamentals of Programming",
-                    hrs: "4 hrs",
-                    img: "/images/courses/fundamentals.png",
+                    hrs: "5 hrs",
+                    img: "assets/images/courses/fundamentals-of-programming.jpg",
                 },
             ],
 
@@ -290,22 +190,22 @@ class HomePage extends Component {
                 {
                     title: "Full Stack Development",
                     hrs: "7 hrs",
-                    img: "/images/courses/fullstack.png",
+                    img: "assets/images/courses/fullstack.jpg",
                 },
                 {
                     title: "React for Beginners",
                     hrs: "5 hrs",
-                    img: "/images/courses/react.png",
+                    img: "assets/images/courses/reactjs.png",
                 },
                 {
                     title: "Frontend Development Mastery",
                     hrs: "6 hrs",
-                    img: "/images/courses/frontend.png",
+                    img: "assets/images/courses/frontend.jpg",
                 },
                 {
                     title: "Backend API Development",
                     hrs: "5 hrs",
-                    img: "/images/courses/backend.png",
+                    img: "assets/images/courses/backend.jpg",
                 },
             ],
 
@@ -313,22 +213,22 @@ class HomePage extends Component {
                 {
                     title: "Networking Essentials",
                     hrs: "5 hrs",
-                    img: "/images/courses/network.png",
+                    img: "assets/images/courses/network.png",
                 },
                 {
                     title: "AWS Cloud Fundamentals",
                     hrs: "6 hrs",
-                    img: "/images/courses/aws.png",
+                    img: "assets/images/courses/aws.png",
                 },
                 {
                     title: "Linux Administration",
                     hrs: "5 hrs",
-                    img: "/images/courses/linux.png",
+                    img: "assets/images/courses/linux.png",
                 },
                 {
                     title: "DevOps Essentials",
                     hrs: "7 hrs",
-                    img: "/images/courses/devops.png",
+                    img: "assets/images/courses/devops.png",
                 },
             ],
 
@@ -336,22 +236,22 @@ class HomePage extends Component {
                 {
                     title: "Cyber Security Basics",
                     hrs: "6 hrs",
-                    img: "/images/courses/cyber.png",
+                    img: "assets/images/courses/cyber.png",
                 },
                 {
                     title: "AI & Machine Learning Intro",
                     hrs: "7 hrs",
-                    img: "/images/courses/ai.png",
+                    img: "assets/images/courses/ai.png",
                 },
                 {
                     title: "Data Analytics Essentials",
                     hrs: "5 hrs",
-                    img: "/images/courses/data.png",
+                    img: "assets/images/courses/data.png",
                 },
                 {
                     title: "UI/UX Designing Intro",
                     hrs: "4 hrs",
-                    img: "/images/courses/uiux.png",
+                    img: "assets/images/courses/uiux.png",
                 },
             ],
         };
@@ -359,24 +259,28 @@ class HomePage extends Component {
         return (
             <>
                 {/* Hero Carousel */}
-                <div className="container">
-                    <div id="velearnHomeCarousel" className="carousel slide carousel-fade">
-                        <div className="carousel-inner mt-3 mt-lg-0">
+                <section>
+                    <div className="container">
+                        <div id="velearnHomeCarousel" className="carousel slide carousel-fade">
+                            <div className="carousel-inner mt-3 mt-lg-0">
 
-                            {/* SVG BACKGROUND (DESKTOP) */}
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="shape-svg w-100" id="Layer_1"
-                                viewBox="0 95 1400 800">
-                                <defs xmlns="http://www.w3.org/2000/svg">
-                                    <filter id="shadowFilter" x="-20%" y="-20%"
-                                        width="150%" height="150%">
-                                        <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow></filter></defs><path filter="url(#shadowFilter)" fill="#192853"
-                                            d="M1350,238.12 V571.88 A78.11,78.11,0,0,1,1271.88,660 H128.12 A78.11,78.11,0,0,1,50,571.88 V178.12 A78.11,78.11,0,0,1,128.12,100 H639.9 c29.66,0,57.09,16.64,70,43.35 A100,100,0,0,0,800,200 h471.88 A78.11,78.11,0,0,1,1350,278.12 Z">
-                                </path>
-                            </svg>
+                                {/* SVG BACKGROUND (DESKTOP) */}
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    className="shape-svg w-100" id="Layer_1"
+                                    viewBox="0 95 1400 800">
+                                    <defs xmlns="http://www.w3.org/2000/svg">
+                                        <filter id="shadowFilter" x="-20%" y="-20%"
+                                            width="150%" height="150%">
+                                            <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow>
+                                        </filter>
+                                    </defs>
+                                    <path filter="url(#shadowFilter)" fill="#192853"
+                                        d="M1350,238.12 V571.88 A78.11,78.11,0,0,1,1271.88,660 H128.12 A78.11,78.11,0,0,1,50,571.88 V178.12 A78.11,78.11,0,0,1,128.12,100 H639.9 c29.66,0,57.09,16.64,70,43.35 A100,100,0,0,0,800,200 h471.88 A78.11,78.11,0,0,1,1350,278.12 Z">
+                                    </path>
+                                </svg>
 
-                            {/* SVG BACKGROUND (MOBILE) */}
-                            {/* <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg d-block d-lg-none w-100"
+                                {/* SVG BACKGROUND (MOBILE) */}
+                                {/* <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg d-block d-lg-none w-100"
                                 id="Layer_1" viewBox="0 100 1400 1700">
                                 <defs xmlns="http://www.w3.org/2000/svg">
                                     <filter id="shadowSmFilter" x="-20%" y="-20%" width="150%" height="150%">
@@ -389,492 +293,521 @@ class HomePage extends Component {
                                 >
                                 </path>
                             </svg> */}
-                            {/* SLIDE 1 – Live Learning */}
-                            <div className="carousel-item active">
-                                <div className="carousel-caption custom-caption">
-                                    <div className="row" style={{ marginTop: '30px' }}>
-                                        <div className="col-lg-7">
-                                            <div className="caption-box">
-                                                <h2 className="h1">
-                                                    Master the art <br />
-                                                    of <span className="highlight">UI / UX Design</span>
-                                                </h2>
-                                                <p>Join Velearn live classes, interact with mentors, and track your progress.</p>
-                                                <div className="btn-group d-flex">
-                                                    <button className="syllabus-btn">Syllabus</button>
-                                                    <button className="viewmore-btn">View More</button>
-                                                </div>
-                                                <div className="d-none d-lg-block">
-                                                    <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
-                                                        <h2 className="ux-title">CRAFT SEAMLESS USER EXPERIENCE</h2>
-                                                        <ul className="ux-list">
-                                                            <li>Understand the History of UI/UX</li>
-                                                            <li>Apply Design Thinking Techniques</li>
-                                                            <li>Learn User Research & Personas</li>
-                                                            <li>Map User Journeys Effectively</li>
-                                                        </ul>
+                                {/* SLIDE 1 – Live Learning */}
+                                <div className="carousel-item active">
+                                    <div className="carousel-caption custom-caption">
+                                        <div className="row" style={{ marginTop: '30px' }}>
+                                            <div className="col-lg-7">
+                                                <div className="caption-box">
+                                                    <h2 className="h1">
+                                                        Master the art <br />
+                                                        of <span className="highlight">UI / UX Design</span>
+                                                    </h2>
+                                                    <p>Join Velearn live classes, interact with mentors, and track your progress.</p>
+                                                    <div className="btn-group d-flex">
+                                                        <button className="syllabus-btn">Syllabus</button>
+                                                        <button className="viewmore-btn">View More</button>
+                                                    </div>
+                                                    <div className="d-none d-lg-block">
+                                                        <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
+                                                            <h2 className="ux-title">CRAFT SEAMLESS USER EXPERIENCE</h2>
+                                                            <ul className="ux-list">
+                                                                <li>Understand the History of UI/UX</li>
+                                                                <li>Apply Design Thinking Techniques</li>
+                                                                <li>Learn User Research & Personas</li>
+                                                                <li>Map User Journeys Effectively</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="col-lg-5 pt-3">
-                                            <div className="uiux-process-box">
-                                                <div className="rings-row">
-                                                    <div className="ring-item"><div className="ring"></div><span>IDEATE</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>WIREFRAME</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>PROTOTYPE</span></div>
+                                            <div className="col-lg-5 pt-3">
+                                                <div className="uiux-process-box">
+                                                    <div className="rings-row">
+                                                        <div className="ring-item"><div className="ring"></div><span>IDEATE</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>WIREFRAME</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>PROTOTYPE</span></div>
+                                                    </div>
+                                                    <h2 className="ux-title">CRAFT SEAMLESS USER EXPERIENCE</h2>
+                                                    <ul className="ux-list">
+                                                        <li>Understand the History of UI/UX</li>
+                                                        <li>Apply Design Thinking Techniques</li>
+                                                        <li>Learn User Research & Personas</li>
+                                                        <li>Map User Journeys Effectively</li>
+                                                    </ul>
                                                 </div>
-                                                <h2 className="ux-title">CRAFT SEAMLESS USER EXPERIENCE</h2>
-                                                <ul className="ux-list">
-                                                    <li>Understand the History of UI/UX</li>
-                                                    <li>Apply Design Thinking Techniques</li>
-                                                    <li>Learn User Research & Personas</li>
-                                                    <li>Map User Journeys Effectively</li>
-                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SLIDE 2 – Self-Paced Study */}
+                                <div className="carousel-item">
+                                    <div className="carousel-caption custom-caption">
+                                        <div className="row">
+                                            <div className="col-lg-7">
+                                                <div className="caption-box">
+                                                    <h2 className="h1">
+                                                        Master the art <br />
+                                                        of <span className="highlight">Self-Paced Study</span>
+                                                    </h2>
+                                                    <p>Access high-quality recorded lessons, learn anytime, and upskill fast.</p>
+                                                    <div className="btn-group d-flex">
+                                                        <button className="syllabus-btn">Syllabus</button>
+                                                        <button className="viewmore-btn">View More</button>
+                                                    </div>
+                                                    <div className=" d-none d-lg-block">
+                                                        <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
+                                                            <h2 className="ux-title">FLEXIBLE LEARNING JOURNEY</h2>
+                                                            <ul className="ux-list">
+                                                                <li>Watch Lessons At Your Own Pace</li>
+                                                                <li>Access Resources Anytime, Anywhere</li>
+                                                                <li>Practice With Structured Exercises</li>
+                                                                <li>Track Your Progress Easily</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-5 pt-3">
+                                                <div className="uiux-process-box">
+                                                    <div className="rings-row">
+                                                        <div className="ring-item"><div className="ring"></div><span>PLAN</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>PRACTICE</span></div>
+                                                    </div>
+                                                    <h2 className="ux-title">STUDY ANYTIME WITH FLEXIBILITY</h2>
+                                                    <ul className="ux-list">
+                                                        <li>Watch Lessons at Your Own Speed</li>
+                                                        <li>Revisit Concepts Anytime You Need</li>
+                                                        <li>Practice Along With Structured Modules</li>
+                                                        <li>Track Progress Through Each Section</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SLIDE 3 – Sharing & Earning */}
+                                <div className="carousel-item">
+                                    <div className="carousel-caption custom-caption">
+                                        <div className="row">
+                                            <div className="col-lg-7">
+                                                <div className="caption-box">
+                                                    <h2 className="h1">
+                                                        Master the art <br />
+                                                        of <span className="highlight">Sharing & Earning</span>
+                                                    </h2>
+                                                    <p>Refer friends, help them grow, and earn exciting rewards effortlessly.</p>
+                                                    <div className="btn-group d-flex">
+                                                        <button className="syllabus-btn">Syllabus</button>
+                                                        <button className="viewmore-btn">View More</button>
+                                                    </div>
+                                                    <div className=" d-none d-lg-block">
+                                                        <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
+                                                            <h2 className="ux-title">GROW TOGETHER & EARN</h2>
+                                                            <ul className="ux-list">
+                                                                <li>Invite Friends To Join Courses</li>
+                                                                <li>Earn Rewards For Every Successful Referral</li>
+                                                                <li>Build A Learning Community</li>
+                                                                <li>Share Knowledge & Boost Careers</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-5 pt-3">
+                                                <div className="uiux-process-box">
+                                                    <div className="rings-row">
+                                                        <div className="ring-item"><div className="ring"></div><span>SHARE</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>REFER</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>EARN</span></div>
+                                                    </div>
+                                                    <h2 className="ux-title">EARN WHILE YOU HELP OTHERS GROW</h2>
+                                                    <ul className="ux-list">
+                                                        <li>Share Courses With Your Network</li>
+                                                        <li>Invite Friends to Learn and Upskill</li>
+                                                        <li>Earn Rewards on Every Successful Refer</li>
+                                                        <li>Grow a Community That Learns Together</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SLIDE 4 – Hands-On Coding */}
+                                <div className="carousel-item">
+                                    <div className="carousel-caption custom-caption">
+                                        <div className="row">
+                                            <div className="col-lg-7">
+                                                <div className="caption-box">
+                                                    <h2 className="h1">
+                                                        Master the art <br />
+                                                        of <span className="highlight">Hands-On Coding</span>
+                                                    </h2>
+                                                    <p>Use our powerful online IDE, practice real projects, and build skills.</p>
+                                                    <div className="btn-group d-flex">
+                                                        <button className="syllabus-btn">Syllabus</button>
+                                                        <button className="viewmore-btn">View More</button>
+                                                    </div>
+                                                    <div className=" d-none d-lg-block">
+                                                        <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
+                                                            <h2 className="ux-title">CODING MADE PRACTICAL</h2>
+                                                            <ul className="ux-list">
+                                                                <li>Practice Projects In A Live IDE</li>
+                                                                <li>Debug And Solve Real Problems</li>
+                                                                <li>Build Portfolio-Ready Skills</li>
+                                                                <li>Learn By Doing With Guidance</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-5 pt-3">
+                                                <div className="uiux-process-box">
+                                                    <div className="rings-row">
+                                                        <div className="ring-item"><div className="ring"></div><span>CODE</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>DEBUG</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>DEPLOY</span></div>
+                                                    </div>
+                                                    <h2 className="ux-title">BUILD SKILLS THROUGH REAL PROJECTS</h2>
+                                                    <ul className="ux-list">
+                                                        <li>Practice Coding Inside the Live IDE</li>
+                                                        <li>Work on Realistic Project Scenarios</li>
+                                                        <li>Strengthen Logic With Guided Tasks</li>
+                                                        <li>Learn By Doing in Every Module</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SLIDE 5 – In-Demand Skills */}
+                                <div className="carousel-item">
+                                    <div className="carousel-caption custom-caption">
+                                        <div className="row">
+                                            <div className="col-lg-7">
+                                                <div className="caption-box">
+                                                    <h2 className="h1">
+                                                        Master the art <br />
+                                                        of <span className="highlight">In-Demand Skills</span>
+                                                    </h2>
+                                                    <p>Learn today’s top technologies, upgrade your talent, and stay ahead.</p>
+                                                    <div className="btn-group d-flex">
+                                                        <button className="syllabus-btn">Syllabus</button>
+                                                        <button className="viewmore-btn">View More</button>
+                                                    </div>
+                                                    <div className=" d-none d-lg-block">
+                                                        <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
+                                                            <h2 className="ux-title">STAY AHEAD IN YOUR CAREER</h2>
+                                                            <ul className="ux-list">
+                                                                <li>Learn The Most Demanded Skills</li>
+                                                                <li>Gain Expertise In Trending Tools</li>
+                                                                <li>Enhance Job-Ready Abilities</li>
+                                                                <li>Stay Competitive In The Industry</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-5 pt-3">
+                                                <div className="uiux-process-box">
+                                                    <div className="rings-row">
+                                                        <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>APPLY</span></div>
+                                                        <div className="ring-item"><div className="ring"></div><span>GROW</span></div>
+                                                    </div>
+
+                                                    <h2 className="ux-title">UPSKILL WITH INDUSTRY-READY TOPICS</h2>
+                                                    <ul className="ux-list">
+                                                        <li>Master Trending Industry Tools</li>
+                                                        <li>Learn Skills Required by Employers</li>
+                                                        <li>Develop Practical, Job-Ready Ability</li>
+                                                        <li>Stay Updated With Current Trends</li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* SLIDE 2 – Self-Paced Study */}
-                            <div className="carousel-item">
-                                <div className="carousel-caption custom-caption">
-                                    <div className="row">
-                                        <div className="col-lg-7">
-                                            <div className="caption-box">
-                                                <h2 className="h1">
-                                                    Master the art <br />
-                                                    of <span className="highlight">Self-Paced Study</span>
-                                                </h2>
-                                                <p>Access high-quality recorded lessons, learn anytime, and upskill fast.</p>
-                                                <div className="btn-group d-flex">
-                                                    <button className="syllabus-btn">Syllabus</button>
-                                                    <button className="viewmore-btn">View More</button>
-                                                </div>
-                                                <div className=" d-none d-lg-block">
-                                                    <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
-                                                        <h2 className="ux-title">FLEXIBLE LEARNING JOURNEY</h2>
-                                                        <ul className="ux-list">
-                                                            <li>Watch Lessons At Your Own Pace</li>
-                                                            <li>Access Resources Anytime, Anywhere</li>
-                                                            <li>Practice With Structured Exercises</li>
-                                                            <li>Track Your Progress Easily</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-5 pt-3">
-                                            <div className="uiux-process-box">
-                                                <div className="rings-row">
-                                                    <div className="ring-item"><div className="ring"></div><span>PLAN</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>PRACTICE</span></div>
-                                                </div>
-                                                <h2 className="ux-title">STUDY ANYTIME WITH FLEXIBILITY</h2>
-                                                <ul className="ux-list">
-                                                    <li>Watch Lessons at Your Own Speed</li>
-                                                    <li>Revisit Concepts Anytime You Need</li>
-                                                    <li>Practice Along With Structured Modules</li>
-                                                    <li>Track Progress Through Each Section</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {/* Controls */}
+                            <button className="carousel-control-prev" type="button"
+                                data-bs-target="#velearnHomeCarousel" data-bs-slide="prev">
+                                <span className="carousel-control-prev-icon visually-hidden"></span>
+                            </button>
 
-                            {/* SLIDE 3 – Sharing & Earning */}
-                            <div className="carousel-item">
-                                <div className="carousel-caption custom-caption">
-                                    <div className="row">
-                                        <div className="col-lg-7">
-                                            <div className="caption-box">
-                                                <h2 className="h1">
-                                                    Master the art <br />
-                                                    of <span className="highlight">Sharing & Earning</span>
-                                                </h2>
-                                                <p>Refer friends, help them grow, and earn exciting rewards effortlessly.</p>
-                                                <div className="btn-group d-flex">
-                                                    <button className="syllabus-btn">Syllabus</button>
-                                                    <button className="viewmore-btn">View More</button>
-                                                </div>
-                                                <div className=" d-none d-lg-block">
-                                                    <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
-                                                        <h2 className="ux-title">GROW TOGETHER & EARN</h2>
-                                                        <ul className="ux-list">
-                                                            <li>Invite Friends To Join Courses</li>
-                                                            <li>Earn Rewards For Every Successful Referral</li>
-                                                            <li>Build A Learning Community</li>
-                                                            <li>Share Knowledge & Boost Careers</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-5 pt-3">
-                                            <div className="uiux-process-box">
-                                                <div className="rings-row">
-                                                    <div className="ring-item"><div className="ring"></div><span>SHARE</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>REFER</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>EARN</span></div>
-                                                </div>
-                                                <h2 className="ux-title">EARN WHILE YOU HELP OTHERS GROW</h2>
-                                                <ul className="ux-list">
-                                                    <li>Share Courses With Your Network</li>
-                                                    <li>Invite Friends to Learn and Upskill</li>
-                                                    <li>Earn Rewards on Every Successful Refer</li>
-                                                    <li>Grow a Community That Learns Together</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* SLIDE 4 – Hands-On Coding */}
-                            <div className="carousel-item">
-                                <div className="carousel-caption custom-caption">
-                                    <div className="row">
-                                        <div className="col-lg-7">
-                                            <div className="caption-box">
-                                                <h2 className="h1">
-                                                    Master the art <br />
-                                                    of <span className="highlight">Hands-On Coding</span>
-                                                </h2>
-                                                <p>Use our powerful online IDE, practice real projects, and build skills.</p>
-                                                <div className="btn-group d-flex">
-                                                    <button className="syllabus-btn">Syllabus</button>
-                                                    <button className="viewmore-btn">View More</button>
-                                                </div>
-                                                <div className=" d-none d-lg-block">
-                                                    <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
-                                                        <h2 className="ux-title">CODING MADE PRACTICAL</h2>
-                                                        <ul className="ux-list">
-                                                            <li>Practice Projects In A Live IDE</li>
-                                                            <li>Debug And Solve Real Problems</li>
-                                                            <li>Build Portfolio-Ready Skills</li>
-                                                            <li>Learn By Doing With Guidance</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-5 pt-3">
-                                            <div className="uiux-process-box">
-                                                <div className="rings-row">
-                                                    <div className="ring-item"><div className="ring"></div><span>CODE</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>DEBUG</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>DEPLOY</span></div>
-                                                </div>
-                                                <h2 className="ux-title">BUILD SKILLS THROUGH REAL PROJECTS</h2>
-                                                <ul className="ux-list">
-                                                    <li>Practice Coding Inside the Live IDE</li>
-                                                    <li>Work on Realistic Project Scenarios</li>
-                                                    <li>Strengthen Logic With Guided Tasks</li>
-                                                    <li>Learn By Doing in Every Module</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* SLIDE 5 – In-Demand Skills */}
-                            <div className="carousel-item">
-                                <div className="carousel-caption custom-caption">
-                                    <div className="row">
-                                        <div className="col-lg-7">
-                                            <div className="caption-box">
-                                                <h2 className="h1">
-                                                    Master the art <br />
-                                                    of <span className="highlight">In-Demand Skills</span>
-                                                </h2>
-                                                <p>Learn today’s top technologies, upgrade your talent, and stay ahead.</p>
-                                                <div className="btn-group d-flex">
-                                                    <button className="syllabus-btn">Syllabus</button>
-                                                    <button className="viewmore-btn">View More</button>
-                                                </div>
-                                                <div className=" d-none d-lg-block">
-                                                    <div className="uiux-process-box" style={{ width: 'fit-content', marginTop: '35px' }}>
-                                                        <h2 className="ux-title">STAY AHEAD IN YOUR CAREER</h2>
-                                                        <ul className="ux-list">
-                                                            <li>Learn The Most Demanded Skills</li>
-                                                            <li>Gain Expertise In Trending Tools</li>
-                                                            <li>Enhance Job-Ready Abilities</li>
-                                                            <li>Stay Competitive In The Industry</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-5 pt-3">
-                                            <div className="uiux-process-box">
-                                                <div className="rings-row">
-                                                    <div className="ring-item"><div className="ring"></div><span>LEARN</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>APPLY</span></div>
-                                                    <div className="ring-item"><div className="ring"></div><span>GROW</span></div>
-                                                </div>
-
-                                                <h2 className="ux-title">UPSKILL WITH INDUSTRY-READY TOPICS</h2>
-                                                <ul className="ux-list">
-                                                    <li>Master Trending Industry Tools</li>
-                                                    <li>Learn Skills Required by Employers</li>
-                                                    <li>Develop Practical, Job-Ready Ability</li>
-                                                    <li>Stay Updated With Current Trends</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <button className="carousel-control-next" type="button"
+                                data-bs-target="#velearnHomeCarousel" data-bs-slide="next">
+                                <span className="carousel-control-next-icon visually-hidden"></span>
+                            </button>
                         </div>
-
-                        {/* Controls */}
-                        <button className="carousel-control-prev" type="button"
-                            data-bs-target="#velearnHomeCarousel" data-bs-slide="prev">
-                            <span className="carousel-control-prev-icon visually-hidden"></span>
-                        </button>
-
-                        <button className="carousel-control-next" type="button"
-                            data-bs-target="#velearnHomeCarousel" data-bs-slide="next">
-                            <span className="carousel-control-next-icon visually-hidden"></span>
-                        </button>
                     </div>
-                </div>
+                </section>
 
                 {/* Achievements Section */}
-                <section className="counter " ref={this.counterRef}>
-                    <div className="container text-center mb-5">
-                        {/* <h2 className="fw-bold">Our Achievements & Growth</h2>
+                <section className="pb-5">
+                    <div className="counter pt-5" ref={this.counterRef}>
+                        <div className="container text-center mb-5">
+                            {/* <h2 className="fw-bold">Our Achievements & Growth</h2>
                         <p className="text-muted mb-0">
                             Celebrating VeLearn’s journey of transforming education through innovation and mentorship.
                         </p> */}
-                        <div className="row justify-content-center">
-                            {counters.map((item, index) => (
-                                <div className="col-lg-3 col-6 innerCounter d-flex justify-content-center py-3" key={index}>
-                                    <div
-                                        className="outer_progress_circle"
-                                        style={{
-                                            "--p": item.count
-                                        }}
-                                    >
-                                        <div className="inner_white">
-                                            <div className="counter_circle d-flex flex-column justify-content-center align-items-center">
-                                                <div className="h1">
-                                                    {item.count}{item.suffix}
-                                                </div>
-                                                <p className="mb-0">{item.label}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* VeLearn Courses Section */}
-                <section className="courses-section position-relative mb-5">
-                    <div className="container position-relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
-                            id="Layer_1" viewBox="0 100 1400 600">
-                            <path fill="#192853"
-                                d="M1350,245.8V634.2a65.8,65.8,0,0,1-65.8,65.8H1075.11a65.67,65.67,0,0,1-58.65-36A80,80,0,0,0,945,620H455a80.07,80.07,0,0,0-71.46,44,65.65,65.65,0,0,1-58.64,36H115.8A65.8,65.8,0,0,1,50,634.2V165.8A65.8,65.8,0,0,1,115.8,100H649.88a65.66,65.66,0,0,1,58.66,36A80,80,0,0,0,780,180h504.2A65.8,65.8,0,0,1,1350,245.8Z"
-                            >
-                            </path>
-                        </svg>
-                        <div className="overlay_shape_sec text-white">
-                            <h3 className="mb-4 fw-bold section_title">
-                                Top 4 Trending <br /><span className="text-c2"> Live Courses</span>
-                            </h3>
-                            <div className="row g-5">
-                                {coursesOne.map((course, index) => (
-                                    <div className="col-lg-6">
-                                        <div className="card course-card shadow-sm border-0 h-100 d-flex flex-column">
-                                            <img
-                                                src={course.img}
-                                                className="card-img-top"
-                                                alt={course.title}
-                                                style={{ height: "200px", objectFit: "cover" }}
-                                            />
-                                            <div className="card-body d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <h5 className="text-start card-title">{course.title}</h5>
-                                                    {/* <p className="text-start text-muted small mb-3">🌐 {course.lang}</p> */}
-                                                </div>
-                                                <div className="d-flex justify-content-between">
-                                                    <button className="btn1 btn-sm">Syllabus</button>
-                                                    <button className="btn2 btn-sm">View More</button>
+                            <div className="row justify-content-center">
+                                {counters.map((item, index) => (
+                                    <div className="col-lg-3 col-6 innerCounter d-flex justify-content-center py-3" key={index}>
+                                        <div
+                                            className="outer_progress_circle"
+                                            style={{
+                                                "--p": item.count
+                                            }}
+                                        >
+                                            <div className="inner_white">
+                                                <div className="counter_circle d-flex flex-column justify-content-center align-items-center">
+                                                    <div className="h1">
+                                                        {item.count}{item.suffix}
+                                                    </div>
+                                                    <p className="mb-0">{item.label}</p>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </div>
-                </section>
-                {/* VeLearn Courses Section - 2 */}
-                <section className="courses-section position-relative">
-                    <div className="container position-relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
-                            id="Layer_1" viewBox="0 100 1400 650">
-                            <path fill="#192853"
-                                d="M1025,376.11v47.78A26.11,26.11,0,0,0,1051.11,450h243.32A55.57,55.57,0,0,1,1350,505.57V644.43A55.57,55.57,0,0,1,1294.43,700H1060.34a53,53,0,0,1-48.93-32.62l-21.09-50.61A59.74,59.74,0,0,0,935.17,580H464.83a59.74,59.74,0,0,0-55.15,36.77l-21.09,50.61A53,53,0,0,1,339.66,700H105.57A55.57,55.57,0,0,1,50,644.43V505.57A55.57,55.57,0,0,1,105.57,450H348.89A26.11,26.11,0,0,0,375,423.89V376.11A26.11,26.11,0,0,0,348.89,350H88a38,38,0,0,1-38-38V258a38,38,0,0,1,38-38H353.6A56.4,56.4,0,0,0,410,163.6h0A63.61,63.61,0,0,1,473.6,100H926.4A63.61,63.61,0,0,1,990,163.6h0a56.4,56.4,0,0,0,56.4,56.4H1312a38,38,0,0,1,38,38V312a38,38,0,0,1-38,38H1051.11A26.11,26.11,0,0,0,1025,376.11Z"
-                            >
-                            </path>
-                        </svg>
-                        <div className="overlay_shape_sec text-white ">
-                            <div className="row g-5">
-                                {coursesTwo.map((course, index) => (
-                                    <div className="col-lg-6">
-                                        <div className="mt-3 card course-card shadow-sm border-0 h-100 d-flex flex-column">
-                                            <img
-                                                src={course.img}
-                                                className="card-img-top"
-                                                alt={course.title}
-                                                style={{ height: "200px", objectFit: "cover" }}
-                                            />
-                                            <div className="card-body d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <h5 className="text-start card-title">{course.title}</h5>
-                                                </div>
-                                                <div className="d-flex justify-content-between">
-                                                    <button className="btn1 btn-sm">Syllabus</button>
-                                                    <button className="btn2 btn-sm">View More</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="col-12 d-flex justify-content-center" style={{ marginTop: '75px' }}>
-                                <button className="btn-c1">Explore More</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                {/* Partnerships */}
-                <section className="py-5">
-                    <div className="container text-center">
-                        <h3 className="text-c1 section_title mb-5 fw-bold">Authorised Partners</h3>
-                        <Swiper
-                            modules={[Autoplay]}
-                            spaceBetween={30}
-                            slidesPerView={5}
-                            autoplay={{ delay: 2000, disableOnInteraction: false }}
-                            grabCursor={true}
-                            loop={true}
-                            breakpoints={{
-                                320: { slidesPerView: 2 },
-                                768: { slidesPerView: 3 },
-                                1024: { slidesPerView: 5 },
-                            }}
-                        >
-                            {partners.map((logo, index) => (
-                                <SwiperSlide key={index}>
-                                    <img
-                                        src={`${process.env.PUBLIC_URL}/assets/images/partners/${logo}`}
-                                        alt={`Partner ${index + 1}`}
-                                        className="partner-logo"
-                                    />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
-                    </div>
-                </section>
-
-                {/* testimonial */}
-                <section className="py-5">
-                    <div className="container position-relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100" viewBox="0 100 1400 650">
-                            <path fill="#192853"
-                                d="M1350,256.89V543.11A56.89,56.89,0,0,1,1293.11,600H746.23a57.32,57.32,0,0,1-53.17-36.67A100,100,0,0,0,600,500H106.89A56.89,56.89,0,0,1,50,443.11V256.89A56.89,56.89,0,0,1,106.89,200H275a100.1,100.1,0,0,0,93.06-63.33A57.33,57.33,0,0,1,421.24,100H978.76a57.33,57.33,0,0,1,53.18,36.67A100.1,100.1,0,0,0,1125,200h168.11A56.89,56.89,0,0,1,1350,256.89Z"
-                            />
-                        </svg>
-
-                        <div className="testimonial_box_wrapper overlay_shape_sec text-white pt-1">
-                            {/* Testimonial content */}
-                            <div className="testimonial_content_wrapper">
-                                <Swiper
-                                    // modules={[Autoplay, Navigation, Pagination]}
-                                    modules={[Navigation, Pagination]}
-                                    spaceBetween={30}
-                                    slidesPerView={1}
-                                    // autoplay={{ delay: 5000, disableOnInteraction: false }}
-                                    loop={true}
-                                    navigation={true}
-                                    pagination={{ clickable: true }}
+                    {/* VeLearn Courses Section */}
+                    <div className="courses-section position-relative mb-5">
+                        <div className="container position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
+                                id="Layer_1" viewBox="0 100 1400 800">
+                                <defs xmlns="http://www.w3.org/2000/svg">
+                                    <filter id="shadowFilter" x="-20%" y="-20%"
+                                        width="150%" height="150%">
+                                        <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow>
+                                    </filter>
+                                </defs>
+                                <path fill="#192853" filter="url(#shadowFilter)"
+                                    d="M1350,245.8V634.2a65.8,65.8,0,0,1-65.8,65.8H1056.72a37.91,37.91,0,0,1-35.93-25.68A80,80,0,0,0,945,620H455a80.06,80.06,0,0,0-75.79,54.33A37.9,37.9,0,0,1,343.29,700H115.8A65.8,65.8,0,0,1,50,634.2V165.8A65.8,65.8,0,0,1,115.8,100H642.33c28,0,54.17,14.71,67.86,39.1A80,80,0,0,0,780,180h504.2A65.8,65.8,0,0,1,1350,245.8Z"
                                 >
-                                    {[
-                                        {
-                                            name: "Arun Vikkashamuthu",
-                                            img: "/images/user1.jpg",
-                                            review:
-                                                "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
-                                        },
-                                        {
-                                            name: "Rohit Saravanan",
-                                            img: "/images/user2.jpg",
-                                            review:
-                                                "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
-                                        },
-                                        {
-                                            name: "Kavya Purnima",
-                                            img: "/images/user3.jpg",
-                                            review:
-                                                "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
-                                        },
-                                        {
-                                            name: "Sharanya Venugopal",
-                                            img: "/images/user4.jpg",
-                                            review:
-                                                "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
-                                        },
-                                        {
-                                            name: "Vishnu Karthikeyan",
-                                            img: "/images/user5.jpg",
-                                            review:
-                                                "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
-                                        }
-                                    ].map((r, index) => (
-                                        <SwiperSlide key={index}>
-                                            {/* Wrapper to allow overflow */}
-                                            <div className="slide-content-wrapper">
-
-                                                {/* Stars + Image Row */}
-                                                <div className="d-flex justify-content-center align-items-center position-relative">
-
-                                                    {/* Stars */}
-                                                    <div className="stars_row text-warning text-center mb-3 d-flex gap-1 align-items-end justify-content-center">
-                                                        <div className="star star1"><i className="bi bi-star-fill"></i></div>
-                                                        <div className="star star2"><i className="bi bi-star-fill"></i></div>
-                                                        <div className="star star3"><i className="bi bi-star-fill"></i></div>
-                                                        <div className="star star4"><i className="bi bi-star-fill"></i></div>
-                                                        <div className="star star5"><i className="bi bi-star-fill"></i></div>
+                                </path>
+                            </svg>
+                            <div className="overlay_shape_sec text-white">
+                                <h3 className="mb-4 fw-bold section_title">
+                                    Top 4 Trending <br /><span className="text-c2"> Live Courses</span>
+                                </h3>
+                                <div className="row g-5">
+                                    {coursesOne.map((course, index) => (
+                                        <div className="col-lg-6">
+                                            <div className="card course-card border-0 h-100 d-flex flex-column">
+                                                <img
+                                                    src={course.img}
+                                                    className="card-img-top"
+                                                    alt={course.title}
+                                                    style={{ height: "200px", objectFit: "cover" }}
+                                                />
+                                                <div className="card-body d-flex flex-column justify-content-between">
+                                                    <div>
+                                                        <h5 className="text-start card-title">{course.title}</h5>
                                                     </div>
-
-                                                    {/* Floating Image */}
-                                                    <div className="testimonial_img_wrap">
-                                                        <img src={r.img} alt={r.name} className="testi_img" />
+                                                    <div className="d-flex justify-content-between">
+                                                        <button className="btn1 btn-sm">Syllabus</button>
+                                                        <button className="btn2 btn-sm">View More</button>
                                                     </div>
                                                 </div>
-
-                                                {/* Review Row */}
-                                                <div className="testimonial_row">
-                                                    <div className="testimonial_text">
-                                                        <p className="review_text">“{r.review}”</p>
-                                                    </div>
-                                                </div>
-                                                <h5 className="testi_name">{r.name}</h5>
                                             </div>
-                                        </SwiperSlide>
+                                        </div>
                                     ))}
-                                </Swiper>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* VeLearn Courses Section - 2 */}
+                    <div className="courses-section position-relative">
+                        <div className="container position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
+                                id="Layer_1" viewBox="0 100 1400 800">
+                                <defs xmlns="http://www.w3.org/2000/svg">
+                                    <filter id="shadowFilter" x="-20%" y="-20%"
+                                        width="150%" height="150%">
+                                        <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow>
+                                    </filter>
+                                </defs>
+                                <path fill="#192853" filter="url(#shadowFilter)"
+                                    d="M1025,376.11v47.78A26.11,26.11,0,0,0,1051.11,450h243.32A55.57,55.57,0,0,1,1350,505.57V644.43A55.57,55.57,0,0,1,1294.43,700H1060.34a53,53,0,0,1-48.93-32.62l-21.09-50.61A59.74,59.74,0,0,0,935.17,580H464.83a59.74,59.74,0,0,0-55.15,36.77l-21.09,50.61A53,53,0,0,1,339.66,700H105.57A55.57,55.57,0,0,1,50,644.43V505.57A55.57,55.57,0,0,1,105.57,450H348.89A26.11,26.11,0,0,0,375,423.89V376.11A26.11,26.11,0,0,0,348.89,350H88a38,38,0,0,1-38-38V258a38,38,0,0,1,38-38H353.6A56.4,56.4,0,0,0,410,163.6h0A63.61,63.61,0,0,1,473.6,100H926.4A63.61,63.61,0,0,1,990,163.6h0a56.4,56.4,0,0,0,56.4,56.4H1312a38,38,0,0,1,38,38V312a38,38,0,0,1-38,38H1051.11A26.11,26.11,0,0,0,1025,376.11Z"
+                                >
+                                </path>
+                            </svg>
+                            <div className="overlay_shape_sec text-white ">
+                                <div className="row g-5">
+                                    {coursesTwo.map((course, index) => (
+                                        <div className="col-lg-6">
+                                            <div className="mt-3 card course-card border-0 h-100 d-flex flex-column">
+                                                <img
+                                                    src={course.img}
+                                                    className="card-img-top"
+                                                    alt={course.title}
+                                                    style={{ height: "200px", objectFit: "cover" }}
+                                                />
+                                                <div className="card-body d-flex flex-column justify-content-between">
+                                                    <div>
+                                                        <h5 className="text-start card-title">{course.title}</h5>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between">
+                                                        <button className="btn1 btn-sm">Syllabus</button>
+                                                        <button className="btn2 btn-sm">View More</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="col-12 d-flex justify-content-center" style={{ marginTop: '90px' }}>
+                                    <button className="btn-c1">Explore More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* animation */}
+                <section className="py-5">
+                    <div className="container">
+                        <h3 className="text-c1 section_title mb-5 fw-bold text-center">From Start To Success</h3>
+                    </div>
+                </section>
+
+                <section>
+                    {/* Partnerships */}
+                    <div className="py-5">
+                        <div className="container text-center mt-5">
+                            <h3 className="text-c1 section_title mb-5 fw-bold">Authorised Partners</h3>
+                            <Swiper
+                                modules={[Autoplay]}
+                                spaceBetween={30}
+                                slidesPerView={5}
+                                autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                grabCursor={true}
+                                loop={true}
+                                breakpoints={{
+                                    320: { slidesPerView: 2 },
+                                    768: { slidesPerView: 3 },
+                                    1024: { slidesPerView: 5 },
+                                }}
+                            >
+                                {partners.map((logo, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={`assets/images/partners/${logo}`}
+                                            alt={`Partner ${index + 1}`}
+                                            className="partner-logo"
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
+                    </div>
+
+                    {/* testimonial */}
+                    <div className="py-5">
+                        <div className="container position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100" viewBox="0 100 1400 650">
+                                <defs xmlns="http://www.w3.org/2000/svg">
+                                    <filter id="shadowFilter" x="-20%" y="-20%"
+                                        width="150%" height="150%">
+                                        <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow>
+                                    </filter>
+                                </defs>
+                                <path fill="#192853"
+                                    filter="url(#shadowFilter)"
+                                    d="M1350,256.89V503.11A56.89,56.89,0,0,1,1293.11,560H779c-38,0-73.75-19.36-93.5-51.85A99.94,99.94,0,0,0,600,460H106.89A56.89,56.89,0,0,1,50,403.11V256.89A56.89,56.89,0,0,1,106.89,200H275a100.09,100.09,0,0,0,95.34-69.74A43.6,43.6,0,0,1,412,100H988a43.6,43.6,0,0,1,41.63,30.25A100.08,100.08,0,0,0,1125,200h168.11A56.89,56.89,0,0,1,1350,256.89Z"
+                                />
+                            </svg>
+                            <div className="testimonial_box_wrapper overlay_shape_sec text-white pt-1">
+                                {/* Testimonial content */}
+                                <div className="testimonial_content_wrapper">
+                                    <Swiper
+                                        modules={[Autoplay, Navigation, Pagination]}
+                                        // modules={[Navigation, Pagination]}
+                                        spaceBetween={30}
+                                        slidesPerView={1}
+                                        autoplay={{ delay: 5000, disableOnInteraction: false }}
+                                        loop={true}
+                                        navigation={true}
+                                        pagination={{ clickable: true }}
+                                    >
+                                        {[
+                                            {
+                                                name: "Arun Vikkashamuthu",
+                                                img: "assets/images/testimonial/arun-vikkashamuthu.png",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Rohit Saravanan",
+                                                img: "assets/images/testimonial/person-1.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Kavya Purnima",
+                                                img: "assets/images/testimonial/person-2.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Sharanya Venugopal",
+                                                img: "assets/images/testimonial/person-3.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Vishnu Karthikeyan",
+                                                img: "assets/images/testimonial/person-4.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            }
+                                        ].map((r, index) => (
+                                            <SwiperSlide key={index}>
+                                                {/* Wrapper to allow overflow */}
+                                                <div className="slide-content-wrapper">
+
+                                                    {/* Stars + Image Row */}
+                                                    <div className="d-flex justify-content-center align-items-center position-relative">
+
+                                                        {/* Stars */}
+                                                        <div className="stars_row text-warning text-center mb-3 d-flex gap-1 align-items-end justify-content-center">
+                                                            <div className="star star1"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star2"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star3"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star4"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star5"><i className="bi bi-star-fill"></i></div>
+                                                        </div>
+
+                                                        {/* Floating Image */}
+                                                        <div className="testimonial_img_wrap">
+                                                            <img src={r.img} alt={r.name} className="testi_img" />
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Review Row */}
+                                                    <div className="testimonial_row">
+                                                        <div className="testimonial_text">
+                                                            <p className="review_text">“{r.review}”</p>
+                                                        </div>
+                                                    </div>
+                                                    <h5 className="testi_name">{r.name}</h5>
+                                                </div>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -901,7 +834,7 @@ class HomePage extends Component {
                                 {recruiters1.map((logo, index) => (
                                     <SwiperSlide key={index}>
                                         <img
-                                            src={`${process.env.PUBLIC_URL}/assets/images/prime-recruiters/${logo}`}
+                                            src={`assets/images/prime-recruiters/${logo}`}
                                             alt={`Partner ${index + 1}`}
                                             className="partner-logo"
                                         />
@@ -926,7 +859,7 @@ class HomePage extends Component {
                                 {recruiters2.map((logo, index) => (
                                     <SwiperSlide key={index}>
                                         <img
-                                            src={`${process.env.PUBLIC_URL}/assets/images/prime-recruiters/${logo}`}
+                                            src={`assets/images/prime-recruiters/${logo}`}
                                             alt={`Partner ${index + 1}`}
                                             className="partner-logo"
                                         />
@@ -938,155 +871,205 @@ class HomePage extends Component {
                 </section>
 
                 {/* tabs */}
-                <div className="course-section">
-                    <div className="container position-relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
-                            id="Layer_1" viewBox="0 100 1400 650">
-                            <path fill="#192853"
-                                d="M1350,255.68V644.32A55.68,55.68,0,0,1,1294.32,700H786.68a55.67,55.67,0,0,1-53.3-39.57l-19.13-63.28A66.35,66.35,0,0,0,650.75,550H105.68A55.68,55.68,0,0,1,50,494.32V155.68A55.68,55.68,0,0,1,105.68,100H654.6a55.81,55.81,0,0,1,52,35.9A100,100,0,0,0,800,200h494.32A55.68,55.68,0,0,1,1350,255.68Z"
-                            >
-                            </path>
-                        </svg>
-                        <div className="overlay_shape_sec">
-                            <div className="course-container">
-                                <div className="row">
-                                    {/* LEFT SIDE TABS */}
-                                    <div className="col-lg-6">
-                                        <div className="tabs-box">
-                                            <h2 className="section_title ">
-                                                Access Premium <br />
-                                                <span>Recorded Courses</span>
-                                            </h2>
+                <section>
+                    <div className="course-section">
+                        <div className="container position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
+                                id="Layer_1" viewBox="0 100 1400 800">
+                                <defs xmlns="http://www.w3.org/2000/svg">
+                                    <filter id="shadowFilter" x="-20%" y="-20%"
+                                        width="150%" height="150%">
+                                        <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow>
+                                    </filter>
+                                </defs>
+                                <path fill="#192853"
+                                    filter="url(#shadowFilter)"
+                                    d="M1350,255.68V644.32A55.68,55.68,0,0,1,1294.32,700H786.68a55.67,55.67,0,0,1-53.3-39.57l-19.13-63.28A66.35,66.35,0,0,0,650.75,550H105.68A55.68,55.68,0,0,1,50,494.32V155.68A55.68,55.68,0,0,1,105.68,100H654.6a55.81,55.81,0,0,1,52,35.9A100,100,0,0,0,800,200h494.32A55.68,55.68,0,0,1,1350,255.68Z"
+                                >
+                                </path>
+                            </svg>
+                            <div className="overlay_shape_sec">
+                                <div className="course-container">
+                                    <div className="row">
+                                        {/* LEFT SIDE TABS */}
+                                        <div className="col-lg-6">
+                                            <div className="tabs-box">
+                                                <h2 className="section_title ">
+                                                    Access Premium <br />
+                                                    <span>Recorded Courses</span>
+                                                </h2>
 
-                                            {/* <div className="selected-tab">{activeTab}</div> */}
+                                                {/* <div className="selected-tab">{activeTab}</div> */}
 
-                                            <ul className="tabs-list mt-4">
-                                                {tabs.map((tab, index) => (
-                                                    <li
-                                                        key={index}
-                                                        className={`tab-item ${activeTab === tab ? "active" : ""}`}
-                                                        onClick={() => this.handleTabClick(tab)}
-                                                    >
-                                                        {tab} <span className="arrow">›</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                                <ul className="tabs-list mt-4">
+                                                    {tabs.map((tab, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className={`tab-item ${activeTab === tab ? "active" : ""}`}
+                                                            onClick={() => this.handleTabClick(tab)}
+                                                        >
+                                                            {tab} <span className="arrow">›</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
 
-                                            <button className="explore-btn w-50" style={{ marginTop: '100px' }}>Explore More</button>
+                                                <button className="explore-btn w-50" style={{ marginTop: '100px' }}>Explore More</button>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* RIGHT SIDE CARDS */}
-                                    <div className="col-lg-6 d-flex justify-content-center">
-                                        <div className="cards-box" style={{width: '85%'}}>
-                                            {coursesData[activeTab].map((course, index) => {
-                                                const bgClass = index % 2 === 0 ? "bg-shape-a" : "bg-shape-b";
-                                                return (
-                                                    <div className={`course-tab-card d-flex mb-3 ${bgClass}`} key={index}>
-                                                        <img src={course.img} className="card-img" alt={course.title} />
+                                        {/* RIGHT SIDE CARDS */}
+                                        <div className="col-lg-6 d-flex justify-content-center">
+                                            <div className="cards-box" style={{ width: '85%' }}>
+                                                {coursesData[activeTab].map((course, index) => {
+                                                    const bgClass = index % 2 === 0 ? "bg-shape-a" : "bg-shape-b";
+                                                    return (
+                                                        <div className={`row course-tab-card d-flex ${bgClass}`} key={index}>
+                                                            <div className="col-4">
+                                                                <div className="tab_img_parent position-relative">
+                                                                    <img src={course.img} className="card-img" alt={course.title} />
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <div className="card-content">
+                                                                    <div className="inner_card_content">
+                                                                        <h4>{course.title}</h4>
 
-                                                        <div className="card-content">
-                                                            <h4>{course.title}</h4>
-
-                                                            <div className="card-footer">
-                                                                <span className="hrs">
-                                                                    <i className="bi bi-clock pe-2"></i>
-                                                                    {course.hrs}</span>
-                                                                <button className="view-btn">View</button>
+                                                                        <div className="card-footer">
+                                                                            <span className="hrs">
+                                                                                <i className="bi bi-clock pe-2"></i>
+                                                                                {course.hrs}</span>
+                                                                            <button className="view-btn">View</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                            })}
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                {/* counts */}
-                <section className="container d-flex justify-content-center py-5">
-                    <div className="col-lg-10">
-                        <div className="row">
-                            <div className="col-lg-7">
-                                <div className="row px-0 mx-0">
-                                    <div className="col-lg-12">
-                                        <div className="count_clr count_clr1">
-                                            <div className="row">
-                                                <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                    <h6>Active Learners</h6>
-                                                    <h2>1000+</h2>
+                <section className="pb-5">
+
+                    {/* counts */}
+                    <div>
+                        <div className="container d-flex justify-content-center py-5">
+                            <div className="col-lg-10">
+                                <div className="row">
+                                    <div className="col-lg-7">
+                                        <div className="row px-0 mx-0">
+                                            <div className="col-lg-12">
+                                                <div className="count_clr count_clr1">
+                                                    <div className="row">
+                                                        <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                            <h6>Active Learners</h6>
+                                                            <h2>1000+</h2>
+                                                        </div>
+                                                        <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                            <img src="assets/images/anime-1.png" alt="" />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                    <img src={`${process.env.PUBLIC_URL}/assets/images/anime-1.png`} alt="" />
+                                            </div>
+                                            <div className="col-lg-6 count_top_height">
+                                                <div className="count_clr count_clr2">
+                                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                                        <h6>Video Lessons</h6>
+                                                        <h2>2000+</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 count_top_height">
+                                                <div className="count_clr count_clr3">
+                                                    <div className="d-flex justify-content-center gap-3 align-items-center">
+                                                        <i className="bi bi-star-fill"></i>
+                                                        <i className="bi bi-star-fill"></i>
+                                                        <i className="bi bi-star-fill"></i>
+                                                        <i className="bi bi-star-fill"></i>
+                                                        <i className="bi bi-star-fill"></i>
+                                                    </div>
+                                                    <div className="d-flex justify-content-center gap-3 align-items-center">
+                                                        <h6>Rating</h6>
+                                                        <h2>4.7</h2>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-6 count_top_height">
-                                        <div className="count_clr count_clr2">
+                                    <div className="col-lg-5 count_top_sm_height px-3">
+                                        <div className="col-lg-12 h-100">
+                                            <div className="count_clr count_clr4">
+                                                <div className="d-flex flex-column justify-content-center align-items-center">
+                                                    <h6>Minutes of Video Watched</h6>
+                                                    <h2>20000+</h2>
+                                                </div>
+                                                <div className="d-flex justify-content-center align-items-center">
+                                                    <img src="assets/images/anime-2.png" alt="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-5 count_top_height px-3">
+                                        <div className="count_clr count_clr5">
                                             <div className="d-flex flex-column justify-content-center align-items-center">
-                                                <h6>Video Lessons</h6>
-                                                <h2>2000+</h2>
+                                                <h6>Doubts Cleared</h6>
+                                                <h2>4500+</h2>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-6 count_top_height">
-                                        <div className="count_clr count_clr3">
-                                            <div className="d-flex justify-content-center gap-3 align-items-center">
-                                                <i className="bi bi-star-fill"></i>
-                                                <i className="bi bi-star-fill"></i>
-                                                <i className="bi bi-star-fill"></i>
-                                                <i className="bi bi-star-fill"></i>
-                                                <i className="bi bi-star-fill"></i>
+                                    <div className="col-lg-7 count_top_height px-3">
+                                        <div className="count_clr count_clr6">
+                                            <div className="row">
+                                                <div className="col-lg-7 col-6">
+                                                    <div className="px-lg-5 ps-5 d-flex flex-column justify-content-center align-items-start">
+                                                        <h6>Questions Practiced</h6>
+                                                        <h2>5000+</h2>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-5 col-6 d-flex justify-content-center align-items-center">
+                                                    <img src="assets/images/anime-3.png" alt="" />
+                                                </div>
                                             </div>
-                                            <div className="d-flex justify-content-center gap-3 align-items-center">
-                                                <h6>Rating</h6>
-                                                <h2>4.7</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-5 count_top_sm_height px-3">
-                                <div className="col-lg-12 h-100">
-                                    <div className="count_clr count_clr4">
-                                        <div className="d-flex flex-column justify-content-center align-items-center">
-                                            <h6>Minutes of Video Watched</h6>
-                                            <h2>20000+</h2>
-                                        </div>
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            <img src={`${process.env.PUBLIC_URL}/assets/images/anime-2.png`} alt="" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-5 count_top_height px-3">
-                                <div className="count_clr count_clr5">
-                                    <div className="d-flex flex-column justify-content-center align-items-center">
-                                        <h6>Doubts Cleared</h6>
-                                        <h2>4500+</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-7 count_top_height px-3">
-                                <div className="count_clr count_clr6">
-                                    <div className="row">
-                                        <div className="col-lg-7 col-6">
-                                            <div className="px-lg-5 ps-5 d-flex flex-column justify-content-center align-items-start">
-                                                <h6>Questions Practiced</h6>
-                                                <h2>5000+</h2>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-5 col-6 d-flex justify-content-center align-items-center">
-                                            <img src={`${process.env.PUBLIC_URL}/assets/images/anime-3.png`} alt="" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="container">
+                        {/* <div className="container"> */}
+                        <div id="adCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="assets/images/ad-banner.jpg" class="d-block" alt="..." />
+                                    <div class="carousel-caption">
+                                        <h5>Velearn</h5>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="assets/images/ad-banner.jpg" class="d-block" alt="..." />
+                                    <div class="carousel-caption">
+                                        <h5>Velearn</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#adCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#adCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        {/* </div> */}
                     </div>
                 </section>
             </>

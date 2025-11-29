@@ -47,7 +47,7 @@ const Navbar = () => {
                         </div>
                         <div className="logo">
                             <NavLink to="/">
-                                <img src={`${process.env.PUBLIC_URL}/assets/images/velearn-logo.png`} alt="" />
+                                <img src="assets/images/velearn-logo.png" alt="" />
                             </NavLink>
                         </div>
                         <div className={`nav-elements  ${showNavbar && "active"}`}>
@@ -91,7 +91,7 @@ const Navbar = () => {
                         <div className="d-flex gap-4 right_nav_icons">
                             <div className="d-flex gap-4 text-white">
                                 <span className='d-none d-lg-block'>
-                                    <Link to='/login' className="text-dark text-decoration-none">Login</Link>
+                                    <Link to='/login' className="text-c1 text-decoration-none fw-bold">Login</Link>
                                 </span>
                                 <span>
                                     <Link to="/signup" className="text-decoration-none signUpBut px-4">Sign Up</Link>

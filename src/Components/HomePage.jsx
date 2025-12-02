@@ -634,8 +634,8 @@ class HomePage extends Component {
                                                         <h5 className="text-start card-title">{course.title}</h5>
                                                     </div>
                                                     <div className="d-flex justify-content-between">
-                                                        <button className="btn1 btn-sm">Syllabus</button>
-                                                        <button className="btn2 btn-sm">View More</button>
+                                                        <button className="btn1 btn-sm px-3 py-2">Syllabus</button>
+                                                        <button className="btn2 btn-sm px-3 py-2">View More</button>
                                                     </div>
                                                 </div>
                                             </div>

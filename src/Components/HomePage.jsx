@@ -15,9 +15,9 @@ class HomePage extends Component {
         this.state = {
             counters: [
                 { label: "Certified Courses", value: 50, suffix: "+", count: 0 },
-                { label: "Qualified Trainers", value: 10, suffix: "k+", count: 0 },
+                { label: "Qualified Trainers", value: 10, suffix: "+", count: 0 },
                 { label: "Hiring Partners", value: 100, suffix: "+", count: 0 },
-                { label: "Authorized Partners", value: 10, suffix: "k+", count: 0 },
+                { label: "Authorized Partners", value: 10, suffix: "+", count: 0 },
             ],
             counterStarted: false,
             progressStarted: false,
@@ -140,6 +140,16 @@ class HomePage extends Component {
                 // lang: "English & Tamil",
                 img: 'assets/images/courses-2.jpg',
             },
+            {
+                title: "Master Data Science Course",
+                // lang: "English, Hindi & Tamil",
+                img: 'assets/images/courses-3.jpg',
+            },
+            // {
+            //     title: "Live Digital Marketing Program",
+            //     // lang: "English & Tamil",
+            //     img: 'assets/images/courses-4.jpg',
+            // },
         ];
         // Courses for VeLearn
         const coursesTwo = [
@@ -261,7 +271,7 @@ class HomePage extends Component {
                 {/* Hero Carousel */}
                 <section>
                     <div className="container">
-                        <div id="velearnHomeCarousel" className="carousel slide carousel-fade">
+                        <div id="velearnHomeCarousel" className="carousel slide">
                             <div className="carousel-inner mt-3 mt-lg-0">
 
                                 {/* SVG BACKGROUND (DESKTOP) */}
@@ -559,23 +569,30 @@ class HomePage extends Component {
                         </p> */}
                             <div className="row justify-content-center">
                                 {counters.map((item, index) => (
-                                    <div className="col-lg-3 col-6 innerCounter d-flex justify-content-center py-3" key={index}>
-                                        <div
+                                    <div className="col-lg-3 col-6" key={index}>
+                                        <div class="bt_homeloader">
+                                            <div class="counter">
+                                                <div class="counter-content">
+                                                    <span class="h1 counter-value">{item.count}{item.suffix}</span>
+                                                    <h5 class="title">{item.label}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div
                                             className="outer_progress_circle"
                                             style={{
                                                 "--p": item.count
                                             }}
-                                        >
-                                            <div className="inner_white">
+                                        > */}
+                                        {/* <div className="inner_white">
                                                 <div className="counter_circle d-flex flex-column justify-content-center align-items-center">
                                                     <div className="h1">
                                                         {item.count}{item.suffix}
                                                     </div>
                                                     <p className="mb-0">{item.label}</p>
                                                 </div>
-                                            </div>
-                                        </div>
-
+                                            </div> */}
+                                        {/* </div> */}
                                     </div>
                                 ))}
                             </div>
@@ -604,7 +621,7 @@ class HomePage extends Component {
                                 </h3>
                                 <div className="row g-5">
                                     {coursesOne.map((course, index) => (
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-4">
                                             <div className="card course-card border-0 h-100 d-flex flex-column">
                                                 <img
                                                     src={course.img}

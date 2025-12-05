@@ -519,8 +519,8 @@ class HomePage extends Component {
                     </div>
                 </section>
                 {/* Achievements Section */}
-                <section className="pb-5">
-                    <div className="counter pt-5" ref={this.counterRef}>
+                <section className="pb-5 overflow-hidden">
+                    <div className="counter pt-5 overflow-hidden" ref={this.counterRef}>
                         <div className="container-fluid p-xl text-center mb-5">
                             {/* <h2 className="fw-bold">Our Achievements & Growth</h2>
                         <p className="text-muted mb-0">

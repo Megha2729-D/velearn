@@ -2359,16 +2359,21 @@ section {
         min-height: 980px;
     }
 
+    .bt_homeloader .counter .title {
+        font-size: 14px;
+        margin: 0;
+    }
+
     .bt_homeloader .counter .counter-content {
-        height: 130px;
-        width: 130px;
+        height: 120px;
+        width: 120px;
     }
 
     .bt_homeloader .counter .counter-content:after,
     .bt_homeloader .counter .counter-content:before {
         content: "";
-        height: 167px;
-        width: 167px;
+        height: 147px;
+        width: 147px;
     }
 }
 

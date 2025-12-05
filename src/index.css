@@ -2356,7 +2356,7 @@ section {
 
 @media screen and (max-width: 380px) {
     #velearnHomeCarousel .carousel-inner {
-        min-height: 980px;
+        min-height: 1010px;
     }
 
     .bt_homeloader .counter .title {

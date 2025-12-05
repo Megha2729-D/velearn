@@ -632,7 +632,7 @@ img {
 }
 
 #adCarousel img {
-    width: 90%;
+    width: 100%;
     height: 310px;
     object-fit: cover;
     margin: auto;
@@ -663,11 +663,11 @@ img {
 }
 
 #adCarousel .carousel-control-prev {
-    left: 13px;
+    left: -45px;
 }
 
 #adCarousel .carousel-control-next {
-    right: 13px;
+    right: -45px;
 }
 
 #adCarousel .carousel-control-prev-icon,

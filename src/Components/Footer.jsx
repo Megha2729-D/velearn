@@ -8,7 +8,7 @@ class Footer extends Component {
             <>
                 <div className="footer_sec position-relative">
                     <div className="footer_blur_text"><h5>Velearn</h5></div>
-                    <div className="footer_container">
+                    <div className="container-fluid p-xl">
                         <div className="row page_links">
                             {/* Desktop View */}
                             <div className="d-none d-lg-block">

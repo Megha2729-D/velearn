@@ -658,9 +658,9 @@ class HomePage extends Component {
                     </div>
 
                     {/* testimonial */}
-                    {/* <div className="container-fluid p-xl position-relative py-5">
+                    <div className="container-fluid p-xl position-relative py-5">
                         <div className="col-12 position-relative">
-                            <div className="shape_parent_sec" style={{height: '85%'}}>
+                            <div className="shape_parent_sec testimonial_sec_parent">
                                 <img src="assets/images/shapes/cropped-shape/shape-3-1.png" className="w-100 shape_c shape_top" alt="" />
                                 <div className="middle_shape"></div>
                                 <img src="assets/images/shapes/cropped-shape/shape-3-2.png" className="w-100 shape_c shape_bottom" alt="" />
@@ -740,8 +740,9 @@ class HomePage extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                 </section>
+
 
                 <section className="py-5">
                     <div className="container-fluid p-xl text-center">
@@ -795,6 +796,80 @@ class HomePage extends Component {
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
+                        </div>
+                    </div>
+                </section>
+
+                {/* tabs */}
+                <section>
+                    <div className="container-fluid p-xl position-relative py-5 course-section">
+                        <div className="col-12 position-relative">
+                            <div className="shape_parent_sec course_sec_parent">
+                                <img src="assets/images/shapes/cropped-shape/shape-4-1.png" className="w-100 shape_c shape_top" alt="" />
+                                <div className="middle_shape"></div>
+                                <img src="assets/images/shapes/cropped-shape/shape-4-2.png" className="w-100 shape_c shape_bottom" alt="" />
+                            </div>
+                            <div className="course-container">
+                                <div className="row">
+                                    {/* LEFT SIDE TABS */}
+                                    <div className="col-lg-6">
+                                        <div className="tabs-box">
+                                            <h2 className="section_title ">
+                                                Access Premium <br />
+                                                <span>Recorded Courses</span>
+                                            </h2>
+
+                                            {/* <div className="selected-tab">{activeTab}</div> */}
+
+                                            <ul className="tabs-list mt-4">
+                                                {tabs.map((tab, index) => (
+                                                    <li
+                                                        key={index}
+                                                        className={`tab-item ${activeTab === tab ? "active" : ""}`}
+                                                        onClick={() => this.handleTabClick(tab)}
+                                                    >
+                                                        {tab} <span className="arrow">›</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+
+                                            <button className="explore-btn w-50">Explore More</button>
+                                        </div>
+                                    </div>
+
+                                    {/* RIGHT SIDE CARDS */}
+                                    <div className="col-lg-6 d-flex justify-content-center">
+                                        <div className="cards-box" style={{ width: '85%' }}>
+                                            {coursesData[activeTab].map((course, index) => {
+                                                const bgClass = index % 2 === 0 ? "bg-shape-a" : "bg-shape-b";
+                                                return (
+                                                    <div className={`row course-tab-card d-flex ${bgClass}`} key={index}>
+                                                        <div className="col-4">
+                                                            <div className="tab_img_parent position-relative">
+                                                                <img src={course.img} className="card-img" alt={course.title} />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-8">
+                                                            <div className="card-content">
+                                                                <div className="inner_card_content">
+                                                                    <h4>{course.title}</h4>
+
+                                                                    <div className="card-footer">
+                                                                        <span className="hrs">
+                                                                            <i className="bi bi-clock pe-2"></i>
+                                                                            {course.hrs}</span>
+                                                                        <button className="view-btn">View</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

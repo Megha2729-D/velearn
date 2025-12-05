@@ -850,7 +850,7 @@ img {
     }
 
     .footer_blur_text h5 {
-        font-size: 100px;
+        font-size: 85px;
         bottom: 55px;
     }
 
@@ -1509,6 +1509,7 @@ section {
     top: auto !important;
     bottom: 15px !important;
     cursor: pointer;
+    box-shadow: 1px 1px 4px 0px #0000003d;
 }
 
 .testimonial_box_wrapper .swiper-button-prev:hover,
@@ -1551,6 +1552,15 @@ section {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
+    .testimonial_box_wrapper {
+        padding: 50px 10px;
+    }
+
+    .testi_name {
+        margin-top: 0;
+        margin-left: 0;
+    }
+
     /* .testimonial_row {
         flex-direction: column-reverse;
         text-align: center;
@@ -1562,6 +1572,7 @@ section {
 
     .testimonial_img_wrap {
         margin-bottom: 20px;
+        top: -70px;
     }
 }
 
@@ -1907,7 +1918,7 @@ section {
 
 .course-section .tabs-box {
     /* background: #0d234a; */
-    padding: 30px;
+    padding: 60px 55px 30px;
     border-radius: 25px;
     color: #fff;
     min-width: 280px;
@@ -1962,7 +1973,7 @@ section {
 }
 
 .course-section .explore-btn {
-    margin-top: 30px;
+    margin-top: 115px;
     background: #00c2ff;
     padding: 12px 25px;
     border-radius: 30px;
@@ -1981,7 +1992,7 @@ section {
 
 /* RIGHT CARDS */
 .course-section .course-tab-card {
-    padding: 35px 45px;
+    padding: 7vh;
     border-radius: 20px;
     margin-bottom: 5px;
     color: #fff;
@@ -2020,6 +2031,15 @@ section {
 
 .bg-shape-b .card-content {
     margin-top: 20px;
+}
+
+.course_sec_parent {
+    height: 85% !important;
+}
+
+.course-container {
+    position: relative;
+    z-index: 1;
 }
 
 .course-section .card-img {
@@ -2081,34 +2101,97 @@ section {
     transition: all .3s ease-out;
 }
 
+
+
 @media (max-width: 992px) {
+    .shape_parent_sec {
+        height: 100% !important;
+    }
+
     .course-section .course-container {
         flex-direction: column;
+    }
+
+    .course-section .explore-btn {
+        margin-top: 15px;
+    }
+
+    .course-section .bg-shape-b .card-img {
+        top: -13px;
+    }
+
+    .course-section .card-img {
+        width: 95px;
+        height: 110px;
+    }
+
+    .course-section .course-tab-card {
+        padding: 20px;
+    }
+
+    .course-section .bg-shape-a .card-img {
+        top: -35px;
+    }
+
+    .course-section .card-content h4 {
+        font-size: 11px;
+        margin: 23px 0 5px;
+    }
+
+    .course-section .hrs,
+    .course-section .view-btn {
+        padding: 3px 10px;
+        width: 86px;
+        font-size: 12px;
+    }
+
+    .course-section .cards-box {
+        margin-top: 35px;
+    }
+
+    .bg-shape-a .card-content {
+        margin-top: -15px;
     }
 
     .course-section .tabs-box,
     .course-section .cards-box {
         width: 100% !important;
     }
+
+    .course-section .tabs-box {
+        /* background: #0d234a; */
+        padding: 40px 15px 30px;
+    }
+}
+
+.testimonial_sec_parent {
+    height: 85% !important;
 }
 
 /* responsive */
 
-@media screen and (min-width: 991px) {
-    /* .nav-elements ul a.active::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #000000;
-  } */
-}
+@media screen and (min-width: 991px) {}
 
 @media (max-width: 910px) {
+
+    .testimonial_box_wrapper .swiper-pagination,
+    .testimonial_box_wrapper .swiper-button-prev,
+    .testimonial_box_wrapper .swiper-button-next {
+        display: none;
+    }
+
+    .review_text {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
     .navbar_links.active .nav-elements {
         top: 75px;
+    }
+
+    .testi_name {
+        font-size: 15px;
+        margin: auto;
     }
 
     .count_clr img {

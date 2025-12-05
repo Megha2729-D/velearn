@@ -504,7 +504,6 @@ class HomePage extends Component {
                                     </div>
                                 </div>
                             </div>
-
                             {/* Controls */}
                             <button className="carousel-control-prev" type="button"
                                 data-bs-target="#velearnHomeCarousel" data-bs-slide="prev">
@@ -518,14 +517,11 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </section>
+
                 {/* Achievements Section */}
-                <section className="pb-5 overflow-hidden">
-                    <div className="counter pt-5 overflow-hidden" ref={this.counterRef}>
+                <section className="pb-5 overflow">
+                    <div className="counter py-lg-5 overflow-hidden" ref={this.counterRef}>
                         <div className="container-fluid p-xl text-center mb-5">
-                            {/* <h2 className="fw-bold">Our Achievements & Growth</h2>
-                        <p className="text-muted mb-0">
-                            Celebrating VeLearn’s journey of transforming education through innovation and mentorship.
-                        </p> */}
                             <div className="row justify-content-center">
                                 {counters.map((item, index) => (
                                     <div className="col-lg-3 col-6" key={index}>
@@ -559,71 +555,250 @@ class HomePage extends Component {
                     </div>
 
                     {/* VeLearn Courses Section */}
-                    {/* <div className="courses-section position-relative mb-5">
-                        <div className="container position-relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="shape-svg w-100"
-                                id="Layer_1" viewBox="0 100 1400 800">
-                                <defs xmlns="http://www.w3.org/2000/svg">
-                                    <filter id="shadowFilter" x="-20%" y="-20%"
-                                        width="150%" height="150%">
-                                        <feDropShadow dx="0" dy="40" stdDeviation="25" flood-color="rgba(0,0,0,0.49)"></feDropShadow>
-                                    </filter>
-                                </defs>
-                                <path fill="#192853" filter="url(#shadowFilter)"
-                                    d="M1350,245.8V634.2a65.8,65.8,0,0,1-65.8,65.8H1075.11a65.67,65.67,0,0,1-58.65-36A80,80,0,0,0,945,620H455a80.07,80.07,0,0,0-71.46,44,65.65,65.65,0,0,1-58.64,36H115.8A65.8,65.8,0,0,1,50,634.2V165.8A65.8,65.8,0,0,1,115.8,100H649.88a65.66,65.66,0,0,1,58.66,36A80,80,0,0,0,780,180h504.2A65.8,65.8,0,0,1,1350,245.8Z"
-                                >
-                                </path>
-                            </svg>
-                            <div className="overlay_shape_sec text-white">
-                                <h3 className="mb-4 fw-bold section_title">
-                                    Top 4 Trending <br /><span className="text-c2"> Live Courses</span>
-                                </h3>
-                                <div className="row g-5">
-                                    <Swiper
-                                        modules={[Autoplay]}
-                                        spaceBetween={30}
-                                        slidesPerView={3}
-                                        autoplay={{ delay: 2000, disableOnInteraction: false }}
-                                        grabCursor={true}
-                                        loop={true}
-                                        breakpoints={{
-                                            320: { slidesPerView: 1 },
-                                            768: { slidesPerView: 2 },
-                                            1024: { slidesPerView: 3 },
-                                        }}
-                                        className="pb-4"
-                                    >
-                                        {courses.map((course, index) => (
-                                            <SwiperSlide key={index}>
-                                                <div className="card course-card border-0 h-100 d-flex flex-column">
-                                                    <img
-                                                        src={course.img}
-                                                        className="card-img-top"
-                                                        alt={course.title}
-                                                        style={{ height: "200px", objectFit: "cover" }}
-                                                    />
-                                                    <div className="card-body d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <h5 className="text-start card-title">{course.title}</h5>
+                    <div className="container-fluid p-xl position-relative">
+                        <div className="col-12 position-relative">
+                            <div className="shape_parent_sec">
+                                <img src="assets/images/shapes/cropped-shape/shape-2-1.png" className="w-100 shape_c shape_top" alt="" />
+                                <div className="middle_shape"></div>
+                                <img src="assets/images/shapes/cropped-shape/shape-2-2.png" className="w-100 shape_c shape_bottom" alt="" />
+                            </div>
+                            <div className="inner_shape_sec">
+                                <div className="courses-section mb-5 pt-5">
+                                    <div className="text-white">
+                                        <h3 className="mb-4 fw-bold section_title">
+                                            Top 4 Trending <br /><span className="text-c2"> Live Courses</span>
+                                        </h3>
+                                        <div className="row g-5">
+                                            <Swiper
+                                                // modules={[Autoplay]}
+                                                spaceBetween={30}
+                                                slidesPerView={3}
+                                                // autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                                grabCursor={true}
+                                                loop={true}
+                                                breakpoints={{
+                                                    320: { slidesPerView: 1 },
+                                                    768: { slidesPerView: 2 },
+                                                    1024: { slidesPerView: 3 },
+                                                    1400: { slidesPerView: 4 },
+                                                }}
+                                                className="pb-4"
+                                            >
+                                                {courses.map((course, index) => (
+                                                    <SwiperSlide key={index}>
+                                                        <div className="card course-card border-0 h-100 d-flex flex-column">
+                                                            <img
+                                                                src={course.img}
+                                                                className="card-img-top"
+                                                                alt={course.title}
+                                                                style={{ height: "200px", objectFit: "cover" }}
+                                                            />
+                                                            <div className="card-body d-flex flex-column justify-content-between">
+                                                                <div>
+                                                                    <h5 className="text-start card-title">{course.title}</h5>
+                                                                </div>
+                                                                <div className="d-flex justify-content-between">
+                                                                    <button className="btn1 btn-sm px-3 py-2">Syllabus</button>
+                                                                    <button className="btn2 btn-sm px-3 py-2">View More</button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="d-flex justify-content-between">
-                                                            <button className="btn1 btn-sm px-3 py-2">Syllabus</button>
-                                                            <button className="btn2 btn-sm px-3 py-2">View More</button>
+                                                    </SwiperSlide>
+                                                ))}
+                                            </Swiper>
+                                        </div>
+
+                                        <div className="col-12 d-flex justify-content-center mt-2">
+                                            <button className="btn-c1">Explore More</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* animation */}
+                <section className="pb-5">
+                    <div className="container">
+                        <h3 className="text-c1 section_title mb-5 fw-bold text-center">From Start To Success</h3>
+                    </div>
+                </section>
+
+                {/* Partnerships */}
+                <section>
+                    {/* Partnerships */}
+                    <div className="py-5">
+                        <div className="container-fluid p-xl text-center mt-5">
+                            <h3 className="text-c1 section_title mb-5 fw-bold">Authorised Partners</h3>
+                            <Swiper
+                                modules={[Autoplay]}
+                                spaceBetween={30}
+                                slidesPerView={5}
+                                autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                grabCursor={true}
+                                loop={true}
+                                breakpoints={{
+                                    320: { slidesPerView: 2 },
+                                    768: { slidesPerView: 3 },
+                                    1024: { slidesPerView: 5 },
+                                }}
+                            >
+                                {partners.map((logo, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={`assets/images/partners/${logo}`}
+                                            alt={`Partner ${index + 1}`}
+                                            className="partner-logo"
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
+                    </div>
+
+                    {/* testimonial */}
+                    {/* <div className="container-fluid p-xl position-relative py-5">
+                        <div className="col-12 position-relative">
+                            <div className="shape_parent_sec" style={{height: '85%'}}>
+                                <img src="assets/images/shapes/cropped-shape/shape-3-1.png" className="w-100 shape_c shape_top" alt="" />
+                                <div className="middle_shape"></div>
+                                <img src="assets/images/shapes/cropped-shape/shape-3-2.png" className="w-100 shape_c shape_bottom" alt="" />
+                            </div>
+                            <div className="testimonial_box_wrapper text-white pt-1">
+                                <div className="testimonial_content_wrapper">
+                                    <Swiper
+                                        modules={[Autoplay, Navigation, Pagination]}
+                                        // modules={[Navigation, Pagination]}
+                                        spaceBetween={30}
+                                        slidesPerView={1}
+                                        autoplay={{ delay: 5000, disableOnInteraction: false }}
+                                        loop={true}
+                                        navigation={true}
+                                        pagination={{ clickable: true }}
+                                    >
+                                        {[
+                                            {
+                                                name: "Arun Vikkashamuthu",
+                                                img: "assets/images/testimonial/arun-vikkashamuthu.png",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Rohit Saravanan",
+                                                img: "assets/images/testimonial/person-1.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Kavya Purnima",
+                                                img: "assets/images/testimonial/person-2.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Sharanya Venugopal",
+                                                img: "assets/images/testimonial/person-3.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            },
+                                            {
+                                                name: "Vishnu Karthikeyan",
+                                                img: "assets/images/testimonial/person-4.jpg",
+                                                review:
+                                                    "Before joining Velearn, I was very unsure about where to start in IT. The mentors guided me from the basics and never made me feel behind, even when I asked simple questions. Each module is broken down into small, understandable parts, and the practice tasks helped me apply what I learned immediately. The team also provides constant motivation and feedback, which gave me the confidence to keep going. Today, I feel much more clear about my IT career path and the skills I need to grow.",
+                                            }
+                                        ].map((r, index) => (
+                                            <SwiperSlide key={index}>
+                                                <div className="slide-content-wrapper">
+
+                                                    <div className="d-flex justify-content-center align-items-center position-relative">
+
+                                                        <div className="stars_row text-warning text-center mb-3 d-flex gap-1 align-items-end justify-content-center">
+                                                            <div className="star star1"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star2"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star3"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star4"><i className="bi bi-star-fill"></i></div>
+                                                            <div className="star star5"><i className="bi bi-star-fill"></i></div>
+                                                        </div>
+
+                                                        <div className="testimonial_img_wrap">
+                                                            <img src={r.img} alt={r.name} className="testi_img" />
                                                         </div>
                                                     </div>
+
+                                                    <div className="testimonial_row">
+                                                        <div className="testimonial_text">
+                                                            <p className="review_text">“{r.review}”</p>
+                                                        </div>
+                                                    </div>
+                                                    <h5 className="testi_name">{r.name}</h5>
                                                 </div>
                                             </SwiperSlide>
                                         ))}
                                     </Swiper>
                                 </div>
-
-                                <div className="col-12 d-flex justify-content-center mt-2">
-                                    <button className="btn-c1">Explore More</button>
-                                </div>
                             </div>
                         </div>
                     </div> */}
                 </section>
+
+                <section className="py-5">
+                    <div className="container-fluid p-xl text-center">
+                        <h3 className="text-c1 section_title mb-5 fw-bold">Prime Recruiters</h3>
+                        <div className="pb-5">
+                            <Swiper
+                                modules={[Autoplay]}
+                                spaceBetween={30}
+                                slidesPerView={5}
+                                autoplay={{ delay: 2000, disableOnInteraction: false, reverseDirection: true }}
+                                grabCursor={true}
+                                loop={true}
+                                breakpoints={{
+                                    320: { slidesPerView: 2 },
+                                    768: { slidesPerView: 3 },
+                                    1024: { slidesPerView: 5 },
+                                }}
+                            >
+                                {recruiters1.map((logo, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={`assets/images/prime-recruiters/${logo}`}
+                                            alt={`Partner ${index + 1}`}
+                                            className="partner-logo"
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
+                        <div className="pt-4">
+                            <Swiper
+                                modules={[Autoplay]}
+                                spaceBetween={30}
+                                slidesPerView={5}
+                                autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                grabCursor={true}
+                                loop={true}
+                                breakpoints={{
+                                    320: { slidesPerView: 2 },
+                                    768: { slidesPerView: 3 },
+                                    1024: { slidesPerView: 5 },
+                                }}
+                            >
+                                {recruiters2.map((logo, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={`assets/images/prime-recruiters/${logo}`}
+                                            alt={`Partner ${index + 1}`}
+                                            className="partner-logo"
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
+                    </div>
+                </section>
+
                 <section className="pb-5">
 
                     {/* counts */}
@@ -741,6 +916,9 @@ class HomePage extends Component {
                         {/* </div> */}
                     </div>
                 </section>
+
+
+
             </>
         );
     }

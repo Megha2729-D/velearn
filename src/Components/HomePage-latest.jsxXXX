@@ -701,6 +701,7 @@ class HomePage extends Component {
                     </div>
                 </section>
 
+                {/* Partnerships */}
                 <section>
                     {/* Partnerships */}
                     <div className="py-5">
@@ -831,7 +832,6 @@ class HomePage extends Component {
                     </div>
                 </section>
 
-                {/* Partnerships */}
                 <section className="py-5">
                     <div className="container text-center">
                         <h3 className="text-c1 section_title mb-5 fw-bold">Prime Recruiters</h3>

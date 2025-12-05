@@ -52,7 +52,7 @@ section:nth-child(odd) {
 section:nth-child(even) {
     background: linear-gradient(to bottom,
             #ffffff 0%,
-            #cbedf9d8 50%,
+            #cbedf97a 50%,
             #ffffff 100%);
 }
 
@@ -840,6 +840,10 @@ img {
 }
 
 @media screen and (max-width: 991px) {
+    .btn-c1 {
+        padding: 10px 20px !important;
+    }
+
     .page_links h3 {
         margin-bottom: 0;
         margin-top: 15px;
@@ -1796,6 +1800,15 @@ section {
         height: auto;
         object-fit: contain;
     }
+
+    .testimonial_img_wrap {
+        width: 100px;
+        height: 100px;
+    }
+
+    .partner-logo {
+        width: 140px;
+    }
 }
 
 /* count - color */
@@ -2339,19 +2352,34 @@ section {
     }
 }
 
-.shape_parent {
+.shape_parent,
+.shape_parent_sec {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 90%;
     display: flex;
     flex-direction: column;
+}
+
+.shape_parent {
+    height: 90%;
+}
+
+.shape_parent_sec {
+    height: 100%;
 }
 
 .middle_shape {
     width: 100%;
     height: 100%;
     background-color: var(--c1);
+}
+
+.inner_shape_sec {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    z-index: 1;
 }
 
 @media screen and (max-width: 380px) {
@@ -2374,6 +2402,14 @@ section {
         content: "";
         height: 147px;
         width: 147px;
+    }
+
+    .shape_parent {
+        height: 95%;
+    }
+
+    #velearnHomeCarousel .carousel-inner {
+        min-height: 960px;
     }
 }
 

@@ -52,7 +52,7 @@ section:nth-child(odd) {
 section:nth-child(even) {
     background: linear-gradient(to bottom,
             #ffffff 0%,
-            #cbedf9d8 50%,
+            #cbedf97a 50%,
             #ffffff 100%);
 }
 
@@ -632,7 +632,7 @@ img {
 }
 
 #adCarousel img {
-    width: 90%;
+    width: 100%;
     height: 310px;
     object-fit: cover;
     margin: auto;
@@ -663,11 +663,11 @@ img {
 }
 
 #adCarousel .carousel-control-prev {
-    left: 13px;
+    left: -45px;
 }
 
 #adCarousel .carousel-control-next {
-    right: 13px;
+    right: -45px;
 }
 
 #adCarousel .carousel-control-prev-icon,
@@ -840,13 +840,17 @@ img {
 }
 
 @media screen and (max-width: 991px) {
+    .btn-c1 {
+        padding: 10px 20px !important;
+    }
+
     .page_links h3 {
         margin-bottom: 0;
         margin-top: 15px;
     }
 
     .footer_blur_text h5 {
-        font-size: 100px;
+        font-size: 85px;
         bottom: 55px;
     }
 
@@ -872,7 +876,7 @@ img {
     right: 0 !important;
     margin: auto;
     top: 3% !important;
-    width: 85%;
+    width: 90%;
     z-index: 10;
 }
 
@@ -912,7 +916,7 @@ img {
 }
 
 .uiux-process-box {
-    background: linear-gradient(#0000006e, #0000006e), url(../public/assets/images/banner-bg-card.avif);
+    background: linear-gradient(#0000006e, #0000006e), url(../public/assets/img/banner-bg-card.avif);
     background-size: cover;
     box-shadow: -4px -4px 21px 8px #00000038;
     height: 100%;
@@ -1166,7 +1170,7 @@ img {
 }
 
 .bt_homeloader .counter .counter-content:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+    /* background-color: rgba(0, 0, 0, 0.02); */
 }
 
 .bt_homeloader .counter .counter-content {
@@ -1505,6 +1509,7 @@ section {
     top: auto !important;
     bottom: 15px !important;
     cursor: pointer;
+    box-shadow: 1px 1px 4px 0px #0000003d;
 }
 
 .testimonial_box_wrapper .swiper-button-prev:hover,
@@ -1547,6 +1552,15 @@ section {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
+    .testimonial_box_wrapper {
+        padding: 50px 10px;
+    }
+
+    .testi_name {
+        margin-top: 0;
+        margin-left: 0;
+    }
+
     /* .testimonial_row {
         flex-direction: column-reverse;
         text-align: center;
@@ -1558,6 +1572,7 @@ section {
 
     .testimonial_img_wrap {
         margin-bottom: 20px;
+        top: -70px;
     }
 }
 
@@ -1576,7 +1591,7 @@ section {
 }
 
 .trainer_sec {
-    background: linear-gradient(#000000b2, #000000b2), url(../public/assets/images/bg.png);
+    background: linear-gradient(#000000b2, #000000b2), url(../public/assets/img/bg.png);
     background-size: cover;
     height: 100%;
     width: 100%;
@@ -1634,7 +1649,7 @@ section {
 #learning-journey .journey-container:before {
     content: "";
     position: absolute;
-    background: url(../public/assets/images/icons/logo-icon.png);
+    background: url(../public/assets/img/icons/logo-icon.png);
     background-size: contain;
     height: 400px;
     width: 100%;
@@ -1796,6 +1811,15 @@ section {
         height: auto;
         object-fit: contain;
     }
+
+    .testimonial_img_wrap {
+        width: 100px;
+        height: 100px;
+    }
+
+    .partner-logo {
+        width: 140px;
+    }
 }
 
 /* count - color */
@@ -1894,7 +1918,7 @@ section {
 
 .course-section .tabs-box {
     /* background: #0d234a; */
-    padding: 30px;
+    padding: 60px 55px 30px;
     border-radius: 25px;
     color: #fff;
     min-width: 280px;
@@ -1949,7 +1973,7 @@ section {
 }
 
 .course-section .explore-btn {
-    margin-top: 30px;
+    margin-top: 115px;
     background: #00c2ff;
     padding: 12px 25px;
     border-radius: 30px;
@@ -1968,7 +1992,7 @@ section {
 
 /* RIGHT CARDS */
 .course-section .course-tab-card {
-    padding: 35px 45px;
+    padding: 7vh;
     border-radius: 20px;
     margin-bottom: 5px;
     color: #fff;
@@ -2007,6 +2031,15 @@ section {
 
 .bg-shape-b .card-content {
     margin-top: 20px;
+}
+
+.course_sec_parent {
+    height: 85% !important;
+}
+
+.course-container {
+    position: relative;
+    z-index: 1;
 }
 
 .course-section .card-img {
@@ -2068,34 +2101,97 @@ section {
     transition: all .3s ease-out;
 }
 
+
+
 @media (max-width: 992px) {
+    .shape_parent_sec {
+        height: 100% !important;
+    }
+
     .course-section .course-container {
         flex-direction: column;
+    }
+
+    .course-section .explore-btn {
+        margin-top: 15px;
+    }
+
+    .course-section .bg-shape-b .card-img {
+        top: -13px;
+    }
+
+    .course-section .card-img {
+        width: 95px;
+        height: 110px;
+    }
+
+    .course-section .course-tab-card {
+        padding: 20px;
+    }
+
+    .course-section .bg-shape-a .card-img {
+        top: -35px;
+    }
+
+    .course-section .card-content h4 {
+        font-size: 11px;
+        margin: 23px 0 5px;
+    }
+
+    .course-section .hrs,
+    .course-section .view-btn {
+        padding: 3px 10px;
+        width: 86px;
+        font-size: 12px;
+    }
+
+    .course-section .cards-box {
+        margin-top: 35px;
+    }
+
+    .bg-shape-a .card-content {
+        margin-top: -15px;
     }
 
     .course-section .tabs-box,
     .course-section .cards-box {
         width: 100% !important;
     }
+
+    .course-section .tabs-box {
+        /* background: #0d234a; */
+        padding: 40px 15px 30px;
+    }
+}
+
+.testimonial_sec_parent {
+    height: 85% !important;
 }
 
 /* responsive */
 
-@media screen and (min-width: 991px) {
-    /* .nav-elements ul a.active::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #000000;
-  } */
-}
+@media screen and (min-width: 991px) {}
 
 @media (max-width: 910px) {
+
+    .testimonial_box_wrapper .swiper-pagination,
+    .testimonial_box_wrapper .swiper-button-prev,
+    .testimonial_box_wrapper .swiper-button-next {
+        display: none;
+    }
+
+    .review_text {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
     .navbar_links.active .nav-elements {
         top: 75px;
+    }
+
+    .testi_name {
+        font-size: 15px;
+        margin: auto;
     }
 
     .count_clr img {
@@ -2156,7 +2252,7 @@ section {
         padding: 0;
         position: absolute;
         left: 0;
-        top: 153px;
+        top: 98px;
         background-color: #f6f6f6;
         width: 0px;
         z-index: 99;
@@ -2182,6 +2278,14 @@ section {
         width: 100%;
         padding: 20px 0;
         border-bottom: 1px solid #cfcfcf;
+    }
+
+    #adCarousel .carousel-caption h5 {
+        font-size: 45px;
+    }
+
+    #adCarousel .carousel-control-prev {
+        left: 8px;
     }
 }
 
@@ -2323,3 +2427,117 @@ section {
         padding-right: 50px !important;
     }
 }
+
+@media screen and (min-width: 991px) {
+    .p-xl {
+        padding-left: 75px !important;
+        padding-right: 75px !important;
+    }
+}
+
+.shape_parent,
+.shape_parent_sec {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.shape_parent {
+    height: 90%;
+}
+
+.shape_parent_sec {
+    height: 100%;
+}
+
+.middle_shape {
+    width: 100%;
+    height: 100%;
+    background-color: var(--c1);
+}
+
+.inner_shape_sec {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    z-index: 1;
+}
+
+@media screen and (max-width: 380px) {
+    #velearnHomeCarousel .carousel-inner {
+        min-height: 1010px;
+    }
+
+    .bt_homeloader .counter .title {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .bt_homeloader .counter .counter-content {
+        height: 120px;
+        width: 120px;
+    }
+
+    .bt_homeloader .counter .counter-content:after,
+    .bt_homeloader .counter .counter-content:before {
+        content: "";
+        height: 147px;
+        width: 147px;
+    }
+
+    .shape_parent {
+        height: 95%;
+    }
+
+    #velearnHomeCarousel .carousel-inner {
+        min-height: 960px;
+    }
+}
+
+@media (min-width: 381px) and (max-width: 500px) {
+    #velearnHomeCarousel .carousel-inner {
+        min-height: 985px;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 910px) {
+    #velearnHomeCarousel .carousel-inner {
+        min-height: 1060px;
+    }
+}
+
+/* .middle_shape {
+    height: 80%;
+    background-color: var(--c1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.shape_c.shape_top {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.shape_c.shape_bottom {
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+} */
+
+/* .shape_c {
+    position: absolute;
+    width: 100%;
+}
+
+.shape_c.shape_top {
+    top: 0;
+}
+
+.shape_c.shape_bottom {
+    bottom: 0;
+} */

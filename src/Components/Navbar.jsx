@@ -36,6 +36,19 @@ const Navbar = () => {
             document.documentElement.style.overflow = '';
         };
     }, [showNavbar]);
+    const togglePractice = () => {
+        setPracticeOpen(prev => {
+            if (!prev) setResourcesOpen(false); // close other
+            return !prev;
+        });
+    };
+
+    const toggleResources = () => {
+        setResourcesOpen(prev => {
+            if (!prev) setPracticeOpen(false); // close other
+            return !prev;
+        });
+    };
 
     return (
         <nav className="v-navbar flex-column w-100 bg-white">
@@ -59,7 +72,7 @@ const Navbar = () => {
 
                     {/* Nav Links */}
                     <div className={`nav-elements ${showNavbar ? "active" : ""}`}>
-                        <ul className="mb-0 p-0">
+                        <ul className="mb-0 p-lg-0">
 
                             <li>
                                 <NavLink to="/">Self-paced Courses</NavLink>
@@ -72,7 +85,7 @@ const Navbar = () => {
                             {/* Practice Dropdown */}
                             <li
                                 className={`dropdown ${practiceOpen ? "open" : ""}`}
-                                onClick={() => setPracticeOpen(!practiceOpen)}
+                                onClick={togglePractice}
                             >
                                 <span className="dropdown-toggle">
                                     Practice <i className="bi bi-chevron-down"></i>
@@ -88,7 +101,7 @@ const Navbar = () => {
                             {/* Resources Dropdown */}
                             <li
                                 className={`dropdown ${resourcesOpen ? "open" : ""}`}
-                                onClick={() => setResourcesOpen(!resourcesOpen)}
+                                onClick={toggleResources}
                             >
                                 <span className="dropdown-toggle">
                                     Resources <i className="bi bi-chevron-down"></i>
@@ -107,14 +120,16 @@ const Navbar = () => {
                     {/* Right Section */}
                     <div className="d-flex gap-4 right_nav_icons">
 
-                        <div className="d-flex align-items-center">
-                            <div className="d-flex align-items-center search_parent position-relative">
-                                <i className="bi bi-search"></i>
-                                <input type="search" placeholder="Search" />
+                        <div className="d-lg-flex d-none align-items-center">
+                            <div className="search_parent position-relative">
+                                <div className="d-flex align-items-center">
+                                    <i className="bi bi-search"></i>
+                                    <input type="search" placeholder="Search" />
+                                </div>
                             </div>
                         </div>
 
-                        <div className="d-flex gap-2 text-white">
+                        <div className="d-lg-flex d-none gap-2 text-white">
                             <span className="d-none d-lg-block">
                                 <Link to="/login" className="btn_login">Login</Link>
                             </span>
@@ -123,7 +138,17 @@ const Navbar = () => {
                                 <Link to="/signup" className="btn_signup">Sign Up</Link>
                             </span>
                         </div>
-
+                        <div className='d-flex d-lg-none nav_mbl_icons'>
+                            <div className='pe-3'>
+                                <i className="bi bi-search"></i>
+                            </div>
+                            <span className="">
+                                <Link to="/login" className="btn_login">Login</Link>
+                            </span>
+                            {/* <div className='px-2'>
+                                <i class="bi bi-door-open"></i>
+                            </div> */}
+                        </div>
                     </div>
                 </div>
             </div>

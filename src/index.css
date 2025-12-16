@@ -1375,6 +1375,7 @@ img {
 .card_button_parent button:hover,
 .live_courses_sec .card_parent.two button:hover {
     background: var(--c2);
+    border: 1px solid transparent;
     transition: all .3s ease-out;
 }
 

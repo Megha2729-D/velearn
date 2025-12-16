@@ -506,6 +506,64 @@ class HomePage extends Component {
                             </div>
                         </div>
                     </section>
+                    <section className="from_start_sec">
+                        <div className="container">
+                            <h3 className="section_base_heading text-center">
+                                From Start To <span className="text-c2">Success</span>
+                            </h3>
+
+                            <div className="journey_wrap position-relative">
+
+                                {/* Center faded icon / graphic */}
+                                <div className="journey_bg_icon"></div>
+                                <div className="dotted_lines">
+                                    <div className="position-relative d-flex justify-content-center">
+                                        <img src="assets/images/journey/dotted-lines.png" className="dotted-line-img" alt="" />
+                                    </div>
+                                </div>
+                                <div className="rocket_wrap">
+                                    <img src="assets/images/journey/rocket.png" className="rocket_img" alt="" />
+                                </div>
+                                {/* Item 1 */}
+                                <div className="journey_item item_1">
+                                    <img src="assets/images/journey/step-1.png" alt="" />
+                                    <h6>Career Guidance With Free Demo</h6>
+                                    <p>Get expert advice and choose the right IT career path.</p>
+
+                                </div>
+
+                                {/* Item 2 */}
+                                <div className="journey_item item_2">
+                                    <h6>Course Commencement</h6>
+                                    <p>Start live online classes with structured, beginner-friendly lessons.</p>
+                                    <img src="assets/images/journey/step-2.png" alt="" />
+                                </div>
+
+                                {/* Item 3 */}
+                                <div className="journey_item item_3">
+                                    <img src="assets/images/journey/step-3.png" alt="" />
+                                    <h6>Periodical Activity & Assessments</h6>
+                                    <p>Practice regularly with tasks and quick assessments.</p>
+                                </div>
+
+                                {/* Item 4 */}
+                                <div className="journey_item item_4">
+                                    <h6>Real Time Projects Submission</h6>
+                                    <p>Apply your skills through industry-level practical projects.</p>
+                                    <img src="assets/images/journey/step-4.png" alt="" />
+                                </div>
+
+                                {/* Item 5 */}
+                                <div className="journey_item item_5">
+                                    <img src="assets/images/journey/step-5.png" alt="" />
+                                    <h6>Job Placement Assistance</h6>
+                                    <p>Boost your resume, crack interviews and step into your dream role.</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
             </>
         );
     }

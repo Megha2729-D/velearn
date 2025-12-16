@@ -2075,7 +2075,7 @@ section {
 }
 
 /* bootstrap */
-@media (min-width: 1200px) and (max-width:1270px) {
+@media (min-width: 1200px) and (max-width:1280px) {
     .nav-elements ul li {
         padding: 30px 10px;
     }

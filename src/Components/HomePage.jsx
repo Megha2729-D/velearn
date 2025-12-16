@@ -171,6 +171,34 @@ class HomePage extends Component {
         },
     };
     render() {
+        const partners = [
+            "certiport.webp",
+            "aws.png",
+            "microsoft.png",
+            "meta.png",
+            "accenture.png",
+            "capgemini.png",
+        ];
+
+
+        // recruiters logos
+        const recruiters1 = [
+            "accenture.png",
+            "tech-mahindra.png",
+            "wipro.png",
+            "tcs.png",
+            "ibm.png",
+            "infosys.png",
+        ];
+        // recruiters logos
+        const recruiters2 = [
+            "microsoft.png",
+            "cognizant.png",
+            "ibm.png",
+            "amazon.png",
+            "dell.png",
+            "oracle.png",
+        ];
         return (
             <>
                 <section>
@@ -559,11 +587,257 @@ class HomePage extends Component {
                                     <h6>Job Placement Assistance</h6>
                                     <p>Boost your resume, crack interviews and step into your dream role.</p>
                                 </div>
-
                             </div>
                         </div>
                     </section>
-
+                    <section>
+                        <div className="pb-5">
+                            <div className="section_container p-xl text-center mt-5">
+                                <h3 className="section_base_heading text-center">
+                                    Authorised <span className="text-c2"> Partners</span>
+                                </h3>
+                                <Swiper
+                                    className="pt-5"
+                                    modules={[Autoplay]}
+                                    spaceBetween={30}
+                                    slidesPerView={5}
+                                    autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                    grabCursor={true}
+                                    loop={true}
+                                    breakpoints={{
+                                        320: { slidesPerView: 2 },
+                                        768: { slidesPerView: 3 },
+                                        1024: { slidesPerView: 5 },
+                                    }}
+                                >
+                                    {partners.map((logo, index) => (
+                                        <SwiperSlide key={index}>
+                                            <img
+                                                src={`assets/images/partners/${logo}`}
+                                                alt={`Partner ${index + 1}`}
+                                                className="partner-logo"
+                                            />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div className="py-5">
+                            <div className="section_container p-xl text-center mt-5 ide_sec">
+                                <div className="col-12 d-flex justify-content-center">
+                                    <div className="col-lg-10">
+                                        <h3 className="section_base_heading text-center">
+                                            Code with <span className="text-c2">Confidence.</span> Learn with <span className="text-c2">Purpose.</span> Grow with <span className="text-c2">Velearn.</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div className="row w-100">
+                                    <div className="col-lg-6 d-flex justify-content-center align-items-center">
+                                        <div className="w-100 h-100"
+                                            style={{background: 'url("assets/images/text-editor.png")', backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }}
+                                        ></div>
+                                    </div>
+                                    <div className="col-lg-6 py-4">
+                                        <div className="pb-3 d-flex flex-column justify-content-start">
+                                            <h4 className="fw-bold text-start">IDE</h4>
+                                            <p className="text-start">
+                                                Velearn offers a fully integrated online IDE where students can write, run, and test code in a real-time development environment. This hands-on setup helps learners build coding confidence and improve practical programming skills with continuous practice.
+                                            </p>
+                                            <button>Start</button>
+                                        </div>
+                                        <div className="pt-3 d-flex flex-column justify-content-start">
+                                            <h4 className="fw-bold text-start">Debugging</h4>
+                                            <p className="text-start">
+                                                Sharpen your problem-solving skills with Velearn’s structured debugging exercises. Students receive curated programs with errors to identify, fix, and optimize—building strong debugging skills essential for industry-ready development
+                                            </p>
+                                            <button>Start</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div className="pb-5">
+                            <div className="section_container p-xl text-center mt-5">
+                                <h3 className="section_base_heading text-center">
+                                    Prime <span className="text-c2"> Recruiters</span>
+                                </h3>
+                                <div className="pb-5">
+                                    <Swiper
+                                        modules={[Autoplay]}
+                                        spaceBetween={30}
+                                        slidesPerView={5}
+                                        autoplay={{ delay: 2000, disableOnInteraction: false, reverseDirection: true }}
+                                        grabCursor={true}
+                                        loop={true}
+                                        breakpoints={{
+                                            320: { slidesPerView: 2 },
+                                            768: { slidesPerView: 3 },
+                                            1024: { slidesPerView: 5 },
+                                        }}
+                                    >
+                                        {recruiters1.map((logo, index) => (
+                                            <SwiperSlide key={index}>
+                                                <img
+                                                    src={`assets/images/prime-recruiters/${logo}`}
+                                                    alt={`Partner ${index + 1}`}
+                                                    className="partner-logo"
+                                                />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                </div>
+                                <div className="pt-4">
+                                    <Swiper
+                                        modules={[Autoplay]}
+                                        spaceBetween={30}
+                                        slidesPerView={5}
+                                        autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                        grabCursor={true}
+                                        loop={true}
+                                        breakpoints={{
+                                            320: { slidesPerView: 2 },
+                                            768: { slidesPerView: 3 },
+                                            1024: { slidesPerView: 5 },
+                                        }}
+                                    >
+                                        {recruiters2.map((logo, index) => (
+                                            <SwiperSlide key={index}>
+                                                <img
+                                                    src={`assets/images/prime-recruiters/${logo}`}
+                                                    alt={`Partner ${index + 1}`}
+                                                    className="partner-logo"
+                                                />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section>
+                        <div className="w-100 get_started_sec">
+                            <div className="section_container">
+                                <div className="col-12 d-flex justify-content-center">
+                                    <div className="col-lg-6">
+                                        <h5 className="text-center text-white">Get<span className="text-c2"> Started</span></h5>
+                                        <h3 className="section_base_heading text-white text-center">
+                                            Ready to Transform
+                                            <span className="text-c2"> Your Skills </span>into a Career?
+                                        </h3>
+                                        <p className="text-center text-white">
+                                            Join thousands of learners who are building better futures with flexible leaming.
+                                            Take your first step today and unlock real growth through knowledge.
+                                        </p>
+                                        <div className="d-flex mt-5 justify-content-evenly gap-3">
+                                            <div className="d-flex start_learning">
+                                                <div className="butt">
+                                                    Start Learning Now
+                                                </div>
+                                                <div className="icon_redirect"> <i className="bi bi-arrow-right-short"></i> </div>
+                                            </div>
+                                            <div className="d-flex view_butt">
+                                                <div className="butt">
+                                                    View Package
+                                                </div>
+                                                <div className="icon_redirect"> <i className="bi bi-arrow-right-short"></i> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section className=" py-5">
+                        <div className="section_container py-5 p-xl d-flex justify-content-center">
+                            <div className="row">
+                                <div className="col-lg-10">
+                                    <div className="row">
+                                        <div className="col-lg-7">
+                                            <div className="row px-0 mx-0">
+                                                <div className="col-lg-12">
+                                                    <div className="count_clr count_clr1">
+                                                        <div className="row">
+                                                            <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                                <h6>Active Learners</h6>
+                                                                <h2>1000+</h2>
+                                                            </div>
+                                                            <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+                                                                <img src="assets/images/bento-vector-1.png" alt="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6 count_top_height">
+                                                    <div className="count_clr count_clr2 d-flex justify-content-center align-items-center">
+                                                        <div className="d-flex flex-column justify-content-center align-items-center">
+                                                            <h6>Video Lessons</h6>
+                                                            <h2>2000+</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-6 count_top_height">
+                                                    <div className="count_clr count_clr3">
+                                                        <div className="d-flex justify-content-center gap-2 align-items-center">
+                                                            <i className="bi bi-star-fill"></i>
+                                                            <i className="bi bi-star-fill"></i>
+                                                            <i className="bi bi-star-fill"></i>
+                                                            <i className="bi bi-star-fill"></i>
+                                                            <i className="bi bi-star-fill"></i>
+                                                        </div>
+                                                        <div className="d-flex justify-content-center gap-3 align-items-center">
+                                                            <h6>Rating</h6>
+                                                            <h2>4.7</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-5 count_top_sm_height px-4">
+                                            <div className="col-lg-12 h-100">
+                                                <div className="count_clr count_clr4">
+                                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                                        <h6>Minutes of Video Watched</h6>
+                                                        <h2>20000+</h2>
+                                                    </div>
+                                                    <div className="d-flex justify-content-center align-items-center">
+                                                        <img src="assets/images/bento-vector-3-2.png" className="image-1" alt="" />
+                                                        <img src="assets/images/bento-vector-3-1.png" className="image-2" alt="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-5 count_top_height px-3">
+                                            <div className="count_clr count_clr5 d-flex justify-content-center align-items-center">
+                                                <div className="d-flex flex-column justify-content-center align-items-center">
+                                                    <h6>Doubts Cleared</h6>
+                                                    <h2>4500+</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-7 count_top_height px-3">
+                                            <div className="count_clr count_clr6">
+                                                <div className="row">
+                                                    <div className="col-lg-7 col-6">
+                                                        <div className="px-lg-5 ps-5 d-flex flex-column justify-content-center align-items-start">
+                                                            <h6>Questions Practiced</h6>
+                                                            <h2>5000+</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-5 col-6 d-flex justify-content-center align-items-center">
+                                                        <img src="assets/images/bento-vector-2.png" alt="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
             </>
         );
     }

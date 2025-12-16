@@ -1416,8 +1416,8 @@ img {
 }
 
 .partner-logo {
-    height: 60px;
-    width: 180px;
+    height: 45px;
+    width: 150px;
     object-fit: contain;
     margin: 0 auto;
 }
@@ -1577,7 +1577,64 @@ section {
 
 /* rocket - section end */
 
-/* rocket - section end */
+/* ide - section start */
+.ide_sec button {
+    background-color: var(--c1);
+    color: #ffffff;
+    border: 1px solid var(--c1);
+    border-radius: 20px;
+    width: fit-content;
+    padding: 5px 20px;
+}
+
+.ide_sec .left_box {
+    min-height: 450px;
+}
+/* ide - section end */
+
+/* get started - start */
+.get_started_sec {
+    background: linear-gradient(to right, #070d22de, #121c3bde, #121c3bde, #070d22de), url(../public/assets/images/get-started.png);
+    width: 100%;
+    height: 100%;
+    padding: 60px 0;
+}
+
+.get_started_sec .start_learning .butt,
+.get_started_sec .view_butt .butt {
+    border: 1px solid transparent;
+    font-size: 18px;
+    background-color: transparent;
+}
+
+.get_started_sec .start_learning .butt {
+    color: var(--c2);
+}
+
+.get_started_sec .view_butt .butt {
+    color: #ffffff;
+}
+
+.get_started_sec .start_learning .icon_redirect i,
+.get_started_sec .view_butt .icon_redirect i {
+    font-size: 25px;
+}
+
+.get_started_sec .start_learning .icon_redirect i {
+    color: var(--c2);
+}
+
+.get_started_sec .view_butt .icon_redirect i {
+    color: #ffffff;
+}
+
+.get_started_sec .start_learning .icon_redirect,
+.get_started_sec .view_butt .icon_redirect {
+    transform: rotate(310deg);
+    margin-top: -5px;
+}
+
+/* get started - end */
 
 /* count - color */
 .count_clr {
@@ -1642,7 +1699,14 @@ section {
     position: relative;
 }
 
-.count_clr.count_clr4 img {
+.count_clr.count_clr4 img.image-1 {
+    width: 90px;
+    position: absolute;
+    top: 40%;
+    left: 10%;
+}
+
+.count_clr.count_clr4 img.image-2 {
     width: 300px;
     margin: auto;
     position: absolute;
@@ -1807,6 +1871,18 @@ section {
         /* width: 180px !important; */
     }
 
+    .count_clr.count_clr4 img.image-2 {
+        width: 260px;
+        right: 25px;
+        margin: auto;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .count_clr.count_clr4 img.image-1 {
+        margin-top: -100px;
+    }
+
     .count_clr.count_clr1 {
         padding-bottom: 0;
     }
@@ -1849,8 +1925,8 @@ section {
     }
 
     .section_container {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     .menu-icon {
@@ -2008,6 +2084,15 @@ section {
 
 @media screen and (max-width: 490px) {
 
+    .get_started_sec .start_learning .butt,
+    .get_started_sec .view_butt .butt {
+        font-size: 16px;
+    }
+
+    .ide_sec .left_box {
+        min-height: 320px;
+    }
+
     .nav-elements .dropdown-toggle,
     .nav-elements ul a {
         font-size: 14px;
@@ -2055,9 +2140,8 @@ section {
 
     .count_clr.count_clr6 img {
         width: 160px;
+        left: 15px;
     }
-
-
 }
 
 @media (min-width: 491px) and (max-width: 990px) {
@@ -2183,6 +2267,16 @@ section {
 }
 
 @media screen and (max-width: 400px) {
+    .section_main_heading {
+        font-size: 40px;
+        line-height: 50px;
+    }
+
+    .section_base_heading {
+        font-size: 26px;
+        line-height: 40px;
+    }
+
     .v-about .counter_parent .counter_child.counter_four {
         bottom: -60px;
         right: 38px;
@@ -2208,6 +2302,15 @@ section {
         top: 45%;
     }
 
+    .dotted_lines img.dotted-line-img {
+        width: 85%;
+    }
+
+    .journey_item img {
+        height: 50px;
+        width: 80px;
+    }
+
     .journey_item {
         width: 33%;
     }
@@ -2221,35 +2324,40 @@ section {
     }
 
     .rocket_img {
-        right: 0;
-        top: 127px;
         height: 70px;
+        right: 5px;
+        top: 80px;
+    }
+
+
+    .journey_wrap {
+        min-height: 370px;
     }
 
     .item_1 {
-        left: 0px;
-        bottom: 30px;
+        left: 0;
+        bottom: 0;
     }
 
     .item_2 {
         left: 27px;
         right: auto;
-        top: 70px;
+        top: 35px;
     }
 
     .item_3 {
         left: auto;
         right: 110px;
-        bottom: 40px;
+        bottom: 10px;
     }
 
     .item_4 {
-        right: 60px;
-        top: 40px;
+        right: 70px;
+        top: 15px;
     }
 
     .item_5 {
         right: 0px;
-        bottom: 70px;
+        bottom: 45px;
     }
 }

@@ -1021,12 +1021,20 @@ img {
     padding: 100px 0;
 }
 
-.secton_main_heading {
+.section_main_heading,
+.section_base_heading {
     font-weight: 700;
     font-style: Bold;
-    font-size: 47.65px;
     line-height: 65px;
     color: #000000;
+}
+
+.section_main_heading {
+    font-size: 47.65px;
+}
+
+.section_base_heading {
+    font-size: 40px;
 }
 
 .v-about h1 span {
@@ -1426,6 +1434,26 @@ section {
     position: relative;
 }
 
+/* recorded course - start */
+
+.course_tab_btn {
+    padding: 10px 22px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.course_tab_btn.active {
+    background: var(--c1);
+    color: #fff;
+    border-color: var(--c1);
+}
+
+
+/* recorded course - end */
 
 /* count - color */
 .count_clr {
@@ -1639,7 +1667,8 @@ section {
 
     .testimonial_parent p {
         font-weight: 500;
-        font-size: 20px;
+        font-size: 15px;
+        line-height: 30px;
     }
 
     .testimonial_wrap {

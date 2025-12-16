@@ -8,7 +8,168 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 class HomePage extends Component {
+    state = {
+        activeRecordedTab: "software",
+    };
 
+    recordedCourseTabs = {
+        software: {
+            label: "Software Development",
+            courses: [
+                {
+                    title: "Master in Full Stack Development",
+                    img: "assets/images/course.png",
+                    desc: "Become a job-ready full stack developer with hands-on projects.",
+                    rating: "4.6 (400)",
+                    sessions: "16 Sessions",
+                    level: "Intermediate",
+                },
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "4.7 (320)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "4.6 (280)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                }, {
+                    title: "Cloud & DevOps Engineering",
+                    img: "assets/images/course.png",
+                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
+                    rating: "4.7 (300)",
+                    sessions: "20 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "AI Career Accelerator",
+                    img: "assets/images/course.png",
+                    desc: "Mentor-led AI program with projects & placement support.",
+                    rating: "4.8 (250)",
+                    sessions: "12 Sessions",
+                    level: "Beginner",
+                },
+            ],
+        },
+
+        web: {
+            label: "Web Development",
+            courses: [
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "4.7 (320)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "4.6 (280)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                }, {
+                    title: "Cloud & DevOps Engineering",
+                    img: "assets/images/course.png",
+                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
+                    rating: "4.7 (300)",
+                    sessions: "20 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "AI Career Accelerator",
+                    img: "assets/images/course.png",
+                    desc: "Mentor-led AI program with projects & placement support.",
+                    rating: "4.8 (250)",
+                    sessions: "12 Sessions",
+                    level: "Beginner",
+                },
+            ],
+        },
+
+        infra: {
+            label: "IT Infrastructure Management",
+            courses: [
+                {
+                    title: "Master in Full Stack Development",
+                    img: "assets/images/course.png",
+                    desc: "Become a job-ready full stack developer with hands-on projects.",
+                    rating: "4.6 (400)",
+                    sessions: "16 Sessions",
+                    level: "Intermediate",
+                },
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "4.7 (320)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "4.6 (280)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                }, {
+                    title: "Cloud & DevOps Engineering",
+                    img: "assets/images/course.png",
+                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
+                    rating: "4.7 (300)",
+                    sessions: "20 Sessions",
+                    level: "Advanced",
+                },
+            ],
+        },
+
+        special: {
+            label: "Special Programs",
+            courses: [
+                {
+                    title: "Master in Full Stack Development",
+                    img: "assets/images/course.png",
+                    desc: "Become a job-ready full stack developer with hands-on projects.",
+                    rating: "4.6 (400)",
+                    sessions: "16 Sessions",
+                    level: "Intermediate",
+                },
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "4.7 (320)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "4.6 (280)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                },
+                {
+                    title: "AI Career Accelerator",
+                    img: "assets/images/course.png",
+                    desc: "Mentor-led AI program with projects & placement support.",
+                    rating: "4.8 (250)",
+                    sessions: "12 Sessions",
+                    level: "Beginner",
+                },
+            ],
+        },
+    };
     render() {
         return (
             <>
@@ -83,7 +244,7 @@ class HomePage extends Component {
                         <div className="row section-y-padding v-about position-relative">
                             <div className="col-lg-6">
                                 <div className="abt_left_content">
-                                    <h1 className="secton_main_heading">Our Secret to Making
+                                    <h1 className="section_main_heading">Our Secret to Making
                                         <span> Learning Easy</span>
                                     </h1>
                                     <p className="mt-3">
@@ -153,7 +314,7 @@ class HomePage extends Component {
                 </section>
                 <section className="pb-5">
                     <div className="section_container live_courses_sec">
-                        <h3 className="secton_main_heading text-black text-center">Top Trending <span className="text-c2"> Live Courses</span></h3>
+                        <h3 className="section_base_heading text-black text-center">Top Trending <span className="text-c2"> Live Courses</span></h3>
                         <div className="row">
                             <Swiper
                                 className="py-5"
@@ -247,8 +408,7 @@ class HomePage extends Component {
                     </div>
                 </section>
                 <section className="pb-5">
-                    <h3 className="secton_main_heading text-black text-center">Hear from Our <span className="text-c2"> Learners</span></h3>
-
+                    <h3 className="section_base_heading text-black text-center">Hear from Our <span className="text-c2"> Learners</span></h3>
                     <div className="testimonial_wrap w-100 mt-3">
                         <div className="section_container">
                             <div className="row justify-content-center">
@@ -262,7 +422,90 @@ class HomePage extends Component {
                             </div>
                         </div>
                     </div>
-                </section >
+                </section>
+                    <section className="pb-5">
+                        <div className="section_container live_courses_sec">
+
+                            {/* Heading */}
+                            <div className="col-12 d-flex justify-content-center">
+                                <div className="col-lg-6">
+                                    <h3 className="section_base_heading text-black text-center">
+                                        Premium Recorded <span className="text-c2"> Courses for Smarter </span> Skill Building
+                                    </h3>
+                                </div>
+                            </div>
+
+                            {/* Tabs */}
+                            <div className="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                                {Object.keys(this.recordedCourseTabs).map((key) => (
+                                    <button
+                                        key={key}
+                                        className={`course_tab_btn ${this.state.activeRecordedTab === key ? "active" : ""
+                                            }`}
+                                        onClick={() => this.setState({ activeRecordedTab: key })}
+                                    >
+                                        {this.recordedCourseTabs[key].label}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Slider */}
+                            <div className="row">
+                                <Swiper
+                                    key={this.state.activeRecordedTab}
+                                    className="py-5"
+                                    modules={[Pagination]}
+                                    spaceBetween={30}
+                                    slidesPerView={3}
+                                    loop={true}
+                                    pagination={{ clickable: true }}
+                                    breakpoints={{
+                                        0: { slidesPerView: 1 },
+                                        768: { slidesPerView: 2 },
+                                        1024: { slidesPerView: 3 },
+                                    }}
+                                >
+                                    {this.recordedCourseTabs[
+                                        this.state.activeRecordedTab
+                                    ].courses.map((course, index) => (
+                                        <SwiperSlide key={index}>
+                                            <div className={`card_parent p-4 h-100 ${index % 2 === 0 ? "one" : "two"}`}>
+                                                <div className="card_img_parent overflow-hidden">
+                                                    <img
+                                                        src={course.img}
+                                                        className="card_img w-100"
+                                                        alt={course.title}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+
+                                                <div className="pt-3">
+                                                    <h4 className="fw-bold">{course.title}</h4>
+                                                    <p className="mb-2">{course.desc}</p>
+
+                                                    <div className="d-flex gap-3 py-3">
+                                                        <div>{course.rating}</div>
+                                                        <div>
+                                                            <i className="bi bi-calendar2-minus pe-1"></i>
+                                                            {course.sessions}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-3">
+                                                        <span className="bg-caption">{course.level}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="card_button_parent mt-auto">
+                                                    <button>View more</button>
+                                                </div>
+                                            </div>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </div>
+                        </div>
+                    </section>
             </>
         );
     }

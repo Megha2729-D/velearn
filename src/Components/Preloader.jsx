@@ -16,7 +16,7 @@ const Preloader = () => {
 
                 {/* Logo animation */}
                 <motion.img
-                    src="assets/images/logo-icon.png"
+                    src="/assets/images/logo-icon.png"
                     alt="Logo"
                     initial={{ scale: 0.8 }}
                     animate={{ scale: [0.8, 1, 0.8] }}

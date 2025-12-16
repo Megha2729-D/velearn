@@ -44,6 +44,7 @@ body {
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
+    /* overflow-x: hidden; */
 }
 
 /* section:nth-child(odd) {
@@ -1319,7 +1320,8 @@ img {
     transition: all .3s ease-out;
 }
 
-.live_courses_sec .swiper-pagination-bullet {
+.live_courses_sec .swiper-pagination-bullet,
+.testimonial_wrap .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
 }
@@ -1327,6 +1329,10 @@ img {
 .live_courses_sec h4 {
     font-weight: bold;
     font-size: 20px;
+}
+
+.testimonial_wrap .swiper-pagination {
+    bottom: -5px !important;
 }
 
 .live_courses_sec .swiper-pagination {
@@ -2069,6 +2075,20 @@ section {
 }
 
 /* bootstrap */
+@media (min-width: 1200px) and (max-width:1270px) {
+    .nav-elements ul li {
+        padding: 30px 10px;
+    }
+
+    .v-navbar input[type="search"] {
+        width: 180px;
+    }
+
+    .logo img {
+        width: 190px;
+    }
+}
+
 @media (min-width: 1200px) {
 
     .container,
@@ -2100,6 +2120,7 @@ section {
 }
 
 @media (max-width: 991px) {
+
     .nav-elements ul a,
     .nav-elements .dropdown-toggle {
         font-size: 10px;
@@ -2169,6 +2190,9 @@ section {
 }
 
 @media screen and (max-width: 490px) {
+    .logo img {
+        width: 185px;
+    }
 
     .get_started_sec .start_learning .butt,
     .get_started_sec .view_butt .butt {

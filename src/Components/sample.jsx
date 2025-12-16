@@ -865,30 +865,20 @@ class HomePage extends Component {
                     </div>
                 </section>
                 <section>
-                    <div className="form_sec">
-                        <div className="col-12 d-flex justify-content-center">
-                            <div className="col-lg-5">
-                                <form action="#">
-                                    <div className="col-12 d-flex justify-content-center">
-                                        <div className="col-lg-8">
-                                            <h3 className="fw-bold text-c1 mb-4 text-center lh-base">Demo, Discounts, or Questions?<span className="text-c2"> Talk to us.</span></h3>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <input type="text" placeholder="Name" />
-                                    </div>
-                                    <div>
-                                        <input type="text" placeholder="Phone No" />
-                                    </div>
-                                    <div>
-                                        <input type="text" placeholder="Email" />
-                                    </div>
-                                    <div className="col-12 d-flex justify-content-center">
-                                        <button>Submit</button>
-                                    </div>
-                                </form>
+                    <div className="py-5 form_sec">
+                        <form action="#">
+                            <h4>Demo, Discounts, or Questions?<span className="text-c2"> Talk to us.</span></h4>
+                            <div>
+                                <input type="text" placeholder="Name" />
                             </div>
-                        </div>
+                            <div>
+                                <input type="text" placeholder="Phone No" />
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Email" />
+                            </div>
+                            <button>Submit</button>
+                        </form>
                     </div>
                 </section>
             </>

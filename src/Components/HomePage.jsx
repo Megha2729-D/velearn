@@ -751,9 +751,9 @@ class HomePage extends Component {
                             </div>
                         </div>
                     </section>
-                    <section className=" py-5">
+                    <section className="py-5">
                         <div className="section_container py-5 p-xl d-flex justify-content-center">
-                            <div className="row">
+                            <div className="row justify-content-center">
                                 <div className="col-lg-10">
                                     <div className="row">
                                         <div className="col-lg-7">
@@ -838,6 +838,7 @@ class HomePage extends Component {
                             </div>
                         </div>
                     </section>
+                    <section></section>
             </>
         );
     }

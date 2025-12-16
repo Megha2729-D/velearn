@@ -687,7 +687,7 @@ class HomePage extends Component {
                 </section>
                 <section>
                     <div className="pb-5">
-                        <div className="section_container p-xl text-center mt-5">
+                        <div className="section_container p-xl text-center mt-lg-5">
                             <h3 className="section_base_heading text-center">
                                 Prime <span className="text-c2"> Recruiters</span>
                             </h3>

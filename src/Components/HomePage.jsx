@@ -28,7 +28,7 @@ class HomePage extends Component {
                                                     <button>Explore more</button>
                                                 </div>
                                                 <div className="col-lg-6 d-flex justify-content-lg-end align-items-center">
-                                                    <img src="assets/images/banner-card.png" className="w-100" alt="Banner Image" />
+                                                    <img src="assets/images/banner-card.png" loading="lazy" className="w-100" alt="Banner Image" />
                                                 </div>
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@ class HomePage extends Component {
                                                     <button>Explore more</button>
                                                 </div>
                                                 <div className="col-lg-6 d-flex justify-content-lg-end align-items-center">
-                                                    <img src="assets/images/banner-card.png" className="w-100" alt="Banner Image" />
+                                                    <img src="assets/images/banner-card.png" loading="lazy" className="w-100" alt="Banner Image" />
                                                 </div>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@ class HomePage extends Component {
                                                     <button>Explore more</button>
                                                 </div>
                                                 <div className="col-lg-6 d-flex justify-content-lg-end align-items-center">
-                                                    <img src="assets/images/banner-card.png" className="w-100" alt="Banner Image" />
+                                                    <img src="assets/images/banner-card.png" loading="lazy" className="w-100" alt="Banner Image" />
                                                 </div>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@ class HomePage extends Component {
                                     </p>
                                     <div className="col-12 mt-5">
                                         <div className="d-flex align-items-center">
-                                            <img src="assets/images/icons/phone.png" className="phone-img" alt="" />
+                                            <img src="assets/images/icons/phone.png" loading="lazy" className="phone-img" alt="" />
                                             <div className="call_details">
                                                 <p className="text-c2 mb-0 fw-bold">Have any questions ?</p>
                                                 <p className="fw-bold mb-0"> <a href="tel:">5555555555</a></p>
@@ -103,7 +103,7 @@ class HomePage extends Component {
                             </div>
                             <div className="col-lg-6 about_sec_right position-relative">
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <img src="assets/images/about-vector-person.png" className="vector_about w-75" alt="" />
+                                    <img src="assets/images/about-vector-person.png" loading="lazy" className="vector_about w-75" alt="" />
                                 </div>
                                 <div className="dotted_circle_parent">
                                     <div className="dotted_circle outer-dotted"></div>
@@ -141,10 +141,10 @@ class HomePage extends Component {
                             <div className="col-12">
                                 <div className="tech_icon">
                                     <div className="tech_wrap">
-                                        <img src="assets/images/icons/react.png" className="tech-icon tech-icon-one" alt="" />
-                                        <img src="assets/images/icons/js.png" className="tech-icon tech-icon-two" alt="" />
-                                        <img src="assets/images/icons/angular.png" className="tech-icon tech-icon-three" alt="" />
-                                        <img src="assets/images/icons/python.png" className="tech-icon tech-icon-four" alt="" />
+                                        <img src="assets/images/icons/react.png" loading="lazy" className="tech-icon tech-icon-one" alt="" />
+                                        <img src="assets/images/icons/js.png" loading="lazy" className="tech-icon tech-icon-two" alt="" />
+                                        <img src="assets/images/icons/angular.png" loading="lazy" className="tech-icon tech-icon-three" alt="" />
+                                        <img src="assets/images/icons/python.png" loading="lazy" className="tech-icon tech-icon-four" alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@ class HomePage extends Component {
                                                 <img
                                                     src={course.img}
                                                     className="card_img w-100"
-                                                    alt={course.title}
+                                                    alt={course.title} loading="lazy"
                                                 />
                                             </div>
 

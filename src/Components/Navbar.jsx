@@ -66,6 +66,7 @@ const Navbar = () => {
                             <img
                                 src={`${process.env.PUBLIC_URL}/assets/images/velearn-logo.png`}
                                 alt="Velearn"
+                                loading="lazy"
                             />
                         </NavLink>
                     </div>

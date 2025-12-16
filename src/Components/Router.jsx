@@ -1,21 +1,25 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import HomePage from "./HomePage";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 import ScrollToTop from "./ScrollToTop";
+import Preloader from "./Preloader";
 
+/* ---------- Page Transition Wrapper ---------- */
 const PageTransitionWrapper = ({ children, pathname }) => {
     const isHome = pathname === "/";
 
     return (
         <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: isHome ? 0 : -80 }} // new page slides from top
+            initial={{ opacity: 0, y: isHome ? 0 : -80 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 0 }}                   // leaving page stays still
+            exit={{ opacity: 0, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
             {children}
@@ -23,6 +27,7 @@ const PageTransitionWrapper = ({ children, pathname }) => {
     );
 };
 
+/* ---------- Animated Routes ---------- */
 const AnimatedRoutes = () => {
     const location = useLocation();
 
@@ -58,15 +63,35 @@ const AnimatedRoutes = () => {
     );
 };
 
-const AppRouter = () => (
-    <Router>
-        <ScrollToTop />
-        <div className="first_sec">
-            <Navbar />
-            <AnimatedRoutes />
-            <Footer />
-        </div>
-    </Router>
-);
+/* ---------- App Router with Preloader ---------- */
+const AppRouter = () => {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 3000); // ⏱ 3 seconds preloader
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
+        <Router>
+            <ScrollToTop />
+
+            <AnimatePresence mode="wait">
+                {loading ? (
+                    <Preloader />
+                ) : (
+                    <div className="first_sec">
+                        <Navbar />
+                        <AnimatedRoutes />
+                        <Footer />
+                    </div>
+                )}
+            </AnimatePresence>
+        </Router>
+    );
+};
 
 export default AppRouter;

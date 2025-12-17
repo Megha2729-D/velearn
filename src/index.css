@@ -1305,7 +1305,7 @@ img {
 }
 
 .live_courses_sec .card_parent .card_img_parent {
-    height: 180px;
+    min-height: 180px;
     border-radius: 20px;
 }
 
@@ -1451,6 +1451,18 @@ img {
 .swiper-button-prev,
 .swiper-button-next {
     color: #000;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--swiper-navigation-color, var(--swiper-theme-color));
 }
 
 .swiper-pagination-bullet {
@@ -1586,6 +1598,12 @@ section {
     overflow: hidden;
 }
 
+.faq_item.active {
+    background: #21B1E30F;
+    border-radius: 26px;
+    box-shadow: 0px 0px 4px 0px #00000045 inset;
+}
+
 .faq_question.active .icon {
     display: none;
 }
@@ -1613,7 +1631,10 @@ section {
 .faq_question.active {
     color: #1B1139;
     justify-content: center;
-    box-shadow: 0px 4px 4px 0px #00000040 inset;
+    box-shadow: 0px 4px 4px 0px #00000015 inset,
+        0px 4px 4px 0px #00000015 inset,
+        0px 4px 4px 0px #00000040,
+        0px 4px 4px 0px #00000015 inset;
     border-radius: 26px;
     background: #ffffff;
 }
@@ -1622,6 +1643,10 @@ section {
     padding: 0 20px 18px;
     color: #555;
     line-height: 1.6;
+}
+
+.faq_item.active .faq_answer {
+    padding: 20px;
 }
 
 .faq_question .icon {
@@ -1685,6 +1710,7 @@ section {
     border: 1px solid transparent;
     font-size: 18px;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .get_started_sec .start_learning .butt {
@@ -1911,7 +1937,7 @@ section {
     }
 
     .ide_sec .left_box {
-        background-position: right !important;
+        /* background-position: right !important; */
         margin-right: 30px;
     }
 }
@@ -2277,6 +2303,16 @@ section {
         box-shadow: none;
         background: none;
         border-radius: 0;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        color: #000;
+        position: absolute;
+        width: 30px !important;
+        height: 30px !important;
+        background: #ffffff;
+        padding: 6px;
     }
 }
 

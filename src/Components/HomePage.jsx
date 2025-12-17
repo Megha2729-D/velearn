@@ -128,6 +128,42 @@ class HomePage extends Component {
                 },
             ],
         },
+        BussinessManagement: {
+            label: "Bussiness Management",
+            courses: [
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "(4.7)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "(4.6)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                }, {
+                    title: "Cloud & DevOps Engineering",
+                    img: "assets/images/course.png",
+                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
+                    rating: "(4.7)",
+                    sessions: "20 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "AI Career Accelerator",
+                    img: "assets/images/course.png",
+                    desc: "Mentor-led AI program with projects & placement support.",
+                    rating: "(4.8)",
+                    sessions: "12 Sessions",
+                    level: "Beginner",
+                },
+            ],
+        },
 
         infra: {
             label: "IT Infrastructure Management",
@@ -207,26 +243,71 @@ class HomePage extends Component {
 
     faqData = [
         {
-            question: "Why Should I Choose Velearn for IT Training?",
-            answer:
-                "Velearn offers affordable fees, Tamil-based IT training, live & recorded classes, real-time projects, and strong placement support."
+            question: "Why Should I Choose Velearn  for IT Training?",
+            answer: (
+                <>
+                    <p>
+                        Velearn is the best choice for Tamil-based IT training because we offer
+                        affordable course fees, flexible batch timings, live + recorded classes,
+                        and strong placement support for students. Our teaching style is simple,
+                        beginner-friendly, and focused on real-time IT skills. Whether you want
+                        to upskill or start a new career, Velearn provides job-oriented training
+                        with practical projects, making it one of the most trusted online IT
+                        training institutes.
+                    </p>
+                </>
+            )
         },
         {
-            question: "How long until we deliver your first blog post?",
-            answer:
-                "Your first blog post will be delivered within 3–5 working days after onboarding."
+            question: "What courses are offered by Velearn?",
+            answer: (
+                <>
+                    <p>
+                        Velearn offers future-ready IT training programs designed to build strong careers in today’s tech industry. Our live courses cover key areas like software development, data-driven technologies, AI skills, and digital tools, helping students stay job-ready.
+                    </p>
+                    <p>
+                        We also provide recorded IT programs in programming basics, web technologies, IT infrastructure, and other upskilling modules. Every course includes practical training, updated content, and job-focused learning to support your overall IT career growth.
+                    </p>
+
+                </>
+            )
         },
         {
-            question: "Do you provide placement support?",
-            answer:
-                "Yes, we provide resume building, mock interviews, and placement assistance."
+            question: "How can I book a free demo for any course?",
+            answer: (
+                <>
+                    <p>You can easily attend a free demo class for any course at Velearn. Just submit the demo request form or click the Contact Us button on the website. In the free demo, you will get a complete understanding of the course syllabus, trainer experience, placement process, project training, and learning style. This helps you choose the right IT course before enrolling.</p>
+                </>
+            )
         },
         {
-            question: "Are classes recorded?",
-            answer:
-                "Yes, all live sessions are recorded and shared for future reference."
+            question: "What support is available during the course?",
+            answer: (
+                <>
+                    <p>Velearn provides full student support throughout the training. You will get access to a personal support executive who helps you with:</p>
+                    <ul>
+                        <li>Technical doubts</li>
+                        <li>Class issues</li>
+                        <li>Batch allocation</li>
+                        <li>Rescheduling or shifting batches</li>
+                        <li>Assignment guidance</li>
+                    </ul>
+                    <p>
+                        Along with this, you get mentor support, WhatsApp help, and doubt-clearing assistance, making the learning experience smooth and stress-free.
+                    </p>
+                </>
+            )
+        },
+        {
+            question: "How can I interact with mentors?",
+            answer: (
+                <>
+                    <p>You can interact with Velearn mentors anytime through live doubt-clearing sessions, chat support, and WhatsApp guidance. Students can ask questions directly during class or through the support chat whenever needed. Mentors ensure every doubt is solved quickly so your IT learning journey stays smooth and clear.</p>
+                </>
+            )
         }
     ];
+
 
     toggleFaq = (index) => {
         this.setState({
@@ -409,11 +490,12 @@ class HomePage extends Component {
                         <div className="row">
                             <Swiper
                                 className="py-5"
-                                modules={[Pagination]}
-                                // modules={[Autoplay, Pagination]}
+                                // modules={[Pagination]}
+                                modules={[Navigation, Pagination]}
                                 spaceBetween={30}
                                 slidesPerView={3}
                                 loop={true}
+                                navigation={true}
                                 // autoplay={{ delay: 4000, disableOnInteraction: false }}
                                 pagination={{ clickable: true }}
                                 breakpoints={{
@@ -457,7 +539,7 @@ class HomePage extends Component {
                                     },
                                 ].map((course, index) => (
                                     <SwiperSlide key={index}>
-                                        <div className={`card_parent p-4 h-100 ${index % 2 === 0 ? "one" : "two"}`}>
+                                        <div className={`card_parent p-4 h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
                                             <div className="card_img_parent overflow-hidden">
                                                 <img
                                                     src={course.img}
@@ -466,12 +548,12 @@ class HomePage extends Component {
                                                 />
                                             </div>
 
-                                            <div className="pt-3">
+                                            <div className="pt-3 d-flex flex-column align-items-start flex-grow-1">
                                                 <h4 className="fw-bold">{course.title}</h4>
 
                                                 <p className="mb-2">{course.desc}</p>
 
-                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4">
+                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4 w-100">
                                                     <div className="d-flex align-items-center">
                                                         <i className="bi bi-star-fill pe-1"></i>
                                                         <i className="bi bi-star-fill pe-1"></i>
@@ -485,15 +567,16 @@ class HomePage extends Component {
                                                         {course.sessions}
                                                     </div>
                                                 </div>
-                                                <button className="btn_syll">
-                                                    <span>Syllabus <i className="bi bi-arrow-right-short"></i></span>
-                                                </button>
+                                                <div className="mt-auto">
+                                                    <button className="btn_syll">
+                                                        <span>Syllabus <i className="bi bi-arrow-right-short"></i></span>
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            <div className="card_button_parent mt-auto">
+                                            <div className="card_button_parent">
                                                 <button>View more</button>
                                             </div>
-
                                         </div>
                                     </SwiperSlide>
                                 ))}
@@ -571,10 +654,11 @@ class HomePage extends Component {
                             <Swiper
                                 key={this.state.activeRecordedTab}
                                 className="py-5"
-                                modules={[Pagination]}
+                                modules={[Navigation, Pagination]}
                                 spaceBetween={30}
                                 slidesPerView={3}
                                 loop={true}
+                                navigation={true}
                                 pagination={{ clickable: true }}
                                 breakpoints={{
                                     0: { slidesPerView: 1 },
@@ -586,21 +670,23 @@ class HomePage extends Component {
                                     this.state.activeRecordedTab
                                 ].courses.map((course, index) => (
                                     <SwiperSlide key={index}>
-                                        <div className={`card_parent p-4 h-100 ${index % 2 === 0 ? "one" : "two"}`}>
+                                        <div className={`card_parent p-4 h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
+
+                                            {/* Image Section */}
                                             <div className="card_img_parent overflow-hidden">
                                                 <img
                                                     src={course.img}
                                                     className="card_img w-100"
                                                     alt={course.title}
-
                                                 />
                                             </div>
 
-                                            <div className="pt-3">
+                                            {/* Content Section - full height flex */}
+                                            <div className="pt-3 d-flex flex-column align-items-start flex-grow-1">
                                                 <h4 className="fw-bold">{course.title}</h4>
                                                 <p className="mb-2">{course.desc}</p>
 
-                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4">
+                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4 w-100">
                                                     <div className="d-flex align-items-center">
                                                         <i className="bi bi-star-fill pe-1"></i>
                                                         <i className="bi bi-star-fill pe-1"></i>
@@ -614,16 +700,20 @@ class HomePage extends Component {
                                                         {course.sessions}
                                                     </div>
                                                 </div>
-                                                <button className="btn_syll">
-                                                    <span>Syllabus <i className="bi bi-arrow-right-short"></i></span>
-                                                </button>
+
+                                                {/* Level badge pinned to bottom of content */}
+                                                <span className="bg-caption mt-auto">
+                                                    {course.level}
+                                                </span>
                                             </div>
 
-                                            <div className="card_button_parent mt-auto">
+                                            {/* Button */}
+                                            <div className="card_button_parent mt-3">
                                                 <button>View more</button>
                                             </div>
                                         </div>
                                     </SwiperSlide>
+
                                 ))}
                             </Swiper>
                         </div>
@@ -686,7 +776,7 @@ class HomePage extends Component {
                     </div>
                 </section>
                 <section>
-                    <div className="pb-5">
+                    <div className="pb-5 pt-lg-5">
                         <div className="section_container p-xl text-center mt-5">
                             <h3 className="section_base_heading text-center">
                                 Authorised <span className="text-c2"> Partners</span>
@@ -729,8 +819,8 @@ class HomePage extends Component {
                                 </div>
                             </div>
                             <div className="col-12 d-flex justify-content-center">
-                                <div className="col-lg-12 col-xl-10">
-                                    <div className="row w-100">
+                                <div className="col-lg-12">
+                                    <div className="row w-100 m-auto">
                                         <div className="col-lg-6  d-flex justify-content-center align-items-center">
                                             <div className="w-100 h-100 left_box"
                                                 style={{ background: 'url("assets/images/text-editor.png")', backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }}
@@ -817,7 +907,7 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </section>
-                <section>
+                <section className="pt-lg-4">
                     <div className="w-100 get_started_sec">
                         <div className="section_container">
                             <div className="col-12 d-flex justify-content-center">
@@ -976,7 +1066,8 @@ class HomePage extends Component {
                             {/* FAQ Accordion */}
                             <div className="col-lg-6 text-start">
                                 {this.faqData.map((item, index) => (
-                                    <div className="faq_item mb-3" key={index}>
+                                    <div className={`faq_item mb-3  ${this.state.activeFaqIndex === index ? "active" : ""
+                                        }`} key={index}>
                                         <button
                                             className={`faq_question ${this.state.activeFaqIndex === index ? "active" : ""
                                                 }`}

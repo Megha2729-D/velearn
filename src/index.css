@@ -972,6 +972,10 @@ img {
     height: 100%;
     width: 100%;
     background-size: cover;
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .v-banner .carousel-caption {
@@ -1286,7 +1290,8 @@ img {
 }
 
 .live_courses_sec .card_parent.one {
-    background: #EDFBFF;
+    /* background: #EDFBFF; */
+    background: var(--c2);
 }
 
 .live_courses_sec .card_parent.two {
@@ -1310,10 +1315,10 @@ img {
     transition: all .3s ease-out;
 }
 
-/* .live_courses_sec .card_parent i.bi-star-fill {
+.live_courses_sec .card_parent i.bi-star-fill {
     font-size: 14px;
-    color: #ffa500;
-} */
+    color: #FFB400;
+}
 
 .live_courses_sec .card_parent:hover .card_img {
     transform: scale(1.05);
@@ -1367,13 +1372,23 @@ img {
     transition: all .3s ease-out;
 }
 
-.live_courses_sec .card_parent.two button {
+.btn_syll {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: #ffffff;
+    text-decoration: underline;
+    border-radius: 17px;
+    font-size: 18px;
+    transition: all .3s ease-out;
+}
+
+.live_courses_sec .card_parent.two .card_button_parent button {
     background: #000000;
     border: 1px solid #000000;
 }
 
-.card_button_parent button:hover,
-.live_courses_sec .card_parent.two button:hover {
+.card_button_parent .card_button_parent button:hover,
+.live_courses_sec .card_parent.two .card_button_parent button:hover {
     background: var(--c2);
     border: 1px solid transparent;
     transition: all .3s ease-out;
@@ -1385,6 +1400,10 @@ img {
 .testimonial_wrap {
     padding: 100px 0;
     position: relative;
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .testimonial_wrap:before {
@@ -1552,13 +1571,66 @@ section {
 
 .item_4 {
     right: 330px;
-    top: 10px;
+    top: 20px;
 }
 
 .item_5 {
     right: 60px;
     bottom: 130px;
 }
+
+/* faq start */
+.faq_item {
+    background: #fff;
+    box-shadow: 0px 24.56px 32.74px -14.73px #95959540;
+    overflow: hidden;
+}
+
+.faq_question.active .icon {
+    display: none;
+}
+
+.faq_toggle_icon {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.faq_question {
+    width: 100%;
+    padding: 25px 20px;
+    background: none;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq_question.active {
+    color: #1B1139;
+    justify-content: center;
+    box-shadow: 0px 4px 4px 0px #00000040 inset;
+    border-radius: 26px;
+    background: #ffffff;
+}
+
+.faq_answer {
+    padding: 0 20px 18px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.faq_question .icon {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+/* faq end */
 
 /* ===== MOBILE VIEW ===== */
 /* @media (max-width: 768px) {
@@ -1754,6 +1826,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 60vh;
     padding: 120px 0 !important;
 }
 
@@ -1813,6 +1886,23 @@ section {
 /* form - end */
 
 /* responsive */
+
+@media (min-width: 2000px) {
+
+    .testimonial_wrap:before,
+    .form_sec:before {
+        background-size: contain;
+    }
+
+    .nav-elements ul a,
+    .nav-elements .dropdown-toggle {
+        font-size: 25px;
+    }
+
+    .nav-elements ul li {
+        padding: 30px 25px;
+    }
+}
 
 @media screen and (min-width: 1500px) {
     .v-about .counter_parent .counter_group {

@@ -8,8 +8,42 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 class HomePage extends Component {
+
+    componentDidMount() {
+        const counters = document.querySelectorAll(".counter");
+
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute("data-target");
+            const update = () => {
+                const current = +counter.innerText;
+                const increment = Math.max(1, target / 2000);
+
+                if (current < target) {
+                    counter.innerText = Math.ceil(current + increment);
+                    requestAnimationFrame(update);
+                } else {
+                    counter.innerText = target + "+";
+                }
+            };
+            update();
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    counters.forEach(animateCounter);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.8 } // start only when almost fully visible
+        );
+
+        observer.observe(document.querySelector(".counter_parent"));
+    }
+
     state = {
         activeRecordedTab: "software",
+        activeFaqIndex: 0, // first open
     };
 
     recordedCourseTabs = {
@@ -20,7 +54,7 @@ class HomePage extends Component {
                     title: "Master in Full Stack Development",
                     img: "assets/images/course.png",
                     desc: "Become a job-ready full stack developer with hands-on projects.",
-                    rating: "4.6 (400)",
+                    rating: "(4.6)",
                     sessions: "16 Sessions",
                     level: "Intermediate",
                 },
@@ -28,7 +62,7 @@ class HomePage extends Component {
                     title: "Master Data Science Course",
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "4.7 (320)",
+                    rating: "(4.7)",
                     sessions: "18 Sessions",
                     level: "Advanced",
                 },
@@ -36,14 +70,14 @@ class HomePage extends Component {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
-                    rating: "4.6 (280)",
+                    rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
                 }, {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "4.7 (300)",
+                    rating: "(4.7)",
                     sessions: "20 Sessions",
                     level: "Advanced",
                 },
@@ -51,7 +85,7 @@ class HomePage extends Component {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "4.8 (250)",
+                    rating: "(4.8)",
                     sessions: "12 Sessions",
                     level: "Beginner",
                 },
@@ -65,7 +99,7 @@ class HomePage extends Component {
                     title: "Master Data Science Course",
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "4.7 (320)",
+                    rating: "(4.7)",
                     sessions: "18 Sessions",
                     level: "Advanced",
                 },
@@ -73,14 +107,14 @@ class HomePage extends Component {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
-                    rating: "4.6 (280)",
+                    rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
                 }, {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "4.7 (300)",
+                    rating: "(4.7)",
                     sessions: "20 Sessions",
                     level: "Advanced",
                 },
@@ -88,7 +122,7 @@ class HomePage extends Component {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "4.8 (250)",
+                    rating: "(4.8)",
                     sessions: "12 Sessions",
                     level: "Beginner",
                 },
@@ -102,7 +136,7 @@ class HomePage extends Component {
                     title: "Master in Full Stack Development",
                     img: "assets/images/course.png",
                     desc: "Become a job-ready full stack developer with hands-on projects.",
-                    rating: "4.6 (400)",
+                    rating: "(4.6)",
                     sessions: "16 Sessions",
                     level: "Intermediate",
                 },
@@ -110,7 +144,7 @@ class HomePage extends Component {
                     title: "Master Data Science Course",
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "4.7 (320)",
+                    rating: "(4.7)",
                     sessions: "18 Sessions",
                     level: "Advanced",
                 },
@@ -118,7 +152,7 @@ class HomePage extends Component {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
-                    rating: "4.6 (280)",
+                    rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
                 }, {
@@ -139,7 +173,7 @@ class HomePage extends Component {
                     title: "Master in Full Stack Development",
                     img: "assets/images/course.png",
                     desc: "Become a job-ready full stack developer with hands-on projects.",
-                    rating: "4.6 (400)",
+                    rating: "(4.6)",
                     sessions: "16 Sessions",
                     level: "Intermediate",
                 },
@@ -147,7 +181,7 @@ class HomePage extends Component {
                     title: "Master Data Science Course",
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "4.7 (320)",
+                    rating: "(4.7)",
                     sessions: "18 Sessions",
                     level: "Advanced",
                 },
@@ -155,7 +189,7 @@ class HomePage extends Component {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
-                    rating: "4.6 (280)",
+                    rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
                 },
@@ -163,12 +197,42 @@ class HomePage extends Component {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "4.8 (250)",
+                    rating: "(4.8)",
                     sessions: "12 Sessions",
                     level: "Beginner",
                 },
             ],
         },
+    };
+
+    faqData = [
+        {
+            question: "Why Should I Choose Velearn for IT Training?",
+            answer:
+                "Velearn offers affordable fees, Tamil-based IT training, live & recorded classes, real-time projects, and strong placement support."
+        },
+        {
+            question: "How long until we deliver your first blog post?",
+            answer:
+                "Your first blog post will be delivered within 3–5 working days after onboarding."
+        },
+        {
+            question: "Do you provide placement support?",
+            answer:
+                "Yes, we provide resume building, mock interviews, and placement assistance."
+        },
+        {
+            question: "Are classes recorded?",
+            answer:
+                "Yes, all live sessions are recorded and shared for future reference."
+        }
+    ];
+
+    toggleFaq = (index) => {
+        this.setState({
+            activeFaqIndex:
+                this.state.activeFaqIndex === index ? null : index
+        });
     };
     render() {
         const partners = [
@@ -301,25 +365,25 @@ class HomePage extends Component {
                                     <div className="counter_group">
                                         <div className="counter_child counter_one">
                                             <div>
-                                                <h4>10+</h4>
+                                                <h4 className="counter" data-target="10">0</h4>
                                                 <p className="text-uppercase">Authorized Partner</p>
                                             </div>
                                         </div>
                                         <div className="counter_child counter_two">
                                             <div>
-                                                <h4>10+</h4>
+                                                <h4 className="counter" data-target="10">0</h4>
                                                 <p className="text-uppercase">Qualified Trainers</p>
                                             </div>
                                         </div>
                                         <div className="counter_child counter_three">
                                             <div>
-                                                <h4>50+</h4>
+                                                <h4 className="counter" data-target="50">0</h4>
                                                 <p className="text-uppercase">Certified Courses</p>
                                             </div>
                                         </div>
                                         <div className="counter_child counter_four">
                                             <div>
-                                                <h4>100+</h4>
+                                                <h4 className="counter" data-target="100">0</h4>
                                                 <p className="text-uppercase">Hiring Partner</p>
                                             </div>
                                         </div>
@@ -363,7 +427,7 @@ class HomePage extends Component {
                                         title: "Master in Full Stack Development",
                                         img: "assets/images/course.png",
                                         desc: "Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.",
-                                        rating: "4.6 (400)",
+                                        rating: "(4.7)",
                                         sessions: "16 Sessions",
                                         level: "Intermediate"
                                     },
@@ -371,7 +435,7 @@ class HomePage extends Component {
                                         title: "Advanced UI/UX Design Course",
                                         img: "assets/images/course.png",
                                         desc: "Learn UX research, wireframing & Figma with mentor-led live classes and portfolio-ready design projects.",
-                                        rating: "4.6 (400)",
+                                        rating: "(4.6)",
                                         sessions: "16 Sessions",
                                         level: "Intermediate"
                                     },
@@ -379,7 +443,7 @@ class HomePage extends Component {
                                         title: "Master Data Science Course",
                                         img: "assets/images/course.png",
                                         desc: "Master Python, Machine Learning & Data Analytics with practical live sessions and real dataset projects.",
-                                        rating: "4.6 (400)",
+                                        rating: "(4.6)",
                                         sessions: "16 Sessions",
                                         level: "Intermediate"
                                     },
@@ -387,7 +451,7 @@ class HomePage extends Component {
                                         title: "Master in Full Stack Development",
                                         img: "assets/images/course.png",
                                         desc: "Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.",
-                                        rating: "4.6 (400)",
+                                        rating: "(4.6)",
                                         sessions: "16 Sessions",
                                         level: "Intermediate"
                                     },
@@ -407,9 +471,13 @@ class HomePage extends Component {
 
                                                 <p className="mb-2">{course.desc}</p>
 
-                                                <div className="d-flex gap-3 py-3">
+                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4">
                                                     <div className="d-flex align-items-center">
-                                                        {/* <i className="bi bi-star-fill pe-1"></i> */}
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
                                                         {course.rating}
                                                     </div>
                                                     <div>
@@ -417,10 +485,9 @@ class HomePage extends Component {
                                                         {course.sessions}
                                                     </div>
                                                 </div>
-
-                                                <div className="mt-3">
-                                                    <span className="bg-caption">{course.level}</span>
-                                                </div>
+                                                <button className="btn_syll">
+                                                    <span>Syllabus <i className="bi bi-arrow-right-short"></i></span>
+                                                </button>
                                             </div>
 
                                             <div className="card_button_parent mt-auto">
@@ -533,17 +600,23 @@ class HomePage extends Component {
                                                 <h4 className="fw-bold">{course.title}</h4>
                                                 <p className="mb-2">{course.desc}</p>
 
-                                                <div className="d-flex gap-3 py-3">
-                                                    <div>{course.rating}</div>
+                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4">
+                                                    <div className="d-flex align-items-center">
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        <i className="bi bi-star-fill pe-1"></i>
+                                                        {course.rating}
+                                                    </div>
                                                     <div>
                                                         <i className="bi bi-calendar2-minus pe-1"></i>
                                                         {course.sessions}
                                                     </div>
                                                 </div>
-
-                                                <div className="mt-3">
-                                                    <span className="bg-caption">{course.level}</span>
-                                                </div>
+                                                <button className="btn_syll">
+                                                    <span>Syllabus <i className="bi bi-arrow-right-short"></i></span>
+                                                </button>
                                             </div>
 
                                             <div className="card_button_parent mt-auto">
@@ -866,27 +939,79 @@ class HomePage extends Component {
                 </section>
                 <section>
                     <div className="form_sec">
-                        <div className="col-12 d-flex justify-content-center">
-                            <div className="col-lg-5">
-                                <form action="#">
-                                    <div className="col-12 d-flex justify-content-center">
-                                        <div className="col-lg-8">
-                                            <h3 className="fw-bold text-c1 mb-4 text-center lh-base">Demo, Discounts, or Questions?<span className="text-c2"> Talk to us.</span></h3>
+                        <div className="container">
+                            <div className="col-12 d-flex justify-content-center">
+                                <div className="col-lg-5 col-xl-7">
+                                    <form action="#">
+                                        <div className="col-12 d-flex justify-content-center">
+                                            <div className="col-lg-8">
+                                                <h3 className="fw-bold text-c1 mb-4 text-center lh-base">Demo, Discounts, or Questions?<span className="text-c2"> Talk to us.</span></h3>
+                                            </div>
                                         </div>
+                                        <div>
+                                            <input type="text" placeholder="Name" />
+                                        </div>
+                                        <div>
+                                            <input type="text" placeholder="Phone No" />
+                                        </div>
+                                        <div>
+                                            <input type="text" placeholder="Email" />
+                                        </div>
+                                        <div className="col-12 d-flex justify-content-center">
+                                            <button>Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="faq_section py-5">
+                    <div className="section_container p-xl text-center mt-lg-5">
+                        <h3 className="section_base_heading">
+                            Frequently Asked <span className="text-c2"> Questions</span>
+                        </h3>
+
+                        <div className="row mt-5 align-items-center">
+                            {/* FAQ Accordion */}
+                            <div className="col-lg-6 text-start">
+                                {this.faqData.map((item, index) => (
+                                    <div className="faq_item mb-3" key={index}>
+                                        <button
+                                            className={`faq_question ${this.state.activeFaqIndex === index ? "active" : ""
+                                                }`}
+                                            onClick={() => this.toggleFaq(index)}
+                                        >
+                                            {item.question}
+                                            <span className="icon">
+                                                <img
+                                                    src={
+                                                        this.state.activeFaqIndex === index
+                                                            ? ""
+                                                            : "/assets/images/icons/faq-icon.png"
+                                                    }
+                                                    alt="toggle"
+                                                    className="faq_toggle_icon"
+                                                />
+                                            </span>
+                                        </button>
+
+                                        {this.state.activeFaqIndex === index && (
+                                            <div className="faq_answer">
+                                                <p>{item.answer}</p>
+                                            </div>
+                                        )}
                                     </div>
-                                    <div>
-                                        <input type="text" placeholder="Name" />
-                                    </div>
-                                    <div>
-                                        <input type="text" placeholder="Phone No" />
-                                    </div>
-                                    <div>
-                                        <input type="text" placeholder="Email" />
-                                    </div>
-                                    <div className="col-12 d-flex justify-content-center">
-                                        <button>Submit</button>
-                                    </div>
-                                </form>
+                                ))}
+                            </div>
+
+                            {/* Image */}
+                            <div className="col-lg-6">
+                                <img
+                                    src="/assets/images/faq.png"
+                                    className="w-100"
+                                    alt="velearn FAQ"
+                                />
                             </div>
                         </div>
                     </div>

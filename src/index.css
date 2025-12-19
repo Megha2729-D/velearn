@@ -8,6 +8,11 @@
     --button-shadow: -6px 6px 11px 0px #00000069;
 }
 
+::selection {
+    background-color: var(--c2);
+    color: #ffffff;
+}
+
 a {
     text-decoration: none !important;
 }
@@ -835,6 +840,7 @@ img {
     font-weight: 600;
     white-space: nowrap;
     z-index: 0;
+    user-select: none;
     overflow: hidden;
 }
 
@@ -1931,6 +1937,12 @@ section {
 }
 
 @media screen and (min-width: 1500px) {
+
+    .nav-elements ul a,
+    .nav-elements .dropdown-toggle {
+        font-size: 20px;
+    }
+
     .v-about .counter_parent .counter_group {
         width: 75%;
         height: 90%;
@@ -2049,7 +2061,7 @@ section {
     }
 
     .navbar_links.active .nav-elements {
-        top: 75px;
+        top: 60px;
     }
 
     .v-banner .carousel-item img {
@@ -2189,6 +2201,11 @@ section {
         width: 150px !important;
         object-fit: contain;
     }
+
+    .navbar_links.active .nav-elements {
+        top: 52px;
+    }
+
 }
 
 /* bootstrap */

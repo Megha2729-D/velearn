@@ -2239,7 +2239,7 @@ section {
     }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 910px) {
     .p-xl {
         padding-left: 75px !important;
         padding-right: 75px !important;
@@ -2253,12 +2253,7 @@ section {
     }
 }
 
-@media (max-width: 991px) {
-
-    .nav-elements ul a,
-    .nav-elements .dropdown-toggle {
-        font-size: 10px;
-    }
+@media screen and (max-width: 910px) {
 
     .nav-elements .dropdown-menu {
         position: static;
@@ -2268,6 +2263,15 @@ section {
         padding: 0;
         margin-top: 8px;
     }
+}
+
+@media (max-width: 991px) {
+
+    .nav-elements ul a,
+    .nav-elements .dropdown-toggle {
+        font-size: 10px;
+    }
+
 
     .nav-elements .dropdown-menu li {
         padding: 5px 15px;

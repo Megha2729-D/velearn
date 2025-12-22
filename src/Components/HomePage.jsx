@@ -1,4 +1,5 @@
 import { Component, createRef } from "react";
+import CommonImage from "./commonImage";
 import "react-circular-progressbar/dist/styles.css";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,18 +15,24 @@ class HomePage extends Component {
 
         const animateCounter = (counter) => {
             const target = +counter.getAttribute("data-target");
-            const update = () => {
-                const current = +counter.innerText;
-                const increment = Math.max(1, target / 2000);
+            const duration = 3000; // total animation time in ms (increase to slow down)
+            const startTime = performance.now();
 
-                if (current < target) {
-                    counter.innerText = Math.ceil(current + increment);
+            const update = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1); // 0 to 1
+                const current = Math.floor(progress * target);
+
+                counter.innerText = current;
+
+                if (progress < 1) {
                     requestAnimationFrame(update);
                 } else {
                     counter.innerText = target + "+";
                 }
             };
-            update();
+
+            requestAnimationFrame(update);
         };
 
         const observer = new IntersectionObserver(
@@ -35,15 +42,16 @@ class HomePage extends Component {
                     observer.disconnect();
                 }
             },
-            { threshold: 0.8 } // start only when almost fully visible
+            { threshold: 1 } // start only when almost fully visible
         );
-
         observer.observe(document.querySelector(".counter_parent"));
     }
 
     state = {
         activeRecordedTab: "software",
         activeFaqIndex: 0, // first open
+        activeImage: "assets/images/testimonial/arun-vikkashamuthu.png",
+
     };
 
     recordedCourseTabs = {
@@ -73,7 +81,8 @@ class HomePage extends Component {
                     rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
-                }, {
+                },
+                {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
@@ -110,43 +119,8 @@ class HomePage extends Component {
                     rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
-                }, {
-                    title: "Cloud & DevOps Engineering",
-                    img: "assets/images/course.png",
-                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "(4.7)",
-                    sessions: "20 Sessions",
-                    level: "Advanced",
                 },
                 {
-                    title: "AI Career Accelerator",
-                    img: "assets/images/course.png",
-                    desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "(4.8)",
-                    sessions: "12 Sessions",
-                    level: "Beginner",
-                },
-            ],
-        },
-        BussinessManagement: {
-            label: "Bussiness Management",
-            courses: [
-                {
-                    title: "Master Data Science Course",
-                    img: "assets/images/course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
-                }, {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
@@ -165,18 +139,47 @@ class HomePage extends Component {
             ],
         },
 
-        infra: {
+        businessManagement: {
+            label: "Business Management",
+            courses: [
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "(4.7)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "(4.6)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                },
+                {
+                    title: "Cloud & DevOps Engineering",
+                    img: "assets/images/course.png",
+                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
+                    rating: "(4.7)",
+                    sessions: "20 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "AI Career Accelerator",
+                    img: "assets/images/course.png",
+                    desc: "Mentor-led AI program with projects & placement support.",
+                    rating: "(4.8)",
+                    sessions: "12 Sessions",
+                    level: "Beginner",
+                },
+            ],
+        },
+        it: {
             label: "IT Infrastructure Management",
             courses: [
                 {
-                    title: "Master in Full Stack Development",
-                    img: "assets/images/course.png",
-                    desc: "Become a job-ready full stack developer with hands-on projects.",
-                    rating: "(4.6)",
-                    sessions: "16 Sessions",
-                    level: "Intermediate",
-                },
-                {
                     title: "Master Data Science Course",
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
@@ -191,43 +194,14 @@ class HomePage extends Component {
                     rating: "(4.6)",
                     sessions: "14 Sessions",
                     level: "Intermediate",
-                }, {
+                },
+                {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "4.7 (300)",
+                    rating: "(4.7)",
                     sessions: "20 Sessions",
                     level: "Advanced",
-                },
-            ],
-        },
-
-        special: {
-            label: "Special Programs",
-            courses: [
-                {
-                    title: "Master in Full Stack Development",
-                    img: "assets/images/course.png",
-                    desc: "Become a job-ready full stack developer with hands-on projects.",
-                    rating: "(4.6)",
-                    sessions: "16 Sessions",
-                    level: "Intermediate",
-                },
-                {
-                    title: "Master Data Science Course",
-                    img: "assets/images/course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
                 },
                 {
                     title: "AI Career Accelerator",
@@ -239,6 +213,72 @@ class HomePage extends Component {
                 },
             ],
         },
+        splPrograms: {
+            label: "Special Programs",
+            courses: [
+                {
+                    title: "Master Data Science Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn Python, ML & Data Analytics with real datasets.",
+                    rating: "(4.7)",
+                    sessions: "18 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "Advanced UI/UX Design Course",
+                    img: "assets/images/course.png",
+                    desc: "Learn UX research, wireframing & Figma.",
+                    rating: "(4.6)",
+                    sessions: "14 Sessions",
+                    level: "Intermediate",
+                },
+                {
+                    title: "Cloud & DevOps Engineering",
+                    img: "assets/images/course.png",
+                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
+                    rating: "(4.7)",
+                    sessions: "20 Sessions",
+                    level: "Advanced",
+                },
+                {
+                    title: "AI Career Accelerator",
+                    img: "assets/images/course.png",
+                    desc: "Mentor-led AI program with projects & placement support.",
+                    rating: "(4.8)",
+                    sessions: "12 Sessions",
+                    level: "Beginner",
+                },
+            ],
+        },
+    };
+    testimonialData = [
+        {
+            img: "assets/images/testimonial/arun-vikkashamuthu.png",
+            text: `I joined with very little knowledge, but the classes
+        were explained in a simple way. The trainers cleared my
+        doubts patiently every day. The assignments helped me
+        understand the concepts better. I feel more confident now.`,
+        },
+        {
+            img: "assets/images/testimonial/person-1.jpg",
+            text: `The assignments helped me a lot to understand the real concepts.
+        Trainers supported daily and cleared all doubts quickly.`
+        },
+        {
+            img: "assets/images/testimonial/person-2.jpg",
+            text: `Simple teaching with examples helped me improve quickly.
+        Highly recommended for beginners and career transitions.`
+        },
+    ];
+
+    handleSlideChange = (swiper) => {
+        const newIndex = swiper.realIndex;
+        this.setState({ activeImage: this.testimonialData[newIndex].img });
+    };
+    levelClassMap = {
+        Beginner: "level-beginner",
+        Intermediate: "level-intermediate",
+        Advanced: "level-advanced",
     };
 
     faqData = [
@@ -348,62 +388,83 @@ class HomePage extends Component {
                 <section>
                     <div className="v-banner">
                         <div className="section_container">
-                            <div id="v-banner-carousel" className="carousel slide carousel-fade">
+                            <div id="v-banner-carousel" className="carousel slide" data-bs-ride="carousel">
                                 <div className="carousel-inner">
+
+                                    {/* Slide 1 - Full Stack Web Dev */}
                                     <div className="carousel-item active">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
                                                 <div className="col-lg-6">
                                                     <h5>Master in Full Stack Development</h5>
                                                     <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
+                                                        Become a job-ready full stack developer with frontend + backend + cloud deployment and real-time projects.
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 d-flex justify-content-lg-end align-items-center">
-                                                    <img src="/assets/images/banner-card.png" className="w-100" alt="Banner Image" />
-                                                </div>
+                                                <div className="col-lg-6 banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Slide 2 - UI/UX */}
                                     <div className="carousel-item">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
                                                 <div className="col-lg-6">
-                                                    <h5>Master in Full Stack Development</h5>
+                                                    <h5>UI / UX Design Program</h5>
                                                     <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
+                                                        Learn product design, wireframes, Figma, user psychology and create modern industry design portfolios.
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 d-flex justify-content-lg-end align-items-center">
-                                                    <img src="/assets/images/banner-card.png" className="w-100" alt="Banner Image" />
-                                                </div>
+                                                <div className="col-lg-6 banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Slide 3 - Python */}
                                     <div className="carousel-item">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
                                                 <div className="col-lg-6">
-                                                    <h5>Master in Full Stack Development</h5>
+                                                    <h5>Python Programming</h5>
                                                     <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
+                                                        Master Python from basics to advanced with OOP, automation, API usage, scripting & mini projects.
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 d-flex justify-content-lg-end align-items-center">
-                                                    <img src="/assets/images/banner-card.png" className="w-100" alt="Banner Image" />
-                                                </div>
+                                                <div className="col-lg-6 banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Slide 4 - Data Science */}
+                                    <div className="carousel-item">
+                                        <div className="carousel-caption">
+                                            <div className="row align-items-center">
+                                                <div className="col-lg-6">
+                                                    <h5>Data Science & AI</h5>
+                                                    <p>
+                                                        Learn data analytics, machine learning, Python, NumPy, Pandas, models & real-time datasets.
+                                                    </p>
+                                                    <button>Explore more</button>
+                                                </div>
+                                                <div className="col-lg-6 banner-bg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <button className="carousel-control-prev visually-hidden" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="prev">
+
+                                {/* Previous button */}
+                                <button className="carousel-control-prev" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="prev">
                                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span className="visually-hidden">Previous</span>
                                 </button>
-                                <button className="carousel-control-next visually-hidden" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="next">
+
+                                {/* Next button */}
+                                <button className="carousel-control-next" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="next">
                                     <span className="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span className="visually-hidden">Next</span>
                                 </button>
@@ -425,7 +486,7 @@ class HomePage extends Component {
                                     </p>
                                     <div className="col-12 mt-5">
                                         <div className="d-flex align-items-center">
-                                            <img src="/assets/images/icons/phone.png" className="phone-img" alt="" />
+                                            <CommonImage src="/assets/images/icons/phone.png" className="phone-img" alt="" />
                                             <div className="call_details">
                                                 <p className="text-c2 mb-0 fw-bold">Have any questions ?</p>
                                                 <p className="fw-bold mb-0"> <a href="tel:">5555555555</a></p>
@@ -436,7 +497,7 @@ class HomePage extends Component {
                             </div>
                             <div className="col-lg-6 about_sec_right position-relative">
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <img src="/assets/images/about-vector-person.png" className="vector_about w-75" alt="" />
+                                    <CommonImage src="/assets/images/about-vector-person.png" className="vector_about m-auto w-75" alt="" />
                                 </div>
                                 <div className="dotted_circle_parent">
                                     <div className="dotted_circle outer-dotted"></div>
@@ -474,10 +535,10 @@ class HomePage extends Component {
                             <div className="col-12">
                                 <div className="tech_icon">
                                     <div className="tech_wrap">
-                                        <img src="/assets/images/icons/react.png" className="tech-icon tech-icon-one" alt="" />
-                                        <img src="/assets/images/icons/js.png" className="tech-icon tech-icon-two" alt="" />
-                                        <img src="/assets/images/icons/angular.png" className="tech-icon tech-icon-three" alt="" />
-                                        <img src="/assets/images/icons/python.png" className="tech-icon tech-icon-four" alt="" />
+                                        <CommonImage src="/assets/images/icons/react.png" className="tech-icon tech-icon-one" alt="" />
+                                        <CommonImage src="/assets/images/icons/js.png" className="tech-icon tech-icon-two" alt="" />
+                                        <CommonImage src="/assets/images/icons/angular.png" className="tech-icon tech-icon-three" alt="" />
+                                        <CommonImage src="/assets/images/icons/python.png" className="tech-icon tech-icon-four" alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -541,7 +602,7 @@ class HomePage extends Component {
                                     <SwiperSlide key={index}>
                                         <div className={`card_parent p-4 h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
                                             <div className="card_img_parent overflow-hidden">
-                                                <img
+                                                <CommonImage
                                                     src={course.img}
                                                     className="card_img w-100"
                                                     alt={course.title}
@@ -568,8 +629,8 @@ class HomePage extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="mt-auto">
-                                                    <button className="btn_syll">
-                                                        <span>Syllabus <i className="bi bi-arrow-right-short"></i></span>
+                                                    <button className="bg-caption mt-auto">
+                                                        Syllabus <i className="bi bi-arrow-right-short"></i>
                                                     </button>
                                                 </div>
                                             </div>
@@ -585,12 +646,25 @@ class HomePage extends Component {
                     </div>
                 </section>
                 <section className="py-4">
-                    <h3 className="section_base_heading text-black text-center">Hear from Our <span className="text-c2"> Learners</span></h3>
+                    <h3 className="section_base_heading text-black text-center">
+                        Hear from Our <span className="text-c2">Learners</span>
+                    </h3>
+
                     <div className="testimonial_wrap w-100 mt-3">
                         <div className="section_container">
                             <div className="row justify-content-center">
                                 <div className="col-lg-8">
                                     <div className="testimonial_parent">
+
+                                        {/* FLOATING IMAGE */}
+                                        <div className="testimonial_img_wrap">
+                                            <CommonImage
+                                                src={this.state.activeImage}
+                                                className="testi_img"
+                                                alt="testimonial"
+                                            />
+                                        </div>
+
                                         <Swiper
                                             modules={[Autoplay, Pagination]}
                                             slidesPerView={1}
@@ -600,23 +674,15 @@ class HomePage extends Component {
                                                 disableOnInteraction: false,
                                             }}
                                             pagination={{ clickable: true }}
+                                            onSlideChange={(swiper) => this.handleSlideChange(swiper)}
                                         >
-                                            <SwiperSlide>
-                                                <p>
-                                                    I joined with very little knowledge, but the classes were explained in a simple way.The trainers cleared my doubts patiently every day. The assignments actually helped me understand the concepts better. Overall, I feel more confident now than when I started.
-                                                </p>
-                                            </SwiperSlide>
-                                            <SwiperSlide>
-                                                <p>
-                                                    I joined with very little knowledge, but the classes were explained in a simple way.The trainers cleared my doubts patiently every day. The assignments actually helped me understand the concepts better. Overall, I feel more confident now than when I started.
-                                                </p>
-                                            </SwiperSlide>
-                                            <SwiperSlide>
-                                                <p>
-                                                    I joined with very little knowledge, but the classes were explained in a simple way.The trainers cleared my doubts patiently every day. The assignments actually helped me understand the concepts better. Overall, I feel more confident now than when I started.
-                                                </p>
-                                            </SwiperSlide>
+                                            {this.testimonialData.map((item, index) => (
+                                                <SwiperSlide key={index}>
+                                                    <p>{item.text}</p>
+                                                </SwiperSlide>
+                                            ))}
                                         </Swiper>
+
                                     </div>
                                 </div>
                             </div>
@@ -674,7 +740,7 @@ class HomePage extends Component {
 
                                             {/* Image Section */}
                                             <div className="card_img_parent overflow-hidden">
-                                                <img
+                                                <CommonImage
                                                     src={course.img}
                                                     className="card_img w-100"
                                                     alt={course.title}
@@ -702,7 +768,7 @@ class HomePage extends Component {
                                                 </div>
 
                                                 {/* Level badge pinned to bottom of content */}
-                                                <span className="bg-caption mt-auto">
+                                                <span className={`level-badge ${this.levelClassMap[course.level] || ""} mt-auto`}>
                                                     {course.level}
                                                 </span>
                                             </div>
@@ -731,15 +797,15 @@ class HomePage extends Component {
                             <div className="journey_bg_icon"></div>
                             <div className="dotted_lines">
                                 <div className="position-relative d-flex justify-content-center">
-                                    <img src="/assets/images/journey/dotted-lines.png" className="dotted-line-img" alt="" />
+                                    <CommonImage src="/assets/images/journey/dotted-lines.png" className="dotted-line-img" alt="" />
                                 </div>
                             </div>
                             <div className="rocket_wrap">
-                                <img src="/assets/images/journey/rocket.png" className="rocket_img" alt="" />
+                                <CommonImage src="/assets/images/journey/rocket.png" className="rocket_img" alt="" />
                             </div>
                             {/* Item 1 */}
                             <div className="journey_item item_1">
-                                <img src="/assets/images/journey/step-1.png" alt="" />
+                                <CommonImage src="/assets/images/journey/step-1.png" alt="" />
                                 <h6>Career Guidance With Free Demo</h6>
                                 <p>Get expert advice and choose the right IT career path.</p>
 
@@ -749,12 +815,12 @@ class HomePage extends Component {
                             <div className="journey_item item_2">
                                 <h6>Course Commencement</h6>
                                 <p>Start live online classes with structured, beginner-friendly lessons.</p>
-                                <img src="/assets/images/journey/step-2.png" alt="" />
+                                <CommonImage src="/assets/images/journey/step-2.png" alt="" />
                             </div>
 
                             {/* Item 3 */}
                             <div className="journey_item item_3">
-                                <img src="/assets/images/journey/step-3.png" alt="" />
+                                <CommonImage src="/assets/images/journey/step-3.png" alt="" />
                                 <h6>Periodical Activity & Assessments</h6>
                                 <p>Practice regularly with tasks and quick assessments.</p>
                             </div>
@@ -763,12 +829,12 @@ class HomePage extends Component {
                             <div className="journey_item item_4">
                                 <h6>Real Time Projects Submission</h6>
                                 <p>Apply your skills through industry-level practical projects.</p>
-                                <img src="/assets/images/journey/step-4.png" alt="" />
+                                <CommonImage src="/assets/images/journey/step-4.png" alt="" />
                             </div>
 
                             {/* Item 5 */}
                             <div className="journey_item item_5">
-                                <img src="/assets/images/journey/step-5.png" alt="" />
+                                <CommonImage src="/assets/images/journey/step-5.png" alt="" />
                                 <h6>Job Placement Assistance</h6>
                                 <p>Boost your resume, crack interviews and step into your dream role.</p>
                             </div>
@@ -776,7 +842,7 @@ class HomePage extends Component {
                     </div>
                 </section>
                 <section>
-                    <div className="pb-5 pt-lg-5">
+                    <div className="pb-5 pt-lg-5 logo_swiper">
                         <div className="section_container p-xl text-center mt-5">
                             <h3 className="section_base_heading text-center">
                                 Authorised <span className="text-c2"> Partners</span>
@@ -786,9 +852,14 @@ class HomePage extends Component {
                                 modules={[Autoplay]}
                                 spaceBetween={30}
                                 slidesPerView={5}
-                                autoplay={{ delay: 2000, disableOnInteraction: false }}
-                                grabCursor={true}
+                                speed={3000}
+                                autoplay={{
+                                    delay: 0,
+                                    disableOnInteraction: false,
+                                }}
                                 loop={true}
+                                grabCursor={false}
+                                allowTouchMove={false}
                                 breakpoints={{
                                     320: { slidesPerView: 2 },
                                     768: { slidesPerView: 3 },
@@ -797,7 +868,7 @@ class HomePage extends Component {
                             >
                                 {partners.map((logo, index) => (
                                     <SwiperSlide key={index}>
-                                        <img
+                                        <CommonImage
                                             src={`assets/images/partners/${logo}`}
                                             alt={`Partner ${index + 1}`}
                                             className="partner-logo"
@@ -805,6 +876,7 @@ class HomePage extends Component {
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
+
                         </div>
                     </div>
                 </section>
@@ -850,18 +922,25 @@ class HomePage extends Component {
                 </section>
                 <section>
                     <div className="pb-5">
-                        <div className="section_container p-xl text-center mt-lg-5">
+                        <div className="section_container p-xl text-center mt-lg-5 logo_swiper">
                             <h3 className="section_base_heading text-center">
                                 Prime <span className="text-c2"> Recruiters</span>
                             </h3>
                             <div className="pb-5">
                                 <Swiper
+                                    className="pt-5"
                                     modules={[Autoplay]}
                                     spaceBetween={30}
                                     slidesPerView={5}
-                                    autoplay={{ delay: 2000, disableOnInteraction: false, reverseDirection: true }}
-                                    grabCursor={true}
+                                    speed={3000}
+                                    autoplay={{
+                                        delay: 0,
+                                        disableOnInteraction: false,
+                                        reverseDirection: true
+                                    }}
                                     loop={true}
+                                    grabCursor={false}
+                                    allowTouchMove={false}
                                     breakpoints={{
                                         320: { slidesPerView: 2 },
                                         768: { slidesPerView: 3 },
@@ -870,7 +949,7 @@ class HomePage extends Component {
                                 >
                                     {recruiters1.map((logo, index) => (
                                         <SwiperSlide key={index}>
-                                            <img
+                                            <CommonImage
                                                 src={`assets/images/prime-recruiters/${logo}`}
                                                 alt={`Partner ${index + 1}`}
                                                 className="partner-logo"
@@ -884,9 +963,14 @@ class HomePage extends Component {
                                     modules={[Autoplay]}
                                     spaceBetween={30}
                                     slidesPerView={5}
-                                    autoplay={{ delay: 2000, disableOnInteraction: false }}
-                                    grabCursor={true}
+                                    speed={3000}
+                                    autoplay={{
+                                        delay: 0,
+                                        disableOnInteraction: false,
+                                    }}
                                     loop={true}
+                                    grabCursor={false}
+                                    allowTouchMove={false}
                                     breakpoints={{
                                         320: { slidesPerView: 2 },
                                         768: { slidesPerView: 3 },
@@ -895,7 +979,7 @@ class HomePage extends Component {
                                 >
                                     {recruiters2.map((logo, index) => (
                                         <SwiperSlide key={index}>
-                                            <img
+                                            <CommonImage
                                                 src={`assets/images/prime-recruiters/${logo}`}
                                                 alt={`Partner ${index + 1}`}
                                                 className="partner-logo"
@@ -955,7 +1039,7 @@ class HomePage extends Component {
                                                             <h2>1000+</h2>
                                                         </div>
                                                         <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                            <img src="/assets/images/bento-vector-1.png" alt="" />
+                                                            <CommonImage src="/assets/images/bento-vector-1.png" alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -993,8 +1077,8 @@ class HomePage extends Component {
                                                     <h2>20000+</h2>
                                                 </div>
                                                 <div className="d-flex justify-content-center align-items-center">
-                                                    <img src="/assets/images/bento-vector-3-2.png" className="image-1" alt="" />
-                                                    <img src="/assets/images/bento-vector-3-1.png" className="image-2" alt="" />
+                                                    <CommonImage src="/assets/images/bento-vector-3-2.png" className="image-1" alt="" />
+                                                    <CommonImage src="/assets/images/bento-vector-3-1.png" className="image-2" alt="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1017,7 +1101,7 @@ class HomePage extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-5 col-6 d-flex justify-content-center align-items-center">
-                                                    <img src="/assets/images/bento-vector-2.png" alt="" />
+                                                    <CommonImage src="/assets/images/bento-vector-2.png" alt="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1075,7 +1159,7 @@ class HomePage extends Component {
                                         >
                                             {item.question}
                                             <span className="icon">
-                                                <img
+                                                <CommonImage
                                                     src={
                                                         this.state.activeFaqIndex === index
                                                             ? ""
@@ -1089,7 +1173,7 @@ class HomePage extends Component {
 
                                         {this.state.activeFaqIndex === index && (
                                             <div className="faq_answer">
-                                                <p>{item.answer}</p>
+                                                {item.answer}
                                             </div>
                                         )}
                                     </div>
@@ -1098,7 +1182,7 @@ class HomePage extends Component {
 
                             {/* Image */}
                             <div className="col-lg-6">
-                                <img
+                                <CommonImage
                                     src="/assets/images/faq.png"
                                     className="w-100"
                                     alt="velearn FAQ"

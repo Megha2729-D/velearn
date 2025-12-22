@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CommonImage from "./commonImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Link } from 'react-router-dom';
@@ -18,7 +19,7 @@ class LoginPage extends Component {
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                         <div className="mb-3 d-flex gap-2 align-items-center justify-content-center">
                                             <div className="login_logo">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/logo-icon.png`} alt="" />
+                                                <CommonImage src={`${process.env.PUBLIC_URL}/assets/images/icons/logo-icon.png`} alt="" />
                                             </div>
                                             <h1>Login</h1>
                                         </div>
@@ -112,7 +113,7 @@ class LoginPage extends Component {
                                 >
                                     <SwiperSlide>
                                         <div className="slide-image">
-                                            <img
+                                            <CommonImage
                                                 src="https://ismailvtl-images-project.vercel.app/startup-launch.png"
                                                 loading="lazy"
                                                 alt="Interactive Courses"
@@ -126,7 +127,7 @@ class LoginPage extends Component {
 
                                     <SwiperSlide>
                                         <div className="slide-image">
-                                            <img
+                                            <CommonImage
                                                 src="https://ismailvtl-images-project.vercel.app/cloud-storage.png"
                                                 loading="lazy"
                                                 alt="Track Progress"
@@ -140,7 +141,7 @@ class LoginPage extends Component {
 
                                     <SwiperSlide>
                                         <div className="slide-image">
-                                            <img
+                                            <CommonImage
                                                 src="https://ismailvtl-images-project.vercel.app/cloud-storage.png"
                                                 loading="lazy"
                                                 alt="Collaborate"

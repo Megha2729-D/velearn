@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import CommonImage from './commonImage';
 
 const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [active, setActive] = useState(false);
-    const [practiceOpen, setPracticeOpen] = useState(false);
-    const [resourcesOpen, setResourcesOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState({
+        selfPaced: false,
+        liveCourses: false,
+        practice: false,
+        resources: false
+    });
+    const [subDropdownOpen, setSubDropdownOpen] = useState({});
+    const navbarRef = useRef(null); // reference to navbar container
 
-    const handleShowNavbar = () => {
-        setShowNavbar(!showNavbar);
-    };
+    const handleShowNavbar = () => setShowNavbar(!showNavbar);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setActive(window.scrollY > 100);
-        };
-
+        const handleScroll = () => setActive(window.scrollY > 100);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -27,31 +29,60 @@ const Navbar = () => {
         } else {
             document.body.style.overflow = '';
             document.documentElement.style.overflow = '';
-            setPracticeOpen(false);
-            setResourcesOpen(false);
+            setDropdownOpen({
+                selfPaced: false,
+                liveCourses: false,
+                practice: false,
+                resources: false
+            });
+            setSubDropdownOpen({});
         }
-
         return () => {
             document.body.style.overflow = '';
             document.documentElement.style.overflow = '';
         };
     }, [showNavbar]);
-    const togglePractice = () => {
-        setPracticeOpen(prev => {
-            if (!prev) setResourcesOpen(false); // close other
-            return !prev;
+
+    // Close sub-dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+                setSubDropdownOpen({});
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
+
+    const toggleDropdown = (key, e) => {
+        e.stopPropagation();
+        setDropdownOpen(prev => {
+            const newState = {};
+            for (let k in prev) {
+                newState[k] = k === key ? !prev[k] : false;
+            }
+            return newState;
+        });
+        setSubDropdownOpen({}); // close all sub-dropdowns when top dropdown changes
+    };
+
+    const toggleSubDropdown = (key, e) => {
+        e.stopPropagation();
+        setSubDropdownOpen(prev => {
+            const isOpen = prev[key];
+            const newState = {};
+            newState[key] = !isOpen; // only one open at a time
+            return newState;
         });
     };
 
-    const toggleResources = () => {
-        setResourcesOpen(prev => {
-            if (!prev) setPracticeOpen(false); // close other
-            return !prev;
-        });
+    const handleItemClick = () => {
+        // close sub-dropdowns when clicking a link
+        setSubDropdownOpen({});
     };
 
     return (
-        <nav className="v-navbar flex-column w-100 bg-white">
+        <nav className="v-navbar flex-column w-100 bg-white" ref={navbarRef}>
             <div className={`navbar_links ${active ? "active" : ""}`}>
                 <div className='section_container'>
                     <div className="nav_parent py-1">
@@ -64,11 +95,7 @@ const Navbar = () => {
                         {/* Logo */}
                         <div className="logo">
                             <NavLink to="/">
-                                <img
-                                    src="/assets/images/velearn-logo.png"
-                                    alt="Velearn"
-
-                                />
+                                <CommonImage src="/assets/images/velearn-logo.png" alt="Velearn" />
                             </NavLink>
                         </div>
 
@@ -76,43 +103,73 @@ const Navbar = () => {
                         <div className={`nav-elements ${showNavbar ? "active" : ""}`}>
                             <ul className="mb-0 p-lg-0">
 
-                                <li>
-                                    <NavLink to="/">Self-paced Courses</NavLink>
-                                </li>
-
-                                <li>
-                                    <NavLink to="/sample">Live Courses</NavLink>
-                                </li>
-
-                                {/* Practice Dropdown */}
-                                <li
-                                    className={`dropdown ${practiceOpen ? "open" : ""}`}
-                                    onClick={togglePractice}
-                                >
+                                {/* Self-paced Courses */}
+                                <li className={`dropdown ${dropdownOpen.selfPaced ? "open" : ""}`}
+                                    onClick={(e) => toggleDropdown('selfPaced', e)}>
                                     <span className="dropdown-toggle">
-                                        Practice <i className="bi bi-chevron-down"></i>
+                                        Self-paced Courses <i className="bi bi-chevron-down"></i>
                                     </span>
-
-                                    <ul className="dropdown-menu">
-                                        <li><NavLink to="/practice/ide">Online IDE</NavLink></li>
-                                        <li><NavLink to="/practice/debugging">Debugging</NavLink></li>
-                                        <li><NavLink to="/practice/challenges">Challenges</NavLink></li>
+                                    <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                        <li className="sub-dropdown">
+                                            <span className="sub-dropdown-toggle"
+                                                onClick={(e) => toggleSubDropdown('group1', e)}>
+                                                Menu Group 1 <i className="bi bi-chevron-right"></i>
+                                            </span>
+                                            <ul className={`sub-dropdown-menu ${subDropdownOpen.group1 ? 'open' : ''}`}>
+                                                <li><NavLink to="/practice/ide" onClick={handleItemClick}>Online IDE</NavLink></li>
+                                                <li><NavLink to="/practice/debugging" onClick={handleItemClick}>Debugging</NavLink></li>
+                                            </ul>
+                                        </li>
+                                        <li className="sub-dropdown">
+                                            <span className="sub-dropdown-toggle"
+                                                onClick={(e) => toggleSubDropdown('group2', e)}>
+                                                Menu Group 2 <i className="bi bi-chevron-right"></i>
+                                            </span>
+                                            <ul className={`sub-dropdown-menu ${subDropdownOpen.group2 ? 'open' : ''}`}>
+                                                <li><NavLink to="/practice/challenges" onClick={handleItemClick}>Challenges</NavLink></li>
+                                                <li><NavLink to="/practice/projects" onClick={handleItemClick}>Projects</NavLink></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </li>
 
-                                {/* Resources Dropdown */}
-                                <li
-                                    className={`dropdown ${resourcesOpen ? "open" : ""}`}
-                                    onClick={toggleResources}
-                                >
+                                {/* Live Courses */}
+                                <li className={`dropdown ${dropdownOpen.liveCourses ? "open" : ""}`}
+                                    onClick={(e) => toggleDropdown('liveCourses', e)}>
+                                    <span className="dropdown-toggle">
+                                        Live Courses <i className="bi bi-chevron-down"></i>
+                                    </span>
+                                    <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                        <li><NavLink to="/" onClick={handleItemClick}>UI UX Design</NavLink></li>
+                                        <li><NavLink to="/" onClick={handleItemClick}>Data Science</NavLink></li>
+                                        <li><NavLink to="/" onClick={handleItemClick}>Full Stack Web Development</NavLink></li>
+                                        <li><NavLink to="/" onClick={handleItemClick}>Python Full Stack</NavLink></li>
+                                    </ul>
+                                </li>
+
+                                {/* Practice */}
+                                <li className={`dropdown ${dropdownOpen.practice ? "open" : ""}`}
+                                    onClick={(e) => toggleDropdown('practice', e)}>
+                                    <span className="dropdown-toggle">
+                                        Practice <i className="bi bi-chevron-down"></i>
+                                    </span>
+                                    <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                        <li><NavLink to="/practice/ide" onClick={handleItemClick}>Online IDE</NavLink></li>
+                                        <li><NavLink to="/practice/debugging" onClick={handleItemClick}>Debugging</NavLink></li>
+                                        <li><NavLink to="/practice/challenges" onClick={handleItemClick}>Challenges</NavLink></li>
+                                    </ul>
+                                </li>
+
+                                {/* Resources */}
+                                <li className={`dropdown ${dropdownOpen.resources ? "open" : ""}`}
+                                    onClick={(e) => toggleDropdown('resources', e)}>
                                     <span className="dropdown-toggle">
                                         Resources <i className="bi bi-chevron-down"></i>
                                     </span>
-
-                                    <ul className="dropdown-menu">
-                                        <li><NavLink to="/resources/blogs">Blogs</NavLink></li>
-                                        <li><NavLink to="/resources/docs">Docs</NavLink></li>
-                                        <li><NavLink to="/resources/tools">Tools</NavLink></li>
+                                    <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                        <li><NavLink to="/resources/blogs" onClick={handleItemClick}>Blogs</NavLink></li>
+                                        <li><NavLink to="/resources/docs" onClick={handleItemClick}>Docs</NavLink></li>
+                                        <li><NavLink to="/resources/tools" onClick={handleItemClick}>Tools</NavLink></li>
                                     </ul>
                                 </li>
 
@@ -121,7 +178,6 @@ const Navbar = () => {
 
                         {/* Right Section */}
                         <div className="d-flex gap-4 right_nav_icons">
-
                             <div className="d-lg-flex d-none align-items-center">
                                 <div className="search_parent position-relative">
                                     <div className="d-flex align-items-center">
@@ -141,17 +197,15 @@ const Navbar = () => {
                                 </span>
                             </div>
                             <div className='d-flex d-lg-none nav_mbl_icons'>
-                                <div className='pe-3'>
+                                <div className='pe-3 d-flex align-items-center'>
                                     <i className="bi bi-search"></i>
                                 </div>
-                                <span className="">
+                                <span>
                                     <Link to="/login" className="btn_login">Login</Link>
                                 </span>
-                                {/* <div className='px-2'>
-                                <i class="bi bi-door-open"></i>
-                            </div> */}
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -159,37 +213,21 @@ const Navbar = () => {
     );
 };
 
-const Hamburger = ({ isOpen }) => {
-    return (
-        <>
-            {/* Hamburger icon */}
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="52"
-                height="24"
-                viewBox="0 0 52 24"
-                className={isOpen ? "d-none" : "d-block"}
-            >
-                <g transform="translate(-294 -47)">
-                    <rect width="30" height="2" rx="2" transform="translate(304 47)" fill="#574c4c" />
-                    <rect width="40" height="2" rx="2" transform="translate(294 57)" fill="#574c4c" />
-                    <rect width="30" height="2" rx="2" transform="translate(304 67)" fill="#574c4c" />
-                </g>
-            </svg>
+const Hamburger = ({ isOpen }) => (
+    <>
+        <svg xmlns="http://www.w3.org/2000/svg" width="52" height="24" viewBox="0 0 52 24" className={isOpen ? "d-none" : "d-block"}>
+            <g transform="translate(-294 -47)">
+                <rect width="30" height="2" rx="2" transform="translate(304 47)" fill="#574c4c" />
+                <rect width="40" height="2" rx="2" transform="translate(294 57)" fill="#574c4c" />
+                <rect width="30" height="2" rx="2" transform="translate(304 67)" fill="#574c4c" />
+            </g>
+        </svg>
 
-            {/* Close icon */}
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                className={isOpen ? "d-block" : "d-none"}
-            >
-                <line x1="0" y1="0" x2="24" y2="24" stroke="#574c4c" strokeWidth="2" />
-                <line x1="24" y1="0" x2="0" y2="24" stroke="#574c4c" strokeWidth="2" />
-            </svg>
-        </>
-    );
-};
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className={isOpen ? "d-block" : "d-none"}>
+            <line x1="0" y1="0" x2="24" y2="24" stroke="#574c4c" strokeWidth="2" />
+            <line x1="24" y1="0" x2="0" y2="24" stroke="#574c4c" strokeWidth="2" />
+        </svg>
+    </>
+);
 
 export default Navbar;

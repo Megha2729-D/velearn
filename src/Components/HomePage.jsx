@@ -1025,8 +1025,8 @@ class HomePage extends Component {
                     </div>
                 </section>
                 <section className="py-5">
-                    <div className="section_container py-5 p-xl d-flex justify-content-center">
-                        <div className="row justify-content-center">
+                    <div className="section_container py-5 p-xl d-flex justify-content-center overflow-hidden">
+                        <div className="row justify-content-center w-100">
                             <div className="col-lg-10">
                                 <div className="row">
                                     <div className="col-lg-7">
@@ -1073,7 +1073,7 @@ class HomePage extends Component {
                                         <div className="col-lg-12 h-100">
                                             <div className="count_clr count_clr4">
                                                 <div className="d-flex flex-column justify-content-center align-items-center">
-                                                    <h6>Minutes of Video Watched</h6>
+                                                    <h6 className="text-center">Minutes of Video Watched</h6>
                                                     <h2>20000+</h2>
                                                 </div>
                                                 <div className="d-flex justify-content-center align-items-center">
@@ -1094,13 +1094,13 @@ class HomePage extends Component {
                                     <div className="col-lg-7 count_top_height px-3">
                                         <div className="count_clr count_clr6">
                                             <div className="row">
-                                                <div className="col-lg-7 col-6">
-                                                    <div className="px-lg-5 ps-5 d-flex flex-column justify-content-center align-items-start">
+                                                <div className="col-lg-8 col-12">
+                                                    <div className="px-lg-5 ps-5 d-flex flex-column justify-content-center align-items-lg-start align-items-center">
                                                         <h6>Questions Practiced</h6>
                                                         <h2>5000+</h2>
                                                     </div>
                                                 </div>
-                                                <div className="col-lg-5 col-6 d-flex justify-content-center align-items-center">
+                                                <div className="col-lg-4 col-12 d-flex justify-content-center align-items-center">
                                                     <CommonImage src="/assets/images/bento-vector-2.png" alt="" />
                                                 </div>
                                             </div>

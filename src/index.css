@@ -350,9 +350,23 @@ img {
     align-items: center;
 }
 
-.logo img {
+.logo {
     width: 210px;
+    height: 62px;
 }
+
+.logo .logo_img {
+    width: 100%;
+    height: 100%;
+    background: url(../public/assets/images/velearn-logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* .logo image {
+    width: 100%;
+} */
 
 @media screen and (min-width:1250px) {
     .nav-elements ul.dropdown-menu li {
@@ -1917,6 +1931,8 @@ section {
     margin: auto;
     position: absolute;
     bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 .count_clr.count_clr5 {
@@ -1933,6 +1949,7 @@ section {
 .count_clr.count_clr6 img {
     position: absolute;
     top: 0;
+    right: 0;
     bottom: 0;
     width: 175px;
     margin: auto;
@@ -2170,19 +2187,25 @@ section {
 
     .count_clr img {
         position: relative !important;
-        /* width: 180px !important; */
+    }
+
+    .count_clr.count_clr1 img {
+        height: 200px;
     }
 
     .count_clr.count_clr4 img.image-2 {
-        width: 260px;
-        right: 25px;
+        width: 200px;
+        right: 40px;
         margin: auto;
         position: absolute;
         bottom: 0;
+        left: auto;
     }
 
     .count_clr.count_clr4 img.image-1 {
         margin-top: -100px;
+        width: 65px;
+        left: 42%;
     }
 
     .count_clr.count_clr1 {
@@ -2220,6 +2243,7 @@ section {
         font-weight: 500;
         font-size: 15px;
         line-height: 30px;
+        padding: 20px 0;
     }
 
     .testimonial_wrap {
@@ -2334,6 +2358,12 @@ section {
     }
 }
 
+@media (min-width: 910px) and (max-width: 1110px) {
+    .logo {
+        width: 160px;
+    }
+}
+
 @media screen and (min-width: 910px) {
     .p-xl {
         padding-left: 75px !important;
@@ -2366,6 +2396,9 @@ section {
 }
 
 @media (max-width: 991px) {
+    .testimonial_img_wrap {
+        right: 0;
+    }
 
     .nav-elements ul a,
     .nav-elements .dropdown-toggle {
@@ -2439,8 +2472,8 @@ section {
 }
 
 @media screen and (max-width: 490px) {
-    .logo img {
-        width: 185px;
+    .logo {
+        width: 175px;
     }
 
     .get_started_sec .start_learning .butt,

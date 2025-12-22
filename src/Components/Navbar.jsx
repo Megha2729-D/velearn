@@ -93,11 +93,11 @@ const Navbar = () => {
                         </div>
 
                         {/* Logo */}
-                        <div className="logo">
-                            <NavLink to="/">
-                                <CommonImage src="/assets/images/velearn-logo.png" alt="Velearn" />
-                            </NavLink>
-                        </div>
+                        <NavLink to="/">
+                            <div className="logo">
+                                <div className="logo_img"></div>
+                            </div>
+                        </NavLink>
 
                         {/* Nav Links */}
                         <div className={`nav-elements ${showNavbar ? "active" : ""}`}>

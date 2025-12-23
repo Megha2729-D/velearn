@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import CommonImage from "./commonImage";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Link } from 'react-router-dom';
@@ -25,7 +24,7 @@ class SignUpPage extends Component {
                                 >
                                     <SwiperSlide>
                                         <div className="slide-image">
-                                            <CommonImage
+                                            <img
                                                 src="https://ismailvtl-images-project.vercel.app/startup-launch.png"
                                                 loading="lazy"
                                                 alt="Learn at Your Pace"
@@ -39,7 +38,7 @@ class SignUpPage extends Component {
 
                                     <SwiperSlide>
                                         <div className="slide-image">
-                                            <CommonImage
+                                            <img
                                                 src="https://ismailvtl-images-project.vercel.app/cloud-storage.png"
                                                 loading="lazy"
                                                 alt="Personalized Learning"
@@ -53,7 +52,7 @@ class SignUpPage extends Component {
 
                                     <SwiperSlide>
                                         <div className="slide-image">
-                                            <CommonImage
+                                            <img
                                                 src="https://ismailvtl-images-project.vercel.app/cloud-storage.png"
                                                 loading="lazy"
                                                 alt="Connect with Mentors"
@@ -75,7 +74,7 @@ class SignUpPage extends Component {
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                         <div className="mb-3 d-flex gap-2 align-items-center justify-content-center">
                                             <div className="login_logo">
-                                                <CommonImage src={`${process.env.PUBLIC_URL}/assets/images/icons/logo-icon.png`} alt="" />
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/logo-icon.png`} alt="" />
                                             </div>
                                             <h1>Sign Up</h1>
                                         </div>

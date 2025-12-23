@@ -1,6 +1,6 @@
 import { Component, createRef } from "react";
-import CommonImage from "./commonImage";
 import "react-circular-progressbar/dist/styles.css";
+import { Link, NavLink } from 'react-router-dom';
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -63,40 +63,45 @@ class HomePage extends Component {
                     img: "assets/images/course.png",
                     desc: "Become a job-ready full stack developer with hands-on projects.",
                     rating: "(4.6)",
-                    sessions: "16 Sessions",
-                    level: "Intermediate",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Master Data Science Course",
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
-                    sessions: "20 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
-                    sessions: "12 Sessions",
-                    level: "Beginner",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
             ],
         },
@@ -109,32 +114,36 @@ class HomePage extends Component {
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
-                    sessions: "20 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
-                    sessions: "12 Sessions",
-                    level: "Beginner",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
             ],
         },
@@ -147,32 +156,36 @@ class HomePage extends Component {
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
-                    sessions: "20 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
-                    sessions: "12 Sessions",
-                    level: "Beginner",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
             ],
         },
@@ -184,32 +197,36 @@ class HomePage extends Component {
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
-                    sessions: "20 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
-                    sessions: "12 Sessions",
-                    level: "Beginner",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
             ],
         },
@@ -221,32 +238,36 @@ class HomePage extends Component {
                     img: "assets/images/course.png",
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
-                    sessions: "18 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Advanced UI/UX Design Course",
                     img: "assets/images/course.png",
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
-                    sessions: "14 Sessions",
-                    level: "Intermediate",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "Cloud & DevOps Engineering",
                     img: "assets/images/course.png",
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
-                    sessions: "20 Sessions",
-                    level: "Advanced",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
                 {
                     title: "AI Career Accelerator",
                     img: "assets/images/course.png",
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
-                    sessions: "12 Sessions",
-                    level: "Beginner",
+                    duration: "10 hrs",
+                    newPrice: "500",
+                    oldPrice: "1000",
                 },
             ],
         },
@@ -486,7 +507,7 @@ class HomePage extends Component {
                                     </p>
                                     <div className="col-12 mt-5">
                                         <div className="d-flex align-items-center">
-                                            <CommonImage src="/assets/images/icons/phone.png" className="phone-img" alt="" />
+                                            <img src="/assets/images/icons/phone.png" className="phone-img" alt="" />
                                             <div className="call_details">
                                                 <p className="text-c2 mb-0 fw-bold">Have any questions ?</p>
                                                 <p className="fw-bold mb-0"> <a href="tel:">5555555555</a></p>
@@ -497,7 +518,7 @@ class HomePage extends Component {
                             </div>
                             <div className="col-lg-6 about_sec_right position-relative">
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <CommonImage src="/assets/images/about-vector-person.png" className="vector_about m-auto w-75" alt="" />
+                                    <img src="/assets/images/about-vector-person.png" className="vector_about m-auto w-75" alt="" />
                                 </div>
                                 <div className="dotted_circle_parent">
                                     <div className="dotted_circle outer-dotted"></div>
@@ -535,10 +556,10 @@ class HomePage extends Component {
                             <div className="col-12">
                                 <div className="tech_icon">
                                     <div className="tech_wrap">
-                                        <CommonImage src="/assets/images/icons/react.png" className="tech-icon tech-icon-one" alt="" />
-                                        <CommonImage src="/assets/images/icons/js.png" className="tech-icon tech-icon-two" alt="" />
-                                        <CommonImage src="/assets/images/icons/angular.png" className="tech-icon tech-icon-three" alt="" />
-                                        <CommonImage src="/assets/images/icons/python.png" className="tech-icon tech-icon-four" alt="" />
+                                        <img src="/assets/images/icons/react.png" className="tech-icon tech-icon-one" alt="" />
+                                        <img src="/assets/images/icons/js.png" className="tech-icon tech-icon-two" alt="" />
+                                        <img src="/assets/images/icons/angular.png" className="tech-icon tech-icon-three" alt="" />
+                                        <img src="/assets/images/icons/python.png" className="tech-icon tech-icon-four" alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -549,103 +570,86 @@ class HomePage extends Component {
                     <div className="section_container live_courses_sec">
                         <h3 className="section_base_heading text-black text-center">Top Trending <span className="text-c2"> Live Courses</span></h3>
                         <div className="row">
-                            <Swiper
-                                className="py-5"
-                                // modules={[Pagination]}
-                                modules={[Navigation, Pagination]}
-                                spaceBetween={30}
-                                slidesPerView={3}
-                                loop={true}
-                                navigation={true}
-                                // autoplay={{ delay: 4000, disableOnInteraction: false }}
-                                pagination={{ clickable: true }}
-                                breakpoints={{
-                                    0: { slidesPerView: 1 },
-                                    768: { slidesPerView: 2 },
-                                    1024: { slidesPerView: 3 },
-                                }}
-                            >
-                                {[
-                                    {
-                                        title: "Master in Full Stack Development",
-                                        img: "assets/images/course.png",
-                                        desc: "Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.",
-                                        rating: "(4.7)",
-                                        sessions: "16 Sessions",
-                                        level: "Intermediate"
-                                    },
-                                    {
-                                        title: "Advanced UI/UX Design Course",
-                                        img: "assets/images/course.png",
-                                        desc: "Learn UX research, wireframing & Figma with mentor-led live classes and portfolio-ready design projects.",
-                                        rating: "(4.6)",
-                                        sessions: "16 Sessions",
-                                        level: "Intermediate"
-                                    },
-                                    {
-                                        title: "Master Data Science Course",
-                                        img: "assets/images/course.png",
-                                        desc: "Master Python, Machine Learning & Data Analytics with practical live sessions and real dataset projects.",
-                                        rating: "(4.6)",
-                                        sessions: "16 Sessions",
-                                        level: "Intermediate"
-                                    },
-                                    {
-                                        title: "Master in Full Stack Development",
-                                        img: "assets/images/course.png",
-                                        desc: "Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.",
-                                        rating: "(4.6)",
-                                        sessions: "16 Sessions",
-                                        level: "Intermediate"
-                                    },
-                                ].map((course, index) => (
-                                    <SwiperSlide key={index}>
-                                        <div className={`card_parent p-4 h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
-                                            <div className="card_img_parent overflow-hidden">
-                                                <CommonImage
-                                                    src={course.img}
-                                                    className="card_img w-100"
-                                                    alt={course.title}
-                                                />
-                                            </div>
-
-                                            <div className="pt-3 d-flex flex-column align-items-start flex-grow-1">
-                                                <h4 className="fw-bold">{course.title}</h4>
-
-                                                <p className="mb-2">{course.desc}</p>
-
-                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4 w-100">
-                                                    <div className="d-flex align-items-center">
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        {course.rating}
-                                                    </div>
-                                                    <div>
-                                                        <i className="bi bi-calendar2-minus pe-1"></i>
-                                                        {course.sessions}
-                                                    </div>
-                                                </div>
-                                                <div className="mt-auto">
-                                                    <button className="bg-caption mt-auto">
-                                                        Syllabus <i className="bi bi-arrow-right-short"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div className="card_button_parent">
-                                                <button>View more</button>
+                            {[
+                                {
+                                    title: "Adobe After Effects using VFX Masterclass",
+                                    img: "assets/images/course.png",
+                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
+                                    duration: "3 Months"
+                                },
+                                {
+                                    title: "Adobe After Effects using VFX Masterclass",
+                                    img: "assets/images/course.png",
+                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
+                                    duration: "3 Months"
+                                },
+                                {
+                                    title: "Adobe After Effects using VFX Masterclass",
+                                    img: "assets/images/course.png",
+                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
+                                    duration: "3 Months"
+                                },
+                                {
+                                    title: "Adobe After Effects using VFX Masterclass",
+                                    img: "assets/images/course.png",
+                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
+                                    duration: "3 Months"
+                                },
+                            ].map((course, index) => (
+                                <div key={index} className="col-xl-3 col-lg-3 col-md-6 col-12 mb-5 mb-lg-0">
+                                    <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
+                                        <div className="card_img_parent overflow-hidden position-relative">
+                                            <img
+                                                src={course.img}
+                                                className="card_img w-100"
+                                                alt={course.title}
+                                            />
+                                            <div className="live_parent d-flex gap-2 align-items-center justify-content-center">
+                                                <div className="live_icon"></div>
+                                                <span className="live_word">Live</span>
                                             </div>
                                         </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
+
+                                        <div className="pt-3 d-flex flex-column align-items-start flex-grow-1">
+                                            <h4>{course.title}</h4>
+
+                                            <p className="mb-0">{course.desc}</p>
+
+                                            <div className="duration_txt d-flex justify-content-end gap-3 w-100">
+                                                <div>
+                                                    <i className="bi bi-clock pe-1"></i>
+                                                    {course.duration}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12 card_abs_butt">
+                                            <div className="col-12 d-flex justify-content-between">
+                                                <div className="syllabus_butt">
+                                                    <button>Syllabus</button>
+                                                </div>
+                                                <div className="view_more_butt">
+                                                    <button>View more</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="col-12 d-flex justify-content-center more_butt_parent">
+                                <NavLink to="/">
+                                    <div className="d-flex more_butt">
+                                        <div className="butt">Show More</div>
+                                        <div className="icon_redirect">
+                                            <i className="bi bi-arrow-right-short"></i>
+                                        </div>
+                                    </div>
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
                 </section>
-                <section className="py-4">
+                <section className="py-5">
                     <h3 className="section_base_heading text-black text-center">
                         Hear from Our <span className="text-c2">Learners</span>
                     </h3>
@@ -658,7 +662,7 @@ class HomePage extends Component {
 
                                         {/* FLOATING IMAGE */}
                                         <div className="testimonial_img_wrap">
-                                            <CommonImage
+                                            <img
                                                 src={this.state.activeImage}
                                                 className="testi_img"
                                                 alt="testimonial"
@@ -682,7 +686,6 @@ class HomePage extends Component {
                                                 </SwiperSlide>
                                             ))}
                                         </Swiper>
-
                                     </div>
                                 </div>
                             </div>
@@ -691,7 +694,6 @@ class HomePage extends Component {
                 </section>
                 <section className="pt-3">
                     <div className="section_container live_courses_sec">
-
                         {/* Heading */}
                         <div className="col-12 d-flex justify-content-center">
                             <div className="col-lg-6">
@@ -722,7 +724,7 @@ class HomePage extends Component {
                                 className="py-5"
                                 modules={[Navigation, Pagination]}
                                 spaceBetween={30}
-                                slidesPerView={3}
+                                slidesPerView={4}
                                 loop={true}
                                 navigation={true}
                                 pagination={{ clickable: true }}
@@ -730,17 +732,18 @@ class HomePage extends Component {
                                     0: { slidesPerView: 1 },
                                     768: { slidesPerView: 2 },
                                     1024: { slidesPerView: 3 },
+                                    1300: { slidesPerView: 4 },
                                 }}
                             >
                                 {this.recordedCourseTabs[
                                     this.state.activeRecordedTab
                                 ].courses.map((course, index) => (
                                     <SwiperSlide key={index}>
-                                        <div className={`card_parent p-4 h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
+                                        <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
 
                                             {/* Image Section */}
                                             <div className="card_img_parent overflow-hidden">
-                                                <CommonImage
+                                                <img
                                                     src={course.img}
                                                     className="card_img w-100"
                                                     alt={course.title}
@@ -752,17 +755,24 @@ class HomePage extends Component {
                                                 <h4 className="fw-bold">{course.title}</h4>
                                                 <p className="mb-2">{course.desc}</p>
 
-                                                <div className="d-flex justify-content-between gap-3 pt-3 pb-4 w-100">
-                                                    <div className="d-flex align-items-center">
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        <i className="bi bi-star-fill pe-1"></i>
-                                                        {course.rating}
+                                                <div className="d-flex justify-content-between align-items-center gap-3 w-100 mt-auto">
+                                                    <div className="recorded_course_duration">
+                                                        <div className="my-2">
+                                                            <i className="bi bi-clock pe-1 my-2"></i>
+                                                            {course.duration}
+                                                        </div>
+                                                        <div className="d-flex align-items-center">
+                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                            {course.rating}
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <i className="bi bi-calendar2-minus pe-1"></i>
+                                                    <div className="d-flex align-items-center gap-2">
+                                                        <span className="new_price">&#8377; {course.newPrice}</span>
+                                                        <span className="old_price"><s>&#8377; {course.oldPrice}</s></span>
                                                         {course.sessions}
                                                     </div>
                                                 </div>
@@ -774,14 +784,23 @@ class HomePage extends Component {
                                             </div>
 
                                             {/* Button */}
-                                            <div className="card_button_parent mt-3">
-                                                <button>View more</button>
-                                            </div>
+                                            <div className="paid_butt mt-3"> Paid </div>
                                         </div>
                                     </SwiperSlide>
 
                                 ))}
                             </Swiper>
+
+                            <div className="col-12 d-flex justify-content-center more_butt_parent">
+                                <NavLink to="/recorded-course">
+                                    <div className="d-flex more_butt">
+                                        <div className="butt">Show More</div>
+                                        <div className="icon_redirect">
+                                            <i className="bi bi-arrow-right-short"></i>
+                                        </div>
+                                    </div>
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -797,30 +816,29 @@ class HomePage extends Component {
                             <div className="journey_bg_icon"></div>
                             <div className="dotted_lines">
                                 <div className="position-relative d-flex justify-content-center">
-                                    <CommonImage src="/assets/images/journey/dotted-lines.png" className="dotted-line-img" alt="" />
+                                    <img src="/assets/images/journey/dotted-lines.png" className="dotted-line-img" alt="" />
                                 </div>
                             </div>
                             <div className="rocket_wrap">
-                                <CommonImage src="/assets/images/journey/rocket.png" className="rocket_img" alt="" />
+                                <img src="/assets/images/journey/rocket.png" className="rocket_img" alt="" />
                             </div>
                             {/* Item 1 */}
                             <div className="journey_item item_1">
-                                <CommonImage src="/assets/images/journey/step-1.png" alt="" />
+                                <img src="/assets/images/journey/step-1.png" alt="" />
                                 <h6>Career Guidance With Free Demo</h6>
                                 <p>Get expert advice and choose the right IT career path.</p>
-
                             </div>
 
                             {/* Item 2 */}
                             <div className="journey_item item_2">
                                 <h6>Course Commencement</h6>
                                 <p>Start live online classes with structured, beginner-friendly lessons.</p>
-                                <CommonImage src="/assets/images/journey/step-2.png" alt="" />
+                                <img src="/assets/images/journey/step-2.png" alt="" />
                             </div>
 
                             {/* Item 3 */}
                             <div className="journey_item item_3">
-                                <CommonImage src="/assets/images/journey/step-3.png" alt="" />
+                                <img src="/assets/images/journey/step-3.png" alt="" />
                                 <h6>Periodical Activity & Assessments</h6>
                                 <p>Practice regularly with tasks and quick assessments.</p>
                             </div>
@@ -829,12 +847,12 @@ class HomePage extends Component {
                             <div className="journey_item item_4">
                                 <h6>Real Time Projects Submission</h6>
                                 <p>Apply your skills through industry-level practical projects.</p>
-                                <CommonImage src="/assets/images/journey/step-4.png" alt="" />
+                                <img src="/assets/images/journey/step-4.png" alt="" />
                             </div>
 
                             {/* Item 5 */}
                             <div className="journey_item item_5">
-                                <CommonImage src="/assets/images/journey/step-5.png" alt="" />
+                                <img src="/assets/images/journey/step-5.png" alt="" />
                                 <h6>Job Placement Assistance</h6>
                                 <p>Boost your resume, crack interviews and step into your dream role.</p>
                             </div>
@@ -868,7 +886,7 @@ class HomePage extends Component {
                             >
                                 {partners.map((logo, index) => (
                                     <SwiperSlide key={index}>
-                                        <CommonImage
+                                        <img
                                             src={`assets/images/partners/${logo}`}
                                             alt={`Partner ${index + 1}`}
                                             className="partner-logo"
@@ -949,7 +967,7 @@ class HomePage extends Component {
                                 >
                                     {recruiters1.map((logo, index) => (
                                         <SwiperSlide key={index}>
-                                            <CommonImage
+                                            <img
                                                 src={`assets/images/prime-recruiters/${logo}`}
                                                 alt={`Partner ${index + 1}`}
                                                 className="partner-logo"
@@ -979,7 +997,7 @@ class HomePage extends Component {
                                 >
                                     {recruiters2.map((logo, index) => (
                                         <SwiperSlide key={index}>
-                                            <CommonImage
+                                            <img
                                                 src={`assets/images/prime-recruiters/${logo}`}
                                                 alt={`Partner ${index + 1}`}
                                                 className="partner-logo"
@@ -1039,7 +1057,7 @@ class HomePage extends Component {
                                                             <h2>1000+</h2>
                                                         </div>
                                                         <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                            <CommonImage src="/assets/images/bento-vector-1.png" alt="" />
+                                                            <img src="/assets/images/bento-vector-1.png" alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1077,8 +1095,8 @@ class HomePage extends Component {
                                                     <h2>20000+</h2>
                                                 </div>
                                                 <div className="d-flex justify-content-center align-items-center">
-                                                    <CommonImage src="/assets/images/bento-vector-3-2.png" className="image-1" alt="" />
-                                                    <CommonImage src="/assets/images/bento-vector-3-1.png" className="image-2" alt="" />
+                                                    <img src="/assets/images/bento-vector-3-2.png" className="image-1" alt="" />
+                                                    <img src="/assets/images/bento-vector-3-1.png" className="image-2" alt="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1101,7 +1119,7 @@ class HomePage extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4 col-12 d-flex justify-content-center align-items-center">
-                                                    <CommonImage src="/assets/images/bento-vector-2.png" alt="" />
+                                                    <img src="/assets/images/bento-vector-2.png" alt="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1159,10 +1177,10 @@ class HomePage extends Component {
                                         >
                                             {item.question}
                                             <span className="icon">
-                                                <CommonImage
+                                                <img
                                                     src={
                                                         this.state.activeFaqIndex === index
-                                                            ? ""
+                                                            ? null
                                                             : "/assets/images/icons/faq-icon.png"
                                                     }
                                                     alt="toggle"
@@ -1182,7 +1200,7 @@ class HomePage extends Component {
 
                             {/* Image */}
                             <div className="col-lg-6">
-                                <CommonImage
+                                <img
                                     src="/assets/images/faq.png"
                                     className="w-100"
                                     alt="velearn FAQ"

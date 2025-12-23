@@ -10,6 +10,8 @@ import SignUpPage from "./SignUpPage";
 import ScrollToTop from "./ScrollToTop";
 import Preloader from "./Preloader";
 
+import RecordedCourse from "./RecordedCourse";
+
 /* ---------- Page Transition Wrapper ---------- */
 const PageTransitionWrapper = ({ children, pathname }) => {
     const isHome = pathname === "/";
@@ -55,6 +57,14 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <SignUpPage />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/recorded-course"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <RecordedCourse />
                         </PageTransitionWrapper>
                     }
                 />

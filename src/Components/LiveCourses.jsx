@@ -291,6 +291,7 @@ class LiveCourses extends Component {
                             modules={[Autoplay, Pagination]}
                             spaceBetween={70}
                             slidesPerView={4}
+                            loop={true}
                             autoplay={{ delay: 3000 }}
                             pagination={{ clickable: true }}
                             breakpoints={{

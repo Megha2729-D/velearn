@@ -15,32 +15,38 @@ const Navbar = () => {
 
     const handleShowNavbar = () => setShowNavbar(!showNavbar);
 
-    // useEffect(() => {
-    //     const handleScroll = () => setActive(window.scrollY > 100);
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    // }, []);
+    useEffect(() => {
+        const handleScroll = () => setActive(window.scrollY > 100);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
-    // useEffect(() => {
-    //     if (showNavbar) {
-    //         document.body.style.overflow = 'hidden';
-    //         document.documentElement.style.overflow = 'hidden';
-    //     } else {
-    //         document.body.style.overflow = '';
-    //         document.documentElement.style.overflow = '';
-    //         setDropdownOpen({
-    //             selfPaced: false,
-    //             liveCourses: false,
-    //             practice: false,
-    //             resources: false
-    //         });
-    //         setSubDropdownOpen({});
-    //     }
-    //     return () => {
-    //         document.body.style.overflow = '';
-    //         document.documentElement.style.overflow = '';
-    //     };
-    // }, [showNavbar]);
+    useEffect(() => {
+        const body = document.body;
+        const html = document.documentElement;
+
+        if (showNavbar) {
+            body.classList.add('nav-open');
+            html.classList.add('nav-open');
+        } else {
+            body.classList.remove('nav-open');
+            html.classList.remove('nav-open');
+
+            setDropdownOpen({
+                selfPaced: false,
+                liveCourses: false,
+                practice: false,
+                resources: false
+            });
+            setSubDropdownOpen({});
+        }
+
+        return () => {
+            body.classList.remove('nav-open');
+            html.classList.remove('nav-open');
+        };
+    }, [showNavbar]);
+
 
     // Close sub-dropdown when clicking outside
     useEffect(() => {

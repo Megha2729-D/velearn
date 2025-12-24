@@ -250,21 +250,24 @@ class RecordedCourse extends Component {
                                         <p className="mb-2">{course.desc}</p>
 
                                         <div className="d-flex justify-content-between mt-auto">
-                                            <div>
+                                            <div className="recorded_course_duration">
                                                 <div>
                                                     <i className="bi bi-clock pe-1"></i>
                                                     {course.duration}
                                                 </div>
                                                 <div>
                                                     <i className="bi bi-star-fill pe-1"></i>
+                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                    <i className="bi bi-star-fill pe-1"></i>
                                                     {course.rating}
                                                 </div>
                                             </div>
 
                                             {course.newPrice && (
-                                                <div>
+                                                <div className="d-flex align-items-center gap-2">
                                                     <span className="new_price">₹ {course.newPrice}</span>
-                                                    <br />
                                                     <s className="old_price">₹ {course.oldPrice}</s>
                                                 </div>
                                             )}

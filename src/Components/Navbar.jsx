@@ -21,31 +21,31 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    useEffect(() => {
-        const body = document.body;
-        const html = document.documentElement;
+    // useEffect(() => {
+    //     const body = document.body;
+    //     const html = document.documentElement;
 
-        if (showNavbar) {
-            body.classList.add('nav-open');
-            html.classList.add('nav-open');
-        } else {
-            body.classList.remove('nav-open');
-            html.classList.remove('nav-open');
+    //     if (showNavbar) {
+    //         body.classList.add('nav-open');
+    //         html.classList.add('nav-open');
+    //     } else {
+    //         body.classList.remove('nav-open');
+    //         html.classList.remove('nav-open');
 
-            setDropdownOpen({
-                selfPaced: false,
-                liveCourses: false,
-                practice: false,
-                resources: false
-            });
-            setSubDropdownOpen({});
-        }
+    //         setDropdownOpen({
+    //             selfPaced: false,
+    //             liveCourses: false,
+    //             practice: false,
+    //             resources: false
+    //         });
+    //         setSubDropdownOpen({});
+    //     }
 
-        return () => {
-            body.classList.remove('nav-open');
-            html.classList.remove('nav-open');
-        };
-    }, [showNavbar]);
+    //     return () => {
+    //         body.classList.remove('nav-open');
+    //         html.classList.remove('nav-open');
+    //     };
+    // }, [showNavbar]);
 
 
     // Close sub-dropdown when clicking outside

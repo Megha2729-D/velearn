@@ -2492,22 +2492,23 @@ section {
         align-items: center;
     }
 
+
     .nav-elements {
         padding: 0;
         position: absolute;
         left: 0;
-        top: 75px;
+        top: 108px;
         background-color: #f6f6f6;
-        width: 0px;
+        width: 100%;
+        height: calc(100vh - 108px);
         z-index: 99;
-        height: calc(100vh - 60px);
-        transition: all 0.3s ease-in;
         overflow: hidden;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
     }
 
     .nav-elements.active {
-        width: 100%;
-        top: 108px;
+        transform: translateX(0);
     }
 
     .nav-elements ul {

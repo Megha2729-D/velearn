@@ -8,9 +8,9 @@
     --button-shadow: -6px 6px 11px 0px #00000069;
 }
 
-.nav-open {
+/* .nav-open {
     overflow-y: hidden;
-}
+} */
 
 ::selection {
     background-color: var(--c2);

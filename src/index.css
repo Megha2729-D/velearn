@@ -2533,7 +2533,12 @@ section {
 
 @media screen and (max-width: 390px) {
     .nav-elements.active {
-        top: 52px;
+        top: 110px;
+    }
+
+    .menu-icon svg:last-child {
+        height: 20px;
+        width: 20px;
     }
 
     .nav_mbl_icons i {
@@ -2546,7 +2551,7 @@ section {
     }
 
     .navbar_links.active .nav-elements {
-        top: 52px;
+        top: 70px;
     }
 
 }

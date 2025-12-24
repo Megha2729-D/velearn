@@ -1075,12 +1075,19 @@ img {
     text-align: left;
 }
 
-.banner-bg {
-    background-image: url("../public/assets/images/banner-card.png");
+.right-banner-bg {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     min-height: 320px;
+}
+
+.right-banner-bg.home-banner-bg {
+    background-image: url("../public/assets/images/banner-card.png");
+}
+
+.right-banner-bg.live-banner-bg {
+    background-image: url("../public/assets/images/live-course-banner-card.png");
 }
 
 .v-banner button {
@@ -2241,6 +2248,261 @@ section {
 
 /* form - end */
 
+/* live course start */
+
+/* ================= LIVE BENEFITS ================= */
+
+.live_benefits_parent {
+    display: flex;
+    flex-wrap: wrap;
+    /* display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px; */
+}
+
+/* Card base */
+.benefit_card {
+    min-height: 200px;
+    padding: 10px;
+}
+
+.benefit_card h4 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Hover */
+.benefit_card:hover div {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px #00000014;
+}
+
+.benefit_card div {
+    height: 100%;
+    width: 100%;
+    border-radius: 16px;
+    padding: 16px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.benefit_card img:first-child {
+    height: 90px;
+    width: 100px;
+    object-fit: contain;
+}
+
+.benefit_card img.lc_coin {
+    position: absolute;
+    height: 30px;
+}
+
+.benefit_card img.lc_coin_1 {
+    top: -5px;
+    left: -5px;
+}
+
+.benefit_card img.lc_coin_2 {
+    right: 20%;
+    bottom: 10px;
+}
+
+.benefit_card img.lc_coin_3 {
+    left: -18px;
+    bottom: 15px;
+}
+
+.benefit_card.big h4 {
+    padding-left: 10px;
+}
+
+.benefit_card.small h4 {
+    padding-top: 10px;
+}
+
+/* First row – 6 equal small boxes */
+.benefit_card.small {
+    width: 12.5%;
+}
+
+.benefit_card.big {
+    width: 25%;
+}
+
+/* ===== COLORS ===== */
+
+.b1 div {
+    background: #FFCC0029;
+    color: #E6B903;
+}
+
+.b2 div {
+    background: #4B6ED142;
+    color: #2B58CD;
+}
+
+.b3 div {
+    background: #29941B47;
+    color: #29941B;
+}
+
+.b4 div {
+    background: #FF000047;
+    color: #FF0000;
+}
+
+.b5 div {
+    background: #6038AD47;
+    color: #6038AD;
+}
+
+.b6 div {
+    background: #40D3DE47;
+    color: #009AA6;
+}
+
+.b7 div {
+    background: #B7B10447;
+    color: #B7B104;
+}
+
+.b8 div {
+    background: #5A2D8247;
+    color: #5A2D82;
+}
+
+.b9 div {
+    background: #00779747;
+    color: #007797;
+}
+
+.b10 div {
+    background: #00FF303B;
+    color: #3A5A40;
+}
+
+.b11 div {
+    background: #0E4CD321;
+    color: #3902FF;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+    .benefit_card.small {
+        width: 20%;
+    }
+
+    .benefit_card.big {
+        width: 40%;
+    }
+
+    .more_butt_parent {
+        margin-top: 0px !important;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .benefit_card.small,
+    .benefit_card.big {
+        width: 50%;
+    }
+
+    .benefit_card h4 {
+        text-align: center;
+    }
+}
+
+.queries_sec {
+    background: url(../public/assets/images/live-banner-bg.png), linear-gradient(#0C1D52, #0C1D52);
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    border-radius: 50px;
+    padding: 50px;
+}
+
+.queries_sec div {
+    width: 55%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    padding: 40px;
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    background: linear-gradient(152.97deg, #00000033 0%, #00000000 100%);
+}
+
+.queries_sec button {
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 32.55px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 9px;
+    padding: 5px 15px;
+    margin-top: 10px;
+}
+
+.live_course_review .testimonial_card {
+    background: url(../public/assets/images/testimonial/live-course/background.png);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 0 20px 28px;
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+    margin-top: 80px;
+    transition: 0.3s ease;
+}
+
+.live_course_review .testimonial_card img {
+    width: 100%;
+    height: 315px;
+    object-fit: contain;
+    margin-top: -85px;
+}
+
+.live_course_review .testimonial_card p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.live_course_review .testimonial_card h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Hover */
+.live_course_review .testimonial_card:hover {
+    transform: translateY(-6px);
+}
+
+/* Swiper dots */
+.live_course_review .testimonials_swiper .swiper-pagination {
+    margin-top: 50px;
+}
+
+.live_course_review .swiper-wrapper {
+    margin-bottom: 50px;
+}
+
+/* live course end */
+
 /* responsive */
 
 @media (min-width: 2000px) {
@@ -2345,6 +2607,13 @@ section {
 }
 
 @media screen and (max-width: 910px) {
+    .queries_sec div {
+        width: 100%;
+    }
+
+    .queries_sec {
+        padding: 30px;
+    }
 
     .filter_select,
     .filter_select_parent {

@@ -423,7 +423,7 @@ class HomePage extends Component {
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 banner-bg"></div>
+                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -439,7 +439,7 @@ class HomePage extends Component {
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 banner-bg"></div>
+                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -455,7 +455,7 @@ class HomePage extends Component {
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 banner-bg"></div>
+                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -471,7 +471,7 @@ class HomePage extends Component {
                                                     </p>
                                                     <button>Explore more</button>
                                                 </div>
-                                                <div className="col-lg-6 banner-bg"></div>
+                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
                                             </div>
                                         </div>
                                     </div>

@@ -11,6 +11,7 @@ import ScrollToTop from "./ScrollToTop";
 import Preloader from "./Preloader";
 
 import RecordedCourse from "./RecordedCourse";
+import LiveCourses from "./LiveCourses";
 
 /* ---------- Page Transition Wrapper ---------- */
 const PageTransitionWrapper = ({ children, pathname }) => {
@@ -65,6 +66,14 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <RecordedCourse />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/live-course"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <LiveCourses />
                         </PageTransitionWrapper>
                     }
                 />

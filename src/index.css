@@ -8,8 +8,18 @@
     --button-shadow: -6px 6px 11px 0px #00000069;
 }
 
-.nav-open {
-    overflow-y: hidden;
+body.nav-open {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+}
+
+.menu-icon {
+    touch-action: manipulation;
+}
+
+.nav-elements {
+    will-change: transform;
 }
 
 ::selection {

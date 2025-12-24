@@ -11,47 +11,66 @@ const Navbar = () => {
         resources: false
     });
     const [subDropdownOpen, setSubDropdownOpen] = useState({});
-    const navbarRef = useRef(null); // reference to navbar container
+    const navbarRef = useRef(null);
 
-    const handleShowNavbar = () => setShowNavbar(!showNavbar);
-
-    // useEffect(() => {
-    //     const handleScroll = () => setActive(window.scrollY > 100);
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    // }, []);
-
-    // useEffect(() => {
-    //     const body = document.body;
-    //     const html = document.documentElement;
-
-    //     if (showNavbar) {
-    //         body.classList.add('nav-open');
-    //         html.classList.add('nav-open');
-    //     } else {
-    //         body.classList.remove('nav-open');
-    //         html.classList.remove('nav-open');
-
-    //         setDropdownOpen({
-    //             selfPaced: false,
-    //             liveCourses: false,
-    //             practice: false,
-    //             resources: false
-    //         });
-    //         setSubDropdownOpen({});
-    //     }
-
-    //     return () => {
-    //         body.classList.remove('nav-open');
-    //         html.classList.remove('nav-open');
-    //     };
-    // }, [showNavbar]);
-
-
-    // Close sub-dropdown when clicking outside
+    /* =========================
+       SCROLL ACTIVE (THROTTLED)
+    ========================== */
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        let ticking = false;
+
+        const handleScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    setActive(window.scrollY > 100);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    /* =========================
+       BODY SCROLL LOCK (MOBILE SAFE)
+    ========================== */
+    useEffect(() => {
+        const body = document.body;
+
+        if (showNavbar) {
+            const scrollY = window.scrollY;
+            body.style.top = `-${scrollY}px`;
+            body.classList.add('nav-open');
+            body.dataset.scrollY = scrollY;
+        } else {
+            const scrollY = body.dataset.scrollY || 0;
+            body.classList.remove('nav-open');
+            body.style.top = '';
+            window.scrollTo(0, scrollY);
+
+            setDropdownOpen({
+                selfPaced: false,
+                liveCourses: false,
+                practice: false,
+                resources: false
+            });
+            setSubDropdownOpen({});
+        }
+
+        return () => {
+            body.classList.remove('nav-open');
+            body.style.top = '';
+        };
+    }, [showNavbar]);
+
+    /* =========================
+       OUTSIDE CLICK
+    ========================== */
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (navbarRef.current && !navbarRef.current.contains(e.target)) {
                 setSubDropdownOpen({});
             }
         };
@@ -59,32 +78,37 @@ const Navbar = () => {
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
+    /* =========================
+       HANDLERS
+    ========================== */
+    const handleShowNavbar = (e) => {
+        e.stopPropagation();
+        setShowNavbar(prev => !prev);
+    };
+
     const toggleDropdown = (key, e) => {
         e.stopPropagation();
         setDropdownOpen(prev => {
-            const newState = {};
-            for (let k in prev) {
-                newState[k] = k === key ? !prev[k] : false;
-            }
-            return newState;
+            const next = {};
+            for (let k in prev) next[k] = k === key ? !prev[k] : false;
+            return next;
         });
-        setSubDropdownOpen({}); // close all sub-dropdowns when top dropdown changes
+        setSubDropdownOpen({});
     };
 
     const toggleSubDropdown = (key, e) => {
         e.stopPropagation();
-        setSubDropdownOpen(prev => {
-            const isOpen = prev[key];
-            const newState = {};
-            newState[key] = !isOpen; // only one open at a time
-            return newState;
-        });
+        setSubDropdownOpen(prev => ({ [key]: !prev[key] }));
     };
 
     const handleItemClick = () => {
-        // close sub-dropdowns when clicking a link
+        setShowNavbar(false);
         setSubDropdownOpen({});
     };
+
+    /* =========================
+       JSX
+    ========================== */
 
     return (
         <nav className="v-navbar flex-column w-100 bg-white" ref={navbarRef}>
@@ -225,18 +249,18 @@ const Navbar = () => {
 
 const Hamburger = ({ isOpen }) => (
     <>
-        <svg xmlns="http://www.w3.org/2000/svg" width="52" height="24" viewBox="0 0 52 24" className={isOpen ? "d-none" : "d-block"}>
-            <g transform="translate(-294 -47)">
-                <rect width="30" height="2" rx="2" transform="translate(304 47)" fill="#574c4c" />
-                <rect width="40" height="2" rx="2" transform="translate(294 57)" fill="#574c4c" />
-                <rect width="30" height="2" rx="2" transform="translate(304 67)" fill="#574c4c" />
-            </g>
-        </svg>
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className={isOpen ? "d-block" : "d-none"}>
-            <line x1="0" y1="0" x2="24" y2="24" stroke="#574c4c" strokeWidth="2" />
-            <line x1="24" y1="0" x2="0" y2="24" stroke="#574c4c" strokeWidth="2" />
-        </svg>
+        {!isOpen ? (
+            <svg width="52" height="24">
+                <rect width="30" height="2" y="2" />
+                <rect width="40" height="2" y="10" />
+                <rect width="30" height="2" y="18" />
+            </svg>
+        ) : (
+            <svg width="24" height="24">
+                <line x1="0" y1="0" x2="24" y2="24" stroke="black" strokeWidth="2" />
+                <line x1="24" y1="0" x2="0" y2="24" stroke="black" strokeWidth="2" />
+            </svg>
+        )}
     </>
 );
 

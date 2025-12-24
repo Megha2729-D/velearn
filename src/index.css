@@ -8,18 +8,8 @@
     --button-shadow: -6px 6px 11px 0px #00000069;
 }
 
-body.nav-open {
-    position: fixed;
-    width: 100%;
-    overflow: hidden;
-}
-
-.menu-icon {
-    touch-action: manipulation;
-}
-
-.nav-elements {
-    will-change: transform;
+.nav-open {
+    overflow-y: hidden;
 }
 
 ::selection {
@@ -2505,10 +2495,10 @@ section {
     .nav-elements {
         padding: 0;
         position: absolute;
-        left: -100%;
-        top: 108px;
+        left: 0;
+        top: 75px;
         background-color: #f6f6f6;
-        /* width: 0px; */
+        width: 0px;
         z-index: 99;
         height: calc(100vh - 60px);
         transition: all 0.3s ease-in;
@@ -2516,9 +2506,8 @@ section {
     }
 
     .nav-elements.active {
-        /* width: 100%; */
+        width: 100%;
         top: 108px;
-        left: 0;
     }
 
     .nav-elements ul {

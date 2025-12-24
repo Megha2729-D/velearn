@@ -42,7 +42,7 @@ class HomePage extends Component {
                     observer.disconnect();
                 }
             },
-            { threshold: 1 } // start only when almost fully visible
+            { threshold: 0.4 } // start only when almost fully visible
         );
         observer.observe(document.querySelector(".counter_parent"));
     }

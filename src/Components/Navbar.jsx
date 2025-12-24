@@ -15,11 +15,22 @@ const Navbar = () => {
 
     const handleShowNavbar = () => setShowNavbar(!showNavbar);
 
-    // useEffect(() => {
-    //     const handleScroll = () => setActive(window.scrollY > 100);
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    // }, []);
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY >= 100) {
+                setActive(true);
+            } else {
+                setActive(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
 
     // useEffect(() => {
     //     const body = document.body;

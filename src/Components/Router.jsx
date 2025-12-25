@@ -87,11 +87,18 @@ const AppRouter = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const handleLoad = () => {
             setLoading(false);
-        }, 3000); // ⏱ 3 seconds preloader
+        };
 
-        return () => clearTimeout(timer);
+        // If page already loaded (fast reload / cache)
+        if (document.readyState === "complete") {
+            handleLoad();
+        } else {
+            window.addEventListener("load", handleLoad);
+        }
+
+        return () => window.removeEventListener("load", handleLoad);
     }, []);
 
     return (
@@ -102,11 +109,16 @@ const AppRouter = () => {
                 {loading ? (
                     <Preloader />
                 ) : (
-                    <div className="first_sec">
+                    <motion.div
+                        className="first_sec"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4 }}
+                    >
                         <Navbar />
                         <AnimatedRoutes />
                         <Footer />
-                    </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </Router>

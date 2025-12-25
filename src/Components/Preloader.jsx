@@ -1,4 +1,3 @@
-// Preloader.jsx
 import { motion } from "framer-motion";
 
 const Preloader = () => {
@@ -14,10 +13,9 @@ const Preloader = () => {
                 {/* Spinner */}
                 <div className="spinner"></div>
 
-                {/* Logo animation */}
-                <motion.img
-                    src="/assets/images/logo-icon.png"
-                    alt="Logo"
+                {/* Logo (CSS background image) */}
+                <motion.div
+                    className="logo-bg"
                     initial={{ scale: 0.8 }}
                     animate={{ scale: [0.8, 1, 0.8] }}
                     transition={{

@@ -240,7 +240,7 @@ class Footer extends Component {
                                                 </div>
                                                 <div className="footer_icons">
                                                     <a href="https://t.me/velearn" target="_blank" rel="noreferrer">
-                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/telegram.`} png alt="Telegram" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/telegram.png`} alt="Telegram" />
                                                     </a>
                                                 </div>
                                             </div>

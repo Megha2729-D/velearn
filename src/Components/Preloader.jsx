@@ -23,7 +23,9 @@ const Preloader = () => {
                         repeat: Infinity,
                         ease: "easeInOut",
                     }}
-                />
+                >
+                    <img src={`${process.env.PUBLIC_URL}/assets/images/logo-icon.png`} alt="" />
+                </motion.div>
             </div>
         </motion.div>
     );

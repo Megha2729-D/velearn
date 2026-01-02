@@ -11,7 +11,7 @@ const ScrollToTop = () => {
             // Use a small timeout to wait until the new page mounts
             const timeout = setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: "instant" });
-            }, 50);
+            }, 0);
 
             return () => clearTimeout(timeout);
         }

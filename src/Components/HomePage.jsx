@@ -60,7 +60,7 @@ class HomePage extends Component {
             courses: [
                 {
                     title: "Master in Full Stack Development",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Become a job-ready full stack developer with hands-on projects.",
                     rating: "(4.6)",
                     duration: "10 hrs",
@@ -69,7 +69,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Master Data Science Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -78,7 +78,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
                     duration: "10 hrs",
@@ -87,7 +87,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Cloud & DevOps Engineering",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -96,7 +96,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "AI Career Accelerator",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
                     duration: "10 hrs",
@@ -111,7 +111,7 @@ class HomePage extends Component {
             courses: [
                 {
                     title: "Master Data Science Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -120,7 +120,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
                     duration: "10 hrs",
@@ -129,7 +129,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Cloud & DevOps Engineering",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -138,7 +138,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "AI Career Accelerator",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
                     duration: "10 hrs",
@@ -153,7 +153,7 @@ class HomePage extends Component {
             courses: [
                 {
                     title: "Master Data Science Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -162,7 +162,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
                     duration: "10 hrs",
@@ -171,7 +171,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Cloud & DevOps Engineering",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -180,7 +180,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "AI Career Accelerator",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
                     duration: "10 hrs",
@@ -194,7 +194,7 @@ class HomePage extends Component {
             courses: [
                 {
                     title: "Master Data Science Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -203,7 +203,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
                     duration: "10 hrs",
@@ -212,7 +212,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Cloud & DevOps Engineering",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -221,7 +221,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "AI Career Accelerator",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
                     duration: "10 hrs",
@@ -235,7 +235,7 @@ class HomePage extends Component {
             courses: [
                 {
                     title: "Master Data Science Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn Python, ML & Data Analytics with real datasets.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -244,7 +244,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Advanced UI/UX Design Course",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Learn UX research, wireframing & Figma.",
                     rating: "(4.6)",
                     duration: "10 hrs",
@@ -253,7 +253,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "Cloud & DevOps Engineering",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
                     rating: "(4.7)",
                     duration: "10 hrs",
@@ -262,7 +262,7 @@ class HomePage extends Component {
                 },
                 {
                     title: "AI Career Accelerator",
-                    img: "assets/images/course.png",
+                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                     desc: "Mentor-led AI program with projects & placement support.",
                     rating: "(4.8)",
                     duration: "10 hrs",
@@ -274,19 +274,19 @@ class HomePage extends Component {
     };
     testimonialData = [
         {
-            img: "assets/images/testimonial/arun-vikkashamuthu.png",
+            img: `${process.env.PUBLIC_URL}/assets/images/testimonial/arun-vikkashamuthu.png`,
             text: `I joined with very little knowledge, but the classes
         were explained in a simple way. The trainers cleared my
         doubts patiently every day. The assignments helped me
         understand the concepts better. I feel more confident now.`,
         },
         {
-            img: "assets/images/testimonial/person-1.jpg",
+            img: `${process.env.PUBLIC_URL}/assets/images/testimonial/person-1.jpg`,
             text: `The assignments helped me a lot to understand the real concepts.
         Trainers supported daily and cleared all doubts quickly.`
         },
         {
-            img: "assets/images/testimonial/person-2.jpg",
+            img: `${process.env.PUBLIC_URL}/assets/images/testimonial/person-2.jpg`,
             text: `Simple teaching with examples helped me improve quickly.
         Highly recommended for beginners and career transitions.`
         },
@@ -507,7 +507,7 @@ class HomePage extends Component {
                                     </p>
                                     <div className="col-12 mt-5">
                                         <div className="d-flex align-items-center">
-                                            <img src="/assets/images/icons/phone.png" className="phone-img" alt="" />
+                                            <img src={`${process.env.PUBLIC_URL}/assets/images/icons/phone.png`} className="phone-img" alt="" />
                                             <div className="call_details">
                                                 <p className="text-c2 mb-0 fw-bold">Have any questions ?</p>
                                                 <p className="fw-bold mb-0"> <a href="tel:">5555555555</a></p>
@@ -518,7 +518,7 @@ class HomePage extends Component {
                             </div>
                             <div className="col-lg-6 about_sec_right position-relative">
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <img src="/assets/images/about-vector-person.png" className="vector_about m-auto w-75" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/about-vector-person.png`} className="vector_about m-auto w-75" alt="" />
                                 </div>
                                 <div className="dotted_circle_parent">
                                     <div className="dotted_circle outer-dotted"></div>
@@ -556,10 +556,10 @@ class HomePage extends Component {
                             <div className="col-12">
                                 <div className="tech_icon">
                                     <div className="tech_wrap">
-                                        <img src="/assets/images/icons/react.png" className="tech-icon tech-icon-one" alt="" />
-                                        <img src="/assets/images/icons/js.png" className="tech-icon tech-icon-two" alt="" />
-                                        <img src="/assets/images/icons/angular.png" className="tech-icon tech-icon-three" alt="" />
-                                        <img src="/assets/images/icons/python.png" className="tech-icon tech-icon-four" alt="" />
+                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/react.png`} className="tech-icon tech-icon-one" alt="" />
+                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/js.png`} className="tech-icon tech-icon-two" alt="" />
+                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/angular.png`} className="tech-icon tech-icon-three" alt="" />
+                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/python.png`} className="tech-icon tech-icon-four" alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -573,25 +573,25 @@ class HomePage extends Component {
                             {[
                                 {
                                     title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                                     desc: "Master advanced JavaScript concepts used in real-world applications.",
                                     duration: "3 Months"
                                 },
                                 {
                                     title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                                     desc: "Master advanced JavaScript concepts used in real-world applications.",
                                     duration: "3 Months"
                                 },
                                 {
                                     title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                                     desc: "Master advanced JavaScript concepts used in real-world applications.",
                                     duration: "3 Months"
                                 },
                                 {
                                     title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/course.png`,
                                     desc: "Master advanced JavaScript concepts used in real-world applications.",
                                     duration: "3 Months"
                                 },
@@ -704,7 +704,7 @@ class HomePage extends Component {
                         </div>
 
                         {/* Tabs */}
-                        <div className="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                        <div className="mt-4 recorded_tab_parent">
                             {Object.keys(this.recordedCourseTabs).map((key) => (
                                 <button
                                     key={key}
@@ -816,15 +816,15 @@ class HomePage extends Component {
                             <div className="journey_bg_icon"></div>
                             <div className="dotted_lines">
                                 <div className="position-relative d-flex justify-content-center">
-                                    <img src="/assets/images/journey/dotted-lines.png" className="dotted-line-img" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/journey/dotted-lines.png`} className="dotted-line-img" alt="" />
                                 </div>
                             </div>
                             <div className="rocket_wrap">
-                                <img src="/assets/images/journey/rocket.png" className="rocket_img" alt="" />
+                                <img src={`${process.env.PUBLIC_URL}assets/images/journey/rocket.png`} className="rocket_img" alt="" />
                             </div>
                             {/* Item 1 */}
                             <div className="journey_item item_1">
-                                <img src="/assets/images/journey/step-1.png" alt="" />
+                                <img src={`${process.env.PUBLIC_URL}assets/images/journey/step-1.png`} alt="" />
                                 <h6>Career Guidance With Free Demo</h6>
                                 <p>Get expert advice and choose the right IT career path.</p>
                             </div>
@@ -833,12 +833,12 @@ class HomePage extends Component {
                             <div className="journey_item item_2">
                                 <h6>Course Commencement</h6>
                                 <p>Start live online classes with structured, beginner-friendly lessons.</p>
-                                <img src="/assets/images/journey/step-2.png" alt="" />
+                                <img src={`${process.env.PUBLIC_URL}assets/images/journey/step-2.png`} alt="" />
                             </div>
 
                             {/* Item 3 */}
                             <div className="journey_item item_3">
-                                <img src="/assets/images/journey/step-3.png" alt="" />
+                                <img src={`${process.env.PUBLIC_URL}assets/images/journey/step-3.png`} alt="" />
                                 <h6>Periodical Activity & Assessments</h6>
                                 <p>Practice regularly with tasks and quick assessments.</p>
                             </div>
@@ -847,12 +847,12 @@ class HomePage extends Component {
                             <div className="journey_item item_4">
                                 <h6>Real Time Projects Submission</h6>
                                 <p>Apply your skills through industry-level practical projects.</p>
-                                <img src="/assets/images/journey/step-4.png" alt="" />
+                                <img src={`${process.env.PUBLIC_URL}assets/images/journey/step-4.png`} alt="" />
                             </div>
 
                             {/* Item 5 */}
                             <div className="journey_item item_5">
-                                <img src="/assets/images/journey/step-5.png" alt="" />
+                                <img src={`${process.env.PUBLIC_URL}assets/images/journey/step-5.png`} alt="" />
                                 <h6>Job Placement Assistance</h6>
                                 <p>Boost your resume, crack interviews and step into your dream role.</p>
                             </div>
@@ -1057,7 +1057,7 @@ class HomePage extends Component {
                                                             <h2>1000+</h2>
                                                         </div>
                                                         <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center">
-                                                            <img src="/assets/images/bento-vector-1.png" alt="" />
+                                                            <img src={`${process.env.PUBLIC_URL}/assets/images/bento-vector-1.png`} alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1095,8 +1095,8 @@ class HomePage extends Component {
                                                     <h2>20000+</h2>
                                                 </div>
                                                 <div className="d-flex justify-content-center align-items-center">
-                                                    <img src="/assets/images/bento-vector-3-2.png" className="image-1" alt="" />
-                                                    <img src="/assets/images/bento-vector-3-1.png" className="image-2" alt="" />
+                                                    <img src={`${process.env.PUBLIC_URL}/assets/images/bento-vector-3-2.png`} className="image-1" alt="" />
+                                                    <img src={`${process.env.PUBLIC_URL}/assets/images/bento-vector-3-1.png`} className="image-2" alt="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1119,7 +1119,7 @@ class HomePage extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4 col-12 d-flex justify-content-center align-items-center">
-                                                    <img src="/assets/images/bento-vector-2.png" alt="" />
+                                                    <img src={`${process.env.PUBLIC_URL}/assets/images/bento-vector-2.png`} alt="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1201,7 +1201,7 @@ class HomePage extends Component {
                             {/* Image */}
                             <div className="col-lg-6">
                                 <img
-                                    src="/assets/images/faq.png"
+                                    src={`${process.env.PUBLIC_URL}/assets/images/faq.png`}
                                     className="w-100"
                                     alt="velearn FAQ"
                                 />

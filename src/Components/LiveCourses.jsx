@@ -197,72 +197,72 @@ class LiveCourses extends Component {
                         <div className="live_benefits_parent justify-content-center mt-4">
                             <div className="benefit_card b1 small">
                                 <div className="flex-column">
-                                    <img src="/assets/images/live-course-vector/lc-vector-1.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-1.png`} alt="" />
                                     <h4>Career Focused Guidance</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b2 big">
                                 <div className="flex-column flex-md-row flex-lg-row">
-                                    <img src="/assets/images/live-course-vector/lc-vector-2.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-2.png`} alt="" />
                                     <h4>Industry Tools & Technologies</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b3 small">
                                 <div className="flex-column">
-                                    <img src="/assets/images/live-course-vector/lc-vector-3.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-3.png`} alt="" />
                                     <h4>Live Industry Examples</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b4 small">
                                 <div className="flex-column">
-                                    <img src="/assets/images/live-course-vector/lc-vector-4.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-4.png`} alt="" />
                                     <h4>Hands-On Live Projects</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b5 big">
                                 <div className="flex-column flex-md-row flex-lg-row">
-                                    <img src="/assets/images/live-course-vector/lc-vector-5.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-5.png`} alt="" />
                                     <h4>Doubt Solving Sessions</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b6 small">
                                 <div className="flex-column">
-                                    <img src="/assets/images/live-course-vector/lc-vector-6.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-6.png`} alt="" />
                                     <h4>Mock Test & Practice Questions</h4>
                                 </div>
                             </div>
 
                             <div className="benefit_card b7 small">
                                 <div className="flex-column">
-                                    <img src="/assets/images/live-course-vector/lc-vector-7.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-7.png`} alt="" />
                                     <h4>Placement Assistance</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b8 big">
                                 <div className="flex-column flex-md-row flex-lg-row">
-                                    <img src="/assets/images/live-course-vector/lc-vector-8.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-8.png`} alt="" />
                                     <h4>Weekdays / Weekend Live Classes</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b9 small">
                                 <div className="flex-column">
-                                    <img src="/assets/images/live-course-vector/lc-vector-9.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-9.png`} alt="" />
                                     <h4>Quick Tech Support</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b10 big">
                                 <div className="flex-column flex-md-row flex-lg-row">
-                                    <img src="/assets/images/live-course-vector/lc-vector-10.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-vector-10.png`} alt="" />
                                     <h4>Industry Recognized Certificates</h4>
                                 </div>
                             </div>
                             <div className="benefit_card b11 big">
                                 <div className="position-relative flex-column flex-md-row flex-lg-row">
-                                    <img src="/assets/images/live-course-vector/lc-vector-11-1.png" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}assets/images/live-course-vector/lc-vector-11-1.png`} alt="" />
                                     <h4 className="mb-5 mb-lg-0">Invite Friends & Get Benefits</h4>
-                                    <img src="/assets/images/live-course-vector/lc-coin-full.png" className="lc_coin lc_coin_1" alt="" />
-                                    <img src="/assets/images/live-course-vector/lc-coin-full.png" className="lc_coin lc_coin_2" alt="" />
-                                    <img src="/assets/images/live-course-vector/lc-coin-half.png" className="lc_coin lc_coin_3" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-coin-full.png`} className="lc_coin lc_coin_1" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-coin-full.png`} className="lc_coin lc_coin_2" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course-vector/lc-coin-half.png`} className="lc_coin lc_coin_3" alt="" />
                                 </div>
                             </div>
                         </div>

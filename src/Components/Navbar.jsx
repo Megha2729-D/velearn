@@ -73,9 +73,9 @@ const Navbar = () => {
                         </div>
 
                         {/* LOGO */}
-                        <NavLink to="/" onClick={closeMenu}>
+                        <NavLink to="/">
                             <div className="logo">
-                                <div className="logo_img" />
+                                <img src={`${process.env.PUBLIC_URL}/assets/images/velearn-logo.png`} alt="" />
                             </div>
                         </NavLink>
 

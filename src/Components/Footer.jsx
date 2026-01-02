@@ -211,17 +211,17 @@ class Footer extends Component {
                                             <div className="d-flex gap-3">
                                                 <div className="footer_icons">
                                                     <a href="https://facebook.com/velearn" target="_blank" rel="noreferrer">
-                                                        <img src="/assets/images/icons/facebook.png" alt="Facebook" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/facebook.png`} alt="Facebook" />
                                                     </a>
                                                 </div>
                                                 <div className="footer_icons">
                                                     <a href="https://twitter.com/velearn" target="_blank" rel="noreferrer">
-                                                        <img src="/assets/images/icons/twitter.png" alt="Twitter" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/twitter.png`} alt="Twitter" />
                                                     </a>
                                                 </div>
                                                 <div className="footer_icons">
                                                     <a href="https://instagram.com/velearn" target="_blank" rel="noreferrer">
-                                                        <img src="/assets/images/icons/instagram.png" alt="Instagram" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/instagram.png`} alt="Instagram" />
                                                     </a>
                                                 </div>
                                             </div>
@@ -230,17 +230,17 @@ class Footer extends Component {
                                             <div className="d-flex gap-3">
                                                 <div className="footer_icons">
                                                     <a href="https://linkedin.com/company/velearn" target="_blank" rel="noreferrer">
-                                                        <img src="/assets/images/icons/linkedin.png" alt="LinkedIn" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/linkedin.png`} alt="LinkedIn" />
                                                     </a>
                                                 </div>
                                                 <div className="footer_icons">
                                                     <a href="https://youtube.com/@velearn" target="_blank" rel="noreferrer">
-                                                        <img src="/assets/images/icons/youtube.png" alt="YouTube" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/youtube.png`} alt="YouTube" />
                                                     </a>
                                                 </div>
                                                 <div className="footer_icons">
                                                     <a href="https://t.me/velearn" target="_blank" rel="noreferrer">
-                                                        <img src="/assets/images/icons/telegram.png" alt="Telegram" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/icons/telegram.`} png alt="Telegram" />
                                                     </a>
                                                 </div>
                                             </div>
@@ -249,12 +249,12 @@ class Footer extends Component {
                                     <div className="col-lg-3 col-6 d-flex flex-column align-items-center app_img">
                                         <div className="one mt-3">
                                             <a href="" target="_blank" rel="noreferrer">
-                                                <img src="/assets/images/icons/google-play.png" alt="Telegram" />
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/google-play.png`} alt="google-play" />
                                             </a>
                                         </div>
                                         <div className="one">
                                             <a href="" target="_blank" rel="noreferrer">
-                                                <img src="/assets/images/icons/apple-store.png" alt="Telegram" />
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/icons/apple-store.png`} alt="apple-store" />
                                             </a>
                                         </div>
                                         <div className="one">

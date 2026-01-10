@@ -36,6 +36,12 @@ class CourseDetails extends Component {
         }
     }
 
+    handleSlideChange = (swiper) => {
+        // Only update if it actually changed
+        if (this.state.activeSlide !== swiper.realIndex) {
+            this.setState({ activeSlide: swiper.realIndex });
+        }
+    };
     plans = [
         {
             title: "Full Stack Unlimited Access Plan",
@@ -227,7 +233,7 @@ class CourseDetails extends Component {
         });
     };
     render() {
-        const { activeTab, activePriceTab } = this.state;
+        const { activeTab, activePriceTab, activeSlide } = this.state;
         const currentContent = this.renderContent();
         const plan = this.plans[activePriceTab];
         // const tools = [

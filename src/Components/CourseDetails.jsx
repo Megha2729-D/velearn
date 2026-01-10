@@ -9,19 +9,74 @@ import "swiper/css/effect-coverflow";
 class CourseDetails extends Component {
     constructor(props) {
         super(props);
+        this.swiperRef = null;
+
         this.state = {
             activeIndex: 0,
             activeTab: 1,
             contentLeft: 0,
-            activeFaqIndex: 0, // first open
+            activeToolName: "",
+            activeShadow: "",
+            activeFaqIndex: 0,
+            activePriceTab: 0,
         };
+
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
-    }
+    }   
     componentDidMount() {
-        if (this.tabRefs[0].current) {
+        // Auto click the first static tab
+        if (this.tabRefs[0]?.current) {
             this.tabRefs[0].current.click();
         }
+
+        // Set first tool name on initial mount
+        if (this.tools && this.tools.length > 0) {
+            this.setState({ activeToolName: this.tools[0].name });
+            this.setState({ activeShadow: this.tools[0].shadow });
+        }
     }
+    plans = [
+        {
+            title: "Full Stack Unlimited Access Plan",
+            oldPrice: "₹50,000",
+            newPrice: "₹15,000",
+            features: [
+                "Lifetime Material Access",
+                "Portfolio-Ready Projects",
+                "Mentor-Led Support",
+                "Structured Full Stack Roadmap",
+                "Career & Placement Guidance",
+                "Certificate Of Completion",
+            ],
+        },
+        {
+            title: "Frontend Unlimited Access Plan",
+            oldPrice: "₹50,000",
+            newPrice: "₹15,000",
+            features: [
+                "Lifetime Material Access",
+                "Portfolio-Ready Projects",
+                "Mentor-Led Support",
+                "Structured Frontend Roadmap",
+                "Career & Placement Guidance",
+                "Certificate Of Completion",
+            ],
+        },
+    ];
+    tools = [
+        { name: "React", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/react.png`, shadow: "#61DAFB" },
+        { name: "CSS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/css.png`, shadow: "#2965F1" },
+        { name: "Express JS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/express-js.png`, shadow: "#F3DF1D" },
+        { name: "Visual Studio", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/vs-code.png`, shadow: "#0080CF" },
+        { name: "SQL", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/sql.png`, shadow: "#D08001" },
+        { name: "Bootstrap", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/bootstrap.png`, shadow: "#7952B3" },
+        { name: "Mongo DB", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/mongodb.png`, shadow: "#9EFF3E" },
+        { name: "Tailwind", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/tailwind.png`, shadow: "#38BDF8" },
+        { name: "Python", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/python.png`, shadow: "#DE6B00" },
+        { name: "Spring Boot", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/spring-boot.png`, shadow: "#6DB33F" },
+        { name: "HTML", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/html.png`, shadow: "#E44D26" },
+        { name: "Django", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/django.png`, shadow: "#304F44" },
+    ];
     renderContent() {
         const { activeTab } = this.state;
 
@@ -160,23 +215,24 @@ class CourseDetails extends Component {
         });
     };
     render() {
-        const { activeTab } = this.state;
+        const { activeTab, activePriceTab } = this.state;
         const currentContent = this.renderContent();
-        const tools = [
-            { name: "React", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/react.png`, shadow: "#61DAFB" },
-            { name: "CSS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/css.png`, shadow: "#2965F1" },
-            { name: "Express JS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/express-js.png`, shadow: "#F3DF1D" },
-            { name: "Visual Studio", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/vs-code.png`, shadow: "#0080CF" },
-            { name: "SQL", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/sql.png`, shadow: "#D08001" },
-            { name: "Bootstrap", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/bootstrap.png`, shadow: "#7952B3" },
-            { name: "Mongo DB", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/mongodb.png`, shadow: "#9EFF3E" },
-            { name: "Tailwind", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/tailwind.png`, shadow: "#38BDF8" },
-            { name: "Python", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/python.png`, shadow: "#DE6B00" },
-            { name: "Spring Boot", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/spring-boot.png`, shadow: "#6DB33F" },
-            { name: "HTML", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/html.png`, shadow: "#E44D26" },
-            { name: "Django", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/django.png`, shadow: "#304F44" },
-        ];
-
+        const plan = this.plans[activePriceTab];
+        // const tools = [
+        //     { name: "React", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/react.png`, shadow: "#61DAFB" },
+        //     { name: "CSS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/css.png`, shadow: "#2965F1" },
+        //     { name: "Express JS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/express-js.png`, shadow: "#F3DF1D" },
+        //     { name: "Visual Studio", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/vs-code.png`, shadow: "#0080CF" },
+        //     { name: "SQL", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/sql.png`, shadow: "#D08001" },
+        //     { name: "Bootstrap", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/bootstrap.png`, shadow: "#7952B3" },
+        //     { name: "Mongo DB", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/mongodb.png`, shadow: "#9EFF3E" },
+        //     { name: "Tailwind", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/tailwind.png`, shadow: "#38BDF8" },
+        //     { name: "Python", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/python.png`, shadow: "#DE6B00" },
+        //     { name: "Spring Boot", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/spring-boot.png`, shadow: "#6DB33F" },
+        //     { name: "HTML", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/html.png`, shadow: "#E44D26" },
+        //     { name: "Django", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/django.png`, shadow: "#304F44" },
+        // ];
+        const tools = this.tools;
 
         const skills = [
             { title: 'Deployment & Hosting', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/hosting.png` },
@@ -190,7 +246,7 @@ class CourseDetails extends Component {
         const testimonials = [
             { name: "Swetha", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-1.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#E0002A", color2: "#7A0017" },
             { name: "Riya", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-2.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#D9D9D9", color2: "#737373" },
-            { name: "Arjun", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-3.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#0D301B", color2: "#299654" },
+            { name: "Anjali", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-3.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#0D301B", color2: "#299654" },
             { name: "Karan", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-4.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#D9D9D9", color2: "#737373" },
             { name: "Sahil", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-5.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#FEC530", color2: "#98761D" },
         ];
@@ -461,7 +517,7 @@ class CourseDetails extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <section className="tools_slider_section py-5">
+                            <section className="tools_slider_section pt-lg-5">
                                 <div className="section_container text-center mb-4">
                                     <h3 className="text-white fw-bold mb-2">Future-Ready Tools for Modern Software Careers</h3>
                                 </div>
@@ -479,7 +535,13 @@ class CourseDetails extends Component {
                                         slideShadows: false,
                                     }}
                                     autoplay={{ delay: 2000 }}
-                                    onSlideChange={(swiper) => this.setState({ activeIndex: swiper.realIndex })}
+                                    onSlideChange={(swiper) => {
+                                        this.setState({
+                                            activeIndex: swiper.realIndex,
+                                            activeToolName: tools[swiper.realIndex].name,
+                                            activeShadow: tools[swiper.realIndex].shadow
+                                        });
+                                    }}
                                     className="tools_swiper"
                                 >
                                     {tools.map((tool, index) => {
@@ -495,18 +557,29 @@ class CourseDetails extends Component {
                                                     }}
                                                 >
                                                     <img src={tool.logo} alt={tool.name} />
-                                                    <span className="tool_label text-white">{tool.name}</span>
+                                                    {/* <span className="tool_label text-white">{tool.name}</span> */}
                                                 </div>
                                             </SwiperSlide>
                                         )
                                     })}
                                 </Swiper>
+                                <div className="tool_name_parent">
+                                    <div className="position-relative d-flex justify-content-center">
+                                        <div className="curve"></div>
+                                        <div
+                                            className="tool-name-display text-center mt-3"
+                                            style={{ backgroundColor: this.state.activeShadow }}
+                                        >
+                                            <h5 className="text-white fw-semibold mb-0">{this.state.activeToolName}</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>
                 </section>
                 <section className="modules-section">
-                    <div className="section_container py-5">
+                    <div className="section_container pb-5">
                         <h3 className="text-black text-center fw-bold px-3 lh-sm">
                             A Structured Path to Master <span className="text-c2"> Full Stack Development</span>
                         </h3>
@@ -549,18 +622,21 @@ class CourseDetails extends Component {
                                     transform: "translateX(-50%)"
                                 }}
                             >
-                                <h6 className="fw-bold mb-3">{currentContent.title}</h6>
+                                <h6 className="mb-3">{currentContent.title}</h6>
                                 <ul>
                                     {currentContent.points.map((p, i) => (
                                         <li key={i}>{p}</li>
                                     ))}
                                 </ul>
+                                <div className="col-12 d-flex justify-content-end">
+                                    <div className="download_icon"><i className="bi bi-download text-white"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 <section className="advantage-section">
-                    <div className="section_container py-5">
+                    <div className="section_container pt-5">
                         <h3 className="text-black text-center fw-bold px-3 lh-sm">
                             Velearn Live Course –<span className="text-c2"> What Makes It Different</span>
                         </h3>
@@ -616,7 +692,7 @@ class CourseDetails extends Component {
                         </div>
                     </div>
                 </section>
-                <section className="from_start_sec">
+                <section className="from_start_sec pt-4">
                     <div className="container">
                         <div className="row justify-content-center">
                             <div className="col-lg-7">
@@ -734,11 +810,10 @@ class CourseDetails extends Component {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div className="testimonial_details_page">
-                        <div className="section_container py-5">
+                        <div className="section_container">
                             <div className="row justify-content-center">
                                 <div className="col-lg-7">
                                     <h3 className="text-white text-center fw-bold px-3 lh-sm">
@@ -803,12 +878,70 @@ class CourseDetails extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="section_container">
+                        <div className="py-5 price_section_parent_top">
+                            <div className="text-center d-flex justify-content-center">
 
+                                <div className="row w-100 justify-content-center">
+                                    <div className="col-lg-6  d-flex justify-content-center ">
+                                        <div className="parent_price">
+                                            <div className="price_section d-flex flex-column align-items-center justify-content-center  p-4 ">
+                                                {/* PRICE TABS */}
+                                                <h3 className="fw-bold mb-3 text-white">{plan.title}</h3>
+
+                                                <div className="d-flex justify-content-center align-items-center gap-3 mb-4 price_header">
+                                                    <div className={`price_tab old_price_tab ${activePriceTab === 0 ? "active" : ""}`}
+                                                        onClick={() => this.setState({ activePriceTab: 0 })}>
+                                                        <button>
+                                                            ₹50,000
+                                                        </button>
+                                                    </div>
+
+                                                    <div className={`price_tab new_price_tab ${activePriceTab === 1 ? "active" : ""}`}
+                                                        onClick={() => this.setState({ activePriceTab: 1 })}>
+                                                        <button>
+                                                            ₹15,000/-
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                {/* CONTENT BOX */}
+                                                <div className="price_card w-100 text-white">
+
+                                                    <div className="row w-100 m-auto text-start">
+                                                        <div className="col-6">
+                                                            <ul className="list-unstyled">
+                                                                <li>• {plan.features[0]}</li>
+                                                                <li>• {plan.features[1]}</li>
+                                                                <li>• {plan.features[2]}</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div className="col-6">
+                                                            <ul className="list-unstyled">
+                                                                <li>• {plan.features[3]}</li>
+                                                                <li>• {plan.features[4]}</li>
+                                                                <li>• {plan.features[5]}</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <button className="mt-3">
+                                                        Apply Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
+
                 <section>
-                    <div className="section_container py-5">
+                    <div className="section_container pt-5" style={{ marginTop: '200px' }}>
                         <h3 className="text-black text-center fw-bold px-3 lh-sm">
-                            Real Learning Outcomes Shared by<span className="text-c2"> Our Students</span>
+                            Earn Your Professional <span className="text-c2"> Certification</span>
                         </h3>
                         <div className="row justify-content-center">
                             <div className="col-lg-10 mt-4">

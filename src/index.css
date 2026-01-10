@@ -4250,6 +4250,10 @@ section {
 }
 
 @media (max-width: 991px) {
+    .details_banner .details_banner_inner::before {
+        display: none;
+    }
+
     .price_section {
         min-width: fit-content;
         border-radius: 50px;

@@ -3500,9 +3500,24 @@ section {
     font-weight: 600;
 }
 
+.testimonial-slider-wrapper .swiper-pagination-bullet {
+    background: #ffffff !important;
+}
+
 /* inner page - testimonial - end*/
 
 /* Responsive Fix */
+@media (max-width: 1500px) {
+    .testimonial-card p {
+        font-size: 9px;
+        text-align: center;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
 @media (max-width: 992px) {
     .testimonial_inner_parent {
         flex-direction: column-reverse !important;
@@ -3515,14 +3530,7 @@ section {
         height: 140%;
     }
 
-    .testimonial-card p {
-        font-size: 9px;
-        text-align: center;
-        display: -webkit-box;
-        -webkit-line-clamp: 5;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
+
 
     /* .testimonial-card.active {
         height: 100%;

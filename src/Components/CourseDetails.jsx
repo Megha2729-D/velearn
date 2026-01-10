@@ -880,7 +880,7 @@ class CourseDetails extends Component {
                                         0: { slidesPerView: 2.3 },
                                         576: { slidesPerView: 2.3 },
                                         768: { slidesPerView: 2.3 },
-                                        1024: { slidesPerView: 2.3 },
+                                        1024: { slidesPerView: 5 },
                                     }}
                                 >
                                     {repeatedTestimonials.map((item, index) => {

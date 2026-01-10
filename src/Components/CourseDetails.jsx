@@ -22,7 +22,7 @@ class CourseDetails extends Component {
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
-    }   
+    }
     componentDidMount() {
         // Auto click the first static tab
         if (this.tabRefs[0]?.current) {
@@ -519,7 +519,11 @@ class CourseDetails extends Component {
                             </div>
                             <section className="tools_slider_section pt-lg-5">
                                 <div className="section_container text-center mb-4">
-                                    <h3 className="text-white fw-bold mb-2">Future-Ready Tools for Modern Software Careers</h3>
+                                    <h3 className="text-white fw-bold mb-2">
+                                        <span className="text-c2">Future-Ready</span>
+                                         Tools for Modern Software
+                                        <span className="text-c2">Careers</span>
+                                    </h3>
                                 </div>
                                 <Swiper
                                     modules={[EffectCoverflow, Autoplay]}

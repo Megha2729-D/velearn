@@ -3221,9 +3221,11 @@ section {
 .modules-section {
     position: relative;
 }
-.modules-section .section_container{
+
+.modules-section .section_container {
     padding-top: 90px;
 }
+
 .tabs-wrapper {
     position: relative;
     display: flex;
@@ -4624,7 +4626,7 @@ section {
     }
 
     .item_1 {
-        left: -8px;
+        left: -10px;
         bottom: 16px;
     }
 
@@ -4635,9 +4637,9 @@ section {
     }
 
     .item_3 {
+        bottom: 25px;
         left: auto;
-        right: 110px;
-        bottom: 10px;
+        right: 130px;
     }
 
     .item_4 {
@@ -4647,6 +4649,6 @@ section {
 
     .item_5 {
         right: 0px;
-        bottom: 30px;
+        bottom: 47px;
     }
 }

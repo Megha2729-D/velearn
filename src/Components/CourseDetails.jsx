@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, createRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectCoverflow, Pagination } from "swiper/modules";
 import { Link } from "react-router-dom";
@@ -10,10 +10,158 @@ class CourseDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeIndex: 0, // for the tools swiper
+            activeIndex: 0,
+            activeTab: 1,
+            contentLeft: 0,
+            activeFaqIndex: 0, // first open
         };
+        this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
     }
+    componentDidMount() {
+        if (this.tabRefs[0].current) {
+            this.tabRefs[0].current.click();
+        }
+    }
+    renderContent() {
+        const { activeTab } = this.state;
+
+        const content = {
+            1: {
+                title: "Foundations of Full Stack Development",
+                points: [
+                    "How the web works (Client–Server architecture)",
+                    "Frontend vs Backend vs Database",
+                    "Developer tools & workflow",
+                    "Introduction to Git & GitHub"
+                ]
+            },
+            2: {
+                title: "Frontend Development",
+                points: [
+                    "HTML, CSS, JavaScript",
+                    "Responsive UI & Grid Systems",
+                    "React.js Fundamentals",
+                    "State Management"
+                ]
+            },
+            3: {
+                title: "Backend Development",
+                points: [
+                    "Node.js & Express.js",
+                    "REST APIs",
+                    "Authentication & Authorization",
+                    "Error Handling & Middleware"
+                ]
+            },
+            4: {
+                title: "Database & Deployment",
+                points: [
+                    "MongoDB / SQL Basics",
+                    "Data Modeling & Queries",
+                    "Cloud Deployment",
+                    "CI/CD & Environment Variables"
+                ]
+            },
+            5: {
+                title: "Capstone & Job Preparation",
+                points: [
+                    "Real-World Project",
+                    "Version Control",
+                    "Resume & Portfolio",
+                    "Mock Interviews"
+                ]
+            }
+        };
+
+        return content[activeTab];
+    }
+    advantages = [
+        { title: "Code with Clarity", text: "We break complex concepts into simple, practical steps you can actually apply.", color: "#FF0000" },
+        { title: "Build Real Projects", text: "Work on real-world applications instead of toy examples.", color: "#00A2FF" },
+        { title: "Structured Learning", text: "Step-by-step learning path designed for real developer jobs.", color: "#FF9500" },
+        { title: "Live Mentorship", text: "Get support & answers from industry professionals in real-time.", color: "#36C66B" },
+        { title: "Job Readiness", text: "Improve portfolio, resume & interview confidence.", color: "#7D33F0" },
+        { title: "Community Support", text: "Learn with peers through groups, discussions & hackathons.", color: "#FF2EB2" },
+    ];
+
+    faqData = [
+        {
+            question: "Who is this Live Full Stack course designed for?",
+            answer: (
+                <>
+                    <p>
+                        This course is designed for students, freshers, career switchers, and working professionals who want to learn full stack development through live training, gain real-world project experience, become job-ready developers with strong practical skills, and build a professional portfolio for interviews and receive career and placement guidance.
+                    </p>
+                </>
+            )
+        },
+        {
+            question: "Do I need prior coding experience to join this course?",
+            answer: (
+                <>
+                    <p>No. You do not need any prior coding experience to join this course.</p>
+                    <p>
+                        Our training starts from the basics and gradually moves toward advanced concepts.
+                        Beginners, students, and non-IT professionals can easily learn.
+                    </p>
+                    <p>
+                        For those who already have some coding knowledge, we provide fast-track options,
+                        challenging tasks, and advanced modules to match your skill level.
+                    </p>
+                </>
+            )
+        },
+        {
+            question: "What kind of projects will I work on?",
+            answer: (
+                <>
+                    <p>
+                        You will work on real-time, industry-relevant projects based on the specific course
+                        you choose. These projects help you build strong practical skills and a job-ready portfolio.
+                    </p>
+                    <p>Example project types include:</p>
+                    <ul>
+                        <li>Web and mobile application development</li>
+                        <li>API & backend systems</li>
+                        <li>Data visualization dashboards</li>
+                        <li>Machine learning mini-projects</li>
+                        <li>Cloud deployment & automation tasks</li>
+                    </ul>
+                    <p>
+                        At the end of the course, you will also complete a capstone project to showcase your skills.
+                    </p>
+                </>
+            )
+        },
+        {
+            question: "Will this course help me get a job?",
+            answer: (
+                <>
+                    <p>Yes. This course is designed to make you job-ready through:</p>
+                    <ul>
+                        <li>Practical training & real-world projects</li>
+                        <li>Portfolio and resume development</li>
+                        <li>Interview preparation & mock interviews</li>
+                        <li>Placement support & company referrals</li>
+                    </ul>
+                    <p>
+                        Many students start as interns, junior developers, analysts, or IT support roles depending
+                        on their course. Our placement team helps you throughout the job application process.
+                    </p>
+                </>
+            )
+        }
+    ];
+
+    toggleFaq = (index) => {
+        this.setState({
+            activeFaqIndex:
+                this.state.activeFaqIndex === index ? null : index
+        });
+    };
     render() {
+        const { activeTab } = this.state;
+        const currentContent = this.renderContent();
         const tools = [
             { name: "React", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/react.png`, shadow: "#61DAFB" },
             { name: "CSS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/css.png`, shadow: "#2965F1" },
@@ -38,6 +186,16 @@ class CourseDetails extends Component {
             { title: 'Full Stack Project Building', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/project-building.png` }
         ];
         const repeatedSkills = [...skills, ...skills, ...skills]; // repeat for loop
+
+        const testimonials = [
+            { name: "Swetha", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-1.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#E0002A", color2: "#7A0017" },
+            { name: "Riya", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-2.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#D9D9D9", color2: "#737373" },
+            { name: "Arjun", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-3.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#0D301B", color2: "#299654" },
+            { name: "Karan", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-4.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#D9D9D9", color2: "#737373" },
+            { name: "Sahil", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-5.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#FEC530", color2: "#98761D" },
+        ];
+        const repeatedTestimonials = [...testimonials, ...testimonials, ...testimonials]; // repeat for loop
+
         return (
             <>
                 <section className="banner_top_sec_parent">
@@ -307,29 +465,6 @@ class CourseDetails extends Component {
                                 <div className="section_container text-center mb-4">
                                     <h3 className="text-white fw-bold mb-2">Future-Ready Tools for Modern Software Careers</h3>
                                 </div>
-
-                                {/* <div className="d-flex">
-                                    {tools.map((tool, index) => {
-                                        const isActive = index === this.state.activeIndex;
-                                        return (
-                                            <div key={index}>
-                                                <div className="tool_card">
-                                                    <div
-                                                        className={`card_inner ${isActive ? "active" : ""}`}
-                                                        style={{
-                                                            boxShadow: isActive
-                                                                ? `0px 5.33px 32px 1.02px ${tool.shadow} inset`
-                                                                : `0px 3.67px 22.04px 2.14px ${tool.shadow} inset`,
-                                                        }}
-                                                    >
-                                                        <img src={tool.logo} alt={tool.name} />
-                                                        <span className="tool_label">{tool.name}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div> */}
                                 <Swiper
                                     modules={[EffectCoverflow, Autoplay]}
                                     effect="coverflow"
@@ -366,70 +501,385 @@ class CourseDetails extends Component {
                                         )
                                     })}
                                 </Swiper>
-                                {/* <Swiper
-                                    modules={[Navigation, Autoplay]}
-                                    autoplay={{ delay: 2000, disableOnInteraction: false }}
+                            </section>
+                        </div>
+                    </div>
+                </section>
+                <section className="modules-section">
+                    <div className="section_container py-5">
+                        <h3 className="text-black text-center fw-bold px-3 lh-sm">
+                            A Structured Path to Master <span className="text-c2"> Full Stack Development</span>
+                        </h3>
+                        <div className="row justify-content-center">
+                            <div className="col-lg-5">
+                                <p className="text-black text-center px-lg-5">
+                                    Each module at Velearn focuses on practical skills to prepare you for real jobs.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="tabs-wrapper" ref={(el) => (this.tabsWrapperRef = el)}>
+                            <div className="tabs">
+                                {[1, 2, 3, 4, 5].map((num, index) => (
+                                    <button
+                                        key={num}
+                                        ref={this.tabRefs[index]}
+                                        className={`tab ${activeTab === num ? "active" : ""}`}
+                                        onClick={() => {
+                                            const tabEl = this.tabRefs[index].current;
+                                            const tabRect = tabEl.getBoundingClientRect();
+                                            const wrapperRect = this.tabsWrapperRef.getBoundingClientRect();
+
+                                            const centerX = tabRect.left + tabRect.width / 2;
+                                            const relativeLeft = centerX - wrapperRect.left;
+
+                                            this.setState({ activeTab: num, contentLeft: relativeLeft });
+                                        }}
+                                    >
+                                        Module {num}
+                                    </button>
+                                ))}
+                            </div>
+                            <div
+                                className="tab-content-box positioned"
+                                style={{
+                                    position: "absolute",
+                                    top: "70px",
+                                    left: `${this.state.contentLeft}px`,
+                                    transform: "translateX(-50%)"
+                                }}
+                            >
+                                <h6 className="fw-bold mb-3">{currentContent.title}</h6>
+                                <ul>
+                                    {currentContent.points.map((p, i) => (
+                                        <li key={i}>{p}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="advantage-section">
+                    <div className="section_container py-5">
+                        <h3 className="text-black text-center fw-bold px-3 lh-sm">
+                            Velearn Live Course –<span className="text-c2"> What Makes It Different</span>
+                        </h3>
+
+                        <div className="row justify-content-center">
+                            <div className="col-lg-10 position-relative">
+                                <div className="row justify-content-center">
+                                    {this.advantages.map((item, index) => (
+                                        <div className="col-lg-3 col-6 d-flex justify-content-center mb-4 ms-lg-1" key={index}>
+                                            <div className="inner_adv">
+
+                                                <div className="inner_adv_bg">
+                                                    <svg viewBox="0 0 185 175" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g filter="url(#filter0_g_652_2040)">
+                                                            <rect x="4.91113" y="4.91138" width="174.198" height="164.989" rx="13.813"
+                                                                fill={item.color} fillOpacity="0.19" />
+                                                        </g>
+                                                        <defs>
+                                                            <filter id="filter0_g_652_2040" x="-0.000171661" y="7.24792e-05"
+                                                                width="184.02" height="174.812" filterUnits="userSpaceOnUse"
+                                                                colorInterpolationFilters="sRGB">
+                                                                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                                                                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                                                                <feTurbulence type="fractalNoise" baseFrequency="0.200479 0.200479"
+                                                                    numOctaves="3" seed="1556" />
+                                                                <feDisplacementMap in="shape" scale="9.82" xChannelSelector="R"
+                                                                    yChannelSelector="G" result="displacedImage"
+                                                                    width="100%" height="100%" />
+                                                                <feMerge result="effect1_texture_652_2040">
+                                                                    <feMergeNode in="displacedImage" />
+                                                                </feMerge>
+                                                            </filter>
+                                                        </defs>
+                                                    </svg>
+                                                </div>
+
+                                                <div className="inner_adv_content">
+                                                    <h4 className="text-black fw-bold">{item.title}</h4>
+                                                    <p className="text-black">{item.text}</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="puzzle_images">
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/details-page/puzzle-1.png`} className="puzzle-1" alt="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/details-page/puzzle-2.png`} className="puzzle-2" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="from_start_sec">
+                    <div className="container">
+                        <div className="row justify-content-center">
+                            <div className="col-lg-7">
+                                <h3 className="text-black text-center fw-bold px-3 lh-sm">
+                                    A Smart <span className="text-c2"> Learning Journey </span>That Leads to <span className="text-c2"> Real Careers</span>
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div className="journey_wrap position-relative">
+                            <div className="journey_bg_icon"></div>
+                            <div className="dotted_lines">
+                                <div className="position-relative d-flex justify-content-center">
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/details-page/journey/dotted-lines.png`} className="dotted-line-img" alt="" />
+                                </div>
+                            </div>
+                            <div className="rocket_wrap">
+                                <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/rocket.png`} className="rocket_img" alt="" />
+                            </div>
+                            <div className="journey_item item_1">
+                                <div className="parent">
+                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-1.png`} alt="" />
+                                    <div>
+                                        <h6>Free Career Discussion</h6>
+                                        <p>Connect with experts to choose the right career and course.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="journey_item item_2">
+                                <div className="parent">
+                                    <div>
+                                        <h6>Live Trainer-Led Classes</h6>
+                                        <p>Clear learning path from foundation to expertise.</p>
+                                    </div>
+                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-2.png`} alt="" />
+                                </div>
+                            </div>
+
+                            <div className="journey_item item_3">
+                                <div className="parent">
+                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-3.png`} alt="" />
+                                    <div>
+                                        <h6>Hands-on Projects & Practice</h6>
+                                        <p>Every topic includes assignments and real-world projects to build strong, job-ready skills.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="journey_item item_4">
+                                <div className="parent">
+                                    <div>
+                                        <h6>Resume & Portfolio Building</h6>
+                                        <p>We shape your skills into resumes, portfolios, and interview success.</p>
+                                    </div>
+                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-4.png`} alt="" />
+                                </div>
+                            </div>
+
+                            <div className="journey_item item_5">
+                                <div className="parent">
+                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-5.png`} alt="" />
+                                    <div>
+                                        <h6>End-to-End Placement Support</h6>
+                                        <p>Train with mock interviews and learn to answer with confidence. Career support that stays until you get hired.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="details_bottom_part">
+                    <div className="skill_parent">
+                        <div className="section_container py-5">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-7">
+                                    <h3 className="text-white text-center fw-bold px-3 lh-sm">
+                                        Unlock High-Paying Tech Roles with <span className="text-c2"> Full Stack Skills</span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div className="row justify-content-center">
+                                <div className="col-lg-10">
+                                    <div className="row justify-content-center mt-4">
+                                        <div className="col-lg-4 col-6 my-3">
+                                            <div className="skill_inner_p">
+                                                <p>Full stack Developer Avg ₹ 6 LPA - 8 LPA</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3">
+                                            <div className="skill_inner_p">
+                                                <p>Frontend Developer Avg ₹ 5 LPA - 9 LPA</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3">
+                                            <div className="skill_inner_p">
+                                                <p>Backend Developer Avg ₹ 5 LPA - 10 LPA</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3">
+                                            <div className="skill_inner_p">
+                                                <p>DevOps Engineer Avg ₹ 10 LPA - 20 LPA</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3">
+                                            <div className="skill_inner_p">
+                                                <p>React/Node.js Developer Avg ₹ 6 LPA - 12 LPA</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3">
+                                            <div className="skill_inner_p">
+                                                <p>Software Engineer Avg ₹ 5 LPA - 10 LPA</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="testimonial_details_page">
+                        <div className="section_container py-5">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-7">
+                                    <h3 className="text-white text-center fw-bold px-3 lh-sm">
+                                        Real Learning Outcomes Shared by <span className="text-c2">Our Students</span>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div className="testimonial-slider-wrapper">
+                                <Swiper
+                                    className="testimonial-swiper"
                                     loop={true}
-                                    navigation={true}
+                                    pagination={{ clickable: true }}
                                     centeredSlides={true}
-                                    slidesPerView={13}
-                                    allowTouchMove={true}
-                                    className="tools_swiper py-4"
-                                    onSwiper={(swiper) => {
-                                        this.swiperRef = swiper;
-                                        this.forceUpdate();
+                                    slidesPerView={5}
+                                    onSlideChange={(swiper) => this.setState({ activeSlide: swiper.realIndex })}
+                                    breakpoints={{
+                                        0: { slidesPerView: 2 },
+                                        576: { slidesPerView: 2 },
+                                        768: { slidesPerView: 3 },
+                                        1024: { slidesPerView: 5 },
                                     }}
-                                    onSlideChange={() => this.forceUpdate()}
                                 >
-                                    {tools.map((tool, index) => {
-                                        let transformStyle = "rotate(30deg) translateY(10px) scale(.9)";
-                                        let opacityStyle = "0.9";
-
-                                        let boxShadow = `0px 5.33px 32px 1.02px ${tool.shadow} inset`;
-
-                                        if (this.swiperRef) {
-                                            const slides = this.swiperRef.slides;
-                                            const slideEl = slides[index];
-                                            const rect = slideEl.getBoundingClientRect();
-                                            const slideCenter = rect.left + rect.width / 2;
-                                            const screenCenter = window.innerWidth / 2;
-
-                                            const distance = Math.abs(slideCenter - screenCenter);
-                                            const offset = slideCenter - screenCenter;
-
-                                            if (distance < rect.width * 0.6) {
-                                                transformStyle = "rotate(0deg) translateY(-10px) scale(1.2)";
-                                                opacityStyle = "1";
-                                                boxShadow = `0px 3.67px 22.04px 2.14px ${tool.shadow} inset`;
-                                            }
-                                            else if (offset < 0) {
-                                                transformStyle = "rotate(-30deg) translateY(10px) scale(.9)";
-                                            }
-                                        }
+                                    {repeatedTestimonials.map((item, index) => {
+                                        const isActive = index === this.state.activeSlide;
 
                                         return (
                                             <SwiperSlide key={index}>
-                                                <div className="tool_card">
-                                                    <div
-                                                        className="card_inner"
-                                                        style={{
-                                                            transform: transformStyle,
-                                                            opacity: opacityStyle,
-                                                            boxShadow: boxShadow,
-                                                        }}
-                                                    >
-                                                        <img src={tool.logo} alt={tool.name} />
-                                                        <span className="tool_label">{tool.name}</span>
+                                                <div className={`testimonial-card ${isActive ? "active" : ""}`}
+                                                    style={{ background: `linear-gradient(180deg, ${item.color1} 0%, ${item.color2} 100%)` }}>
+                                                    <div className="d-flex w-100 h-100 testimonial_inner_parent">
+                                                        <div className="d-flex align-items-lg-center overflow-hidden">
+                                                            {isActive && (
+                                                                <div className="active-content overflow-hidden">
+                                                                    <p className="text text-white">{item.text}</p>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className="test_img_parent">
+                                                            <img src={item.img} alt={item.name} className="student-img" />
+                                                            {isActive && (
+                                                                <div className="active-content overflow-hidden">
+                                                                    <h5 className="name text-white">{item.name}</h5>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
+
+                                                    {/* {isActive && (
+                                                        <div className="active-content">
+                                                            <p className="text">{item.text}</p>
+                                                            <h5 className="name">{item.name}</h5>
+                                                        </div>
+                                                    )} */}
                                                 </div>
                                             </SwiperSlide>
                                         );
                                     })}
-                                </Swiper> */}
-                            </section>
+                                </Swiper>
+                            </div>
                         </div>
                     </div>
-                </section >
+
+                </section>
+                <section>
+                    <div className="section_container py-5">
+                        <h3 className="text-black text-center fw-bold px-3 lh-sm">
+                            Real Learning Outcomes Shared by<span className="text-c2"> Our Students</span>
+                        </h3>
+                        <div className="row justify-content-center">
+                            <div className="col-lg-10 mt-4">
+                                <div className="row">
+                                    <div className="col-lg-6 d-flex flex-column justify-content-center">
+                                        <div className="mb-4">
+                                            <h5 className="text-c1 fw-bold mb-3">Validate Your Achievement</h5>
+                                            <p className="text-black mb-4"> A trusted certificate that reflects your successful Course completion</p>
+                                        </div>
+                                        <div className="mb-4">
+                                            <h5 className="text-c1 fw-bold mb-3"> Build a Professional Skill Portfolio</h5>
+                                            <p className="text-black mb-4">Build your professional profile with verified course credentials.</p>
+                                        </div>
+                                        <div className="mb-4">
+                                            <h5 className="text-c1 fw-bold mb-3"> Share Your Success</h5>
+                                            <p className="text-black mb-4">Highlight your certification on LinkedIn
+                                                and Resumes</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6 d-flex align-items-center justify-content-center p-lg-5">
+                                        <div className=" d-flex align-items-center justify-content-center">
+                                            <div className="col-lg-10">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/details-page/certificate.jpg`} className="w-100" alt="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="faq_section py-5">
+                    <div className="section_container p-xl text-center mt-lg-5">
+                        <h3 className="section_base_heading">
+                            Frequently Asked <span className="text-c2"> Questions</span>
+                        </h3>
+
+                        <div className="row mt-5 justify-content-center align-items-center">
+                            {/* FAQ Accordion */}
+                            <div className="col-lg-9 text-start">
+                                {this.faqData.map((item, index) => (
+                                    <div className={`faq_item mb-3  ${this.state.activeFaqIndex === index ? "active" : ""
+                                        }`} key={index}>
+                                        <button
+                                            className={`faq_question justify-content-between ${this.state.activeFaqIndex === index ? "active" : ""
+                                                }`}
+                                            onClick={() => this.toggleFaq(index)}
+                                        >
+                                            {item.question}
+                                            <span className="icon">
+                                                <img
+                                                    src={
+                                                        this.state.activeFaqIndex === index
+                                                            ? null
+                                                            : "/assets/images/icons/faq-icon.png"
+                                                    }
+                                                    alt="toggle"
+                                                    className="faq_toggle_icon"
+                                                />
+                                            </span>
+                                        </button>
+
+                                        {this.state.activeFaqIndex === index && (
+                                            <div className="faq_answer">
+                                                {item.answer}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </>
         );
     }

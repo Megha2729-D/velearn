@@ -3060,10 +3060,14 @@ section {
 }
 
 .skills-swiper .swiper-slide-next .skill-card img,
-.skills-swiper .swiper-slide-prev .skill-card img,
+.skills-swiper .swiper-slide-prev .skill-card img {
+    transform: scale(0.8);
+    transition: all 0.3s ease-out;
+}
+
 .testimonial-swiper .swiper-slide-next .testimonial-card,
 .testimonial-swiper .swiper-slide-prev .testimonial-card {
-    transform: scale(0.8);
+    transform: scale(1);
     transition: all 0.3s ease-out;
 }
 
@@ -3092,9 +3096,14 @@ section {
     position: relative;
 }
 
-.skills-swiper .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(.swiper-slide-prev) .skill-card img,
-.testimonial-swiper .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(.swiper-slide-prev) .testimonial-card {
+.skills-swiper .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(.swiper-slide-prev) .skill-card img {
     transform: scale(0.6);
+    transition: all 0.3s ease-out;
+    position: relative;
+}
+
+.testimonial-swiper .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-next):not(.swiper-slide-prev) .testimonial-card {
+    transform: scale(0.7);
     transition: all 0.3s ease-out;
     position: relative;
 }
@@ -3238,6 +3247,13 @@ section {
     opacity: 1;
 } */
 
+.testimonial-slider-wrapper .swiper-slide-prev {
+    justify-content: start;
+}
+
+.testimonial-slider-wrapper .swiper-slide-next {
+    justify-content: end;
+}
 
 /* tools - end */
 /* module - start */

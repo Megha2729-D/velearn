@@ -874,7 +874,7 @@ class CourseDetails extends Component {
                                     centeredSlides={true}
                                     slidesPerView={5}
                                     modules={[Pagination, Autoplay]}
-                                    autoplay={{ delay: 2000, disableOnInteraction: false }}
+                                    // autoplay={{ delay: 2000, disableOnInteraction: false }}
                                     onSlideChange={(swiper) => this.setState({ activeSlide: swiper.realIndex })}
                                     breakpoints={{
                                         0: { slidesPerView: 2 },

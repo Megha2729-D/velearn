@@ -10,7 +10,6 @@ class CourseDetails extends Component {
     constructor(props) {
         super(props);
         this.swiperRef = null;
-
         this.state = {
             activeIndex: 0,
             activeTab: 1,
@@ -23,18 +22,20 @@ class CourseDetails extends Component {
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
     }
+
     componentDidMount() {
-        // Auto click the first static tab
         if (this.tabRefs[0]?.current) {
             this.tabRefs[0].current.click();
         }
 
-        // Set first tool name on initial mount
         if (this.tools && this.tools.length > 0) {
-            this.setState({ activeToolName: this.tools[0].name });
-            this.setState({ activeShadow: this.tools[0].shadow });
+            this.setState({
+                activeToolName: this.tools[0].name,
+                activeShadow: this.tools[0].shadow,
+            });
         }
     }
+
     plans = [
         {
             title: "Full Stack Unlimited Access Plan",
@@ -77,6 +78,17 @@ class CourseDetails extends Component {
         { name: "HTML", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/html.png`, shadow: "#E44D26" },
         { name: "Django", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/django.png`, shadow: "#304F44" },
     ];
+    slidePrev = () => {
+        if (this.swiperRef) {
+            this.swiperRef.slidePrev();
+        }
+    };
+
+    slideNext = () => {
+        if (this.swiperRef) {
+            this.swiperRef.slideNext();
+        }
+    };
     renderContent() {
         const { activeTab } = this.state;
 
@@ -520,17 +532,22 @@ class CourseDetails extends Component {
                             <section className="tools_slider_section pt-lg-5">
                                 <div className="section_container text-center mb-4">
                                     <h3 className="text-white fw-bold mb-2">
-                                        <span className="text-c2">Future-Ready</span>
-                                         Tools for Modern Software
-                                        <span className="text-c2">Careers</span>
+                                        <span className="text-c2">Future-Ready </span>
+                                        Tools for Modern Software
+                                        <span className="text-c2"> Careers</span>
                                     </h3>
                                 </div>
+
                                 <Swiper
                                     modules={[EffectCoverflow, Autoplay]}
                                     effect="coverflow"
-                                    centeredSlides={true}
                                     loop={true}
-                                    slidesPerView={window.innerWidth < 600 ? 1.6 : 5}
+                                    slidesPerView="5"
+                                    spaceBetween={20}
+                                    centeredSlides={true}
+                                    allowTouchMove={false}
+                                    simulateTouch={false}
+                                    // slidesPerView={window.innerWidth < 600 ? 1.6 : 5}
                                     coverflowEffect={{
                                         rotate: 25,
                                         stretch: 0,
@@ -539,12 +556,18 @@ class CourseDetails extends Component {
                                         slideShadows: false,
                                     }}
                                     autoplay={{ delay: 2000 }}
+                                    onSwiper={(swiper) => { this.swiperRef = swiper; }}
                                     onSlideChange={(swiper) => {
                                         this.setState({
                                             activeIndex: swiper.realIndex,
                                             activeToolName: tools[swiper.realIndex].name,
-                                            activeShadow: tools[swiper.realIndex].shadow
+                                            activeShadow: tools[swiper.realIndex].shadow,
                                         });
+                                    }}
+                                    breakpoints={{
+                                        0: { slidesPerView: 1.6 },      // mobile screens
+                                        600: { slidesPerView: 3 },      // tablets
+                                        1024: { slidesPerView: 5 },     // desktop
                                     }}
                                     className="tools_swiper"
                                 >
@@ -561,22 +584,33 @@ class CourseDetails extends Component {
                                                     }}
                                                 >
                                                     <img src={tool.logo} alt={tool.name} />
-                                                    {/* <span className="tool_label text-white">{tool.name}</span> */}
                                                 </div>
                                             </SwiperSlide>
-                                        )
+                                        );
                                     })}
                                 </Swiper>
-                                <div className="tool_name_parent">
+
+                                {/* === CUSTOM NAVIGATION + TOOL NAME === */}
+                                <div className="tool_name_parent d-flex justify-content-center align-items-center gap-3 mt-3">
+                                    <button className="tool_nav_btn left" onClick={this.slidePrev}>
+                                        ❮
+                                    </button>
+
                                     <div className="position-relative d-flex justify-content-center">
                                         <div className="curve"></div>
                                         <div
-                                            className="tool-name-display text-center mt-3"
+                                            className="tool-name-display text-center"
                                             style={{ backgroundColor: this.state.activeShadow }}
                                         >
-                                            <h5 className="text-white fw-semibold mb-0">{this.state.activeToolName}</h5>
+                                            <h5 className="text-white fw-semibold mb-0">
+                                                {this.state.activeToolName}
+                                            </h5>
                                         </div>
                                     </div>
+
+                                    <button className="tool_nav_btn right" onClick={this.slideNext}>
+                                        ❯
+                                    </button>
                                 </div>
                             </section>
                         </div>
@@ -679,8 +713,8 @@ class CourseDetails extends Component {
                                                 </div>
 
                                                 <div className="inner_adv_content">
-                                                    <h4 className="text-black fw-bold">{item.title}</h4>
-                                                    <p className="text-black">{item.text}</p>
+                                                    <h4 className="text-black fw-bold text-lg-start text-center">{item.title}</h4>
+                                                    <p className="text-black text-lg-start text-center">{item.text}</p>
                                                 </div>
 
                                             </div>

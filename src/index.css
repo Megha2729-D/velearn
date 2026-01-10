@@ -3207,6 +3207,48 @@ section {
     z-index: 10;
 }
 
+.tool_nav_btn {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+/* all bullets hidden by default */
+.testimonial-swiper .swiper-pagination-bullet {
+    display: none;
+}
+
+/* show active bullet */
+.testimonial-swiper .swiper-pagination-bullet-active {
+    display: inline-block;
+}
+
+/* show prev bullet */
+.testimonial-swiper .swiper-pagination-bullet-active-prev {
+    display: inline-block;
+}
+
+/* show next bullet */
+.testimonial-swiper .swiper-pagination-bullet-active-next {
+    display: inline-block;
+}
+
+/* optional styling */
+.custom-bullet {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    margin: 0 4px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
 .swiper-slide {
     /* opacity: .5; */
     transition: opacity 0.3s ease;
@@ -3673,6 +3715,15 @@ section {
 }
 
 @media (max-width: 992px) {
+    .tool-name-display {
+        height: 110px;
+        width: 110px;
+    }
+
+    .tool-name-display h5 {
+        font-size: 14px;
+    }
+
     .testimonial_inner_parent {
         flex-direction: column-reverse !important;
         align-items: center !important;
@@ -3689,8 +3740,11 @@ section {
     } */
 
     .skill_parent .skill_inner_p {
-        width: 100%;
         padding: 20px 25px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
 
     .puzzle_images {

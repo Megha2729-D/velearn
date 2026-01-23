@@ -6,8 +6,8 @@ import axios from "axios";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const BASE_API_URL = "/api/";
-const BASE_IMAGE_URL = "/assets/images/";
+const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
 
 class LoginPage extends Component {
     state = {

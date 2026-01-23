@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-const BASE_API_URL = "/api/";
-const BASE_IMAGE_URL = "/assets/images/";
+const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
 
 const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false);

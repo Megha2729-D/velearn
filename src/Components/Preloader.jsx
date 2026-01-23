@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
-const BASE_API_URL = "/api/";
-const BASE_IMAGE_URL = "/assets/images/";
+const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
 
 const Preloader = () => {
     return (

@@ -8,36 +8,29 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const BASE_API_URL = "/api/";
-const BASE_IMAGE_URL = "/assets/images/";
+const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
+const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
 
 class HomePage extends Component {
 
     componentDidMount() {
+        // --- Existing counter animation code ---
         const counters = document.querySelectorAll(".counter");
-
         const animateCounter = (counter) => {
             const target = +counter.getAttribute("data-target");
-            const duration = 3000; // total animation time in ms (increase to slow down)
+            const duration = 3000;
             const startTime = performance.now();
-
             const update = (currentTime) => {
                 const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1); // 0 to 1
+                const progress = Math.min(elapsed / duration, 1);
                 const current = Math.floor(progress * target);
-
                 counter.innerText = current;
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    counter.innerText = target + "+";
-                }
+                if (progress < 1) requestAnimationFrame(update);
+                else counter.innerText = target + "+";
             };
-
             requestAnimationFrame(update);
         };
-
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
@@ -45,15 +38,40 @@ class HomePage extends Component {
                     observer.disconnect();
                 }
             },
-            { threshold: 0.4 } // start only when almost fully visible
+            { threshold: 0.4 }
         );
         observer.observe(document.querySelector(".counter_parent"));
+
+        // --- Fetch recorded courses ---
+        fetch("http://www.iqvideoproduction.com/api/courses")
+            .then(res => res.json())
+            .then((data) => {
+                if (data.success && data.courses) {
+                    // Group courses by category
+                    const coursesByCategory = data.courses.reduce((acc, course) => {
+                        const cat = course.category || "Other";
+                        if (!acc[cat]) acc[cat] = [];
+                        acc[cat].push(course);
+                        return acc;
+                    }, {});
+
+                    // Set recorded courses in state
+                    // Also set the first category as active
+                    const firstCategory = Object.keys(coursesByCategory)[0];
+                    this.setState({
+                        recordedCourses: coursesByCategory,
+                        activeRecordedTab: firstCategory
+                    });
+                }
+            })
+            .catch(err => console.error("Failed to fetch courses:", err));
     }
 
     state = {
         activeRecordedTab: "software",
-        activeFaqIndex: 0, // first open
+        activeFaqIndex: 0,
         activeImage: "testimonial/arun-vikkashamuthu.png",
+        recordedCourses: {}, // <-- store API response here
     };
 
     recordedCourseTabs = {
@@ -387,7 +405,6 @@ class HomePage extends Component {
             )
         }
     ];
-
 
     toggleFaq = (index) => {
         this.setState({
@@ -725,16 +742,14 @@ class HomePage extends Component {
                             </div>
                         </div>
 
-                        {/* Tabs */}
                         <div className="mt-4 recorded_tab_parent">
-                            {Object.keys(this.recordedCourseTabs).map((key) => (
+                            {Object.keys(this.state.recordedCourses).map((category) => (
                                 <button
-                                    key={key}
-                                    className={`course_tab_btn ${this.state.activeRecordedTab === key ? "active" : ""
-                                        }`}
-                                    onClick={() => this.setState({ activeRecordedTab: key })}
+                                    key={category}
+                                    className={`course_tab_btn ${this.state.activeRecordedTab === category ? "active" : ""}`}
+                                    onClick={() => this.setState({ activeRecordedTab: category })}
                                 >
-                                    {this.recordedCourseTabs[key].label}
+                                    {category}
                                 </button>
                             ))}
                         </div>
@@ -747,7 +762,6 @@ class HomePage extends Component {
                                 modules={[Navigation, Pagination]}
                                 spaceBetween={30}
                                 slidesPerView={4}
-                                // slidesPerGroup={5}
                                 loop={true}
                                 navigation={true}
                                 pagination={{ clickable: true }}
@@ -758,61 +772,65 @@ class HomePage extends Component {
                                     1300: { slidesPerView: 4 },
                                 }}
                             >
-                                {this.recordedCourseTabs[
-                                    this.state.activeRecordedTab
-                                ].courses.map((course, index) => (
-                                    <SwiperSlide key={index}>
+                                {(this.state.recordedCourses[this.state.activeRecordedTab] || []).map((course, index) => (
+                                    <SwiperSlide key={course._id}>
                                         <Link to={"/course-details"}>
                                             <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
-
-                                                {/* Image Section */}
                                                 <div className="card_img_parent overflow-hidden">
-                                                    <img
-                                                        src={`${BASE_IMAGE_URL}${course.img}`}
-                                                        className="card_img w-100"
-                                                        alt={course.title}
-                                                    />
+                                                    <img src={`${BASE_DYNAMIC_IMAGE_URL}courses/${course.image}`} className="card_img w-100" alt={course.title} />
                                                 </div>
 
-                                                {/* Content Section - full height flex */}
                                                 <div className="pt-3 d-flex flex-column align-items-start flex-grow-1">
                                                     <h4 className="fw-bold">{course.title}</h4>
-                                                    <p className="mb-2">{course.desc}</p>
+                                                    <p className="mb-2">{course.sub_description}</p>
 
                                                     <div className="d-flex justify-content-between align-items-center gap-3 w-100 mt-auto">
                                                         <div className="recorded_course_duration">
                                                             <div className="my-2">
                                                                 <i className="bi bi-clock pe-1 my-2"></i>
-                                                                {course.duration}
+                                                                {course.course_duration}
                                                             </div>
-                                                            <div className="d-flex align-items-center">
-                                                                <i className="bi bi-star-fill pe-1"></i>
-                                                                <i className="bi bi-star-fill pe-1"></i>
-                                                                <i className="bi bi-star-fill pe-1"></i>
-                                                                <i className="bi bi-star-fill pe-1"></i>
-                                                                <i className="bi bi-star-fill pe-1"></i>
-                                                                {course.rating}
-                                                            </div>
+                                                            {(course.course_type === "paid" || course.course_type === "combo") && (
+                                                                <div className="d-flex align-items-center mt-2">
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <span>({course.rating || "4.6"})</span>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                         <div className="d-flex align-items-center gap-2">
-                                                            <span className="new_price">&#8377; {course.newPrice}</span>
-                                                            <span className="old_price"><s>&#8377; {course.oldPrice}</s></span>
-                                                            {course.sessions}
+                                                            {course.buy_price ? (
+                                                                <>
+                                                                    <span className="new_price">&#8377; {course.buy_price}</span>
+                                                                    <span className="old_price"><s>&#8377; {course.mrp_price}</s></span>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    {course.course_type === "free" &&
+                                                                        <div>
+                                                                            <i class="bi bi-star-fill pe-1"></i>
+                                                                            <i class="bi bi-star-fill pe-1"></i>
+                                                                            <i class="bi bi-star-fill pe-1"></i>
+                                                                            <i class="bi bi-star-fill pe-1"></i>
+                                                                            <i class="bi bi-star-fill pe-1"></i>
+                                                                            (4.6)
+                                                                        </div>
+                                                                    }</>
+                                                                // <span className="free_course">Free</span>
+                                                            )}
                                                         </div>
                                                     </div>
-
-                                                    {/* Level badge pinned to bottom of content */}
-                                                    <span className={`level-badge ${this.levelClassMap[course.level] || ""} mt-auto`}>
-                                                        {course.level}
-                                                    </span>
                                                 </div>
 
-                                                {/* Button */}
-                                                <div className="paid_butt mt-3"> Paid </div>
+                                                {course.course_type === "paid" && <div className="paid_butt mt-3"> Paid </div>}
+                                                {course.course_type === "free" && <div className="free_butt mt-3"> Free </div>}
+                                                {course.course_type === "combo" && <div className="combo_butt mt-3"> Combo </div>}
                                             </div>
                                         </Link>
                                     </SwiperSlide>
-
                                 ))}
                             </Swiper>
 

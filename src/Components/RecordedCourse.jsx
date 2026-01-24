@@ -1,8 +1,8 @@
 import { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
 
-const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
-const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/courses/";
+const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
+const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/courses/";
 
 class RecordedCourse extends Component {
     state = {

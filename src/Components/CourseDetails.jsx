@@ -6,9 +6,9 @@ import { withRouter } from "./withRouter";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 
-const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
-const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
-const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
+const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
+const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
 
 class CourseDetails extends Component {
     constructor(props) {

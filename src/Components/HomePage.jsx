@@ -11,9 +11,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
-const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
-const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
+const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
+const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
 
 class HomePage extends Component {
     componentDidMount() {

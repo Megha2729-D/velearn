@@ -101,7 +101,7 @@ class RecordedCourse extends Component {
                                     className="col-xl-3 col-lg-3 col-md-6 col-12 mb-4"
                                     key={course._id}
                                 >
-                                    <Link to="/course-details">
+                                    <Link to={`/course-details/${course._id}`}>
                                         <div
                                             className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"
                                                 }`}

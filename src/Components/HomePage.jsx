@@ -73,18 +73,28 @@ class HomePage extends Component {
                         }, 5000);
                     });
 
-                    // Category handling
+                    // Category handling → latest 5 per category
                     const coursesByCategory = data.courses.reduce((acc, course) => {
                         const cat = course.category || "Other";
                         if (!acc[cat]) acc[cat] = [];
                         acc[cat].push(course);
                         return acc;
                     }, {});
+
+                    // Sort by `_id` or a date field if available, then take latest 5
+                    Object.keys(coursesByCategory).forEach(cat => {
+                        coursesByCategory[cat] = coursesByCategory[cat]
+                            .sort((a, b) => new Date(b.updatedAt || b.createdAt || b._id) - new Date(a.updatedAt || a.createdAt || a._id))
+                            .slice(0, 5);
+                    });
+
                     const firstCategory = Object.keys(coursesByCategory)[0];
+
                     this.setState({
                         recordedCourses: coursesByCategory,
                         activeRecordedTab: firstCategory,
                     });
+
                 }
             })
             .catch(err => console.error("Failed to fetch courses:", err));

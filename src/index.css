@@ -1216,10 +1216,12 @@ img {
 .v-banner .carousel-control-next {
     opacity: 0;
 }
-
+.v-banner .carousel-inner{
+    z-index: 9;
+}
 .v-banner h5 {
     font-weight: 600;
-    font-size: 54.75px;
+    font-size: 50px;
     line-height: 70px;
     text-align: left;
     margin-bottom: 10px;

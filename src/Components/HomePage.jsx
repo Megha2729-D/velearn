@@ -15,55 +15,34 @@ const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
 class HomePage extends Component {
 
     componentDidMount() {
-        const counters = document.querySelectorAll(".counter");
-        const animateCounter = (counter) => {
-            const target = +counter.getAttribute("data-target");
-            const duration = 3000;
-            const startTime = performance.now();
-            const update = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const current = Math.floor(progress * target);
-                counter.innerText = current;
-                if (progress < 1) requestAnimationFrame(update);
-                else counter.innerText = target + "+";
-            };
-            requestAnimationFrame(update);
-        };
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    counters.forEach(animateCounter);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.4 }
-        );
-        observer.observe(document.querySelector(".counter_parent"));
+        // existing counter code ...
 
-        fetch("http://www.iqvideoproduction.com/api/courses")
+        fetch(`${BASE_API_URL}courses`)
             .then(res => res.json())
             .then((data) => {
                 if (data.success && data.courses) {
-                    // Group courses by category
+                    // Set courses for banner
+                    this.setState({
+                        coursesList: data.courses, // <-- add this
+                    });
+
+                    // If you still need recordedCourses by category
                     const coursesByCategory = data.courses.reduce((acc, course) => {
                         const cat = course.category || "Other";
                         if (!acc[cat]) acc[cat] = [];
                         acc[cat].push(course);
                         return acc;
                     }, {});
-
-                    // Set recorded courses in state
-                    // Also set the first category as active
                     const firstCategory = Object.keys(coursesByCategory)[0];
                     this.setState({
                         recordedCourses: coursesByCategory,
-                        activeRecordedTab: firstCategory
+                        activeRecordedTab: firstCategory,
                     });
                 }
             })
             .catch(err => console.error("Failed to fetch courses:", err));
     }
+
 
     state = {
         activeRecordedTab: "software",
@@ -445,9 +424,7 @@ class HomePage extends Component {
                         <div className="section_container">
                             <div id="v-banner-carousel" className="carousel slide" data-bs-ride="carousel">
                                 <div className="carousel-inner">
-
-                                    {/* Slide 1 - Full Stack Web Dev */}
-                                    <div className="carousel-item active">
+                                    {/* <div className="carousel-item active">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
                                                 <div className="col-lg-6">
@@ -461,8 +438,6 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Slide 2 - UI/UX */}
                                     <div className="carousel-item">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
@@ -477,8 +452,6 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Slide 3 - Python */}
                                     <div className="carousel-item">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
@@ -493,8 +466,6 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Slide 4 - Data Science */}
                                     <div className="carousel-item">
                                         <div className="carousel-caption">
                                             <div className="row align-items-center">
@@ -508,8 +479,26 @@ class HomePage extends Component {
                                                 <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </div> */}
+                                    {this.state.coursesList && this.state.coursesList.slice(0, 3).map((course, idx) => (
+                                        <div
+                                            key={course._id}
+                                            className={`carousel-item ${idx === 0 ? "active" : ""}`}
+                                        >
+                                            <div className="carousel-caption">
+                                                <div className="row align-items-center">
+                                                    <div className="col-lg-7">
+                                                        <h5>{course.title}</h5>
+                                                        <p>{course.sub_description}</p>
+                                                        <Link to={`/course-details/${course._id}`}>
+                                                            <button>Explore now</button>
+                                                        </Link>
+                                                    </div>
+                                                    <div className="col-lg-5 right-banner-bg home-banner-bg"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
 
                                 {/* Previous button */}

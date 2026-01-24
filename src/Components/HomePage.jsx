@@ -7,26 +7,73 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
 const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
 const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
 
 class HomePage extends Component {
-
     componentDidMount() {
-        // existing counter code ...
+        const counters = document.querySelectorAll(".counter");
 
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute("data-target");
+            const duration = 3000;
+            const startTime = performance.now();
+
+            const update = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(progress * target);
+
+                counter.innerText = current;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    counter.innerText = target + "+";
+                }
+            };
+
+            requestAnimationFrame(update);
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    counters.forEach(animateCounter);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.4 }
+        );
+        observer.observe(document.querySelector(".counter_parent"));
+
+        // Fetch courses
         fetch(`${BASE_API_URL}courses`)
             .then(res => res.json())
             .then((data) => {
                 if (data.success && data.courses) {
-                    // Set courses for banner
-                    this.setState({
-                        coursesList: data.courses, // <-- add this
+
+                    // Set courses first
+                    this.setState({ coursesList: data.courses }, () => {
+
+                        // >>> ADD AUTO SLIDE HERE <<<
+                        let index = 0;
+                        setInterval(() => {
+                            const items = document.querySelectorAll("#v-banner-carousel .carousel-item");
+                            if (!items.length) return;
+
+                            items[index].classList.remove("active");
+                            index = (index + 1) % items.length;
+                            items[index].classList.add("active");
+                        }, 5000);
                     });
 
-                    // If you still need recordedCourses by category
+                    // Category handling
                     const coursesByCategory = data.courses.reduce((acc, course) => {
                         const cat = course.category || "Other";
                         if (!acc[cat]) acc[cat] = [];
@@ -43,232 +90,13 @@ class HomePage extends Component {
             .catch(err => console.error("Failed to fetch courses:", err));
     }
 
-
     state = {
         activeRecordedTab: "software",
         activeFaqIndex: 0,
         activeImage: "testimonial/arun-vikkashamuthu.png",
-        recordedCourses: {}, // <-- store API response here
+        recordedCourses: {},
     };
 
-    recordedCourseTabs = {
-        software: {
-            label: "Software Development",
-            courses: [
-                {
-                    title: "Master in Full Stack Development",
-                    img: "course.png",
-                    desc: "Become a job-ready full stack developer with hands-on projects.",
-                    rating: "(4.6)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Master Data Science Course",
-                    img: "course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Cloud & DevOps Engineering",
-                    img: "course.png",
-                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "AI Career Accelerator",
-                    img: "course.png",
-                    desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "(4.8)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-            ],
-        },
-
-        web: {
-            label: "Web Development",
-            courses: [
-                {
-                    title: "Master Data Science Course",
-                    img: "course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Cloud & DevOps Engineering",
-                    img: "course.png",
-                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "AI Career Accelerator",
-                    img: "course.png",
-                    desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "(4.8)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-            ],
-        },
-
-        businessManagement: {
-            label: "Business Management",
-            courses: [
-                {
-                    title: "Master Data Science Course",
-                    img: "course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Cloud & DevOps Engineering",
-                    img: "course.png",
-                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "AI Career Accelerator",
-                    img: "course.png",
-                    desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "(4.8)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-            ],
-        },
-        it: {
-            label: "IT Infrastructure Management",
-            courses: [
-                {
-                    title: "Master Data Science Course",
-                    img: "course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Cloud & DevOps Engineering",
-                    img: "course.png",
-                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "AI Career Accelerator",
-                    img: "course.png",
-                    desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "(4.8)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-            ],
-        },
-        splPrograms: {
-            label: "Special Programs",
-            courses: [
-                {
-                    title: "Master Data Science Course",
-                    img: "course.png",
-                    desc: "Learn Python, ML & Data Analytics with real datasets.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Advanced UI/UX Design Course",
-                    img: "course.png",
-                    desc: "Learn UX research, wireframing & Figma.",
-                    rating: "(4.6)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "Cloud & DevOps Engineering",
-                    img: "course.png",
-                    desc: "AWS, Docker, Kubernetes & CI/CD pipelines.",
-                    rating: "(4.7)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-                {
-                    title: "AI Career Accelerator",
-                    img: "course.png",
-                    desc: "Mentor-led AI program with projects & placement support.",
-                    rating: "(4.8)",
-                    duration: "10 hrs",
-                    newPrice: "500",
-                    oldPrice: "1000",
-                },
-            ],
-        },
-    };
     testimonialData = [
         {
             img: "testimonial/arun-vikkashamuthu.png",
@@ -422,64 +250,13 @@ class HomePage extends Component {
                 <section>
                     <div className="v-banner">
                         <div className="section_container">
-                            <div id="v-banner-carousel" className="carousel slide" data-bs-ride="carousel">
+                            <div id="v-banner-carousel"
+                                className="carousel slide"
+                                data-bs-ride="carousel"
+                                data-bs-interval="5000"
+                                data-bs-pause="false"
+                            >
                                 <div className="carousel-inner">
-                                    {/* <div className="carousel-item active">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>Master in Full Stack Development</h5>
-                                                    <p>
-                                                        Become a job-ready full stack developer with frontend + backend + cloud deployment and real-time projects.
-                                                    </p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>UI / UX Design Program</h5>
-                                                    <p>
-                                                        Learn product design, wireframes, Figma, user psychology and create modern industry design portfolios.
-                                                    </p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>Python Programming</h5>
-                                                    <p>
-                                                        Master Python from basics to advanced with OOP, automation, API usage, scripting & mini projects.
-                                                    </p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>Data Science & AI</h5>
-                                                    <p>
-                                                        Learn data analytics, machine learning, Python, NumPy, Pandas, models & real-time datasets.
-                                                    </p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg home-banner-bg"></div>
-                                            </div>
-                                        </div>
-                                    </div> */}
                                     {this.state.coursesList && this.state.coursesList.slice(0, 3).map((course, idx) => (
                                         <div
                                             key={course._id}

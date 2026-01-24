@@ -17,18 +17,23 @@ const Preloader = () => {
                 <div className="spinner"></div>
 
                 {/* Logo (CSS background image) */}
-                <motion.div
-                    className="logo-bg"
-                    initial={{ scale: 0.8 }}
-                    animate={{ scale: [0.8, 1, 0.8] }}
-                    transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
-                >
-                    <img src={`${BASE_IMAGE_URL}logo-icon.png`} alt="" />
-                </motion.div>
+                <div className="logo-bg">
+                    <motion.div
+
+                        initial={{ scale: 0.8 }}
+                        animate={{ scale: [0.8, 1, 0.8] }}
+                        transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <div>
+                            <img src={`${BASE_IMAGE_URL}logo-icon.png`} alt="" />
+                        </div>
+                    </motion.div>
+                </div>
+
             </div>
         </motion.div>
     );

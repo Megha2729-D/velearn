@@ -92,7 +92,7 @@ class HomePage extends Component {
 
                     this.setState({
                         recordedCourses: coursesByCategory,
-                        activeRecordedTab: firstCategory,
+                        activeRecordedTab: "Software Development",
                     });
 
                 }
@@ -228,6 +228,14 @@ class HomePage extends Component {
         });
     };
     render() {
+        const CATEGORY_ORDER = [
+            "Software Development",
+            "Web Development",
+            "Business Management",
+            "IT Infrastructure Management",
+            "Special Programs"
+        ];
+
         const partners = [
             "certiport.webp",
             "aws.png",
@@ -517,15 +525,17 @@ class HomePage extends Component {
                         </div>
 
                         <div className="mt-4 recorded_tab_parent">
-                            {Object.keys(this.state.recordedCourses).map((category) => (
-                                <button
-                                    key={category}
-                                    className={`course_tab_btn ${this.state.activeRecordedTab === category ? "active" : ""}`}
-                                    onClick={() => this.setState({ activeRecordedTab: category })}
-                                >
-                                    {category}
-                                </button>
-                            ))}
+                            {Object.keys(this.state.recordedCourses)
+                                .sort((a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b))
+                                .map((category) => (
+                                    <button
+                                        key={category}
+                                        className={`course_tab_btn ${this.state.activeRecordedTab === category ? "active" : ""}`}
+                                        onClick={() => this.setState({ activeRecordedTab: category })}
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
                         </div>
 
                         {/* Slider */}

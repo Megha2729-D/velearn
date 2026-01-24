@@ -15,7 +15,6 @@ const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
 class HomePage extends Component {
 
     componentDidMount() {
-        // --- Existing counter animation code ---
         const counters = document.querySelectorAll(".counter");
         const animateCounter = (counter) => {
             const target = +counter.getAttribute("data-target");
@@ -42,7 +41,6 @@ class HomePage extends Component {
         );
         observer.observe(document.querySelector(".counter_parent"));
 
-        // --- Fetch recorded courses ---
         fetch("http://www.iqvideoproduction.com/api/courses")
             .then(res => res.json())
             .then((data) => {
@@ -774,7 +772,7 @@ class HomePage extends Component {
                             >
                                 {(this.state.recordedCourses[this.state.activeRecordedTab] || []).map((course, index) => (
                                     <SwiperSlide key={course._id}>
-                                        <Link to={"/course-details"}>
+                                        <Link to={`/course-details/${course._id}`}>
                                             <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
                                                 <div className="card_img_parent overflow-hidden">
                                                     <img src={`${BASE_DYNAMIC_IMAGE_URL}courses/${course.image}`} className="card_img w-100" alt={course.title} />

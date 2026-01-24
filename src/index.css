@@ -1808,6 +1808,7 @@ img {
     transition: all 0.3s ease-out;
 }
 
+.category_pill.active,
 .category_pill:hover {
     border: 1px solid var(--c1);
     background-color: var(--c1);
@@ -3010,7 +3011,7 @@ section {
 }
 
 .back_big_text {
-    width: 50%;
+    width: 60%;
     font-weight: 900;
     font-size: 100px;
     line-height: 100px;
@@ -3399,7 +3400,8 @@ section {
         color: #fff;
         font-weight: 600;
     }
-/*
+
+    /*
     .tab.active::after {
         content: "";
         position: absolute;
@@ -3516,7 +3518,10 @@ section {
     padding: 20px;
     text-align: center;
     background: linear-gradient(#0000001f, #ffffff48);
-    /* background: radial-gradient(100% 100% at 0% 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 100%); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
 }
 
 .skill_parent .skill_inner_p p {
@@ -3619,9 +3624,9 @@ section {
     background: #ffffff !important;
 }
 
-.testimonial_details_page .section_container {
+/* .testimonial_details_page .section_container {
     padding-bottom: 300px;
-}
+} */
 
 .price_section_parent_top {
     position: absolute;
@@ -4309,9 +4314,9 @@ section {
         box-shadow: 0px 20px 0px -2px rgba(0, 0, 0, 0.15);
     }
 
-    .testimonial_details_page .section_container {
+    /* .testimonial_details_page .section_container {
         padding-bottom: 400px;
-    }
+    } */
 
     .parent_price {
         width: 100%;
@@ -4423,9 +4428,9 @@ section {
         flex-wrap: nowrap !important;
     }
 
-    .testimonial_details_page .section_container {
+    /* .testimonial_details_page .section_container {
         padding-bottom: 320px;
-    }
+    } */
 
     .course_tab_btn {
         height: fit-content;

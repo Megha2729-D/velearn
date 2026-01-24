@@ -1,10 +1,14 @@
 import { Component, createRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectCoverflow, Pagination } from "swiper/modules";
-import { Link } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
+import { withRouter } from "./withRouter";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
+
+const BASE_API_URL = "http://www.iqvideoproduction.com/api/";
+const BASE_IMAGE_URL = "http://www.iqvideoproduction.com/assets/images/";
+const BASE_DYNAMIC_IMAGE_URL = "http://www.iqvideoproduction.com/uploads/";
 
 class CourseDetails extends Component {
     constructor(props) {
@@ -18,22 +22,39 @@ class CourseDetails extends Component {
             activeShadow: "",
             activeFaqIndex: 0,
             activePriceTab: 0,
+            course: null,
+            loading: true,
+            error: null,
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
     }
 
     componentDidMount() {
-        if (this.tabRefs[0]?.current) {
-            this.tabRefs[0].current.click();
-        }
+        const courseId = this.props.params.id;
 
-        if (this.tools && this.tools.length > 0) {
-            this.setState({
-                activeToolName: this.tools[0].name,
-                activeShadow: this.tools[0].shadow,
+        fetch(`${BASE_API_URL}courses/${courseId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.setState({ course: data.course, loading: false }, () => {
+                        // Automatically select first tab after course is loaded
+                        if (this.tabRefs[0] && this.tabRefs[0].current) {
+                            const tabEl = this.tabRefs[0].current;
+                            const wrapperRect = this.tabsWrapperRef.getBoundingClientRect();
+                            const centerX = tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
+                            const relativeLeft = centerX - wrapperRect.left;
+
+                            this.setState({ activeTab: 0, contentLeft: relativeLeft });
+                        }
+                    });
+                } else {
+                    this.setState({ error: "Course not found", loading: false });
+                }
+            })
+            .catch(err => {
+                this.setState({ error: err.message, loading: false });
             });
-        }
     }
 
     handleSlideChange = (swiper) => {
@@ -109,68 +130,11 @@ class CourseDetails extends Component {
     //         indicatorLeft: relativeLeft
     //     });
     // }
-        renderContent() {
-            const { activeTab } = this.state;
-
-            const content = {
-                1: {
-                    title: "Foundations of Full Stack Development",
-                    points: [
-                        "How the web works (Client–Server architecture)",
-                        "Frontend vs Backend vs Database",
-                        "Developer tools & workflow",
-                        "Introduction to Git & GitHub"
-                    ]
-                },
-                2: {
-                    title: "Frontend Development",
-                    points: [
-                        "HTML, CSS, JavaScript",
-                        "Responsive UI & Grid Systems",
-                        "React.js Fundamentals",
-                        "State Management"
-                    ]
-                },
-                3: {
-                    title: "Backend Development",
-                    points: [
-                        "Node.js & Express.js",
-                        "REST APIs",
-                        "Authentication & Authorization",
-                        "Error Handling & Middleware"
-                    ]
-                },
-                4: {
-                    title: "Database & Deployment",
-                    points: [
-                        "MongoDB / SQL Basics",
-                        "Data Modeling & Queries",
-                        "Cloud Deployment",
-                        "CI/CD & Environment Variables"
-                    ]
-                },
-                5: {
-                    title: "Capstone & Job Preparation",
-                    points: [
-                        "Real-World Project",
-                        "Version Control",
-                        "Resume & Portfolio",
-                        "Mock Interviews"
-                    ]
-                },
-                6: {
-                    title: "Capstone & Job Preparation",
-                    points: [
-                        "Real-World Project",
-                        "Version Control",
-                        "Resume & Portfolio",
-                        "Mock Interviews"
-                    ]
-                }
-            };
-
-            return content[activeTab];
-        }
+    renderContent() {
+        const { activeTab, course } = this.state;
+        if (!course || !course.modules) return { title: "", points: [] };
+        return course.modules[activeTab] || course.modules[0];
+    }
     advantages = [
         { title: "Code with Clarity", text: "We break complex concepts into simple, practical steps you can actually apply.", color: "#FF0000" },
         { title: "Build Real Projects", text: "Work on real-world applications instead of toy examples.", color: "#00A2FF" },
@@ -182,27 +146,28 @@ class CourseDetails extends Component {
 
     faqData = [
         {
-            question: "Who is this Live Full Stack course designed for?",
+            question: "Who can benefit from this program?",
             answer: (
                 <>
                     <p>
-                        This course is designed for students, freshers, career switchers, and working professionals who want to learn full stack development through live training, gain real-world project experience, become job-ready developers with strong practical skills, and build a professional portfolio for interviews and receive career and placement guidance.
+                        This program is suitable for students, freshers, career switchers, and working professionals
+                        who want to gain practical skills, hands-on project experience, and prepare for tech roles.
                     </p>
                 </>
             )
         },
         {
-            question: "Do I need prior coding experience to join this course?",
+            question: "Do I need prior experience to join?",
             answer: (
                 <>
-                    <p>No. You do not need any prior coding experience to join this course.</p>
+                    <p>No prior experience is required.</p>
                     <p>
-                        Our training starts from the basics and gradually moves toward advanced concepts.
-                        Beginners, students, and non-IT professionals can easily learn.
+                        The training starts from the basics and gradually moves to advanced concepts.
+                        Beginners and professionals alike can follow at their own pace.
                     </p>
                     <p>
-                        For those who already have some coding knowledge, we provide fast-track options,
-                        challenging tasks, and advanced modules to match your skill level.
+                        For those with some experience, advanced tasks and challenges are available
+                        to match your skill level.
                     </p>
                 </>
             )
@@ -212,37 +177,35 @@ class CourseDetails extends Component {
             answer: (
                 <>
                     <p>
-                        You will work on real-time, industry-relevant projects based on the specific course
-                        you choose. These projects help you build strong practical skills and a job-ready portfolio.
+                        You will work on real-world, industry-relevant projects that help build practical skills
+                        and a professional portfolio.
                     </p>
                     <p>Example project types include:</p>
                     <ul>
-                        <li>Web and mobile application development</li>
-                        <li>API & backend systems</li>
-                        <li>Data visualization dashboards</li>
-                        <li>Machine learning mini-projects</li>
-                        <li>Cloud deployment & automation tasks</li>
+                        <li>Web and mobile applications</li>
+                        <li>APIs and backend systems</li>
+                        <li>Data analysis and visualization dashboards</li>
+                        <li>Automation and cloud deployment tasks</li>
+                        <li>Capstone projects to showcase your skills</li>
                     </ul>
-                    <p>
-                        At the end of the course, you will also complete a capstone project to showcase your skills.
-                    </p>
                 </>
             )
         },
         {
-            question: "Will this course help me get a job?",
+            question: "Will this help me get a job?",
             answer: (
                 <>
-                    <p>Yes. This course is designed to make you job-ready through:</p>
+                    <p>
+                        Yes. The program is designed to make participants job-ready through:</p>
                     <ul>
-                        <li>Practical training & real-world projects</li>
-                        <li>Portfolio and resume development</li>
-                        <li>Interview preparation & mock interviews</li>
-                        <li>Placement support & company referrals</li>
+                        <li>Practical training and hands-on projects</li>
+                        <li>Portfolio and resume building</li>
+                        <li>Interview preparation and mock sessions</li>
+                        <li>Career guidance and placement support</li>
                     </ul>
                     <p>
-                        Many students start as interns, junior developers, analysts, or IT support roles depending
-                        on their course. Our placement team helps you throughout the job application process.
+                        Many learners start as interns, junior developers, analysts, or tech support roles
+                        depending on their chosen path.
                     </p>
                 </>
             )
@@ -256,41 +219,74 @@ class CourseDetails extends Component {
         });
     };
     render() {
-        const { activeTab, activePriceTab, activeSlide } = this.state;
+        const { activeTab, activePriceTab, activeSlide, course, loading, error } = this.state;
         const currentContent = this.renderContent();
         const plan = this.plans[activePriceTab];
-        // const tools = [
-        //     { name: "React", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/react.png`, shadow: "#61DAFB" },
-        //     { name: "CSS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/css.png`, shadow: "#2965F1" },
-        //     { name: "Express JS", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/express-js.png`, shadow: "#F3DF1D" },
-        //     { name: "Visual Studio", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/vs-code.png`, shadow: "#0080CF" },
-        //     { name: "SQL", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/sql.png`, shadow: "#D08001" },
-        //     { name: "Bootstrap", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/bootstrap.png`, shadow: "#7952B3" },
-        //     { name: "Mongo DB", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/mongodb.png`, shadow: "#9EFF3E" },
-        //     { name: "Tailwind", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/tailwind.png`, shadow: "#38BDF8" },
-        //     { name: "Python", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/python.png`, shadow: "#DE6B00" },
-        //     { name: "Spring Boot", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/spring-boot.png`, shadow: "#6DB33F" },
-        //     { name: "HTML", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/html.png`, shadow: "#E44D26" },
-        //     { name: "Django", logo: `${process.env.PUBLIC_URL}/assets/images/details-page/tools/django.png`, shadow: "#304F44" },
-        // ];
         const tools = this.tools;
+        const totalModules = this.state.course?.modules?.length || 0;
+
+        if (loading) return <div className="d-flex justify-content-center align-items-center">
+            <svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fill-opacity="0.6" />
+
+                <text x="400" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="52" fill="#22346b">LOADING...</text>
+
+                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fill-opacity="0.8" />
+
+                <g transform="translate(180, 300)">
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" stroke-width="3" fill="white" />
+                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" stroke-width="3" stroke-linecap="round" />
+                </g>
+
+                <g transform="translate(580, 300)">
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fill-opacity="0.2" />
+                </g>
+
+                <path d="M300 380 Q310 340 330 380" fill="#24b8ec" opacity="0.6" />
+                <path d="M500 380 Q510 350 530 380" fill="#22346b" opacity="0.4" />
+            </svg>
+        </div>;
+        if (error) return <div className="d-flex justify-content-center align-items-center">
+            <svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fill-opacity="0.6" />
+
+                <text x="400" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="52" fill="#22346b">COURSE</text>
+                <text x="400" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="42" fill="#24b8ec">NOT FOUND</text>
+
+                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fill-opacity="0.8" />
+
+                <g transform="translate(180, 300)">
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" stroke-width="3" fill="white" />
+                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" stroke-width="3" stroke-linecap="round" />
+                </g>
+
+                <g transform="translate(580, 300)">
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fill-opacity="0.2" />
+                </g>
+
+                <path d="M300 380 Q310 340 330 380" fill="#24b8ec" opacity="0.6" />
+                <path d="M500 380 Q510 350 530 380" fill="#22346b" opacity="0.4" />
+            </svg>
+        </div>;
+
 
         const skills = [
-            { title: 'Deployment & Hosting', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/hosting.png` },
-            { title: 'Database Management', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/database.png` },
-            { title: 'Front-End Development', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/front-end.png` },
-            { title: 'Back-End Development', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/backend.png` },
-            { title: 'Full Stack Project Building', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/project-building.png` }
+            { title: 'Problem Solving', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/hosting.png` },
+            { title: 'Analytical Thinking', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/database.png` },
+            { title: 'Project Execution', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/front-end.png` },
+            { title: 'Team Collaboration', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/backend.png` },
+            { title: 'Real-World Tools Usage', icon: `${process.env.PUBLIC_URL}/assets/images/details-page/skills/project-building.png` }
         ];
         const repeatedSkills = [...skills, ...skills, ...skills]; // repeat for loop
 
         const testimonials = [
-            { name: "Swetha", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-1.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#E0002A", color2: "#7A0017" },
-            { name: "Riya", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-2.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#D9D9D9", color2: "#737373" },
-            { name: "Anjali", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-3.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#0D301B", color2: "#299654" },
-            { name: "Karan", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-4.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#D9D9D9", color2: "#737373" },
-            { name: "Sahil", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-5.png`, text: "Industry-Focused and Practical The Full-Stack Live Course at Velearn gave me strong hands-on experience with real-world projects. The mentors explained concepts clearly and ensured we understood how to apply them in real scenarios.", color1: "#FEC530", color2: "#98761D" },
+            { name: "Swetha", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-1.png`, text: "Industry-focused training provided strong hands-on experience with practical tasks. Mentors explained concepts clearly, offered guidance, and ensured we could confidently apply skills in real scenarios.", color1: "#E0002A", color2: "#7A0017" },
+            { name: "Riya", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-2.png`, text: "Practical exercises and clear guidance helped build confidence in problem-solving. Mentors ensured understanding of real-world tasks and encouraged applying concepts effectively.", color1: "#D9D9D9", color2: "#737373" },
+            { name: "Anjali", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-3.png`, text: "Hands-on practical tasks provided real-world experience and strengthened skills. The guidance was clear, structured, and very helpful in understanding how to apply concepts effectively.", color1: "#0D301B", color2: "#299654" },
+            { name: "Karan", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-4.png`, text: "The practical approach strengthened skills through real-life examples. Mentors explained concepts clearly, offered support, and ensured we could apply our knowledge confidently.", color1: "#D9D9D9", color2: "#737373" },
+            { name: "Sahil", img: `${process.env.PUBLIC_URL}/assets/images/details-page/testimonials/person-5.png`, text: "Structured hands-on tasks and real-world exercises improved problem-solving and application skills. Mentors provided guidance at every step and ensured clarity in all concepts.", color1: "#FEC530", color2: "#98761D" },
         ];
+
         const repeatedTestimonials = [...testimonials, ...testimonials, ...testimonials]; // repeat for loop
 
         return (
@@ -304,18 +300,24 @@ class CourseDetails extends Component {
                                         <div className="col-lg-6">
                                             <div className="pe-lg-5">
                                                 <h1 className="text-white">
-                                                    Industry-Driven Online Full Stack Program With Live Mentors
+                                                    {course.title}
                                                 </h1>
                                                 <p className="text-white mt-4">
-                                                    A live, mentor-led Full Stack Development program designed to take you from fundamentals to production-ready applications — with real projects, real tools, and real career support.
+                                                    {course.sub_description}
                                                 </p>
                                                 <button>Enroll Now</button>
                                                 <div className="pagination_parent d-lg-flex d-none">
-                                                    <Link to={"/"}>Home</Link>
+                                                    <Link to="/">Home</Link>
                                                     <span className="px-2"> /</span>
-                                                    <Link to={"/recorded-course"}> Recorded courses </Link>
-                                                    <span className="px-2">/</span>
-                                                    <Link to={"/course-details"}> Data Science in English</Link>
+
+                                                    <Link to="/recorded-course">Recorded Courses</Link>
+                                                    <span className="px-2"> /</span>
+
+                                                    {this.state.course && (
+                                                        <Link to={`/course-details/${this.state.course._id}`}>
+                                                            {this.state.course.course_title}
+                                                        </Link>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -338,11 +340,15 @@ class CourseDetails extends Component {
                                                 </div>
                                             </form>
                                             <div className="pagination_parent mt-5 d-lg-none d-flex justify-content-center">
-                                                <Link to={"/"}>Home</Link>
+                                                <Link to="/">Home</Link>
                                                 <span className="px-2"> /</span>
-                                                <Link to={"/recorded-course"}> Recorded courses </Link>
-                                                <span className="px-2">/</span>
-                                                <Link to={"/course-details"}> Data Science in English</Link>
+                                                <Link to="/recorded-course">Recorded Courses</Link>
+                                                <span className="px-2"> /</span>
+                                                {this.state.course && (
+                                                    <Link to={`/course-details/${this.state.course._id}`}>
+                                                        {this.state.course.course_title}
+                                                    </Link>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -357,25 +363,25 @@ class CourseDetails extends Component {
                                             <div className="row text-center">
                                                 <div className="col-6 col-lg-3 mb-3 banner_details_list d-flex justify-content-center">
                                                     <div className="d-flex justify-content-center align-items-center align-items-lg-start flex-column">
-                                                        <p className="fw-bold mb-1">4 Modules</p>
+                                                        <p className="fw-bold mb-1">{totalModules} Modules</p>
                                                         <p className="mb-0">with Certifications</p>
                                                     </div>
                                                 </div>
                                                 <div className="col-6 col-lg-3 mb-3 banner_details_list d-flex justify-content-center">
                                                     <div className="d-flex justify-content-center align-items-center align-items-lg-start flex-column">
-                                                        <p className="fw-bold mb-1">4 Hours</p>
+                                                        <p className="fw-bold mb-1">{course.course_duration}</p>
                                                         <p className="mb-0">of Recorded Content</p>
                                                     </div>
                                                 </div>
                                                 <div className="col-6 col-lg-3 mb-3 banner_details_list d-flex justify-content-center">
                                                     <div className="d-flex justify-content-center align-items-center align-items-lg-start flex-column">
-                                                        <p className="fw-bold mb-1">4.5 Ratings</p>
+                                                        <p className="fw-bold mb-1">{course.rating} Ratings</p>
                                                         <p className="mb-0">by 1000 Learners</p>
                                                     </div>
                                                 </div>
                                                 <div className="col-6 col-lg-3 mb-3 banner_details_list d-flex justify-content-center">
                                                     <div className="d-flex justify-content-center align-items-center align-items-lg-start flex-column">
-                                                        <p className="fw-bold mb-1">English</p>
+                                                        <p className="fw-bold mb-1">{course.language}</p>
                                                         <p className="mb-0">Language</p>
                                                     </div>
                                                 </div>
@@ -391,13 +397,11 @@ class CourseDetails extends Component {
                             <div className="why_choose_details pt-5 pb-lg-5">
                                 <div className="d-flex justify-content-center col-12">
                                     <div className="col-lg-7">
-                                        <h3 className="text-white text-center fw-bold px-3 lh-sm">Why Full Stack Development Is a Smart
+                                        <h3 className="text-white text-center fw-bold px-3 lh-sm">Why {course.course_title} Is a Smart
                                             <span className="text-c2"> Career Choice</span>
                                         </h3>
                                     </div>
                                 </div>
-                                {/* Cards */}
-                                {/* Top Row - 3 Cards */}
                                 <div className="col-lg-12 d-flex justify-content-center">
                                     <div className="col-lg-8">
                                         <div className="row justify-content-center mb-4">
@@ -450,13 +454,13 @@ class CourseDetails extends Component {
                                 <div className="col-12">
                                     <h3 className="text-c2 text-center fw-bold"> Course Overview</h3>
                                     <p className="text-white text-center text-lg-start mt-3">
-                                        Data science is an interdisciplinary field that focuses on extracting meaningful insights from data. It combines statistics, mathematics, programming, and domain knowledge to analyze structured and unstructured data. Data scientists collect, clean, and process large datasets, then apply techniques like data analysis, visualization, machine learning, and predictive modeling. The goal is to identify patterns, trends, and relationships that support better decision-making. Data science is widely used in industries such as healthcare, finance, marketing, e-commerce, and technology. By turning raw data into actionable insights, data science helps organizations improve efficiency, predict outcomes, and create data-driven strategies for growth and innovation.
+                                        {course.course_overview}
                                     </p>
                                 </div>
                             </div>
                             <div className="career_launch pt-lg-3 pb-4">
                                 <h3 className="text-white text-center fw-bold">Launch your iT Career As a
-                                    <span className="text-c2"> Full Stack Developer</span>
+                                    <span className="text-c2"> {course.course_role}</span>
                                 </h3>
                                 <div className="d-flex justify-content-center mt-5">
                                     <div className="col-lg-10 position-relative">
@@ -464,7 +468,7 @@ class CourseDetails extends Component {
                                             <div className="col-4 pe-0">
                                                 <div className="h-100 d-flex flex-column gap-5">
                                                     <div className="steps_details h-50 d-flex justify-content-center align-items-center">
-                                                        <p className="mb-0">Launch your iT Career As a Full Stack Developer</p>
+                                                        <p className="mb-0">Begin your journey into the world of technology</p>
                                                     </div>
                                                     <div className="steps_details h-50 d-flex justify-content-center align-items-center">
                                                         <p className="mb-0">Step into real IT jobs with confidence</p>
@@ -506,7 +510,7 @@ class CourseDetails extends Component {
                             </div>
                             <div className="skills pt-lg-5 pt-4 pb-4 position-relative">
                                 <div className="d-flex justify-content-center">
-                                    <div className="back_big_text">Full Stack Developer</div>
+                                    <div className="back_big_text">{course.course_role}</div>
                                 </div>
                                 <div className="inner_skills_content">
                                     <h3 className="text-white text-center fw-bold">Core Skills
@@ -619,7 +623,6 @@ class CourseDetails extends Component {
                                     })}
                                 </Swiper>
 
-                                {/* === CUSTOM NAVIGATION + TOOL NAME === */}
                                 <div className="tool_name_parent d-flex justify-content-center align-items-center gap-3 mt-3">
                                     <button className="tool_nav_btn left" onClick={this.slidePrev}>
                                         ❮
@@ -648,7 +651,7 @@ class CourseDetails extends Component {
                 <section className="modules-section">
                     <div className="section_container pb-5">
                         <h3 className="text-black text-center fw-bold px-3 lh-sm">
-                            A Structured Path to Master <span className="text-c2"> Full Stack Development</span>
+                            A Structured Path to Master <span className="text-c2"> {course.course_title}</span>
                         </h3>
                         <div className="row justify-content-center">
                             <div className="col-lg-5">
@@ -660,11 +663,11 @@ class CourseDetails extends Component {
 
                         <div className="tabs-wrapper" ref={(el) => (this.tabsWrapperRef = el)}>
                             <div className="tabs">
-                                {[1, 2, 3, 4, 5].map((num, index) => (
+                                {course.modules.map((module, index) => (
                                     <button
-                                        key={num}
+                                        key={module.id}
                                         ref={this.tabRefs[index]}
-                                        className={`tab ${activeTab === num ? "active" : ""}`}
+                                        className={`tab ${activeTab === index ? "active" : ""}`}
                                         onClick={() => {
                                             const tabEl = this.tabRefs[index].current;
                                             const tabRect = tabEl.getBoundingClientRect();
@@ -673,14 +676,14 @@ class CourseDetails extends Component {
                                             const centerX = tabRect.left + tabRect.width / 2;
                                             const relativeLeft = centerX - wrapperRect.left;
 
-                                            this.setState({ activeTab: num, contentLeft: relativeLeft });
+                                            this.setState({ activeTab: index, contentLeft: relativeLeft });
                                         }}
                                     >
-                                        Module {num}
+                                        Module {index + 1}
                                     </button>
                                 ))}
                             </div>
-                            {/* NEW INDICATOR */}
+
                             <div
                                 className="tab-indicator"
                                 style={{
@@ -701,14 +704,17 @@ class CourseDetails extends Component {
                             >
                                 <h6 className="mb-3">{currentContent.title}</h6>
                                 <ul>
-                                    {currentContent.points.map((p, i) => (
-                                        <li key={i}>{p}</li>
+                                    {currentContent.points.map((point, i) => (
+                                        <li key={i}>{point}</li>
                                     ))}
                                 </ul>
                                 <div className="col-12 d-flex justify-content-end">
-                                    <div className="download_icon"><i className="bi bi-download text-white"></i></div>
+                                    <div className="download_icon">
+                                        <i className="bi bi-download text-white"></i>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </section>
@@ -783,15 +789,15 @@ class CourseDetails extends Component {
                             <div className="journey_bg_icon"></div>
                             <div className="dotted_lines">
                                 <div className="position-relative d-flex justify-content-center">
-                                    <img src={`${process.env.PUBLIC_URL}/assets/images/details-page/journey/dotted-lines.png`} className="dotted-line-img" alt="" />
+                                    <img src={`${BASE_IMAGE_URL}details-page/journey/dotted-lines.png`} className="dotted-line-img" alt="" />
                                 </div>
                             </div>
                             <div className="rocket_wrap">
-                                <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/rocket.png`} className="rocket_img" alt="" />
+                                <img src={`${BASE_IMAGE_URL}details-page/journey/rocket.png`} className="rocket_img" alt="" />
                             </div>
                             <div className="journey_item item_1">
                                 <div className="parent">
-                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-1.png`} alt="" />
+                                    <img src={`${BASE_IMAGE_URL}details-page/journey/step-1.png`} alt="" />
                                     <div>
                                         <h6>Free Career Discussion</h6>
                                         <p>Connect with experts to choose the right career and course.</p>
@@ -805,13 +811,13 @@ class CourseDetails extends Component {
                                         <h6>Live Trainer-Led Classes</h6>
                                         <p>Clear learning path from foundation to expertise.</p>
                                     </div>
-                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-2.png`} alt="" />
+                                    <img src={`${BASE_IMAGE_URL}details-page/journey/step-2.png`} alt="" />
                                 </div>
                             </div>
 
                             <div className="journey_item item_3">
                                 <div className="parent">
-                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-3.png`} alt="" />
+                                    <img src={`${BASE_IMAGE_URL}details-page/journey/step-3.png`} alt="" />
                                     <div>
                                         <h6>Hands-on Projects & Practice</h6>
                                         <p>Every topic includes assignments and real-world projects to build strong, job-ready skills.</p>
@@ -825,13 +831,13 @@ class CourseDetails extends Component {
                                         <h6>Resume & Portfolio Building</h6>
                                         <p>We shape your skills into resumes, portfolios, and interview success.</p>
                                     </div>
-                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-4.png`} alt="" />
+                                    <img src={`${BASE_IMAGE_URL}details-page/journey/step-4.png`} alt="" />
                                 </div>
                             </div>
 
                             <div className="journey_item item_5">
                                 <div className="parent">
-                                    <img src={`${process.env.PUBLIC_URL}assets/images/details-page/journey/step-5.png`} alt="" />
+                                    <img src={`${BASE_IMAGE_URL}details-page/journey/step-5.png`} alt="" />
                                     <div>
                                         <h6>End-to-End Placement Support</h6>
                                         <p>Train with mock interviews and learn to answer with confidence. Career support that stays until you get hired.</p>
@@ -842,7 +848,7 @@ class CourseDetails extends Component {
                     </div>
                 </section>
                 <section className="details_bottom_part">
-                    <div className="skill_parent">
+                    {/* <div className="skill_parent">
                         <div className="section_container py-5">
                             <div className="row justify-content-center">
                                 <div className="col-lg-7">
@@ -888,9 +894,63 @@ class CourseDetails extends Component {
                                 </div>
                             </div>
                         </div>
+                    </div> */}
+                    <div className="skill_parent">
+                        <div className="section_container py-5">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-7">
+                                    <h3 className="text-white text-center fw-bold px-3 lh-sm">
+                                        Core Skills to Launch Your Tech Career
+                                    </h3>
+                                </div>
+                            </div>
+                            <div className="row justify-content-center">
+                                <div className="col-lg-10">
+                                    <p className="text-white text-center mb-4 px-lg-5">
+                                        Gain essential skills to excel in modern IT roles.
+                                    </p>
+                                    <div className="row justify-content-center mt-4">
+                                        <div className="col-lg-4 col-6 my-3 d-flex align-items-stretch">
+                                            <div className="skill_inner_p">
+                                                <p>Problem-solving & analytical thinking</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3 d-flex align-items-stretch">
+                                            <div className="skill_inner_p">
+                                                <p>End-to-end software development</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3 d-flex align-items-stretch">
+                                            <div className="skill_inner_p">
+                                                <p>Coding, testing & debugging skills</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3 d-flex align-items-stretch">
+                                            <div className="skill_inner_p">
+                                                <p>Database design & API knowledge</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3 d-flex align-items-stretch">
+                                            <div className="skill_inner_p">
+                                                <p>Hands-on project implementation</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-6 my-3 d-flex align-items-stretch">
+                                            <div className="skill_inner_p">
+                                                <p>Collaboration & workflow efficiency</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div className="testimonial_details_page">
-                        <div className="section_container">
+                        <div className="section_container"
+                            style={{
+                                paddingBottom: course?.pricing_plan ? "300px" : "50px",
+                            }}>
                             <div className="row justify-content-center">
                                 <div className="col-lg-7">
                                     <h3 className="text-white text-center fw-bold px-3 lh-sm">
@@ -951,56 +1011,48 @@ class CourseDetails extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="section_container">
-                        <div className="py-5 price_section_parent_top">
-                            <div className="text-center d-flex justify-content-center">
+                    {course?.pricing_plan && course.pricing_plan.length > 0 && (
+                        <div className="section_container">
+                            <div className="py-5 price_section_parent_top">
+                                <div className="text-center d-flex justify-content-center">
+                                    <div className="row w-100 justify-content-center">
+                                        <div className="col-lg-6 d-flex justify-content-center">
+                                            <div className="parent_price">
+                                                <div className="price_section d-flex flex-column align-items-center justify-content-center px-2 px-lg-4 py-4">
 
-                                <div className="row w-100 justify-content-center">
-                                    <div className="col-lg-6  d-flex justify-content-center ">
-                                        <div className="parent_price">
-                                            <div className="price_section d-flex flex-column align-items-center justify-content-center px-2 px-lg-4 py-4">
-                                                {/* PRICE TABS */}
-                                                <h3 className="fw-bold mb-3 text-white px-3 px-lg-0">{plan.title}</h3>
+                                                    {/* Title of the current active plan */}
+                                                    <h3 className="fw-bold mb-3 text-white px-3 px-lg-0">
+                                                        {course.pricing_plan[activePriceTab]?.title || ""}
+                                                    </h3>
 
-                                                <div className="d-flex justify-content-center align-items-center gap-3 mb-4 price_header">
-                                                    <div className={`price_tab old_price_tab ${activePriceTab === 0 ? "active" : ""}`}
-                                                        onClick={() => this.setState({ activePriceTab: 0 })}>
-                                                        <button>
-                                                            ₹50,000
-                                                        </button>
+                                                    {/* Price tabs */}
+                                                    <div className="d-flex justify-content-center align-items-center gap-3 mb-4 price_header">
+                                                        {course.pricing_plan.map((p, index) => (
+                                                            <div
+                                                                key={p._id}
+                                                                className={`price_tab ${index === 0 ? "old_price_tab" : "new_price_tab"} ${activePriceTab === index ? "active" : ""}`}
+                                                                onClick={() => this.setState({ activePriceTab: index })}
+                                                            >
+                                                                <button>{p.price}</button>
+                                                            </div>
+                                                        ))}
                                                     </div>
 
-                                                    <div className={`price_tab new_price_tab ${activePriceTab === 1 ? "active" : ""}`}
-                                                        onClick={() => this.setState({ activePriceTab: 1 })}>
-                                                        <button>
-                                                            ₹15,000/-
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                {/* CONTENT BOX */}
-                                                <div className="price_card w-100 text-white">
-
-                                                    <div className="row w-100 m-auto text-start">
-                                                        <div className="col-6">
-                                                            <ul className="list-unstyled">
-                                                                <li>• {plan.features[0]}</li>
-                                                                <li>• {plan.features[1]}</li>
-                                                                <li>• {plan.features[2]}</li>
-                                                            </ul>
+                                                    {/* Features */}
+                                                    <div className="price_card w-100 text-white">
+                                                        <div className="row w-100 m-auto text-start">
+                                                            {course.pricing_plan[activePriceTab]?.benefits.map((feature, i) => (
+                                                                <div className="col-6" key={i}>
+                                                                    <ul className="list-unstyled">
+                                                                        <li>• {feature}</li>
+                                                                    </ul>
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                        <div className="col-6">
-                                                            <ul className="list-unstyled">
-                                                                <li>• {plan.features[3]}</li>
-                                                                <li>• {plan.features[4]}</li>
-                                                                <li>• {plan.features[5]}</li>
-                                                            </ul>
-                                                        </div>
+
+                                                        <button className="mt-3">Apply Now</button>
                                                     </div>
 
-                                                    <button className="mt-3">
-                                                        Apply Now
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1008,11 +1060,13 @@ class CourseDetails extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </section>
-
                 <section>
-                    <div className="section_container pt-5" style={{ marginTop: '200px' }}>
+                    <div className="section_container pt-5"
+                        style={{
+                            marginTop: course?.pricing_plan ? "200px" : "0",
+                        }}>
                         <h3 className="text-black text-center fw-bold px-3 lh-sm">
                             Earn Your Professional <span className="text-c2"> Certification</span>
                         </h3>
@@ -1053,7 +1107,6 @@ class CourseDetails extends Component {
                         </h3>
 
                         <div className="row mt-5 justify-content-center align-items-center">
-                            {/* FAQ Accordion */}
                             <div className="col-lg-9 text-start">
                                 {this.faqData.map((item, index) => (
                                     <div className={`faq_item mb-3  ${this.state.activeFaqIndex === index ? "active" : ""
@@ -1093,4 +1146,4 @@ class CourseDetails extends Component {
     }
 }
 
-export default CourseDetails;
+export default withRouter(CourseDetails);

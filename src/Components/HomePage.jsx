@@ -61,16 +61,17 @@ class HomePage extends Component {
                     // Set courses first
                     this.setState({ coursesList: data.courses }, () => {
 
-                        // >>> ADD AUTO SLIDE HERE <<<
+                        // CUSTOM AUTO SLIDE (with cleanup)
                         let index = 0;
-                        setInterval(() => {
-                            const items = document.querySelectorAll("#v-banner-carousel .carousel-item");
-                            if (!items.length) return;
+                        const items = document.querySelectorAll("#v-banner-carousel .carousel-item");
 
-                            items[index].classList.remove("active");
-                            index = (index + 1) % items.length;
-                            items[index].classList.add("active");
-                        }, 5000);
+                        if (items.length > 0) {
+                            this.carouselTimer = setInterval(() => {
+                                items[index].classList.remove("active");
+                                index = (index + 1) % items.length;
+                                items[index].classList.add("active");
+                            }, 5000);
+                        }
                     });
 
                     // Category handling → latest 5 per category
@@ -100,6 +101,12 @@ class HomePage extends Component {
             .catch(err => console.error("Failed to fetch courses:", err));
     }
 
+    componentWillUnmount() {
+        if (this.carouselTimer) {
+            clearInterval(this.carouselTimer);
+            this.carouselTimer = null;
+        }
+    }
     state = {
         activeRecordedTab: "software",
         activeFaqIndex: 0,
@@ -270,9 +277,6 @@ class HomePage extends Component {
                         <div className="section_container">
                             <div id="v-banner-carousel"
                                 className="carousel slide"
-                                data-bs-ride="carousel"
-                                data-bs-interval="5000"
-                                data-bs-pause="false"
                             >
                                 <div className="carousel-inner">
                                     {this.state.coursesList && this.state.coursesList.slice(0, 3).map((course, idx) => (

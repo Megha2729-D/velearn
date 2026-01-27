@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
@@ -17,97 +17,116 @@ const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
 
 class HomePage extends Component {
     componentDidMount() {
+        // --- Counter Animation ---
         const counters = document.querySelectorAll(".counter");
+        const counterParent = document.querySelector(".counter_parent");
 
-        const animateCounter = (counter) => {
-            const target = +counter.getAttribute("data-target");
-            const duration = 3000;
-            const startTime = performance.now();
+        if (counterParent && counters.length > 0) {
+            const animateCounter = (counter) => {
+                const target = +counter.getAttribute("data-target");
+                const duration = 3000;
+                const startTime = performance.now();
 
-            const update = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const current = Math.floor(progress * target);
+                const update = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const current = Math.floor(progress * target);
 
-                counter.innerText = current;
+                    counter.innerText = current;
 
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    counter.innerText = target + "+";
-                }
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.innerText = target + "+";
+                    }
+                };
+
+                requestAnimationFrame(update);
             };
 
-            requestAnimationFrame(update);
-        };
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                        counters.forEach(animateCounter);
+                        observer.disconnect();
+                    }
+                },
+                { threshold: 0.4 }
+            );
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    counters.forEach(animateCounter);
-                    observer.disconnect();
+            observer.observe(counterParent);
+        }
+
+        // --- Swipe Support for Carousel ---
+        const carousel = document.getElementById("v-banner-carousel");
+        let startX = 0, endX = 0;
+
+        if (carousel) {
+            carousel.addEventListener("touchstart", (e) => {
+                startX = e.touches[0].clientX;
+            });
+
+            carousel.addEventListener("touchmove", (e) => {
+                endX = e.touches[0].clientX;
+            });
+
+            carousel.addEventListener("touchend", () => {
+                const threshold = 50;
+                let bsCarousel = bootstrap.Carousel.getInstance(carousel);
+
+                // If Carousel instance does not exist, create one
+                if (!bsCarousel) {
+                    bsCarousel = new bootstrap.Carousel(carousel);
                 }
-            },
-            { threshold: 0.4 }
-        );
-        observer.observe(document.querySelector(".counter_parent"));
 
-        // Fetch courses
+                if (startX - endX > threshold) {
+                    bsCarousel.next();
+                } else if (endX - startX > threshold) {
+                    bsCarousel.prev();
+                }
+            });
+        }
+
+        // --- Fetch Courses ---
         fetch(`${BASE_API_URL}courses`)
             .then(res => res.json())
             .then((data) => {
                 if (data.success && data.courses) {
+                    const courses = data.courses;
 
-                    // Set courses first
-                    this.setState({ coursesList: data.courses }, () => {
+                    // Set main list
+                    this.setState({ coursesList: courses });
 
-                        // CUSTOM AUTO SLIDE (with cleanup)
-                        let index = 0;
-                        const items = document.querySelectorAll("#v-banner-carousel .carousel-item");
-
-                        if (items.length > 0) {
-                            this.carouselTimer = setInterval(() => {
-                                items[index].classList.remove("active");
-                                index = (index + 1) % items.length;
-                                items[index].classList.add("active");
-                            }, 5000);
-                        }
-                    });
-
-                    // Category handling → latest 5 per category
-                    const coursesByCategory = data.courses.reduce((acc, course) => {
+                    // Build Latest Courses Per Category
+                    const coursesByCategory = courses.reduce((acc, course) => {
                         const cat = course.category || "Other";
                         if (!acc[cat]) acc[cat] = [];
                         acc[cat].push(course);
                         return acc;
                     }, {});
 
-                    // Sort by `_id` or a date field if available, then take latest 5
+                    // Sort & take latest 5
                     Object.keys(coursesByCategory).forEach(cat => {
                         coursesByCategory[cat] = coursesByCategory[cat]
-                            .sort((a, b) => new Date(b.updatedAt || b.createdAt || b._id) - new Date(a.updatedAt || a.createdAt || a._id))
+                            .sort((a, b) =>
+                                new Date(b.updatedAt || b.createdAt || b._id) -
+                                new Date(a.updatedAt || a.createdAt || a._id)
+                            )
                             .slice(0, 5);
                     });
 
-                    const firstCategory = Object.keys(coursesByCategory)[0];
-
                     this.setState({
                         recordedCourses: coursesByCategory,
-                        activeRecordedTab: "Software Development",
+                        activeRecordedTab: "Software Development"
                     });
-
                 }
             })
             .catch(err => console.error("Failed to fetch courses:", err));
     }
 
-    componentWillUnmount() {
-        if (this.carouselTimer) {
-            clearInterval(this.carouselTimer);
-            this.carouselTimer = null;
-        }
-    }
+
     state = {
+        coursesList: [],
         activeRecordedTab: "software",
         activeFaqIndex: 0,
         activeImage: "testimonial/arun-vikkashamuthu.png",
@@ -272,11 +291,44 @@ class HomePage extends Component {
         ];
         return (
             <>
-                <section>
-                    <div className="v-banner">
+                <section className="v-banner">
+                    <div className="section_container h-100">
+                        <Swiper
+                            modules={[Autoplay, Navigation]}
+                            autoplay={{ delay: 5000 }}
+                            loop={true}
+                            navigation={true}
+                            slidesPerView={1}
+                            style={{ width: "100%", height: "100%" }}
+                            className="v-banner-swiper"
+                        >
+                            {this.state.coursesList?.slice(0, 3).map(course => (
+                                <SwiperSlide key={course._id}>
+                                    <div className="carousel-caption">
+                                        <div className="row align-items-center">
+                                            <div className="col-lg-7">
+                                                <h5>{course.title}</h5>
+                                                <p>{course.sub_description}</p>
+                                                <Link to={`/course-details/${course._id}`}>
+                                                    <button>Explore now</button>
+                                                </Link>
+                                            </div>
+                                            <div className="col-lg-5 right-banner-bg home-banner-bg"></div>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+
+                    </div>
+                    {/* <div className="v-banner">
                         <div className="section_container">
                             <div id="v-banner-carousel"
                                 className="carousel slide"
+                                data-bs-ride="carousel"
+                                data-bs-interval="5000"
+                                data-bs-pause="false"
+                                data-bs-touch="true"
                             >
                                 <div className="carousel-inner">
                                     {this.state.coursesList && this.state.coursesList.slice(0, 3).map((course, idx) => (
@@ -300,20 +352,18 @@ class HomePage extends Component {
                                     ))}
                                 </div>
 
-                                {/* Previous button */}
                                 <button className="carousel-control-prev" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="prev">
                                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span className="visually-hidden">Previous</span>
                                 </button>
 
-                                {/* Next button */}
                                 <button className="carousel-control-next" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="next">
                                     <span className="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span className="visually-hidden">Next</span>
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </section>
                 <section>
                     <div className="section_container overflow-hidden">
@@ -599,11 +649,11 @@ class HomePage extends Component {
                                                                 <>
                                                                     {course.course_type === "free" &&
                                                                         <div>
-                                                                            <i class="bi bi-star-fill pe-1"></i>
-                                                                            <i class="bi bi-star-fill pe-1"></i>
-                                                                            <i class="bi bi-star-fill pe-1"></i>
-                                                                            <i class="bi bi-star-fill pe-1"></i>
-                                                                            <i class="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
                                                                             (4.6)
                                                                         </div>
                                                                     }</>

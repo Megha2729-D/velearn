@@ -133,6 +133,7 @@
 
 .modules_sec {
     border-radius: 55px;
+    box-shadow: 0 0 13px -2px #ffffff4d inset;
 }
 
 .course-overview {
@@ -873,7 +874,19 @@
 
 /* pricing end */
 /* RESPONSIVE */
+@media screen and (min-width: 1100px) {
+    .small-heading {
+        display: none;
+    }
+
+    .lg-heading {
+        display: block;
+    }
+
+}
+
 @media screen and (max-width: 1100px) {
+
     .why_points_uiux {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -889,6 +902,22 @@
     .why_points_uiux>div:nth-child(5) {
         position: relative;
         top: 30px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1100px) {
+    .banner_center_piece {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .launch_sec .get_start_butt {
+        bottom: 165px;
+    }
+
+    .ui_ux_journey .rocket_img {
+        right: 52px;
+        top: 10px;
     }
 }
 
@@ -1022,6 +1051,10 @@
     .ui_ux_journey {
         overflow: hidden;
     }
+
+    .ui_ux_journey .item_1 {
+        bottom: 70px !important;
+    }
 }
 
 @media screen and (max-width: 490px) {
@@ -1045,13 +1078,26 @@
 
 /* RESPONSIVE */
 @media screen and (min-width: 992px) {
+
     .banner_center_piece {
         margin-top: -170px;
         margin-left: -90px;
     }
 }
 
+@media (max-width: 1099px) {
+    .small-heading {
+        display: block;
+    }
+
+    .lg-heading {
+        display: none;
+    }
+
+}
+
 @media (max-width: 991px) {
+
     .uiux-row {
         flex-direction: column;
         text-align: center;
@@ -1063,5 +1109,33 @@
 
     .uiux-features {
         justify-content: center;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .ui_ux_journey .rocket_img {
+        height: 64px;
+        right: -10px;
+        top: 86px;
+    }
+
+    .ui_ux_journey .journey_item img {
+        width: 50px !important;
+    }
+
+    .ui_ux_journey .item_1 {
+        bottom: 10px !important;
+    }
+
+    .ui_ux_journey .item_3 {
+        bottom: 0;
+    }
+
+    .ui_ux_journey .item_4 {
+        top: 30px;
+    }
+
+    .ui_ux_journey .item_5 {
+        bottom: 15px;
     }
 }

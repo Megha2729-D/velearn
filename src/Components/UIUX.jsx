@@ -233,7 +233,7 @@ class UIUX extends Component {
                         <div className="row w-100  m-auto">
                             <div className="col-lg-8">
                                 <div className="uiux-left">
-                                    <div className="d-block d-lg-none">
+                                    <div className="small-heading">
                                         <div className="d-flex flex-wrap">
                                             <h1 className="h1">Professional</h1>
                                             <span className="box_parent">
@@ -245,7 +245,7 @@ class UIUX extends Component {
                                             <h2 className="h1"> Program with Live Mentorship</h2>
                                         </div>
                                     </div>
-                                    <div className="d-lg-block d-none">
+                                    <div className="lg-heading">
                                         <div className="d-flex flex-wrap">
                                             <div className="h1">Professional
                                                 <span className="box_parent mx-lg-3 mx-0">
@@ -303,7 +303,7 @@ class UIUX extends Component {
                                 </p>
                             </div>
                             <div className="col-12">
-                                <div className="row w-100 m-auto modules_sec py-3 border border-1 border-white bg-black">
+                                <div className="row w-100 m-auto modules_sec py-3 bg-black">
                                     <div className="col-lg-3 col-6 my-3 my-lg-0">
                                         <p className="fw-bold mb-1 text-center">Expert</p>
                                         <p className="mb-0 text-center">Mentorship</p>

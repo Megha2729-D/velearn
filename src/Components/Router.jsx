@@ -12,6 +12,12 @@ import Preloader from "./Preloader";
 
 import RecordedCourse from "./RecordedCourse";
 import LiveCourses from "./LiveCourses";
+
+import FullStackDevelopment from "./FullStackDevelopment";
+import UIUX from "./UIUX";
+import DigitalMarketing from "./DigitalMarketing";
+import DataScience from "./DataScience";
+
 import CourseDetails from "./CourseDetails";
 import MyCourses from "./MyCourses";
 /* ---------- Page Transition Wrapper ---------- */
@@ -75,6 +81,38 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <LiveCourses />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/live-course/full-stack-development"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <FullStackDevelopment />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/live-course/ui-ux-design"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <UIUX />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/live-course/digital-marketing"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <DigitalMarketing />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/live-course/data-science"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <DataScience />
                         </PageTransitionWrapper>
                     }
                 />

@@ -304,16 +304,16 @@ class HomePage extends Component {
                         >
                             {this.state.coursesList?.slice(0, 3).map(course => (
                                 <SwiperSlide key={course._id}>
-                                    <div className="carousel-caption">
-                                        <div className="row align-items-center">
-                                            <div className="col-lg-7">
-                                                <h5>{course.title}</h5>
-                                                <p>{course.sub_description}</p>
-                                                <Link to={`/course-details/${course._id}`}>
-                                                    <button>Explore now</button>
-                                                </Link>
-                                            </div>
-                                            <div className="col-lg-5 right-banner-bg home-banner-bg"></div>
+                                    <div className="row align-items-center py-4">
+                                        <div className="col-lg-7 d-flex flex-column align-items-center align-items-lg-start">
+                                            <h5 className="text-white text-center text-lg-start">{course.title}</h5>
+                                            <p className="text-white text-center text-lg-start">{course.sub_description}</p>
+                                            <Link to={`/course-details/${course._id}`}>
+                                                <button>Explore now</button>
+                                            </Link>
+                                        </div>
+                                        <div className="col-lg-5">
+                                            <div className="right-banner-bg home-banner-bg"></div>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -444,35 +444,39 @@ class HomePage extends Component {
                         <div className="row">
                             {[
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
+                                    title: "Full Stack Development",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/full-stack-development.jpg`,
+                                    desc: "A live, mentor-led Full Stack Development program designed to take you from fundamentals to production-ready applications — with real projects, real tools, and real career support.",
+                                    duration: "3 Months",
+                                    link: "/live-course/full-stack-development"
                                 },
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
+                                    title: "UI/UX Design",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux.webp`,
+                                    desc: "Learn UI/UX design through live classes, hands-on projects, and expert mentorship. Master user research, UX strategy, and modern UI design to become job-ready with a strong portfolio.",
+                                    duration: "3 Months",
+                                    link: "/live-course/ui-ux-design"
                                 },
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
+                                    title: "Digital Marketing",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/digital-marketing.webp`,
+                                    desc: "This live Digital Marketing training program is designed to build job-ready skills through hands-on campaign execution, real-time tools, and expert mentorship— preparing you for high-growth roles in today’s digital economy.",
+                                    duration: "3 Months",
+                                    link: "/live-course/digital-marketing"
                                 },
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
-                                },
+                                    title: "Data Science & AI",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/data-science.webp`,
+                                    desc: "This live Data Science and AI/ML program helps you develop job-ready analytical and machine learning skills through hands-on projects, real datasets, and continuous mentor guidance—preparing you for high-impact roles in today’s data-driven world.",
+                                    duration: "3 Months",
+                                    link: "/live-course/data-science"
+                                }
                             ].map((course, index) => (
                                 <div key={index} className="col-xl-3 col-lg-3 col-md-6 col-12 mb-5 mb-lg-0">
                                     <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
                                         <div className="card_img_parent overflow-hidden position-relative">
                                             <img
-                                                src={`${BASE_IMAGE_URL}${course.img}`}
+                                                src={`${course.img}`}
                                                 className="card_img w-100"
                                                 alt={course.title}
                                             />
@@ -501,7 +505,7 @@ class HomePage extends Component {
                                                     <button>Syllabus</button>
                                                 </div>
                                                 <div className="view_more_butt">
-                                                    <Link to={"/course-details"}>
+                                                    <Link to={`${course.link}`}>
                                                         <button>View more</button>
                                                     </Link>
                                                 </div>

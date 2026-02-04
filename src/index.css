@@ -45,11 +45,17 @@ h6 {
 }
 
 h1,
+.h1,
 h2,
+.h2,
 h3,
+.h3,
 h4,
+.h4,
 h5,
+.h5,
 h6,
+.h6,
 button {
     font-family: var(--heading-font) !important;
 }
@@ -1198,15 +1204,20 @@ img {
     align-items: center;
 }
 
-.v-banner .carousel-caption {
+.v-banner .row {
+    width: 100%;
+}
+
+/* .v-banner .carousel-caption {
     position: relative !important;
+    width: 100%;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
     padding: 40px 0;
     margin: auto;
-}
+} */
 
 .v-banner .carousel-control-prev,
 .v-banner .carousel-control-next {
@@ -1242,7 +1253,7 @@ img {
 
 .v-banner {
     width: 100%;
-    height: 410px;
+    /* height: 410px; */
 }
 
 .v-banner .swiper-slide {
@@ -3551,6 +3562,7 @@ section {
     background: url(../public/assets/images/details-page/green-bg.png);
     background-size: cover;
     background-position: center top;
+    padding-bottom: 230px;
 }
 
 .skill_parent .skill_inner_p {
@@ -3707,12 +3719,13 @@ section {
     background: linear-gradient(108.28deg, #093f0f 6.47%, #008c0e 91.92%);
 }
 
-.price_header div.active button {
+.price_header div.active div.butt {
     font-weight: bold;
+    width: fit-content;
     background: linear-gradient(108.28deg, #008c0e 6.47%, #093f0f 91.92%);
 }
 
-.price_header button {
+.price_header div.butt {
     background-color: transparent;
     border: none;
     color: #ffffff;
@@ -4069,8 +4082,8 @@ section {
     }
 
     .v-banner h5 {
-        font-size: 38px;
-        line-height: 55px;
+        font-size: 30px;
+        line-height: 40px;
     }
 
     .v-banner h5,
@@ -4336,6 +4349,9 @@ section {
 }
 
 @media (max-width: 991px) {
+    .v-banner {
+        min-height: 70vh;
+    }
 
     .testimonial-card p {
         font-size: 10px;

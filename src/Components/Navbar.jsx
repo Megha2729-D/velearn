@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
 const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
@@ -12,6 +12,7 @@ const Navbar = () => {
     const [user, setUser] = useState(null);
 
     const navigate = useNavigate();
+    const location = useLocation();
     const dropdownRef = useRef(null);
 
     /* ------------------ GET USER ------------------ */
@@ -80,16 +81,11 @@ const Navbar = () => {
         setDropdownOpen({});
         setSubDropdownOpen({});
     };
-
-
-    const closeMenu = () => {
-        setShowNavbar(false);
-        setDropdownOpen({});
-        setSubDropdownOpen({});
-    };
-
+    const isNavbarTwo =
+        location.pathname === "/live-course/digital-marketing" ||
+        location.pathname === "/live-course/data-science";
     return (
-        <nav className={`v-navbar ${scrolled ? 'scrolled' : ''}`}>
+        <nav className={`v-navbar ${scrolled ? 'scrolled' : ''} ${isNavbarTwo ? 'navbar_two' : ''}`}>
             {/* TOP BANNER */}
             <div className="top-banner">
                 <p className='mb-0 py-1'>New batch offer live. Start your IT journey now.</p>
@@ -108,7 +104,14 @@ const Navbar = () => {
                         {/* LOGO */}
                         <NavLink to="/">
                             <div className="logo">
-                                <img src={`${BASE_IMAGE_URL}velearn-logo.png`} alt="" />
+                                <img
+                                    src={
+                                        isNavbarTwo
+                                            ? `${process.env.PUBLIC_URL}/assets/images/logo-white.png`
+                                            : `${BASE_IMAGE_URL}velearn-logo.png`
+                                    }
+                                    alt="Velearn Logo"
+                                />
                             </div>
                         </NavLink>
 

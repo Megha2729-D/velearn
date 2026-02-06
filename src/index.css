@@ -3511,11 +3511,11 @@ section {
     width: 100%;
     max-width: 260px;
     aspect-ratio: 1/1;
-    /* keeps square automatically */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 16px;
+    z-index: 0;
 }
 
 .inner_adv_bg {
@@ -3930,6 +3930,9 @@ section {
 }
 
 @media (min-width: 991px) and (max-width: 1100px) {
+    .v-navbar input[type="search"] {
+        text-indent: 28px;
+    }
 
     .syllabus_butt button,
     .view_more_butt button {

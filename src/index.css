@@ -4352,9 +4352,9 @@ section {
 }
 
 @media (max-width: 991px) {
-    .nav-elements .dropdown:last-child {
+    /* .nav-elements .dropdown:last-child {
         margin-bottom: 50px;
-    }
+    } */
 
     .nav-elements .dropdown-toggle {
         display: flex;

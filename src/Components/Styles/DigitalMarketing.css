@@ -490,14 +490,18 @@
         top: 80px;
     }
 
-    .nav-elements ul.dropdown-menu a,
+    .v-navbar.navbar_two .nav-elements ul.dropdown-menu a,
     .v-navbar.navbar_two .nav-elements .sub-dropdown-toggle,
-    .nav-elements .dropdown-menu .sub-dropdown-menu a {
+    .v-navbar.navbar_two .nav-elements .dropdown-menu .sub-dropdown-menu a {
         color: #ffffff;
     }
 
     .v-navbar.navbar_two .nav-elements {
         background-color: #000000;
+    }
+
+    .v-navbar.navbar_two .bi-search {
+        color: #ffffff !important;
     }
 
     .testimonial_section .swiper-slide {

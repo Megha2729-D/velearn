@@ -4352,6 +4352,12 @@ section {
 }
 
 @media (max-width: 991px) {
+
+    .nav-elements .dropdown-toggle {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .v-banner {
         min-height: 70vh;
     }
@@ -4411,7 +4417,7 @@ section {
     .nav-elements ul a,
     .nav-elements span,
     .nav-elements .dropdown-toggle {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .nav-elements .dropdown-menu li {

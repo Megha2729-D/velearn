@@ -490,6 +490,7 @@
         top: 80px;
     }
 
+    .nav-elements ul.dropdown-menu a,
     .v-navbar.navbar_two .nav-elements .sub-dropdown-toggle,
     .nav-elements .dropdown-menu .sub-dropdown-menu a {
         color: #ffffff;

@@ -471,6 +471,34 @@
 }
 
 @media screen and (max-width: 991px) {
+    .v-navbar.navbar_two .nav-elements {
+        background-color: #000000;
+        border: 10.5px solid #ffffff;
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .v-navbar.navbar_two .navbar_links.is-fixed .nav-elements {
+        border: none;
+    }
+
+    .v-navbar.navbar_two .navbar_links.is-fixed {
+        padding: 10px 0;
+    }
+
+    .v-navbar.navbar_two .navbar_links.navbar_links.is-fixed .nav-elements {
+        top: 80px;
+    }
+
+    .v-navbar.navbar_two .nav-elements .sub-dropdown-toggle,
+    .nav-elements .dropdown-menu .sub-dropdown-menu a {
+        color: #ffffff;
+    }
+
+    .v-navbar.navbar_two .nav-elements {
+        background-color: #000000;
+    }
+
     .testimonial_section .swiper-slide {
         padding: 90px 0 40px;
     }

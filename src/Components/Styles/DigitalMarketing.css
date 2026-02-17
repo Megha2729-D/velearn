@@ -471,6 +471,18 @@
 }
 
 @media screen and (max-width: 991px) {
+    .dm_way_points_parent:after {
+        display: none;
+    }
+
+    .dm_way_points {
+        box-shadow: 0px 0px 12px 7px #24b8ec26;
+    }
+
+    .dm_ways_main button {
+        margin-top: 10px;
+    }
+
     .v-navbar.navbar_two .nav-elements {
         background-color: #000000;
         border: 10.5px solid #ffffff;
@@ -514,6 +526,7 @@
 
     .testimonial_card {
         flex-direction: column;
+        padding: 30px;
     }
 
     .testimonial_card img {

@@ -265,6 +265,18 @@
 
     .rc_effective_learning {
         display: grid;
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rc_effective_learning div {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+    }
+
+    .rc_banner {
+        background-size: 100% 100%;
     }
 }

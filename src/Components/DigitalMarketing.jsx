@@ -381,25 +381,25 @@ class DigitalMarketing extends Component {
                                     <div className="col-lg-12">
                                         <div className="ms-lg-5 ms-2 py-3">
                                             <div className="row text-center">
-                                                <div className="col-6 col-lg-3 banner_details_list d-flex justify-content-center border border-0">
+                                                <div className="col-6 col-lg-3 my-3 my-lg-0 banner_details_list d-flex justify-content-center border border-0">
                                                     <div className="d-flex justify-content-center align-items-center flex-column">
                                                         <p className="fw-bold mb-1 text-center">Expert</p>
                                                         <p className="mb-0 text-center">Mentorship</p>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 col-lg-3 banner_details_list d-flex justify-content-center border border-0">
+                                                <div className="col-6 col-lg-3 my-3 my-lg-0 banner_details_list d-flex justify-content-center border border-0">
                                                     <div className="d-flex justify-content-center align-items-center flex-column">
                                                         <p className="fw-bold mb-1 text-center">10+ Real Time</p>
                                                         <p className="mb-0 text-center">Projects</p>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 col-lg-3 banner_details_list d-flex justify-content-center border border-0">
+                                                <div className="col-6 col-lg-3 my-3 my-lg-0 banner_details_list d-flex justify-content-center border border-0">
                                                     <div className="d-flex justify-content-center align-items-center flex-column">
                                                         <p className="fw-bold mb-1 text-center">Placement</p>
                                                         <p className="mb-0 text-center">Assistance</p>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 col-lg-3 banner_details_list d-flex justify-content-center border border-0">
+                                                <div className="col-6 col-lg-3 my-3 my-lg-0 banner_details_list d-flex justify-content-center border border-0">
                                                     <div className="d-flex justify-content-center align-items-center flex-column">
                                                         <p className="fw-bold mb-1 text-center">Life Time</p>
                                                         <p className="mb-0 text-center">Community Access</p>

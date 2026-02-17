@@ -2987,7 +2987,8 @@ section {
 .pagination_parent span {
     color: #ffffff;
     font-weight: 300;
-    font-size: 15px;
+    font-size: 13px;
+    white-space: nowrap;
     transition: all 0.3s ease-out;
 }
 
@@ -3468,7 +3469,7 @@ section {
     }
 
     .tabs {
-        width: auto;
+        width: 100%;
         white-space: nowrap;
     }
 
@@ -4745,6 +4746,7 @@ section {
 
     .price_header div {
         display: flex;
+        font-size: 20px;
     }
 
     .price_section .col-6 {

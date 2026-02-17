@@ -9,7 +9,7 @@ class Blog extends Component {
     render() {
         return (
             <>
-                <section className="blog_banner">
+                <section className="blog_banner py-3 py-lg-0">
                     <div className="section_container">
                         <div className="row">
                             <div className="col-lg-8 d-flex align-items-center">
@@ -58,7 +58,7 @@ class Blog extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4 blog_right_part">
+                            <div className="col-lg-4 blog_right_part mt-5 mt-lg-0">
                                 <div className="ps-lg-5">
                                     <div className="blog_main_search">
                                         <input type="search" name="blog_search" id="blog_search" placeholder="Search..." />

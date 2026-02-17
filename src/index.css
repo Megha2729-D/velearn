@@ -3440,7 +3440,7 @@ section {
     }
 
     .tabs {
-        width: 100%;
+        width: auto;
         white-space: nowrap;
     }
 

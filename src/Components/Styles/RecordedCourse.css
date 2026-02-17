@@ -251,6 +251,18 @@
 
 @media screen and (max-width: 992px) {
 
+    .rc_banner h1 {
+        font-size: 28px;
+    }
+
+    .rc_description div div {
+        border-right: none;
+    }
+
+    .rc_outcome .rc_outcome_box {
+        padding: 20px;
+    }
+
     .rc_effective_learning {
         display: grid;
         grid-template-columns: repeat(1, 1fr);

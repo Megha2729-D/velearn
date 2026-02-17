@@ -200,22 +200,22 @@ class RecordedCourseDetails extends Component {
                                 </div>
                                 <div className="col-12">
                                     <div className="row rc_description mt-4 w-100 m-auto">
-                                        <div className="col-lg-3 col-6">
+                                        <div className="col-lg-3 col-6 my-3 my-lg-0">
                                             <div>
                                                 <p className="text-center text-white">4 Core<br /> Modules</p>
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-6">
+                                        <div className="col-lg-3 col-6 my-3 my-lg-0">
                                             <div>
                                                 <p className="text-center text-white">4Hrs+ <br />Contents</p>
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-6">
+                                        <div className="col-lg-3 col-6 my-3 my-lg-0">
                                             <div>
                                                 <p className="text-center text-white">Certificate <br />Included</p>
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-6">
+                                        <div className="col-lg-3 col-6 my-3 my-lg-0">
                                             <div>
                                                 <p className="text-center text-white">4.8 Ratings <br />
                                                     <i className="bi bi-star-fill ps-1"></i>
@@ -229,7 +229,7 @@ class RecordedCourseDetails extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-3">
+                            <div className="col-lg-3 mt-4 mt-lg-0">
                                 <form action="#">
                                     <h5 >Get this course @ &#8377; 500</h5>
                                     <div className="d-flex flex-column w-100 my-3">
@@ -310,22 +310,22 @@ class RecordedCourseDetails extends Component {
                                 <div className="pt-5">
                                     <h3 className="text-black fw-bold text-center">Your Python Learning Outcomes</h3>
                                     <div className="rc_outcome row">
-                                        <div className="col-lg-5 my-2">
+                                        <div className="col-lg-5 col-6 my-2">
                                             <div className="rc_outcome_box rc_outcome_box1"><p className="text-white mb-0 text-center">Python Programming</p></div>
                                         </div>
-                                        <div className="col-lg-4 my-2">
+                                        <div className="col-lg-4 col-6 my-2">
                                             <div className="rc_outcome_box rc_outcome_box2"><p className="text-white mb-0 text-center">Foundational Programming Skills</p></div>
                                         </div>
-                                        <div className="col-lg-3 my-2">
+                                        <div className="col-lg-3 col-6 my-2">
                                             <div className="rc_outcome_box rc_outcome_box3"><p className="text-white mb-0 text-center">Debugging & Error Handling</p></div>
                                         </div>
-                                        <div className="col-lg-4 my-2">
+                                        <div className="col-lg-4 col-6 my-2">
                                             <div className="rc_outcome_box rc_outcome_box4"><p className="text-white mb-0 text-center">Data Handling & File Operations</p></div>
                                         </div>
-                                        <div className="col-lg-3 my-2">
+                                        <div className="col-lg-3 col-6 my-2">
                                             <div className="rc_outcome_box rc_outcome_box5"><p className="text-white mb-0 text-center">Automation Basics</p></div>
                                         </div>
-                                        <div className="col-lg-5 my-2">
+                                        <div className="col-lg-5 col-6 my-2">
                                             <div className="rc_outcome_box rc_outcome_box6"><p className="text-white mb-0 text-center">Problem Solving & Logic Building</p></div>
                                         </div>
                                     </div>

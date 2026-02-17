@@ -19,10 +19,10 @@ class Footer extends Component {
                                                 <div>
                                                     <h3>Live Classes</h3>
                                                     <ul className="p-0">
-                                                        <li><Link to="">Full Stack Development</Link></li>
+                                                        <li><Link to="/live-course/full-stack-development">Full Stack Development</Link></li>
+                                                        <li><Link to="/live-course/ui-ux-design">UI/UX Design Course</Link></li>
+                                                        <li><Link to="/live-course/digital-marketing">Digital Marketing</Link></li>
                                                         <li><Link to="">Data Science</Link></li>
-                                                        <li><Link to="">UI/UX Design Course</Link></li>
-                                                        <li><Link to="">Digital Marketing</Link></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -53,8 +53,8 @@ class Footer extends Component {
                                                 <div>
                                                     <h3>Resources</h3>
                                                     <ul className="p-0">
-                                                        <li><Link to="">Webinars</Link></li>
-                                                        <li><Link to="">Blogs</Link></li>
+                                                        <li><Link to="/webinar">Webinars</Link></li>
+                                                        <li><Link to="/blogs">Blogs</Link></li>
                                                         <li><Link to="">Rewards & Referrals</Link></li>
                                                         <li><Link to="">Become An Affilliate</Link></li>
                                                     </ul>
@@ -76,7 +76,7 @@ class Footer extends Component {
                                                         <li><Link to="">Refund Policy</Link></li>
                                                         <li><Link to="">FAQs</Link></li>
                                                         <li><Link to="">About Us</Link></li>
-                                                        <li><Link to="">Contact Us</Link></li>
+                                                        <li><Link to="/contact-us">Contact Us</Link></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -155,7 +155,7 @@ class Footer extends Component {
                                             <ul className="p-0">
                                                 <li><Link to="">About Us</Link></li>
                                                 <li><Link to="">Careers</Link></li>
-                                                <li><Link to="">Contact Us</Link></li>
+                                                <li><Link to="/contact-us">Contact Us</Link></li>
                                                 <li><Link to="">Become an Instructor</Link></li>
                                                 <li><Link to="">Partners & Affiliates</Link></li>
                                                 <li><Link to="">Feedback</Link></li>

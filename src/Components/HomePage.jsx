@@ -469,7 +469,7 @@ class HomePage extends Component {
                                     img: `${process.env.PUBLIC_URL}/assets/images/live-course/data-science.webp`,
                                     desc: "This live Data Science and AI/ML program helps you develop job-ready analytical and machine learning skills through hands-on projects, real datasets, and continuous mentor guidance—preparing you for high-impact roles in today’s data-driven world.",
                                     duration: "3 Months",
-                                    link: "/live-course/data-science"
+                                    link: "/"
                                 }
                             ].map((course, index) => (
                                 <div key={index} className="col-xl-3 col-lg-3 col-md-6 col-12 mb-5 mb-lg-0">

@@ -3469,8 +3469,9 @@ section {
     }
 
     .tabs {
-        width: 100%;
         white-space: nowrap;
+        min-width: auto;
+        max-width: 100%;
     }
 
     .tabs::-webkit-scrollbar {

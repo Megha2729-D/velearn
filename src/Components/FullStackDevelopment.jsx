@@ -247,9 +247,9 @@ class FullStackDevelopment extends Component {
                                                 <div className="pagination_parent d-lg-flex d-none">
                                                     <Link to={"/"}>Home</Link>
                                                     <span className="px-2"> /</span>
-                                                    <Link to={"/recorded-course"}> Recorded courses </Link>
+                                                    <Link to={"/live-course"}> Live Courses </Link>
                                                     <span className="px-2">/</span>
-                                                    <Link to={"/course-details"}> Data Science in English</Link>
+                                                    <span>Master in Full stack Development</span>
                                                 </div>
                                             </div>
                                         </div>

@@ -85,22 +85,23 @@ class MyCourses extends Component {
 
                         {/* Sort + Explore + Search */}
                         <div className="d-flex gap-2 flex-wrap align-items-center">
-
-                            <select className="form-select form-select-sm" style={{ width: "130px" }}>
-                                <option>Sort By</option>
-                                <option>Newest</option>
-                                <option>Oldest</option>
-                                <option>Progress ↑</option>
-                                <option>Progress ↓</option>
-                            </select>
-
-                            <select className="form-select form-select-sm" style={{ width: "120px" }}>
-                                <option>Explore</option>
-                                <option>Tech</option>
-                                <option>Design</option>
-                                <option>Marketing</option>
-                            </select>
-
+                            <div className="select_wrapper">
+                                <select className="form-select form-select-sm" style={{ width: "130px" }}>
+                                    <option>Sort By</option>
+                                    <option>Newest</option>
+                                    <option>Oldest</option>
+                                    <option>Progress ↑</option>
+                                    <option>Progress ↓</option>
+                                </select>
+                            </div>
+                            <div className="select_wrapper">
+                                <select className="form-select form-select-sm" style={{ width: "120px" }}>
+                                    <option>Explore</option>
+                                    <option>Tech</option>
+                                    <option>Design</option>
+                                    <option>Marketing</option>
+                                </select>
+                            </div>
                             <input
                                 type="text"
                                 placeholder="Search for anything..."
@@ -108,9 +109,7 @@ class MyCourses extends Component {
                                 style={{ width: "220px" }}
                             />
                         </div>
-
                     </div>
-
                     {/* If No Courses After Filter */}
                     {filtered.length === 0 && (
                         <div className="text-center py-5">

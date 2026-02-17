@@ -120,23 +120,27 @@ class Debugging extends Component {
                                                 <div className="col-lg-6 my-2 my-lg-0">
                                                     <div className="d-flex gap-2 align-items-center">
                                                         <label htmlFor="languages">Language</label>
-                                                        <select className="w-100" name="languages" onChange={this.handleLanguageChange}>
-                                                            <option value="All">All</option>
-                                                            <option value="Python">Python</option>
-                                                            <option value="JavaScript">JavaScript</option>
-                                                            <option value="React">React</option>
-                                                        </select>
+                                                        <div className="select_wrapper w-100">
+                                                            <select className="w-100" name="languages" onChange={this.handleLanguageChange}>
+                                                                <option value="All">All</option>
+                                                                <option value="Python">Python</option>
+                                                                <option value="JavaScript">JavaScript</option>
+                                                                <option value="React">React</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-6 my-2 my-lg-0">
                                                     <div className="d-flex gap-2 align-items-center">
                                                         <label htmlFor="problem">Problem</label>
-                                                        <select className="w-100" name="problem" onChange={this.handleLevelChange}>
-                                                            <option value="All">All</option>
-                                                            <option value="Easy">Easy</option>
-                                                            <option value="Medium">Medium</option>
-                                                            <option value="Hard">Hard</option>
-                                                        </select>
+                                                        <div className="select_wrapper w-100">
+                                                            <select className="w-100" name="problem" onChange={this.handleLevelChange}>
+                                                                <option value="All">All</option>
+                                                                <option value="Easy">Easy</option>
+                                                                <option value="Medium">Medium</option>
+                                                                <option value="Hard">Hard</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

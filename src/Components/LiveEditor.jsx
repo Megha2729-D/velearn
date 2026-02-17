@@ -117,16 +117,17 @@ _buffer.getvalue()
     return (
         <div style={{ display: "flex", gap: "12px" }}>
             <div style={{ flex: 1 }}>
-                <select value={lang} onChange={(e) => {
-                    setLang(e.target.value);
-                    setOutput("");
-                }}>
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
-                    <option value="js">JavaScript</option>
-                    <option value="python">Python</option>
-                </select>
-
+                <div className="select_wrapper">
+                    <select value={lang} onChange={(e) => {
+                        setLang(e.target.value);
+                        setOutput("");
+                    }}>
+                        <option value="html">HTML</option>
+                        <option value="css">CSS</option>
+                        <option value="js">JavaScript</option>
+                        <option value="python">Python</option>
+                    </select>
+                </div>
                 <CodeMirror
                     value={code}
                     height="350px"

@@ -8,6 +8,34 @@
     --button-shadow: -6px 6px 11px 0px #00000069;
 }
 
+select {
+    appearance: none;
+}
+
+.select_wrapper {
+    position: relative;
+}
+
+.select_wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.select_wrapper::after {
+    content: "\F282";
+    position: absolute;
+    right: 18px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Bootstrap-icons";
+    pointer-events: none;
+}
+
 body.menu-open {
     overflow: hidden;
 }

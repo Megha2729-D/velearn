@@ -126,7 +126,7 @@ _buffer.getvalue()
                     <button>Upload File</button>
                 </div>
 
-                <div>
+                <div className="select_wrapper">
                     <select value={language} onChange={(e) => setLanguage(e.target.value)}>
                         <option value="python">Python</option>
                         <option value="javascript">JavaScript</option>

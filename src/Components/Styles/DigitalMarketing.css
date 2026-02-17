@@ -1,0 +1,564 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+    --c1: #22346b;
+    --c2: #24b8ec;
+    --heading-font: "Poppins", sans-serif;
+    --body-font: "Noto Sans", sans-serif;
+    --button-shadow: -6px 6px 11px 0px #00000069;
+}
+
+.v-navbar.navbar_two .top-banner {
+    display: none;
+}
+
+.v-navbar.navbar_two .hamburger span {
+    background: #ffffff;
+}
+
+.v-navbar.navbar_two {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    top: 15px;
+}
+
+.v-navbar.navbar_two .navbar_links {
+    background: #ffffff00;
+}
+
+/* .v-navbar.navbar_two .nav-elements ul a, */
+.v-navbar.navbar_two .nav-elements .dropdown-toggle,
+.v-navbar.navbar_two .search_parent i,
+.v-navbar.navbar_two input[type="search"]::placeholder {
+    color: #ffffff;
+}
+
+.v-navbar.navbar_two input[type="search"] {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    background-color: transparent;
+    border-radius: 24.5px;
+    text-indent: 20px;
+}
+
+.v-navbar.navbar_two .btn_login {
+    background-color: #ffffff;
+    transition: all .3s ease-out;
+}
+
+.v-navbar.navbar_two .btn_login:hover {
+    background-color: var(--c2);
+    transition: all .3s ease-out;
+}
+
+.v-navbar.navbar_two .navbar_links.is-fixed {
+    background: #000000;
+}
+
+.dm_main {
+    background: linear-gradient(var(--c2), #ffffff);
+}
+
+.dm_top_sec {
+    border-radius: 0 0 43px 43px;
+    padding: 10px;
+}
+
+.dm_single_sec {
+    border-radius: 43px;
+    padding: 10px;
+}
+
+.digital_marketing_banner {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-1.png), linear-gradient(#000000, #000000);
+    background-size: cover;
+    padding-top: 150px;
+    border-radius: 45px;
+}
+
+.digital_marketing_banner form {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 13px;
+}
+
+.digital_marketing_banner form input,
+.digital_marketing_banner form select {
+    background-color: #B8B8B8;
+    border: none;
+    border-radius: 7px;
+    padding: 5px 10px;
+    color: #ffffff;
+}
+
+.digital_marketing_banner form button {
+    background-color: var(--c2);
+    color: #ffffff;
+    font-weight: 600;
+    border: none;
+    padding: 5px 30px;
+    border-radius: 5px;
+    transition: all .3s ease-out;
+}
+
+.digital_marketing_banner form button:hover {
+    background-color: var(--c1);
+    transition: all .3s ease-out;
+}
+
+.digital_marketing_banner .banner_left_dm button {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    color: var(--c1);
+    border: 1px solid #ffffff;
+    font-weight: 600;
+    font-size: 17.6px;
+    line-height: 20.58px;
+    margin-top: 20px;
+    transition: all .3s ease-out;
+}
+
+.digital_marketing_banner .banner_left_dm button:hover {
+    background-color: var(--c1);
+    color: #ffffff;
+    transition: all .3s ease-out;
+}
+
+.why_dm_sec {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-2-1.png), linear-gradient(#000000, #000000);
+    background-size: cover;
+    border-radius: 45px;
+    position: relative;
+    overflow: hidden;
+}
+
+.why_dm_sec::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-2-2.png);
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.why_dm_sec .section_container {
+    position: relative;
+    z-index: 1;
+}
+
+.why_dm_sub {
+    background: #37738152;
+    border-radius: 20px;
+    padding: 15px 30px;
+    height: 100%;
+}
+
+.why_dm_sub p {
+    color: #ffffff;
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+.dm_overview {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-3.png), linear-gradient(#fff5f5, #fff5f5);
+    background-size: cover;
+    border-radius: 45px;
+}
+
+.dm_overview .dm_steps .dm_steps_sub {
+    display: flex;
+    border-radius: 13px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 1px 6px #0000002e,
+        inset 0 -1px 4px #ffffffcc;
+
+}
+
+.dm_overview .dm_steps .dm_step_one div,
+.dm_overview .dm_steps .dm_step_two div,
+.dm_overview .dm_steps .dm_step_three div,
+.dm_overview .dm_steps .dm_step_four div {
+    width: 80px;
+}
+
+.dm_overview .dm_steps .dm_step_one div {
+    background: radial-gradient(circle at left, #78FF00 0%, #77ff0031 50%, #77ff0000 70%);
+}
+
+.dm_overview .dm_steps .dm_step_two div {
+    background: radial-gradient(circle at left, #FF0000 0%, #ff000031 50%, #ff000000 70%);
+}
+
+.dm_overview .dm_steps .dm_step_three div {
+    background: radial-gradient(circle at left, #EEFF00 0%, #EEFF0031 50%, #EEFF0000 70%);
+}
+
+.dm_overview .dm_steps .dm_step_four div {
+    background: radial-gradient(circle at left, #00F6FF 0%, #00F6FF31 50%, #00F6FF00 70%);
+}
+
+.dm_overview .dm_steps p {
+    margin-bottom: 0;
+    padding: 10px 10px 10px 0;
+}
+
+.dm_overview button {
+    background-color: var(--c1);
+    color: #ffffff;
+    border: none;
+    padding: 5px 30px;
+    border-radius: 5px;
+}
+
+.dm_skils_sub {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+.dm_tools {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-4.png), linear-gradient(#000000, #000000);
+    background-size: cover;
+    border-radius: 45px;
+}
+
+.dm_tools_center {
+    position: absolute;
+    padding: 30px;
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--c2);
+    box-shadow: 0 0 100px 10px var(--c2);
+}
+
+.dm_path {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-5.png), linear-gradient(#fff5f5, #fff5f5);
+    background-size: cover;
+    border-radius: 45px;
+}
+
+.dm_ways_main button {
+    background-color: var(--c1);
+    color: #ffffff;
+    padding: 8px 30px;
+    border-radius: 10px;
+    width: fit-content;
+    border: none;
+    margin-top: 100px;
+    position: relative;
+    z-index: 1;
+}
+
+.dm_way_points {
+    border-radius: 17px;
+    background-color: #ffffff;
+    padding: 15px;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dm_way_points_parent {
+    max-width: 185px;
+    position: relative;
+}
+
+.dm_way_points_parent:after {
+    content: "";
+    background: linear-gradient(#24b8ec26 10%, #ffffff14 80%);
+    height: 255px;
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    top: 94%;
+}
+
+.dm_way_points p {
+    font-size: 14px;
+}
+
+.dm_skills_main {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-6.png), linear-gradient(#000000, #000000);
+    background-size: cover;
+    border-radius: 45px;
+    margin-top: 13px;
+}
+
+
+.dm_skill_path .cards-box {
+    position: relative;
+    min-height: 500px;
+}
+
+.dm_skill_path .cards-box .card {
+    /* box-shadow: 0px 0px 8px -3px #cccccc inset; */
+    padding: 30px 20px 20px;
+    width: 100%;
+    max-width: 100%;
+    background: linear-gradient(180deg, #000000 10%, #686868 100%);
+    /* background: #07212b; */
+    border: none;
+    border-radius: 0 0 30px 30px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='0'] {
+    padding: 50px 20px 20px;
+    background: linear-gradient(180deg, #000000 37.87%, #096301 100%);
+}
+
+.dm_skill_path .cards-box .card>div>div {
+    display: none;
+}
+
+.dm_skill_path .cards-box .card>div>div,
+.dm_skill_path .cards-box .card>div>p {
+    color: #d8d8d8;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='0']>div>div,
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='0']>div>p {
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='0']>div>div {
+    display: block;
+}
+
+.dm_skill_path .cards-box .card img {
+    height: 63px;
+}
+
+.dm_skill_path .cards-box .card.hide {
+    visibility: hidden;
+}
+
+.dm_skill_path .cards-box .card:not(.hide) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.8s cubic-bezier(0.18, 0.98, 0.45, 1);
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='0'] {
+    transform: translate(0px, 0px);
+    z-index: 9;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='1'] {
+    transform: translate(0px, 115px);
+    z-index: 8;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='2'] {
+    transform: translate(0px, 170px);
+    z-index: 7;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='3'] {
+    transform: translate(0px, 230px);
+    z-index: 6;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='4'] {
+    transform: translate(0px, 285px);
+    z-index: 5;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='5'] {
+    transform: translate(0px, 340px);
+    z-index: 4;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='6'] {
+    transform: translate(0px, 395px);
+    z-index: 3;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='7'] {
+    transform: translate(0px, 445px);
+    z-index: 2;
+}
+
+.dm_skill_path .cards-box .card:not(.hide)[data-slide='0'] {
+    transition: all 0.32s cubic-bezier(0.18, 0.98, 0.45, 1);
+}
+
+.dm_skill_path .cards-box .card p {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.dm_from_start_sec {
+    background: url(../../../public/assets/images/live-course/digital-marketing/bg-7.png), linear-gradient(#fff5f5, #fff5f5);
+    background-size: cover;
+    border-radius: 45px;
+    margin-top: 13px;
+}
+
+.testimonial_section {
+    /* background: linear-gradient(90deg, #f5b000, #111); */
+    padding: 30px 0;
+}
+
+.testimonial_section .swiper-slide {
+    padding: 150px 0 40px 0;
+}
+
+.testimonial_card {
+    color: #fff;
+    text-align: center;
+    padding: 25px 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.testimonial_card img {
+    width: 190px;
+    height: auto;
+    position: absolute;
+    left: -87px;
+    bottom: 0;
+    z-index: 9;
+}
+
+.testimonial_text {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.testimonial_card h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.testimonial_card span {
+    font-size: 13px;
+    color: #ddd;
+}
+
+@media screen and (max-width: 1400px) {
+    .testimonial_section .swiper-slide {
+        padding: 40px 0;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .v-navbar.navbar_two .nav-elements {
+        background-color: #000000;
+        border: 10.5px solid #ffffff;
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .v-navbar.navbar_two .navbar_links.is-fixed .nav-elements {
+        border: none;
+    }
+
+    .v-navbar.navbar_two .navbar_links.is-fixed {
+        padding: 10px 0;
+    }
+
+    .v-navbar.navbar_two .navbar_links.navbar_links.is-fixed .nav-elements {
+        top: 80px;
+    }
+
+    .v-navbar.navbar_two .nav-elements ul.dropdown-menu a,
+    .v-navbar.navbar_two .nav-elements .sub-dropdown-toggle,
+    .v-navbar.navbar_two .nav-elements .dropdown-menu .sub-dropdown-menu a {
+        color: #ffffff;
+    }
+
+    .v-navbar.navbar_two .nav-elements {
+        background-color: #000000;
+    }
+
+    .v-navbar.navbar_two .bi-search {
+        color: #ffffff !important;
+    }
+
+    .testimonial_section .swiper-slide {
+        padding: 90px 0 40px;
+    }
+
+    .testimonial_text {
+        margin-top: 30px;
+    }
+
+    .testimonial_card {
+        flex-direction: column;
+    }
+
+    .testimonial_card img {
+        position: relative;
+        left: 0;
+        right: 0;
+        margin: -100px auto 0;
+    }
+
+    .dm_ways_main .dm_way_points_card_parent {
+        flex-wrap: wrap;
+    }
+
+    .dm_way_points_parent {
+        max-width: 100%;
+    }
+
+    .dm_tools_center {
+        height: 130px;
+        width: 130px;
+    }
+
+    .dm_tools_center h5 {
+        font-size: 15px;
+    }
+
+    .why_dm_sec {
+        padding-bottom: 60px !important;
+    }
+
+    .why_dm_sec::after {
+        background-position: bottom;
+    }
+
+    .digital_marketing_banner,
+    .why_dm_sec,
+    .dm_single_sec,
+    .dm_overview,
+    .dm_tools,
+    .dm_path,
+    .dm_skills_main {
+        border-radius: 15px;
+    }
+
+    .dm_top_sec {
+        border-radius: 0 0 15px 15px;
+    }
+}

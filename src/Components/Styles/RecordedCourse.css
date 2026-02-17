@@ -1,0 +1,258 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+    --c1: #22346b;
+    --c2: #24b8ec;
+    --heading-font: "Poppins", sans-serif;
+    --body-font: "Noto Sans", sans-serif;
+    --button-shadow: -6px 6px 11px 0px #00000069;
+}
+
+.rc_banner {
+    background: url(../../../public/assets/images/recorded-course/recorded-course-banner-bg.png), linear-gradient(#000000, #000000);
+    background-size: cover;
+    background-position: center;
+    padding: 20px 0 30px;
+}
+
+.rc_banner .rc_banner_content button {
+    border: none;
+    background: linear-gradient(180deg, #00B3FF 0%, #004EB3 100%);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #ffffff;
+    font-size: 19px;
+    transition: all .5s ease-out;
+}
+
+.rc_banner .rc_banner_content button:hover {
+    background: linear-gradient(90deg, var(--c1) 0%, var(--c2) 100%);
+    transition: all .5s ease-out;
+}
+
+.rc_description {
+    border: 1px solid #ffffff;
+    border-radius: 13.34px;
+    padding: 10px;
+}
+
+.rc_description p {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.rc_description i {
+    color: #facc04;
+}
+
+.rc_description div div {
+    border-right: 1px solid #ffffff;
+}
+
+.rc_description div:last-child div {
+    border: none;
+}
+
+.rc_banner h1 {
+    font-size: 37px;
+}
+
+.rc_banner form {
+    padding: 30px 20px;
+    background-color: #ffffff;
+    border-radius: 13.03px;
+    box-shadow: 4px 4px 4px 2px #00000040;
+    z-index: 1;
+}
+
+.rc_banner form label {
+    color: var(--c1);
+}
+
+.rc_banner form input {
+    border: 1px solid #CDCDCD;
+    border-radius: 6.91px;
+    background-color: transparent;
+    padding: 5px 10px;
+}
+
+.rc_banner form button {
+    background-color: var(--c2);
+    color: #ffffff;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 22.53px;
+    transition: all .3s ease-out;
+}
+
+.rc_banner form button:hover {
+    background-color: var(--c1);
+    transition: all .3s ease-out;
+}
+
+.rc_body {
+    background: url(../../../public/assets/images/recorded-course/rc-body-bg.png);
+    background-size: cover;
+}
+
+/* 
+.rc_body_bottom {
+    background: url(../../../public/assets/images/recorded-course/bg-blue.png);
+    background-size: cover;
+} */
+
+.rc_effective_learning {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.rc_effective_learning div {
+    background: radial-gradient(50% 50% at 50% 50%, #ffffff17 0%, #ffffff17 100%);
+    box-shadow: 0px 24px 38px 0px #161D2414;
+    padding: 50px 40px;
+    border: 3px solid #FFFFFF;
+    color: #000000;
+    border-radius: 34px;
+    text-align: center;
+    backdrop-filter: blur(158px)
+}
+
+/* .rc_outcome {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+} */
+
+.rc_outcome .rc_outcome_box {
+    padding: 50px 40px;
+    border: 3px solid #ffffff;
+    border-radius: 20.73px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.rc_outcome .rc_outcome_box1 {
+    background: linear-gradient(180deg, #FF7F7E 0%, #FE1F1E 100%);
+    box-shadow: 0px 11.3px 30.15px 0px #D12A2870;
+}
+
+.rc_outcome .rc_outcome_box2 {
+    background: linear-gradient(180deg, #70F2DB 0%, #23BBC5 100%);
+    box-shadow: 0px 20.73px 41.45px 0px #389EA566;
+}
+
+.rc_outcome .rc_outcome_box3 {
+    background: linear-gradient(180deg, #CF65F4 0%, #952CB9 100%);
+    box-shadow: 0px 20.73px 41.45px 0px #952CB966;
+}
+
+.rc_outcome .rc_outcome_box4 {
+    background: linear-gradient(180deg, #FF9252 0%, #FF3F15 100%);
+    box-shadow: 0px 20.73px 41.45px 0px #FF4D0066;
+}
+
+.rc_outcome .rc_outcome_box5 {
+    background: linear-gradient(180deg, #90DF75 0%, #62B655 100%);
+    box-shadow: 0px 20.73px 41.45px 0px #62B65566;
+}
+
+.rc_outcome .rc_outcome_box6 {
+    background: linear-gradient(180deg, #FFCF53 0%, #FF9900 100%);
+    box-shadow: 0px 20.73px 41.45px 0px #FF990066;
+}
+
+.rc_benefit {
+    background: url(../../../public/assets/images/recorded-course/rc-benefits-bg.png);
+    background-size: cover;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 47px;
+    padding: 30px;
+    background-color: transparent;
+    background-position: bottom;
+}
+
+.rc_benefit_sub {
+    box-shadow: 0px 3.84px 3.84px 0px #00000040;
+    background: #FFFFFF;
+    border-radius: 13.42px;
+    padding: 20px 40px;
+    height: 100%;
+}
+
+.rc_benefit_sub p {
+    text-align: center;
+    color: #000000;
+    font-weight: 500;
+}
+
+.rc_testimonial {
+    background: linear-gradient(90deg, #FFFFFF 0%, #C0EAF9 100%);
+    border-radius: 14px;
+    padding: 35px 40px;
+    box-shadow: 0 10px 25px #00000026;
+}
+
+.testimonial_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.testimonial_content p {
+    color: #222;
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.student_info {
+    text-align: center;
+    min-width: 150px;
+}
+
+.student_info img {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #2f6db3;
+    margin-bottom: 10px;
+}
+
+.student_info h6 {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.stars {
+    color: #ffb400;
+    font-size: 18px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .testimonial_content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .testimonial_content p {
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .rc_banner form {
+        position: absolute;
+    }
+}
+
+@media screen and (max-width: 992px) {
+
+    .rc_effective_learning {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

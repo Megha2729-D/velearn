@@ -571,7 +571,7 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </section>
-                <section className="pt-3">
+                <section className="pt-3" id="recordedCourses">
                     <div className="section_container live_courses_sec">
                         {/* Heading */}
                         <div className="col-12 d-flex justify-content-center">
@@ -904,12 +904,20 @@ class HomePage extends Component {
                                     </p>
                                     <div className="d-flex mt-5 justify-content-evenly gap-3">
                                         <div className="d-flex start_learning">
-                                            <div className="butt">
-                                                Start Learning Now
-                                            </div>
-                                            <div className="icon_redirect"> <i className="bi bi-arrow-right-short"></i> </div>
+                                            <Link to="/recorded-course" className="d-flex start_learning">
+                                                <div className="butt">
+                                                    Start Learning Now
+                                                </div>
+                                                <div className="icon_redirect">
+                                                    <i className="bi bi-arrow-right-short"></i>
+                                                </div>
+                                            </Link>
                                         </div>
-                                        <div className="d-flex view_butt">
+                                        <div className="d-flex view_butt" onClick={() => {
+                                            document.getElementById("recordedCourses")
+                                                ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                                        }}
+                                            style={{ cursor: "pointer" }}>
                                             <div className="butt">
                                                 View Package
                                             </div>

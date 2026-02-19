@@ -194,8 +194,8 @@ class RecordedCourseDetails extends Component {
                         <div className="row justify-content-between">
                             <div className="col-lg-8 text-white">
                                 <div className="rc_banner_content">
-                                    <h1>Python Programming Fundamentals – Learn Python From Scratch</h1>
-                                    <p>Begin Python the right way Master Python fundamentals, develop programming logic, and learn through practical, real-world examples</p>
+                                    <h1>{course.title}</h1>
+                                    <p>{course.sub_description}</p>
                                     <button>Enroll Now</button>
                                 </div>
                                 <div className="col-12">

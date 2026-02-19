@@ -10,98 +10,72 @@ import "swiper/css/pagination";
 
 class LiveCourses extends Component {
     render() {
+        const bannerSlides = [
+            {
+                title: "Master in Full Stack Development",
+                desc: "Learn HTML, CSS, JavaScript, React, Node.js, MongoDB and build real-world projects with live mentoring.",
+                link: "/live-course/full-stack-development",
+                alt: "Full Stack Course"
+            },
+            {
+                title: "UI/UX Design Course",
+                desc: "Master Figma, wireframing, prototyping and design thinking to build industry-level user experiences.",
+                link: "/live-course/ui-ux-design",
+                alt: "UI UX Course"
+            },
+            {
+                title: "Digital Marketing",
+                desc: "Learn SEO, Social Media Marketing, Google Ads, Meta Ads and grow brands with real campaign projects.",
+                link: "/live-course/digital-marketing",
+                alt: "Digital Marketing Course"
+            },
+            {
+                title: "Data Science & AI",
+                desc: "Learn Python, Pandas, Machine Learning, AI models and work on real datasets with industry mentors.",
+                link: "/live-course/data-science",
+                alt: "Data Science Course"
+            }
+        ];
 
         return (
             <>
-                <section>
-                    <div className="v-banner">
-                        <div className="section_container">
-                            <div id="v-banner-carousel" className="carousel slide" data-bs-ride="carousel">
-                                <div className="carousel-inner">
-
-                                    {/* Slide 1 - Full Stack Web Dev */}
-                                    <div className="carousel-item active">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>Master in Full Stack Development</h5>
-                                                    <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
-                                                    </p>
-                                                    <p>Live Classes available in English, தமிழ், हिंदी, తెలుగు...</p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg live-banner-bg"></div>
+                <section className="v-banner">
+                    <div className="section_container h-100">
+                        <Swiper
+                            modules={[Autoplay, Navigation]}
+                            autoplay={{ delay: 5000 }}
+                            loop={true}
+                            navigation={true}
+                            slidesPerView={1}
+                            style={{ width: "100%", height: "100%" }}
+                            className="v-banner-swiper"
+                        >
+                            {bannerSlides.map((slide, index) => (
+                                <SwiperSlide key={index}>
+                                    <div className="row align-items-center justify-content-between py-4">
+                                        <div className="col-lg-7 d-flex flex-column align-items-center align-items-lg-start">
+                                            <h5 className="text-white">{slide.title}</h5>
+                                            <p className="text-white">{slide.desc}</p>
+                                            <p className="text-white">
+                                                Live Classes available in English, தமிழ், हिंदी, తెలుగు...
+                                            </p>
+                                            <div className="col-12">
+                                                <Link to={slide.link}>
+                                                    <button>Explore Programs</button>
+                                                </Link>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    {/* Slide 2 - UI/UX */}
-                                    <div className="carousel-item">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>UI / UX Design Program</h5>
-                                                    <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
-                                                    </p>
-                                                    <p>Live Classes available in English, தமிழ், हिंदी, తెలుగు...</p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg live-banner-bg"></div>
-                                            </div>
+                                        <div className="col-lg-4">
+                                            <img
+                                                src={`${process.env.PUBLIC_URL}/assets/images/live-course-banner-card.png`}
+                                                className="w-100"
+                                                alt={slide.alt}
+                                            />
                                         </div>
                                     </div>
-
-                                    {/* Slide 3 - Python */}
-                                    <div className="carousel-item">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>Python Programming</h5>
-                                                    <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
-                                                    </p>
-                                                    <p>Live Classes available in English, தமிழ், हिंदी, తెలుగు...</p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 right-banner-bg live-banner-bg"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Slide 4 - Data Science */}
-                                    <div className="carousel-item">
-                                        <div className="carousel-caption">
-                                            <div className="row align-items-center">
-                                                <div className="col-lg-6">
-                                                    <h5>Data Science & AI</h5>
-                                                    <p>
-                                                        Become a job-ready full stack developer with hands-on live training in frontend, backend & real-time projects.
-                                                    </p>
-                                                    <p>Live Classes available in English, தமிழ், हिंदी, తెలుగు...</p>
-                                                    <button>Explore more</button>
-                                                </div>
-                                                <div className="col-lg-6 banner-bg"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                {/* Previous button */}
-                                <button className="carousel-control-prev" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="prev">
-                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Previous</span>
-                                </button>
-
-                                {/* Next button */}
-                                <button className="carousel-control-next" type="button" data-bs-target="#v-banner-carousel" data-bs-slide="next">
-                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     </div>
                 </section>
 
@@ -112,29 +86,33 @@ class LiveCourses extends Component {
                         <div className="row">
                             {[
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
+                                    title: "Full Stack Development",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/full-stack-development.jpg`,
+                                    desc: "A live, mentor-led Full Stack Development program designed to take you from fundamentals to production-ready applications — with real projects, real tools, and real career support.",
+                                    duration: "3 Months",
+                                    link: "/live-course/full-stack-development"
                                 },
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
+                                    title: "UI/UX Design",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux.webp`,
+                                    desc: "Learn UI/UX design through live classes, hands-on projects, and expert mentorship. Master user research, UX strategy, and modern UI design to become job-ready with a strong portfolio.",
+                                    duration: "3 Months",
+                                    link: "/live-course/ui-ux-design"
                                 },
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
+                                    title: "Digital Marketing",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/digital-marketing.webp`,
+                                    desc: "This live Digital Marketing training program is designed to build job-ready skills through hands-on campaign execution, real-time tools, and expert mentorship— preparing you for high-growth roles in today’s digital economy.",
+                                    duration: "3 Months",
+                                    link: "/live-course/digital-marketing"
                                 },
                                 {
-                                    title: "Adobe After Effects using VFX Masterclass",
-                                    img: "assets/images/course.png",
-                                    desc: "Master advanced JavaScript concepts used in real-world applications.",
-                                    duration: "3 Months"
-                                },
+                                    title: "Data Science & AI",
+                                    img: `${process.env.PUBLIC_URL}/assets/images/live-course/data-science.webp`,
+                                    desc: "This live Data Science and AI/ML program helps you develop job-ready analytical and machine learning skills through hands-on projects, real datasets, and continuous mentor guidance—preparing you for high-impact roles in today’s data-driven world.",
+                                    duration: "3 Months",
+                                    link: "/"
+                                }
                             ].map((course, index) => (
                                 <div key={index} className="col-xl-3 col-lg-3 col-md-6 col-12 mb-5 mb-lg-0">
                                     <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
@@ -169,14 +147,16 @@ class LiveCourses extends Component {
                                                     <button>Syllabus</button>
                                                 </div>
                                                 <div className="view_more_butt">
-                                                    <button>View more</button>
+                                                    <Link to={course.link}>
+                                                        <button>View more</button>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             ))}
-                            <div className="col-12 d-flex justify-content-center more_butt_parent">
+                            {/* <div className="col-12 d-flex justify-content-center more_butt_parent">
                                 <NavLink to="/">
                                     <div className="d-flex more_butt">
                                         <div className="butt">Show More</div>
@@ -185,7 +165,7 @@ class LiveCourses extends Component {
                                         </div>
                                     </div>
                                 </NavLink>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </section>
@@ -276,7 +256,9 @@ class LiveCourses extends Component {
                                 <p className="text-white text-center">
                                     Request a Callback. An expert from the admissions office will call you in the next 24 working hours. You can also reach out to us at @@@@@ or +91xxxxxxxx
                                 </p>
-                                <button>Contact Us</button>
+                                <Link to={"/contact-us"}>
+                                    <button>Contact Us</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

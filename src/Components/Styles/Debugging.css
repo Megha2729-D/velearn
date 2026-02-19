@@ -172,3 +172,81 @@
     border-radius: 8px;
     color: #4aa3ff;
 }
+
+
+/* innerpage */
+
+.workspace-wrapper {
+    background: linear-gradient(#eaf4ff, #ffffff);
+    min-height: 100vh;
+}
+
+.workspace-header {
+    background: var(--c1);
+    height: 70px;
+    position: relative;
+}
+
+.logo-left,
+.logo-right {
+    width: 40px;
+    position: absolute;
+}
+
+.logo-left {
+    left: 20px;
+}
+
+.logo-right {
+    right: 20px;
+}
+
+.question-bar {
+    background: var(--c1);
+    padding: 6px;
+}
+
+.problem-panel {
+    max-height: 420px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.editor-box {
+    border-top: 1px solid #ddd;
+}
+
+.output-panel {
+    background: #f7fbff;
+}
+
+.output-text {
+    background: #ffffff;
+    border: 1px solid #dfe7f5;
+    padding: 10px;
+    min-height: 120px;
+    font-size: 14px;
+}
+
+.workspace-footer {
+    background: var(--c1);
+    /* position: sticky; */
+    bottom: 0;
+}
+
+.copy_debug_butt {
+    background-color: transparent;
+    color: var(--c1);
+    border: none;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.submit_debug_butt {
+    background-color: var(--c1);
+    color: #ffffff;
+    border: none;
+    padding: 10px 30px;
+}

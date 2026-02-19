@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
+import "../Components/Styles/IDE.css"
 
 export default function IDEEditor() {
     const iframeRef = useRef(null);
@@ -50,20 +51,47 @@ print(n)`
         const startTime = Date.now();
 
         if (language === "javascript") {
-            const doc = iframeRef.current.contentDocument;
+            const iframe = iframeRef.current;
+            const doc = iframe.contentDocument;
+
             doc.open();
             doc.write(`
-        <script>
-          const log = console.log;
-          console.log = (...args)=>{
-            parent.postMessage({type:'console',data:args.join(" ")}, "*");
-            log(...args);
-          };
-        <\/script>
-        <script>${code}<\/script>
-      `);
+                    <!DOCTYPE html>
+                    <html>
+                    <body>
+                    <script>
+                        window.addEventListener("error", e => {
+                            parent.postMessage({type:"console", data:e.message}, "*");
+                        });
+
+                        const send = (...args) => {
+                            parent.postMessage({type:"console", data:args.join(" ")}, "*");
+                        };
+
+                        console.log = send;
+                        console.error = send;
+                        console.warn = send;
+
+                        window.runCode = function(code){
+                            try{
+                                const fn = new Function(code);
+                                fn();
+                            }catch(err){
+                                send(err);
+                            }
+                        };
+                    <\/script>
+                    </body>
+                    </html>
+                    `);
             doc.close();
-            setStatus("Execution Finished");
+
+            // ✅ WAIT FOR IFRAME READY
+            iframe.onload = () => {
+                iframe.contentWindow.runCode(code);
+                setStatus("Execution Finished");
+            };
+
             return;
         }
 
@@ -75,15 +103,15 @@ print(n)`
 
             try {
                 const wrapped = `
-import sys
-from io import StringIO
-_buffer = StringIO()
-sys.stdout = _buffer
+                    import sys
+                    from io import StringIO
+                    _buffer = StringIO()
+                    sys.stdout = _buffer
 
-${code}
+                    ${code}
 
-_buffer.getvalue()
-        `;
+                    _buffer.getvalue()
+                            `;
                 const result = await pyodide.runPythonAsync(wrapped);
                 const endTime = Date.now();
                 setOutput(result || "No output");
@@ -111,103 +139,76 @@ _buffer.getvalue()
     }, []);
 
     return (
-        <div style={{ height: "100vh", display: "flex", flexDirection: "column", fontFamily: "sans-serif" }}>
+        <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 
             {/* ===== TOP NAVBAR ===== */}
-            <div style={{
-                background: "#d9e3ea",
-                padding: "10px 20px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center"
-            }}>
-                <div style={{ display: "flex", gap: 20 }}>
-                    <button>New File</button>
-                    <button>Upload File</button>
-                </div>
-
-                <div className="select_wrapper">
-                    <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-                        <option value="python">Python</option>
-                        <option value="javascript">JavaScript</option>
-                    </select>
-                </div>
-
-                <div style={{ display: "flex", gap: 10 }}>
-                    <button
-                        onClick={runCode}
-                        style={{
-                            background: "#2b8cff",
-                            color: "white",
-                            border: "none",
-                            padding: "6px 14px",
-                            borderRadius: 6,
-                            cursor: "pointer"
-                        }}
-                    >
-                        ▶ Run
-                    </button>
-                    <button>Save</button>
-                    <button>Download</button>
+            <div className="ide_header">
+                <div className="row">
+                    <div className="col-lg-4">
+                        <div className="ide_header_icon" style={{ display: "flex", gap: 20 }}>
+                            <button>
+                                <img src={`${process.env.PUBLIC_URL}/assets/images/ide/new-file.png`} alt="" /><br />
+                                New File
+                            </button>
+                            <button>
+                                <img src={`${process.env.PUBLIC_URL}/assets/images/ide/upload.png`} alt="" /><br />
+                                Upload File
+                            </button>
+                            <div className="d-flex justify-content-center align-items-center">
+                                <div className="select_wrapper">
+                                    <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+                                        <option value="" selected>Language</option>
+                                        <option value="python">Python</option>
+                                        <option value="javascript">JavaScript</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
+                        <div className="ide_header_right">
+                            <button onClick={runCode} > <i class="bi bi-caret-right-fill"></i> Run  </button>
+                            <button><i class="bi bi-share-fill"></i> Share</button>
+                            <button><i class="bi bi-floppy"></i> Save</button>
+                            <button><i class="bi bi-download"></i>Download</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {/* ===== FILE TAB ===== */}
-            <div style={{
-                background: "#1e3a5f",
-                color: "white",
-                padding: "6px 15px"
-            }}>
+            <div className="ide_filename">
                 {fileName}
             </div>
 
-            {/* ===== MAIN CONTENT ===== */}
-            <div style={{ flex: 1, display: "flex" }}>
+            <div className="ide_editor_main py-3">
+                <div className="row w-100 ">
 
-                {/* EDITOR */}
-                <div style={{ width: "65%" }}>
-                    <Editor
-                        height="100%"
-                        theme="vs-dark"
-                        language={language}
-                        value={code}
-                        onChange={(value) => setCode(value)}
-                        options={{
-                            fontSize: 14,
-                            minimap: { enabled: false },
-                            automaticLayout: true,
-                        }}
-                    />
-                </div>
-
-                {/* OUTPUT */}
-                <div style={{
-                    width: "35%",
-                    borderLeft: "1px solid #ccc",
-                    display: "flex",
-                    flexDirection: "column"
-                }}>
-                    <div style={{
-                        background: "#2b3d55",
-                        color: "white",
-                        padding: 8
-                    }}>
-                        Output
+                    {/* EDITOR */}
+                    <div className="col-12">
+                        <Editor
+                            height="100%"
+                            theme="vs-light"
+                            language={language}
+                            value={code}
+                            onChange={(value) => setCode(value)}
+                            options={{
+                                fontSize: 14,
+                                minimap: { enabled: false },
+                                automaticLayout: true,
+                            }}
+                            className="editor_left_ide"
+                        />
                     </div>
 
-                    <pre style={{
-                        flex: 1,
-                        margin: 0,
-                        padding: 10,
-                        background: "#000",
-                        color: "#0f0",
-                        overflow: "auto"
-                    }}>
-                        {output}
-                    </pre>
+                    {/* OUTPUT */}
+                    <div className="col-12">
+                        <div> Output </div>
+                        <pre>
+                            {output}
+                        </pre>
+                    </div>
                 </div>
             </div>
-
             {/* ===== STATUS BAR ===== */}
             <div style={{
                 background: "#f0f0f0",

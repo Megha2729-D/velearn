@@ -800,7 +800,7 @@ class DigitalMarketing extends Component {
 
                                         {sliderTestimonalData.map((item, index) => (
                                             <SwiperSlide key={index}>
-                                                <div className="testimonial_card position-relative"
+                                                <div className="dm_testimonial_card position-relative"
                                                     style={{
                                                         background: `linear-gradient(90deg, ${item.colorOne} 0%, ${item.colorTwo} 100%)`,
                                                     }}

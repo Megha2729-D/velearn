@@ -157,7 +157,7 @@ class Debugging extends Component {
                         </div>
 
                         {/* CARDS */}
-                        <div className="row justify-content-center w-100 m-auto mb-5">
+                        <div className="row justify-content-center w-100 m-auto pb-5">
                             <div className="col-lg-11">
                                 <div className="debug_container mt-3">
                                     <div className="row">
@@ -205,13 +205,25 @@ class Debugging extends Component {
                                                         {/* Bottom Section */}
                                                         <div className="bottom">
                                                             <span>Submissions: {item.submissions}</span>
-                                                            <button className="continue" style={{
-                                                                background: this.getStatusColor(item.status)
-                                                            }}>
-                                                                {percent === 0 ? "Start" : percent === 100 ? "Solved" : "Continue"}
+                                                            <button
+                                                                className="continue"
+                                                                style={{ background: this.getStatusColor(item.status) }}
+                                                            >
+                                                                {percent === 0 ? (
+                                                                    <>
+                                                                        Start <i class="bi bi-chevron-right"></i>
+                                                                    </>
+                                                                ) : percent === 100 ? (
+                                                                    <>
+                                                                        Solved <i class="bi bi-check2-circle"></i>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        Continue <i class="bi bi-chevron-right"></i>
+                                                                    </>
+                                                                )}
                                                             </button>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             );

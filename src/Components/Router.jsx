@@ -22,6 +22,7 @@ import DataScience from "./DataScience";
 import MyCourses from "./MyCourses";
 
 import Debugging from "./Debugging";
+import DebuggingWorkspace from "./DebuggingWorkspace";
 import LiveEditor from "./LiveEditor";
 import IDEEditor from "./IDEEditor";
 
@@ -143,6 +144,14 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <Debugging />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/debugging-workspace"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <DebuggingWorkspace />
                         </PageTransitionWrapper>
                     }
                 />

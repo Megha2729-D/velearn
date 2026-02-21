@@ -485,7 +485,7 @@ class RecordedCourseDetails extends Component {
                                     <div className="row justify-content-center">
                                         <div className="col-lg-10">
                                             <div className="rc_benefit">
-                                                <div className="row mt-3">
+                                                <div className="row mt-3 justify-content-center">
                                                     {course.benefits.map((item, i) => (
                                                         <div className="col-lg-6 my-3" key={i}>
                                                             <div className="rc_benefit_sub">

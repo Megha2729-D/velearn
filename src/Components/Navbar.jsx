@@ -189,6 +189,7 @@ const Navbar = () => {
                                     </span>
 
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                        
                                         <li><NavLink to="/" onClick={handleItemClick}>UI UX Design</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Data Science</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Full Stack Web Development</NavLink></li>

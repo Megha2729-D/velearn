@@ -590,7 +590,16 @@ class HomePage extends Component {
 
                         <div className="mt-4 recorded_tab_parent">
                             {Object.keys(this.state.recordedCourses)
-                                .sort((a, b) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b))
+                                .sort((a, b) => {
+                                    const indexA = CATEGORY_ORDER.indexOf(a);
+                                    const indexB = CATEGORY_ORDER.indexOf(b);
+
+                                    // If category not found in order, push it to end
+                                    if (indexA === -1) return 1;
+                                    if (indexB === -1) return -1;
+
+                                    return indexA - indexB;
+                                })
                                 .map((category) => (
                                     <button
                                         key={category}

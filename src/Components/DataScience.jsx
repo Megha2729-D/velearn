@@ -672,9 +672,9 @@ class DataScience extends Component {
                                         <li key={i}>{p}</li>
                                     ))}
                                 </ul>
-                                <div className="col-12 d-flex justify-content-end">
+                                {/* <div className="col-12 d-flex justify-content-end">
                                     <div className="download_icon"><i className="bi bi-download text-white"></i></div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

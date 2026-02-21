@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "../Components/Styles/RecordedCourse.css"
 
-const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
+const BASE_API_URL = "https://www.velearn.in/api/";
 const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
 const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
 
@@ -27,27 +27,75 @@ class RecordedCourseDetails extends Component {
             loading: true,
             error: null,
         };
-
-        this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
+        this.dragDistance = 0;
+        this.isDragging = false;
+        this.startX = 0;
+        this.scrollLeft = 0;
+        this.dragDistance = 0;
+        this.tabsRef = createRef();
+        this.tabsWrapperRef = createRef();
+        // this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
     }
     componentDidMount() {
-        const courseId = this.props.params.id;
+        const { slugId } = this.props.params;
+        const locationState = this.props.location.state;
 
-        fetch(`${BASE_API_URL}courses/${courseId}`)
+        let courseId = locationState?.courseId;
+
+        // CASE 1 — navigated from list (best performance)
+        if (courseId) {
+            this.loadCourse(courseId);
+            return;
+        }
+
+        // CASE 2 — page refreshed / shared link
+        // fetch by slug
+        fetch(`${BASE_API_URL}course-by-slug/${slugId}`)
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    this.setState({ course: data.course, loading: false }, () => {
-                        // Automatically select first tab after course is loaded
-                        if (this.tabRefs[0] && this.tabRefs[0].current) {
+                if (data.status && data.data) {
+                    this.loadCourse(data.data.id);
+                } else {
+                    this.setState({ error: "Course not found", loading: false });
+                }
+            });
+    }
+    loadCourse = (courseId) => {
+        fetch(`${BASE_API_URL}course-detail/${courseId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status && data.data) {
+
+                    const apiCourse = data.data;
+
+                    const modules = (apiCourse.curricula || []).map(module => ({
+                        id: module.id,
+                        title: module.title,
+                        points: (module.descriptions || []).map(d => d.description)
+                    }));
+
+                    // IMPORTANT — create refs dynamically
+                    this.tabRefs = modules.map(() => createRef());
+
+                    const course = {
+                        ...apiCourse,
+                        modules: modules,
+                        learnings: apiCourse.leans || [],
+                        requirements: apiCourse.requirements || []
+                    };
+
+                    this.setState({ course, loading: false }, () => {
+                        // center first tab indicator
+                        if (this.tabRefs[0]?.current && this.tabsWrapperRef.current) {
                             const tabEl = this.tabRefs[0].current;
-                            const wrapperRect = this.tabsWrapperRef.getBoundingClientRect();
+                            const wrapperRect = this.tabsWrapperRef.current.getBoundingClientRect();
                             const centerX = tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
                             const relativeLeft = centerX - wrapperRect.left;
 
                             this.setState({ activeTab: 0, contentLeft: relativeLeft });
                         }
                     });
+
                 } else {
                     this.setState({ error: "Course not found", loading: false });
                 }
@@ -55,11 +103,54 @@ class RecordedCourseDetails extends Component {
             .catch(err => {
                 this.setState({ error: err.message, loading: false });
             });
-    }
 
+        // Drag Scroll
+        setTimeout(() => {
+            const slider = this.tabsRef.current;
+            if (!slider) return;
+
+            let isMouseDown = false;
+
+            slider.addEventListener("mousedown", (e) => {
+                isMouseDown = true;
+                this.isDragging = false;
+                this.startX = e.pageX;
+                this.scrollLeft = slider.scrollLeft;
+                slider.classList.add("dragging");
+            });
+
+            window.addEventListener("mouseup", () => {
+                isMouseDown = false;
+
+                setTimeout(() => {
+                    this.isDragging = false;
+                }, 30);
+
+                slider.classList.remove("dragging");
+            });
+
+            slider.addEventListener("mousemove", (e) => {
+                if (!isMouseDown) return; // ⭐ MOST IMPORTANT FIX
+
+                const walk = e.pageX - this.startX;
+
+                // activate drag only after slight move
+                if (Math.abs(walk) > 5) {
+                    this.isDragging = true;
+                    slider.scrollLeft = this.scrollLeft - walk;
+                }
+            });
+
+            slider.addEventListener("mouseleave", () => {
+                isMouseDown = false;
+                slider.classList.remove("dragging");
+            });
+
+        }, 300);
+    };
     renderContent() {
         const { activeTab, course } = this.state;
-        if (!course || !course.modules) return { title: "", points: [] };
+        if (!course?.modules?.length) return { title: "", points: [] };
         return course.modules[activeTab] || course.modules[0];
     }
     faqData = [
@@ -144,19 +235,19 @@ class RecordedCourseDetails extends Component {
 
         if (loading) return <div className="d-flex justify-content-center align-items-center">
             <svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fill-opacity="0.6" />
+                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fillOpacity="0.6" />
 
-                <text x="400" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="52" fill="#22346b">LOADING...</text>
+                <text x="400" y="240" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontSize="52" fill="#22346b">LOADING...</text>
 
-                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fill-opacity="0.8" />
+                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fillOpacity="0.8" />
 
                 <g transform="translate(180, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" stroke-width="3" fill="white" />
-                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" stroke-width="3" stroke-linecap="round" />
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" strokeWidth="3" fill="white" />
+                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" strokeWidth="3" strokeLinecap="round" />
                 </g>
 
                 <g transform="translate(580, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fill-opacity="0.2" />
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fillOpacity="0.2" />
                 </g>
 
                 <path d="M300 380 Q310 340 330 380" fill="#24b8ec" opacity="0.6" />
@@ -165,20 +256,20 @@ class RecordedCourseDetails extends Component {
         </div>;
         if (error) return <div className="d-flex justify-content-center align-items-center">
             <svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fill-opacity="0.6" />
+                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fillOpacity="0.6" />
 
-                <text x="400" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="52" fill="#22346b">COURSE</text>
-                <text x="400" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="42" fill="#24b8ec">NOT FOUND</text>
+                <text x="400" y="240" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontSize="52" fill="#22346b">COURSE</text>
+                <text x="400" y="300" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontSize="42" fill="#24b8ec">NOT FOUND</text>
 
-                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fill-opacity="0.8" />
+                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fillOpacity="0.8" />
 
                 <g transform="translate(180, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" stroke-width="3" fill="white" />
-                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" stroke-width="3" stroke-linecap="round" />
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" strokeWidth="3" fill="white" />
+                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" strokeWidth="3" strokeLinecap="round" />
                 </g>
 
                 <g transform="translate(580, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" stroke-width="4" stroke-linecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fill-opacity="0.2" />
+                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fillOpacity="0.2" />
                 </g>
 
                 <path d="M300 380 Q310 340 330 380" fill="#24b8ec" opacity="0.6" />
@@ -186,7 +277,22 @@ class RecordedCourseDetails extends Component {
             </svg>
         </div>;
 
-
+        const commonOutcomes = [
+            "Industry-Ready Practical Skills",
+            "Hands-on Project Experience",
+            "Problem Solving & Critical Thinking",
+            "Tools & Technology Mastery",
+            "Real-world Workflow Understanding",
+            "Career & Interview Preparation"
+        ];
+        const gridPattern = [
+            "col-lg-5 col-6",
+            "col-lg-4 col-6",
+            "col-lg-3 col-6",
+            "col-lg-4 col-6",
+            "col-lg-3 col-6",
+            "col-lg-5 col-6"
+        ];
         return (
             <>
                 <section className="rc_banner">
@@ -202,12 +308,14 @@ class RecordedCourseDetails extends Component {
                                     <div className="row rc_description mt-4 w-100 m-auto">
                                         <div className="col-lg-3 col-6 my-3 my-lg-0">
                                             <div>
-                                                <p className="text-center text-white">4 Core<br /> Modules</p>
+                                                <p className="text-center text-white">
+                                                    {course.with_certificate?.match(/\d+/)?.[0]} Core <br /> Modules
+                                                </p>
                                             </div>
                                         </div>
                                         <div className="col-lg-3 col-6 my-3 my-lg-0">
                                             <div>
-                                                <p className="text-center text-white">4Hrs+ <br />Contents</p>
+                                                <p className="text-center text-white">{course.recorded_content}Hrs+ <br />Contents</p>
                                             </div>
                                         </div>
                                         <div className="col-lg-3 col-6 my-3 my-lg-0">
@@ -231,17 +339,25 @@ class RecordedCourseDetails extends Component {
                             </div>
                             <div className="col-lg-3 mt-4 mt-lg-0">
                                 <form action="#">
-                                    <h5 >Get this course @ &#8377; 500</h5>
+                                    <h5>
+                                        Get this course @{" "}
+                                        {course.course_type === "free"
+                                            ? "Free"
+                                            : course.combo_price
+                                                ? <>₹ {course.combo_price}</>
+                                                : <>₹ {course.buy_price}</>
+                                        }
+                                    </h5>
                                     <div className="d-flex flex-column w-100 my-3">
-                                        <label for="name">Name</label>
+                                        <label htmlFor="name">Name</label>
                                         <input type="text" name="name" id="name" />
                                     </div>
                                     <div className="d-flex flex-column w-100 my-3">
-                                        <label for="phone">Phone Number</label>
+                                        <label htmlFor="phone">Phone Number</label>
                                         <input type="number" name="phone" id="phone" />
                                     </div>
                                     <div className="d-flex flex-column w-100 my-3">
-                                        <label for="email">Email</label>
+                                        <label htmlFor="email">Email</label>
                                         <input type="email" name="email" id="email" />
                                     </div>
 
@@ -259,42 +375,18 @@ class RecordedCourseDetails extends Component {
                             <div className="col-lg-8">
                                 <div className="pt-5">
                                     <h3 className="fw-bold text-black">What you’ll learn</h3>
-                                    <div className="d-flex gap-2 my-4">
-                                        <div className="">
-                                            <i class="bi bi-arrow-right-circle-fill text-c2"></i>
+
+                                    {course.learnings.map((item, i) => (
+                                        <div className="d-flex gap-2 my-4" key={i}>
+                                            <div>
+                                                <i className="bi bi-arrow-right-circle-fill text-c2"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="fw-bold">{item.title}</h6>
+                                                <p className="mb-0">{item.description}</p>
+                                            </div>
                                         </div>
-                                        <div className="">
-                                            <h6 className="fw-bold">Build a strong foundation in Python programming</h6>
-                                            <p className="mb-0">Understand Python syntax, variables, data types, conditional statements, loops, and functions from scratch, ensuring a solid base for advanced programming concepts.</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex gap-2 my-4">
-                                        <div className="">
-                                            <i class="bi bi-arrow-right-circle-fill text-c2"></i>
-                                        </div>
-                                        <div className="">
-                                            <h6 className="fw-bold">Learn Python at your own pace</h6>
-                                            <p className="mb-0">Access well-structured recorded lessons designed for beginners, with the flexibility to pause, rewind, and revisit concepts anytime for deeper understanding and revision.</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex gap-2 my-4">
-                                        <div className="">
-                                            <i class="bi bi-arrow-right-circle-fill text-c2"></i>
-                                        </div>
-                                        <div className="">
-                                            <h6 className="fw-bold">Apply Python to real-world scenarios</h6>
-                                            <p className="mb-0">Work with practical examples such as file handling, basic automation, and logical problem- solving, helping you connect Python concepts with real-life applications.</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex gap-2 my-4">
-                                        <div className="">
-                                            <i class="bi bi-arrow-right-circle-fill text-c2"></i>
-                                        </div>
-                                        <div className="">
-                                            <h6 className="fw-bold">Develop confidence through practice-based learning</h6>
-                                            <p className="mb-0">Strengthen your logical thinking and coding skills through guided examples, hands-on exercises, and concept-wise practice tasks that improve coding confidence.</p>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                                 <div className="pt-5">
                                     <h3 className="text-black fw-bold text-center mb-3">Designed for Effective <span className="text-c2">Self-Learning</span></h3>
@@ -308,48 +400,45 @@ class RecordedCourseDetails extends Component {
                                     </div>
                                 </div>
                                 <div className="pt-5">
-                                    <h3 className="text-black fw-bold text-center">Your Python Learning Outcomes</h3>
+                                    <h3 className="text-black fw-bold text-center">
+                                        Your <span className="text-c2">{course.cour_language}</span> Learning Outcomes
+                                    </h3>
+
                                     <div className="rc_outcome row">
-                                        <div className="col-lg-5 col-6 my-2">
-                                            <div className="rc_outcome_box rc_outcome_box1"><p className="text-white mb-0 text-center">Python Programming</p></div>
-                                        </div>
-                                        <div className="col-lg-4 col-6 my-2">
-                                            <div className="rc_outcome_box rc_outcome_box2"><p className="text-white mb-0 text-center">Foundational Programming Skills</p></div>
-                                        </div>
-                                        <div className="col-lg-3 col-6 my-2">
-                                            <div className="rc_outcome_box rc_outcome_box3"><p className="text-white mb-0 text-center">Debugging & Error Handling</p></div>
-                                        </div>
-                                        <div className="col-lg-4 col-6 my-2">
-                                            <div className="rc_outcome_box rc_outcome_box4"><p className="text-white mb-0 text-center">Data Handling & File Operations</p></div>
-                                        </div>
-                                        <div className="col-lg-3 col-6 my-2">
-                                            <div className="rc_outcome_box rc_outcome_box5"><p className="text-white mb-0 text-center">Automation Basics</p></div>
-                                        </div>
-                                        <div className="col-lg-5 col-6 my-2">
-                                            <div className="rc_outcome_box rc_outcome_box6"><p className="text-white mb-0 text-center">Problem Solving & Logic Building</p></div>
-                                        </div>
+                                        {commonOutcomes.map((item, index) => (
+                                            <div key={index} className={`${gridPattern[index]} my-2`}>
+                                                <div className={`rc_outcome_box rc_outcome_box${index + 1}`}>
+                                                    <p className="text-white mb-0 text-center">{item}</p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                                <div className="pt-5">
+                                <div className="pt-5" style={{ minHeight: "530px", maxHeight: "600px" }}>
                                     <div className="modules-section">
                                         <h3 className="text-black fw-bold text-center">Your <span className="text-c2"> Learning</span> Roadmap</h3>
                                         <p className="text-black text-center">Each module at Velearn focuses on practical skills to prepare you for real jobs.</p>
-                                        <div className="tabs-wrapper" ref={(el) => (this.tabsWrapperRef = el)}>
-                                            <div className="tabs">
-                                                {course.modules.map((module, index) => (
+                                        <div className="tabs-wrapper" ref={this.tabsWrapperRef}>
+                                            <div className="tabs" ref={this.tabsRef}>
+                                                {course.modules?.map((module, index) => (
                                                     <button
                                                         key={module.id}
                                                         ref={this.tabRefs[index]}
                                                         className={`tab ${activeTab === index ? "active" : ""}`}
                                                         onClick={() => {
+                                                            if (this.isDragging) return;
+                                                            if (!this.tabRefs[index] || !this.tabRefs[index].current) return;
+
                                                             const tabEl = this.tabRefs[index].current;
                                                             const tabRect = tabEl.getBoundingClientRect();
-                                                            const wrapperRect = this.tabsWrapperRef.getBoundingClientRect();
+                                                            const wrapperRect = this.tabsWrapperRef.current.getBoundingClientRect();
 
                                                             const centerX = tabRect.left + tabRect.width / 2;
                                                             const relativeLeft = centerX - wrapperRect.left;
 
-                                                            this.setState({ activeTab: index, contentLeft: relativeLeft });
+                                                            if (!this.isDragging) {
+                                                                this.setState({ activeTab: index, contentLeft: relativeLeft });
+                                                            }
                                                         }}
                                                     >
                                                         Module {index + 1}
@@ -381,11 +470,11 @@ class RecordedCourseDetails extends Component {
                                                         <li key={i}>{point}</li>
                                                     ))}
                                                 </ul>
-                                                <div className="col-12 d-flex justify-content-end">
+                                                {/* <div className="col-12 d-flex justify-content-end">
                                                     <div className="download_icon">
                                                         <i className="bi bi-download text-white"></i>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                         </div>
@@ -397,26 +486,13 @@ class RecordedCourseDetails extends Component {
                                         <div className="col-lg-10">
                                             <div className="rc_benefit">
                                                 <div className="row mt-3">
-                                                    <div className="col-lg-6 my-3">
-                                                        <div className="rc_benefit_sub">
-                                                            <p className="mb-0">Absolutely New to Coding</p>
+                                                    {course.benefits.map((item, i) => (
+                                                        <div className="col-lg-6 my-3" key={i}>
+                                                            <div className="rc_benefit_sub">
+                                                                <p className="mb-0">{item.description}</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="col-lg-6 my-3">
-                                                        <div className="rc_benefit_sub">
-                                                            <p className="mb-0">Students & Working Professionals</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-lg-6 my-3">
-                                                        <div className="rc_benefit_sub">
-                                                            <p className="mb-0">Beginners Targeting Tech Jobs</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-lg-6 my-3">
-                                                        <div className="rc_benefit_sub">
-                                                            <p className="mb-0">Career Switchers to IT</p>
-                                                        </div>
-                                                    </div>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>

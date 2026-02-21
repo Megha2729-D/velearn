@@ -1277,6 +1277,11 @@ img {
     font-weight: 400;
     font-size: 16.28px;
     text-align: left;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .v-banner {
@@ -1694,6 +1699,7 @@ img {
 .live_courses_sec p {
     font-size: 15px;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -1802,18 +1808,20 @@ img {
 }
 
 .new_price {
-    font-size: 24px;
+    font-size: 18px;
     color: var(--c1);
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .old_price {
-    font-size: 12px;
+    font-size: 9px;
     color: #616161;
+    white-space: nowrap;
 }
 
 .recorded_course_duration {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .free .recorded_course_duration {
@@ -1923,6 +1931,7 @@ img {
 
 .explore_courses_sec .search_box input::placeholder {
     background: linear-gradient(90deg, var(--c2) 0%, var(--c1) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 1;
@@ -1935,6 +1944,7 @@ img {
     transform: translateY(-50%);
     font-size: 18px;
     background: linear-gradient(90deg, var(--c2) 0%, var(--c1) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -2368,6 +2378,7 @@ section {
     font-size: 35px;
     background: linear-gradient(90deg, #ffc903, #ff9925);
     /* your gradient */
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
@@ -3102,7 +3113,6 @@ section {
     line-height: 100px;
     color: #000;
     -webkit-text-stroke: 1px #ffffff13;
-    text-stroke: 1px #ffffff13;
     text-shadow:
         1px 1px 0 #ffffff13,
         -1px 1px 0 #ffffff13,
@@ -3383,11 +3393,31 @@ section {
 .tabs {
     background: #000;
     display: flex;
-    overflow-x: auto;
     gap: 20px;
     padding: 10px 25px;
     border-radius: 30px;
     position: relative;
+    white-space: nowrap;
+    min-width: auto;
+    max-width: 80%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    user-select: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tabs.dragging {
+    cursor: grabbing;
 }
 
 .tab {
@@ -3403,7 +3433,7 @@ section {
 }
 
 .tab.active {
-    color: #fff;
+    color: var(--c2);
     font-weight: 600;
 }
 
@@ -3435,14 +3465,18 @@ section {
 .tab-content-box {
     background:
         linear-gradient(180deg, #d9d9d900 94.17%, #f5f3f9 99.03%),
-        linear-gradient(270deg, #d9d9d900 94.2%, #f5f3f9 100%), linear-gradient(90deg, #ffffff00 93.23%, #ffffff 100%),
-        linear-gradient(180deg, #ffffff00 0%, #ffffff 0%, rgba(255, 255, 255, 0) 22%),
-        linear-gradient(180deg, #ffffff00 0%, rgba(36, 184, 236, 0.2) 100%);
+        linear-gradient(270deg, #d9d9d900 94.2%, #f5f3f9 100%),
+        linear-gradient(90deg, #ffffff00 93.23%, #ffffff 100%),
+        linear-gradient(180deg, #ffffff00 0%, #ffffff 0%, #ffffff00 22%),
+        linear-gradient(180deg, #ffffff00 0%, #24b8ec33 100%);
     border-radius: 12px;
     padding: 20px 25px;
     margin-top: 25px;
+    min-width: 285px;
     max-width: 340px;
     color: #000;
+    max-height: 285px;
+    overflow-y: auto;
 }
 
 .tab-content-box ul {

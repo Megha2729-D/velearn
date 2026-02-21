@@ -13,6 +13,10 @@
     background-size: cover;
     background-position: center;
     padding: 20px 0 30px;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .rc_banner .rc_banner_content button {
@@ -124,7 +128,7 @@
 } */
 
 .rc_outcome .rc_outcome_box {
-    padding: 50px 40px;
+    padding: 50px 25px;
     border: 3px solid #ffffff;
     border-radius: 20.73px;
     display: flex;

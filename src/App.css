@@ -237,10 +237,6 @@ img {
   border-radius: 100px;
 }
 
-.nav-elements ul li:not(:last-child) {
-  /* margin-right: 60px; */
-}
-
 .nav-elements ul a {
   font-size: 16px;
   font-weight: normal;
@@ -1639,6 +1635,7 @@ section {
   font-size: 35px;
   background: linear-gradient(90deg, #ffc903, #ff9925);
   /* your gradient */
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;

@@ -1,6 +1,7 @@
 import { Component, createRef } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { Link, NavLink } from 'react-router-dom';
+import { slugify } from "./utils/slugify";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -11,9 +12,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
+// const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
+// const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
+// const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
+const BASE_API_URL = "https://www.velearn.in/api/";
 const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
-const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
+const BASE_DYNAMIC_IMAGE_URL = "https://velearn.in/public/uploads/";
 
 class HomePage extends Component {
     componentDidMount() {
@@ -87,43 +91,42 @@ class HomePage extends Component {
             });
         }
 
-        // --- Fetch Courses ---
-        fetch(`${BASE_API_URL}courses`)
+        fetch(`${BASE_API_URL}recorded-course`)
             .then(res => res.json())
             .then((data) => {
-                if (data.success && data.courses) {
-                    const courses = data.courses;
+                if (data.status && data.data) {
 
-                    // Set main list
+                    const courses = data.data;
+
+                    // Main list
                     this.setState({ coursesList: courses });
 
-                    // Build Latest Courses Per Category
+                    // Group by category (since categories null, fallback)
                     const coursesByCategory = courses.reduce((acc, course) => {
-                        const cat = course.category || "Other";
+                        const cat = course.categories || "General";
                         if (!acc[cat]) acc[cat] = [];
                         acc[cat].push(course);
                         return acc;
                     }, {});
 
-                    // Sort & take latest 5
+                    // Sort latest
                     Object.keys(coursesByCategory).forEach(cat => {
                         coursesByCategory[cat] = coursesByCategory[cat]
                             .sort((a, b) =>
-                                new Date(b.updatedAt || b.createdAt || b._id) -
-                                new Date(a.updatedAt || a.createdAt || a._id)
+                                new Date(b.updated_at || b.created_at) -
+                                new Date(a.updated_at || a.created_at)
                             )
                             .slice(0, 5);
                     });
 
                     this.setState({
                         recordedCourses: coursesByCategory,
-                        activeRecordedTab: "Software Development"
+                        activeRecordedTab: Object.keys(coursesByCategory)[0] || "General"
                     });
                 }
             })
             .catch(err => console.error("Failed to fetch courses:", err));
     }
-
 
     state = {
         coursesList: [],
@@ -308,7 +311,10 @@ class HomePage extends Component {
                                         <div className="col-lg-7 d-flex flex-column align-items-center align-items-lg-start">
                                             <h5 className="text-white text-center text-lg-start">{course.title}</h5>
                                             <p className="text-white text-center text-lg-start">{course.sub_description}</p>
-                                            <Link to={`/course-details/${course._id}`}>
+                                            <Link
+                                                to={`/course-details/${slugify(course.title)}`}
+                                                state={{ courseId: course.id }}
+                                            >
                                                 <button>Explore now</button>
                                             </Link>
                                         </div>
@@ -601,12 +607,16 @@ class HomePage extends Component {
                             <Swiper
                                 key={this.state.activeRecordedTab}
                                 className="py-5"
-                                modules={[Navigation, Pagination]}
+                                modules={[Navigation, Pagination, Autoplay]}
                                 spaceBetween={30}
                                 slidesPerView={4}
                                 loop={true}
                                 navigation={true}
                                 pagination={{ clickable: true }}
+                                autoplay={{
+                                    delay: 4000,
+                                    disableOnInteraction: false,
+                                }}
                                 breakpoints={{
                                     0: { slidesPerView: 1 },
                                     768: { slidesPerView: 2 },
@@ -616,7 +626,10 @@ class HomePage extends Component {
                             >
                                 {(this.state.recordedCourses[this.state.activeRecordedTab] || []).map((course, index) => (
                                     <SwiperSlide key={course._id}>
-                                        <Link to={`/course-details/${course._id}`}>
+                                        <Link
+                                            to={`/course-details/${slugify(course.title)}`}
+                                            state={{ courseId: course.id }}
+                                        >
                                             <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
                                                 <div className="card_img_parent overflow-hidden">
                                                     <img src={`${BASE_DYNAMIC_IMAGE_URL}courses/${course.image}`} className="card_img w-100" alt={course.title} />
@@ -626,11 +639,11 @@ class HomePage extends Component {
                                                     <h4 className="fw-bold">{course.title}</h4>
                                                     <p className="mb-2">{course.sub_description}</p>
 
-                                                    <div className="d-flex justify-content-between align-items-center gap-3 w-100 mt-auto">
+                                                    <div className="d-flex justify-content-between align-items-center gap-3 w-100 mt-auto overflow-hidden">
                                                         <div className="recorded_course_duration">
                                                             <div className="my-2">
                                                                 <i className="bi bi-clock pe-1 my-2"></i>
-                                                                {course.course_duration}
+                                                                {course.recorded_content} hours
                                                             </div>
                                                             {(course.course_type === "paid" || course.course_type === "combo") && (
                                                                 <div className="d-flex align-items-center mt-2">
@@ -644,15 +657,18 @@ class HomePage extends Component {
                                                             )}
                                                         </div>
                                                         <div className="d-flex align-items-center gap-2">
-                                                            {course.buy_price ? (
+
+                                                            {(course.course_type === "paid" || course.course_type === "combo") ? (
                                                                 <>
                                                                     <span className="new_price">&#8377; {course.buy_price}</span>
-                                                                    <span className="old_price"><s>&#8377; {course.mrp_price}</s></span>
+                                                                    <span className="old_price">
+                                                                        <s>&#8377; {course.mrp_price}</s>
+                                                                    </span>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    {course.course_type === "free" &&
-                                                                        <div>
+                                                                    {course.course_type === "free" && (
+                                                                        <div className="recorded_course_duration">
                                                                             <i className="bi bi-star-fill pe-1"></i>
                                                                             <i className="bi bi-star-fill pe-1"></i>
                                                                             <i className="bi bi-star-fill pe-1"></i>
@@ -660,9 +676,10 @@ class HomePage extends Component {
                                                                             <i className="bi bi-star-fill pe-1"></i>
                                                                             (4.6)
                                                                         </div>
-                                                                    }</>
-                                                                // <span className="free_course">Free</span>
+                                                                    )}
+                                                                </>
                                                             )}
+
                                                         </div>
                                                     </div>
                                                 </div>

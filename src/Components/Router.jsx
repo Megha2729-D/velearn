@@ -126,11 +126,14 @@ const AnimatedRoutes = () => {
                         </PageTransitionWrapper>
                     }
                 />
-                <Route path="/course-details/:id" element={
-                    <PageTransitionWrapper pathname={location.pathname}>
-                        <RecordedCourseDetails />
-                    </PageTransitionWrapper>
-                } />
+                <Route
+                    path="/course-details/:slugId"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <RecordedCourseDetails />
+                        </PageTransitionWrapper>
+                    }
+                />
                 <Route
                     path="/my-courses"
                     element={

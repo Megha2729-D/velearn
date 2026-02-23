@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
-const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
-const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
+const BASE_API_URL = "https://www.velearn.in/api/";
+const BASE_IMAGE_URL = `${process.env.PUBLIC_URL}/assets/images/`;
+const BASE_DYNAMIC_IMAGE_URL = "https://velearn.in/public/uploads/";
 
 const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false);
@@ -189,7 +190,7 @@ const Navbar = () => {
                                     </span>
 
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                                        
+
                                         <li><NavLink to="/" onClick={handleItemClick}>UI UX Design</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Data Science</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Full Stack Web Development</NavLink></li>

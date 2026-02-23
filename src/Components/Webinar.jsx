@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import "../Components/Styles/Webinar.css"
 
-const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
-const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
+const BASE_API_URL = "https://www.velearn.in/api/";
+const BASE_IMAGE_URL = `${process.env.PUBLIC_URL}/assets/images/`;
+const BASE_DYNAMIC_IMAGE_URL = "https://velearn.in/public/uploads/";
 
 class Webinar extends Component {
 

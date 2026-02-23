@@ -16,7 +16,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 // const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
 // const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/";
 const BASE_API_URL = "https://www.velearn.in/api/";
-const BASE_IMAGE_URL = "https://www.iqvideoproduction.com/assets/images/";
+const BASE_IMAGE_URL = `${process.env.PUBLIC_URL}/assets/images/`;
 const BASE_DYNAMIC_IMAGE_URL = "https://velearn.in/public/uploads/";
 
 class HomePage extends Component {
@@ -444,7 +444,7 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </section>
-                <section className="py-5">
+                <section className="py-5" id="liveCourses">
                     <div className="section_container live_courses_sec">
                         <h3 className="section_base_heading text-black text-center">Top Trending <span className="text-c2"> Live Courses</span></h3>
                         <div className="row">
@@ -577,7 +577,7 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </section>
-                <section className="pt-3" id="recordedCourses">
+                <section className="pt-3">
                     <div className="section_container live_courses_sec">
                         {/* Heading */}
                         <div className="col-12 d-flex justify-content-center">
@@ -930,7 +930,7 @@ class HomePage extends Component {
                                     </p>
                                     <div className="d-flex mt-5 justify-content-evenly gap-3">
                                         <div className="d-flex start_learning">
-                                            <Link to="/recorded-course" className="d-flex start_learning">
+                                            <Link to="/live-course" className="d-flex start_learning">
                                                 <div className="butt">
                                                     Start Learning Now
                                                 </div>
@@ -940,7 +940,7 @@ class HomePage extends Component {
                                             </Link>
                                         </div>
                                         <div className="d-flex view_butt" onClick={() => {
-                                            document.getElementById("recordedCourses")
+                                            document.getElementById("liveCourses")
                                                 ?.scrollIntoView({ behavior: "smooth", block: "start" });
                                         }}
                                             style={{ cursor: "pointer" }}>

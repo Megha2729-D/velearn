@@ -28,7 +28,6 @@ class RecordedCourseDetails extends Component {
             error: null,
 
             showSyllabusModal: false,
-            isClosing: false,
             selectedComboCourse: null,
             selectedComboModules: [],
             activeComboTab: 0
@@ -70,26 +69,6 @@ class RecordedCourseDetails extends Component {
                 }
             });
     }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!prevState.showSyllabusModal && this.state.showSyllabusModal) {
-            this.disablePageScroll();
-        }
-
-        if (prevState.showSyllabusModal && !this.state.showSyllabusModal) {
-            this.enablePageScroll();
-        }
-    }
-
-    disablePageScroll = () => {
-        document.body.classList.add("modal-open-custom");
-        document.documentElement.classList.add("modal-open-custom");
-    };
-
-    enablePageScroll = () => {
-        document.body.classList.remove("modal-open-custom");
-        document.documentElement.classList.remove("modal-open-custom");
-    };
 
     loadCourse = (courseId, courseType) => {
         let endpoint = "";
@@ -167,49 +146,6 @@ class RecordedCourseDetails extends Component {
             .catch(err => {
                 this.setState({ error: err.message, loading: false });
             });
-        // Drag Scroll
-        setTimeout(() => {
-            const slider = this.tabsRef.current;
-            if (!slider) return;
-
-            let isMouseDown = false;
-
-            slider.addEventListener("mousedown", (e) => {
-                isMouseDown = true;
-                this.isDragging = false;
-                this.startX = e.pageX;
-                this.scrollLeft = slider.scrollLeft;
-                slider.classList.add("dragging");
-            });
-
-            window.addEventListener("mouseup", () => {
-                isMouseDown = false;
-
-                setTimeout(() => {
-                    this.isDragging = false;
-                }, 30);
-
-                slider.classList.remove("dragging");
-            });
-
-            slider.addEventListener("mousemove", (e) => {
-                if (!isMouseDown) return; // ⭐ MOST IMPORTANT FIX
-
-                const walk = e.pageX - this.startX;
-
-                // activate drag only after slight move
-                if (Math.abs(walk) > 5) {
-                    this.isDragging = true;
-                    slider.scrollLeft = this.scrollLeft - walk;
-                }
-            });
-
-            slider.addEventListener("mouseleave", () => {
-                isMouseDown = false;
-                slider.classList.remove("dragging");
-            });
-
-        }, 300);
     };
 
     renderContent() {
@@ -257,42 +193,17 @@ class RecordedCourseDetails extends Component {
     };
 
     closeComboSyllabus = () => {
-        this.setState({ isClosing: true });
-
-        setTimeout(() => {
-            this.setState({
-                showSyllabusModal: false,
-                isClosing: false
-            });
-        }, 400); // must match CSS duration
-    };
-    handleBackdropClick = (e) => {
-        if (e.target.classList.contains("combo_syllabus_modal")) {
-            this.closeComboSyllabus();
-        }
+        this.setState({
+            showSyllabusModal: false,
+            selectedComboCourse: null,
+            selectedComboModules: [],
+            activeComboTab: 0
+        });
     };
     renderComboContent = () => {
         const { selectedComboModules, activeComboTab } = this.state;
         return selectedComboModules[activeComboTab] || { title: "", points: [] };
     };
-    handleComboMouseDown = (e) => {
-        this.comboIsDragging = true;
-        this.comboStartX = e.pageX - this.comboTabsRef.current.offsetLeft;
-        this.comboScrollLeft = this.comboTabsRef.current.scrollLeft;
-    };
-
-    handleComboMouseMove = (e) => {
-        if (!this.comboIsDragging) return;
-        e.preventDefault();
-        const x = e.pageX - this.comboTabsRef.current.offsetLeft;
-        const walk = (x - this.comboStartX) * 1.5;
-        this.comboTabsRef.current.scrollLeft = this.comboScrollLeft - walk;
-    };
-
-    handleComboMouseUp = () => {
-        this.comboIsDragging = false;
-    };
-
     faqData = [
         {
             question: "Who can benefit from this program?",
@@ -664,8 +575,13 @@ class RecordedCourseDetails extends Component {
                                                                         {includedCourse.recorded_content} Hours
                                                                     </div>
                                                                     <div>
-                                                                        <i class="bi bi-journal-text pe-1"></i>
-                                                                        {includedCourse.with_certificate?.match(/\d+/)?.[0]} Modules
+                                                                        {[...Array(5)].map((_, i) => (
+                                                                            <i
+                                                                                key={i}
+                                                                                className="bi bi-star-fill pe-1"
+                                                                            ></i>
+                                                                        ))}
+                                                                        (4.6)
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -686,16 +602,12 @@ class RecordedCourseDetails extends Component {
 
                                 {this.state.showSyllabusModal && (
                                     <div
-                                        className="modal fade show combo_syllabus_modal"
-                                        style={{ display: "block" }}
-                                        onClick={this.handleBackdropClick}
+                                        className="modal fade show combo_sullabus_modal"
+                                        style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
                                     >
                                         <div className="modal-dialog modal-lg modal-dialog-centered">
-                                            <div
-                                                className={`modal-content ${this.state.isClosing ? "modal-slide-up" : "modal-slide-down"
-                                                    }`}
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
+                                            <div className="modal-content">
+
                                                 <div className="modal-header">
                                                     <h5 className="modal-title">
                                                         {this.state.selectedComboCourse?.title}
@@ -709,36 +621,26 @@ class RecordedCourseDetails extends Component {
 
                                                 <div className="modal-body">
                                                     <div className="tabs-wrapper" ref={this.comboTabsWrapperRef} style={{ position: "relative", minHeight: "300px" }}>
-                                                        <div
-                                                            className="tabs"
-                                                            ref={this.comboTabsRef}
-                                                            onMouseDown={this.handleComboMouseDown}
-                                                            onMouseMove={this.handleComboMouseMove}
-                                                            onMouseUp={this.handleComboMouseUp}
-                                                            onMouseLeave={this.handleComboMouseUp}
-                                                        >
+                                                        <div className="tabs" ref={this.comboTabsRef}>
                                                             {this.state.selectedComboModules?.map((module, index) => (
                                                                 <button
                                                                     key={module.id}
                                                                     ref={this.comboTabRefs[index]}
                                                                     className={`tab ${this.state.activeComboTab === index ? "active" : ""}`}
                                                                     onClick={() => {
-                                                                        if (this.comboIsDragging) return;
+                                                                        if (this.isDragging) return;
+                                                                        if (!this.tabRefs[index] || !this.tabRefs[index].current) return;
 
-                                                                        if (!this.comboTabRefs[index] || !this.comboTabRefs[index].current) return;
+                                                                        const tabEl = this.tabRefs[index].current;
+                                                                        const tabRect = tabEl.getBoundingClientRect();
+                                                                        const wrapperRect = this.tabsWrapperRef.current.getBoundingClientRect();
 
-                                                                        const tabEl = this.comboTabRefs[index].current;
-                                                                        const wrapperRect = this.comboTabsWrapperRef.current.getBoundingClientRect();
-
-                                                                        const centerX =
-                                                                            tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
-
+                                                                        const centerX = tabRect.left + tabRect.width / 2;
                                                                         const relativeLeft = centerX - wrapperRect.left;
 
-                                                                        this.setState({
-                                                                            activeComboTab: index,
-                                                                            comboContentLeft: relativeLeft
-                                                                        });
+                                                                        if (!this.isDragging) {
+                                                                            this.setState({ activeTab: index, contentLeft: relativeLeft });
+                                                                        }
                                                                     }}
                                                                 >
                                                                     Module {index + 1}

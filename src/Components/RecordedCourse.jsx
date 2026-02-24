@@ -1,14 +1,21 @@
 import { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { slugify } from "./utils/slugify";
 
-const BASE_API_URL = "https://www.iqvideoproduction.com/api/";
-const BASE_DYNAMIC_IMAGE_URL = "https://www.iqvideoproduction.com/uploads/courses/";
+const BASE_API_URL = "https://www.velearn.in/api/";
+const BASE_IMAGE_URL = `${process.env.PUBLIC_URL}/assets/images/`;
+const BASE_DYNAMIC_IMAGE_URL = "https://www.velearn.in/public/uploads/";
 
 class RecordedCourse extends Component {
     state = {
         search: "",
         activeCategory: "Software Development",
-        courses: [], // courses fetched from backend
+        courses: [],
+        visibleCount: {
+            paid: 4,
+            free: 4,
+            combo: 4,
+        },
     };
 
     categories = [
@@ -20,11 +27,13 @@ class RecordedCourse extends Component {
     ];
 
     componentDidMount() {
-        fetch(`${BASE_API_URL}courses`)
+        fetch(`${BASE_API_URL}recorded-course`)
             .then((res) => res.json())
             .then((data) => {
-                if (data.success && data.courses) {
-                    this.setState({ courses: data.courses });
+                console.log("API Response:", data);
+
+                if (data.status && data.data) {
+                    this.setState({ courses: data.data });
                 }
             })
             .catch((err) => console.error("Failed to fetch courses:", err));
@@ -76,12 +85,18 @@ class RecordedCourse extends Component {
     }
 
     renderCoursesByType(courseType, badgeText, badgeClass) {
+
         const filteredCourses = this.state.courses
             .filter((c) => c.course_type === courseType)
-            .filter((c) => c.category?.includes(this.state.activeCategory))
+            .filter((c) => c.categories?.includes(this.state.activeCategory))
             .filter((c) =>
                 c.title.toLowerCase().includes(this.state.search.toLowerCase())
             );
+
+        const visibleCourses = filteredCourses.slice(
+            0,
+            this.state.visibleCount[courseType]
+        );
 
         return (
             <section className="pt-3 pb-5">
@@ -95,20 +110,23 @@ class RecordedCourse extends Component {
                     </div>
 
                     <div className="row">
-                        {filteredCourses.length > 0 ? (
-                            filteredCourses.map((course, index) => (
+                        {visibleCourses.length > 0 ? (
+                            visibleCourses.map((course, index) => (
                                 <div
                                     className="col-xl-3 col-lg-3 col-md-6 col-12 mb-4"
                                     key={course._id}
                                 >
-                                    <Link to={`/course-details/${course._id}`}>
+                                    <Link
+                                        to={`/course-details/${slugify(course.title)}`}
+                                        state={{ courseId: course.id, courseType: course.course_type }}
+                                    >
                                         <div
                                             className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"
                                                 }`}
                                         >
                                             <div className="card_img_parent overflow-hidden">
                                                 <img
-                                                    src={`${BASE_DYNAMIC_IMAGE_URL}${course.image}`}
+                                                    src={`${BASE_DYNAMIC_IMAGE_URL}courses/${course.image}`}
                                                     className="card_img w-100"
                                                     alt={course.title}
                                                     loading="lazy"
@@ -163,7 +181,31 @@ class RecordedCourse extends Component {
                         )}
                     </div>
 
-                    {filteredCourses.length > 0 && (
+                    {filteredCourses.length > this.state.visibleCount[courseType] && (
+                        <div className="col-12 d-flex justify-content-center more_butt_parent">
+                            <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                    this.setState((prevState) => ({
+                                        visibleCount: {
+                                            ...prevState.visibleCount,
+                                            [courseType]: prevState.visibleCount[courseType] + 4,
+                                        },
+                                    }))
+                                }
+                            >
+                                <div className="col-12 d-flex justify-content-center more_butt_parent">
+                                    <div className="d-flex more_butt">
+                                        <div className="butt">Show More</div>
+                                        <div className="icon_redirect">
+                                            <i className="bi bi-arrow-right-short"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {/* {filteredCourses.length > 0 && (
                         <div className="col-12 d-flex justify-content-center more_butt_parent">
                             <NavLink to="/recorded-course">
                                 <div className="d-flex more_butt">
@@ -174,7 +216,7 @@ class RecordedCourse extends Component {
                                 </div>
                             </NavLink>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </section>
         );

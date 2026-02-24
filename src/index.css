@@ -36,6 +36,11 @@ select {
     pointer-events: none;
 }
 
+button:focus,
+.btn-close:focus {
+    box-shadow: none !important;
+}
+
 body.menu-open {
     overflow: hidden;
 }
@@ -117,6 +122,10 @@ img {
 
 .w-fit-content {
     width: fit-content !important;
+}
+
+.modal-open-custom {
+    overflow: hidden !important;
 }
 
 .preloader {
@@ -1832,7 +1841,8 @@ img {
 
 .paid_butt,
 .free_butt,
-.combo_butt {
+.combo_butt,
+.combo_syllabus_butt {
     color: #ffffff;
     width: fit-content;
     padding: 3px 30px;
@@ -1842,6 +1852,11 @@ img {
     left: 0;
     right: 0;
     margin: auto;
+}
+
+.combo_syllabus_butt {
+    background-color: #000000;
+    cursor: pointer;
 }
 
 .paid_butt {
@@ -3479,6 +3494,35 @@ section {
     overflow-y: auto;
 }
 
+.combo_syllabus_modal .modal-content {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Opening animation */
+.modal-slide-down {
+    transform: translateY(0%);
+    opacity: 1;
+}
+
+/* Closing animation */
+.modal-slide-up {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.combo_syllabus_modal {
+    background-color: #000000a1;
+    backdrop-filter: blur(10px);
+}
+
+.combo_syllabus_modal .tab-content-box {
+    max-height: 215px;
+}
+
+.combo_syllabus_modal .modal-body {
+    padding: 10px 50px;
+}
+
 .tab-content-box ul {
     padding-left: 18px;
 }
@@ -3514,11 +3558,6 @@ section {
 
     .tab {
         font-size: 13px;
-    }
-
-    .tab.active {
-        color: #fff;
-        font-weight: 600;
     }
 
     /*

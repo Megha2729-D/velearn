@@ -306,7 +306,7 @@ class HomePage extends Component {
                             className="v-banner-swiper"
                         >
                             {this.state.coursesList?.slice(0, 3).map(course => (
-                                <SwiperSlide key={course._id}>
+                                <SwiperSlide key={course.id}>
                                     <div className="row align-items-center py-4">
                                         <div className="col-lg-7 d-flex flex-column align-items-center align-items-lg-start">
                                             <h5 className="text-white text-center text-lg-start">{course.title}</h5>
@@ -637,7 +637,7 @@ class HomePage extends Component {
                                     <SwiperSlide key={course._id}>
                                         <Link
                                             to={`/course-details/${slugify(course.title)}`}
-                                            state={{ courseId: course.id }}
+                                            state={{ courseId: course.id, courseType: course.course_type }}
                                         >
                                             <div className={`card_parent h-100 d-flex flex-column ${index % 2 === 0 ? "one" : "two"}`}>
                                                 <div className="card_img_parent overflow-hidden">

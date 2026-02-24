@@ -1,4 +1,4 @@
-import React, { Component, createRef, useEffect } from "react";
+import { Component, createRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectCoverflow, Pagination } from "swiper/modules";
 import { Link, useParams } from "react-router-dom";
@@ -26,12 +26,6 @@ class RecordedCourseDetails extends Component {
             course: null,
             loading: true,
             error: null,
-
-            showSyllabusModal: false,
-            isClosing: false,
-            selectedComboCourse: null,
-            selectedComboModules: [],
-            activeComboTab: 0
         };
         this.dragDistance = 0;
         this.isDragging = false;
@@ -40,10 +34,6 @@ class RecordedCourseDetails extends Component {
         this.dragDistance = 0;
         this.tabsRef = createRef();
         this.tabsWrapperRef = createRef();
-
-        this.comboTabsWrapperRef = createRef();
-        this.comboTabsRef = createRef();
-        this.comboTabRefs = [];
         // this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
     }
     componentDidMount() {
@@ -51,112 +41,58 @@ class RecordedCourseDetails extends Component {
         const locationState = this.props.location.state;
 
         let courseId = locationState?.courseId;
-        let courseType = locationState?.courseType;
 
-        if (courseId && courseType) {
-            this.loadCourse(courseId, courseType);
+        // CASE 1 — navigated from list (best performance)
+        if (courseId) {
+            this.loadCourse(courseId);
             return;
         }
 
-        // If page refreshed → detect by slug
-        fetch(`${BASE_API_URL}combo-course-detail/${slugId}`)
+        // CASE 2 — page refreshed / shared link
+        // fetch by slug
+        fetch(`${BASE_API_URL}course-by-slug/${slugId}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status && data.data) {
-                    const apiCourse = data.data;
-                    this.loadCourse(apiCourse.id, apiCourse.course_type);
+                    this.loadCourse(data.data.id);
                 } else {
                     this.setState({ error: "Course not found", loading: false });
                 }
             });
     }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!prevState.showSyllabusModal && this.state.showSyllabusModal) {
-            this.disablePageScroll();
-        }
-
-        if (prevState.showSyllabusModal && !this.state.showSyllabusModal) {
-            this.enablePageScroll();
-        }
-    }
-
-    disablePageScroll = () => {
-        document.body.classList.add("modal-open-custom");
-        document.documentElement.classList.add("modal-open-custom");
-    };
-
-    enablePageScroll = () => {
-        document.body.classList.remove("modal-open-custom");
-        document.documentElement.classList.remove("modal-open-custom");
-    };
-
-    loadCourse = (courseId, courseType) => {
-        let endpoint = "";
-
-        if (courseType === "combo") {
-            endpoint = `combo-course-detail/${courseId}`;
-        } else {
-            endpoint = `course-detail/${courseId}`;
-        }
-
-        fetch(`${BASE_API_URL}${endpoint}`)
+    loadCourse = (courseId) => {
+        fetch(`${BASE_API_URL}course-detail/${courseId}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status && data.data) {
 
                     const apiCourse = data.data;
-                    let modules = [];
 
-                    // ✅ FREE / PAID STRUCTURE
-                    if (courseType !== "combo") {
-                        modules = (apiCourse.curricula || []).map(module => ({
-                            id: module.id,
-                            title: module.title,
-                            points: (module.descriptions || []).map(d => d.description)
-                        }));
-                    }
+                    const modules = (apiCourse.curricula || []).map(module => ({
+                        id: module.id,
+                        title: module.title,
+                        points: (module.descriptions || []).map(d => d.description)
+                    }));
 
-                    // ✅ COMBO STRUCTURE (FIXED HERE)
-                    if (courseType === "combo") {
-                        modules = (apiCourse.included_courses || []).map(course => ({
-                            id: course.id,
-                            title: course.title,
-                            points: (course.curricula || [])
-                                .flatMap(m => m.descriptions || [])
-                                .map(d => d.description)
-                        }));
-                    }
-
+                    // IMPORTANT — create refs dynamically
                     this.tabRefs = modules.map(() => createRef());
 
                     const course = {
                         ...apiCourse,
-                        modules,
+                        modules: modules,
                         learnings: apiCourse.leans || [],
-                        requirements: apiCourse.requirements || [],
-                        benefits: apiCourse.benefits || []
+                        requirements: apiCourse.requirements || []
                     };
 
                     this.setState({ course, loading: false }, () => {
-
-                        // ✅ CENTER TAB ONLY FOR FREE & PAID
-                        if (
-                            courseType !== "combo" &&
-                            this.tabRefs.length > 0 &&
-                            this.tabRefs[0]?.current &&
-                            this.tabsWrapperRef.current
-                        ) {
+                        // center first tab indicator
+                        if (this.tabRefs[0]?.current && this.tabsWrapperRef.current) {
                             const tabEl = this.tabRefs[0].current;
                             const wrapperRect = this.tabsWrapperRef.current.getBoundingClientRect();
-                            const centerX =
-                                tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
+                            const centerX = tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
                             const relativeLeft = centerX - wrapperRect.left;
 
-                            this.setState({
-                                activeTab: 0,
-                                contentLeft: relativeLeft
-                            });
+                            this.setState({ activeTab: 0, contentLeft: relativeLeft });
                         }
                     });
 
@@ -167,6 +103,7 @@ class RecordedCourseDetails extends Component {
             .catch(err => {
                 this.setState({ error: err.message, loading: false });
             });
+
         // Drag Scroll
         setTimeout(() => {
             const slider = this.tabsRef.current;
@@ -211,88 +148,11 @@ class RecordedCourseDetails extends Component {
 
         }, 300);
     };
-
     renderContent() {
         const { activeTab, course } = this.state;
         if (!course?.modules?.length) return { title: "", points: [] };
         return course.modules[activeTab] || course.modules[0];
     }
-
-    openComboSyllabus = (includedCourse) => {
-
-        const modules = (includedCourse.curricula || []).map(module => ({
-            id: module.id,
-            title: module.title,
-            points: (module.descriptions || []).map(d => d.description)
-        }));
-
-        this.comboTabRefs = modules.map(() => React.createRef());
-
-        this.setState({
-            showSyllabusModal: true,
-            selectedComboCourse: includedCourse,
-            selectedComboModules: modules,
-            activeComboTab: 0,
-            comboContentLeft: 0
-        }, () => {
-
-            if (
-                this.comboTabRefs &&
-                this.comboTabRefs.length > 0 &&
-                this.comboTabRefs[0] &&
-                this.comboTabRefs[0].current &&
-                this.comboTabsWrapperRef &&
-                this.comboTabsWrapperRef.current
-            ) {
-                const tabEl = this.comboTabRefs[0].current;
-                const wrapperRect = this.comboTabsWrapperRef.current.getBoundingClientRect();
-                const centerX =
-                    tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
-                const relativeLeft = centerX - wrapperRect.left;
-
-                this.setState({ comboContentLeft: relativeLeft });
-            }
-
-        });
-    };
-
-    closeComboSyllabus = () => {
-        this.setState({ isClosing: true });
-
-        setTimeout(() => {
-            this.setState({
-                showSyllabusModal: false,
-                isClosing: false
-            });
-        }, 400); // must match CSS duration
-    };
-    handleBackdropClick = (e) => {
-        if (e.target.classList.contains("combo_syllabus_modal")) {
-            this.closeComboSyllabus();
-        }
-    };
-    renderComboContent = () => {
-        const { selectedComboModules, activeComboTab } = this.state;
-        return selectedComboModules[activeComboTab] || { title: "", points: [] };
-    };
-    handleComboMouseDown = (e) => {
-        this.comboIsDragging = true;
-        this.comboStartX = e.pageX - this.comboTabsRef.current.offsetLeft;
-        this.comboScrollLeft = this.comboTabsRef.current.scrollLeft;
-    };
-
-    handleComboMouseMove = (e) => {
-        if (!this.comboIsDragging) return;
-        e.preventDefault();
-        const x = e.pageX - this.comboTabsRef.current.offsetLeft;
-        const walk = (x - this.comboStartX) * 1.5;
-        this.comboTabsRef.current.scrollLeft = this.comboScrollLeft - walk;
-    };
-
-    handleComboMouseUp = () => {
-        this.comboIsDragging = false;
-    };
-
     faqData = [
         {
             question: "Who can benefit from this program?",
@@ -554,237 +414,78 @@ class RecordedCourseDetails extends Component {
                                         ))}
                                     </div>
                                 </div>
-
-                                {/* ✅ If FREE or PAID → show tabs */}
-                                {course.course_type !== "combo" && (
-                                    <div className="pt-5" style={{ minHeight: "530px", maxHeight: "600px" }}>
-                                        <div className="modules-section">
-                                            <h3 className="text-black fw-bold text-center">
-                                                Your <span className="text-c2"> Learning</span> Roadmap
-                                            </h3>
-
-                                            <p className="text-black text-center">
-                                                Each module at Velearn focuses on practical skills to prepare you for real jobs.
-                                            </p>
-                                            <div className="tabs-wrapper" ref={this.tabsWrapperRef}>
-                                                <div className="tabs" ref={this.tabsRef}>
-                                                    {course.modules?.map((module, index) => (
-                                                        <button
-                                                            key={module.id}
-                                                            ref={this.tabRefs[index]}
-                                                            className={`tab ${this.state.activeTab === index ? "active" : ""}`}
-                                                            onClick={() => {
-                                                                if (this.isDragging) return;
-                                                                if (!this.tabRefs[index] || !this.tabRefs[index].current) return;
-
-                                                                const tabEl = this.tabRefs[index].current;
-                                                                const tabRect = tabEl.getBoundingClientRect();
-                                                                const wrapperRect = this.tabsWrapperRef.current.getBoundingClientRect();
-
-                                                                const centerX = tabRect.left + tabRect.width / 2;
-                                                                const relativeLeft = centerX - wrapperRect.left;
-
-                                                                if (!this.isDragging) {
-                                                                    this.setState({ activeTab: index, contentLeft: relativeLeft });
-                                                                }
-                                                            }}
-                                                        >
-                                                            Module {index + 1}
-                                                        </button>
-                                                    ))}
-                                                </div>
-
-                                                <div
-                                                    className="tab-indicator"
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: "45px",
-                                                        left: `${this.state.contentLeft}px`,
-                                                        transform: "translateX(-50%)"
-                                                    }}
-                                                />
-
-                                                <div
-                                                    className="tab-content-box positioned"
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: "70px",
-                                                        left: `${this.state.contentLeft}px`,
-                                                        transform: "translateX(-50%)"
-                                                    }}
-                                                >
-                                                    <h6 className="mb-3">{this.renderContent().title}</h6>
-                                                    <ul>
-                                                        {this.renderContent().points.map((point, i) => (
-                                                            <li key={i}>{point}</li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* ✅ If COMBO → show different layout */}
-                                {course.course_type === "combo" && (
-                                    <div className="pt-5 live_courses_sec" style={{ minHeight: "530px", maxHeight: "600px" }}>
-                                        <h3 className="text-black fw-bold text-center">
-                                            Your Complete <span className="text-c2"> Learning </span> Bundle
-                                        </h3>
-
-                                        <p className="text-black text-center">
-                                            Multiple structured courses combined into one powerful program.
-                                        </p>
-
-                                        <div className="row modules-section justify-content-center">
-                                            {course.included_courses?.map((includedCourse) => (
-                                                <div
-                                                    className="col-lg-4 col-md-6 col-12 mb-4"
-                                                    key={includedCourse.id}
-                                                >
-                                                    <div className="card_parent h-100 d-flex flex-column">
-
-                                                        <div className="card_img_parent overflow-hidden">
-                                                            <img
-                                                                src={`${BASE_DYNAMIC_IMAGE_URL}courses/${includedCourse.image}`}
-                                                                className="card_img w-100"
-                                                                alt={includedCourse.title}
-                                                                loading="lazy"
-                                                            />
-                                                        </div>
-
-                                                        <div className="pt-3 d-flex flex-column flex-grow-1">
-                                                            <h4 className="fw-bold">{includedCourse.title}</h4>
-                                                            <p className="mb-2">{includedCourse.sub_description}</p>
-
-                                                            <div className="d-flex justify-content-between mt-auto">
-                                                                <div className="w-100 recorded_course_duration d-flex justify-content-between">
-                                                                    <div>
-                                                                        <i className="bi bi-clock pe-1"></i>
-                                                                        {includedCourse.recorded_content} Hours
-                                                                    </div>
-                                                                    <div>
-                                                                        <i class="bi bi-journal-text pe-1"></i>
-                                                                        {includedCourse.with_certificate?.match(/\d+/)?.[0]} Modules
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div
-                                                            className="combo_syllabus_butt"
-                                                            onClick={() => this.openComboSyllabus(includedCourse)}
-                                                        >
-                                                            View Syllabus
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {this.state.showSyllabusModal && (
-                                    <div
-                                        className="modal fade show combo_syllabus_modal"
-                                        style={{ display: "block" }}
-                                        onClick={this.handleBackdropClick}
-                                    >
-                                        <div className="modal-dialog modal-lg modal-dialog-centered">
-                                            <div
-                                                className={`modal-content ${this.state.isClosing ? "modal-slide-up" : "modal-slide-down"
-                                                    }`}
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                <div className="modal-header">
-                                                    <h5 className="modal-title">
-                                                        {this.state.selectedComboCourse?.title}
-                                                    </h5>
+                                <div className="pt-5" style={{ minHeight: "530px", maxHeight: "600px" }}>
+                                    <div className="modules-section">
+                                        <h3 className="text-black fw-bold text-center">Your <span className="text-c2"> Learning</span> Roadmap</h3>
+                                        <p className="text-black text-center">Each module at Velearn focuses on practical skills to prepare you for real jobs.</p>
+                                        <div className="tabs-wrapper" ref={this.tabsWrapperRef}>
+                                            <div className="tabs" ref={this.tabsRef}>
+                                                {course.modules?.map((module, index) => (
                                                     <button
-                                                        type="button"
-                                                        className="btn-close"
-                                                        onClick={this.closeComboSyllabus}
-                                                    ></button>
-                                                </div>
+                                                        key={module.id}
+                                                        ref={this.tabRefs[index]}
+                                                        className={`tab ${activeTab === index ? "active" : ""}`}
+                                                        onClick={() => {
+                                                            if (this.isDragging) return;
+                                                            if (!this.tabRefs[index] || !this.tabRefs[index].current) return;
 
-                                                <div className="modal-body">
-                                                    <div className="tabs-wrapper" ref={this.comboTabsWrapperRef} style={{ position: "relative", minHeight: "300px" }}>
-                                                        <div
-                                                            className="tabs"
-                                                            ref={this.comboTabsRef}
-                                                            onMouseDown={this.handleComboMouseDown}
-                                                            onMouseMove={this.handleComboMouseMove}
-                                                            onMouseUp={this.handleComboMouseUp}
-                                                            onMouseLeave={this.handleComboMouseUp}
-                                                        >
-                                                            {this.state.selectedComboModules?.map((module, index) => (
-                                                                <button
-                                                                    key={module.id}
-                                                                    ref={this.comboTabRefs[index]}
-                                                                    className={`tab ${this.state.activeComboTab === index ? "active" : ""}`}
-                                                                    onClick={() => {
-                                                                        if (this.comboIsDragging) return;
+                                                            const tabEl = this.tabRefs[index].current;
+                                                            const tabRect = tabEl.getBoundingClientRect();
+                                                            const wrapperRect = this.tabsWrapperRef.current.getBoundingClientRect();
 
-                                                                        if (!this.comboTabRefs[index] || !this.comboTabRefs[index].current) return;
+                                                            const centerX = tabRect.left + tabRect.width / 2;
+                                                            const relativeLeft = centerX - wrapperRect.left;
 
-                                                                        const tabEl = this.comboTabRefs[index].current;
-                                                                        const wrapperRect = this.comboTabsWrapperRef.current.getBoundingClientRect();
-
-                                                                        const centerX =
-                                                                            tabEl.getBoundingClientRect().left + tabEl.offsetWidth / 2;
-
-                                                                        const relativeLeft = centerX - wrapperRect.left;
-
-                                                                        this.setState({
-                                                                            activeComboTab: index,
-                                                                            comboContentLeft: relativeLeft
-                                                                        });
-                                                                    }}
-                                                                >
-                                                                    Module {index + 1}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-
-                                                        <div
-                                                            className="tab-indicator"
-                                                            style={{
-                                                                position: "absolute",
-                                                                top: "45px",
-                                                                left: `${this.state.comboContentLeft}px`,
-                                                                transform: "translateX(-50%)"
-                                                            }}
-                                                        />
-
-                                                        <div
-                                                            className="tab-content-box positioned"
-                                                            style={{
-                                                                position: "absolute",
-                                                                top: "70px",
-                                                                left: `${this.state.comboContentLeft}px`,
-                                                                transform: "translateX(-50%)"
-                                                            }}
-                                                        >
-                                                            <h6 className="mb-3">{this.renderComboContent().title}</h6>
-                                                            <ul>
-                                                                {this.renderComboContent().points.map((point, i) => (
-                                                                    <li key={i}>{point}</li>
-                                                                ))}
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                                            if (!this.isDragging) {
+                                                                this.setState({ activeTab: index, contentLeft: relativeLeft });
+                                                            }
+                                                        }}
+                                                    >
+                                                        Module {index + 1}
+                                                    </button>
+                                                ))}
                                             </div>
+
+                                            <div
+                                                className="tab-indicator"
+                                                style={{
+                                                    position: "absolute",
+                                                    top: "45px",
+                                                    left: `${this.state.contentLeft}px`,
+                                                    transform: "translateX(-50%)"
+                                                }}
+                                            />
+                                            <div
+                                                className="tab-content-box positioned"
+                                                style={{
+                                                    position: "absolute",
+                                                    top: "70px",
+                                                    left: `${this.state.contentLeft}px`,
+                                                    transform: "translateX(-50%)"
+                                                }}
+                                            >
+                                                <h6 className="mb-3">{currentContent.title}</h6>
+                                                <ul>
+                                                    {currentContent.points.map((point, i) => (
+                                                        <li key={i}>{point}</li>
+                                                    ))}
+                                                </ul>
+                                                {/* <div className="col-12 d-flex justify-content-end">
+                                                    <div className="download_icon">
+                                                        <i className="bi bi-download text-white"></i>
+                                                    </div>
+                                                </div> */}
+                                            </div>
+
                                         </div>
                                     </div>
-                                )}
+                                </div>
                                 <div className="pt-5 ">
                                     <h3 className="text-black fw-bold text-center">Who Can <span className="text-c2"> Benefit</span> from This <span className="text-c2"> Course</span></h3>
                                     <div className="row justify-content-center">
                                         <div className="col-lg-10">
                                             <div className="rc_benefit">
-                                                <div className="row justify-content-center">
+                                                <div className="row mt-3 justify-content-center">
                                                     {course.benefits.map((item, i) => (
                                                         <div className="col-lg-6 my-3" key={i}>
                                                             <div className="rc_benefit_sub">

@@ -273,6 +273,7 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+
     .testimonial_content {
         flex-direction: column;
         text-align: center;
@@ -287,9 +288,18 @@
     .rc_banner form {
         position: absolute;
     }
+
+    .modal-lg-dialog-centered {
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - var(--bs-modal-margin) * 2);
+    }
 }
 
 @media screen and (max-width: 992px) {
+    .combo_syllabus_modal .modal-body {
+        padding: 10px;
+    }
 
     .rc_banner h1 {
         font-size: 28px;

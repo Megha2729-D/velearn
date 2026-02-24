@@ -690,7 +690,7 @@ class RecordedCourseDetails extends Component {
                                         style={{ display: "block" }}
                                         onClick={this.handleBackdropClick}
                                     >
-                                        <div className="modal-dialog modal-lg modal-dialog-centered">
+                                        <div className="modal-dialog modal-lg modal-lg-dialog-centered">
                                             <div
                                                 className={`modal-content ${this.state.isClosing ? "modal-slide-up" : "modal-slide-down"
                                                     }`}

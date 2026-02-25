@@ -1,17 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
+import React, { useState, useRef, useEffect } from 'react';
 import "../Components/Styles/IDE.css"
 
+const LANGUAGES = [
+    { name: 'javascript', version: '18.15.0', label: 'JavaScript' },
+    { name: 'html', label: 'HTML / CSS' },
+    { name: 'python', version: '3.10.0', label: 'Python' },
+    { name: 'java', version: '15.0.2', label: 'Java' },
+    { name: 'cpp', version: '10.2.0', label: 'C++' },
+    { name: 'typescript', version: '5.0.3', label: 'TypeScript' },
+];
+
+const PISTON_URL = "https://emkc.org/api/v2/piston/execute";
+
 export default function IDEEditor() {
+    const [scrolled, setScrolled] = useState(false);
+    const [langIndex, setLangIndex] = useState(0);
+    const [code, setCode] = useState('// Use document.body.innerHTML instead of document.write\ndocument.body.innerHTML = "<h1>Hello JS!</h1>";\nconsole.log("Logged to console");');
+    const [output, setOutput] = useState("Output will appear here...");
+    const [isLoading, setIsLoading] = useState(false);
     const iframeRef = useRef(null);
 
-    const [scrolled, setScrolled] = useState(false);
-    const [language, setLanguage] = useState("");
-    const [code, setCode] = useState("");
-    const [output, setOutput] = useState("");
-    const [status, setStatus] = useState("Ready");
-    const [pyodide, setPyodide] = useState(null);
-    const [fileName, setFileName] = useState("Main.py");
+    const selected = LANGUAGES[langIndex];
 
     /* -------------------- SCROLL SHADOW ONLY -------------------- */
     useEffect(() => {
@@ -23,254 +32,112 @@ export default function IDEEditor() {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    const templates = {
-        html: `<!DOCTYPE html>
-<html>
-<head>
-  <title>My Page</title>
-</head>
-<body>
-  <h1>Hello World</h1>
-</body>
-</html>`,
-
-        css: `body {
-  background: #222;
-  color: white;
-  font-family: Arial;
-}`,
-
-        javascript: `console.log("Hello from JavaScript");`,
-
-        python: `print("Hello from Python")`,
-
-        java: `public class Main {
-  public static void main(String[] args) {
-    System.out.println("Hello from Java");
-  }
-}`
-    };
-
     useEffect(() => {
-        // Reset editor code
-        setCode(templates[language] || "");
-
-        // Reset console output
-        setOutput("");
-
-        // Reset status
-        setStatus("Ready");
-
-        // Reset iframe completely
-        const iframe = iframeRef.current;
-        if (iframe) {
-            iframe.src = "about:blank";
-        }
-        if (language === "html") setFileName("index.html");
-        if (language === "css") setFileName("style.css");
-        if (language === "javascript") setFileName("script.js");
-        if (language === "python") setFileName("main.py");
-        if (language === "java") setFileName("Main.java");
-    }, [language]);
-    // Load Pyodide
-    useEffect(() => {
-        const loadPython = async () => {
-            const script = document.createElement("script");
-            script.src =
-                "https://cdn.jsdelivr.net/pyodide/v0.24.1/pyodide.js";
-            script.onload = async () => {
-                const py = await window.loadPyodide({
-                    stdout: (text) => {
-                        setOutput(prev => prev + text + "\n");
-                    },
-                    stderr: (text) => {
-                        setOutput(prev => prev + text + "\n");
-                    }
-                });
-                setPyodide(py);
-            };
-            document.body.appendChild(script);
+        const handleIframeMessages = (event) => {
+            if (event.data.type === 'log') {
+                setOutput(prev => (prev === "Executing..." || prev === "Web preview updated.") ? event.data.data : prev + "\n" + event.data.data);
+            } else if (event.data.type === 'error') {
+                setOutput("JS Error: " + event.data.data);
+                setIsLoading(false);
+            } else if (event.data.type === 'finished') {
+                setIsLoading(false);
+            }
         };
-        loadPython();
+
+        window.addEventListener('message', handleIframeMessages);
+        return () => window.removeEventListener('message', handleIframeMessages);
     }, []);
 
-    // Run Code
     const runCode = async () => {
-        setOutput("");
-        setStatus("Running...");
-        const startTime = Date.now();
+        setIsLoading(true);
+        setOutput("Executing...");
 
-        if (["html", "css", "javascript"].includes(language)) {
-            const iframe = iframeRef.current;
-            if (!iframe) {
-                setStatus("Error: iframe not ready");
-                return;
-            }
+        if (selected.name === 'html' || selected.name === 'javascript') {
+            try {
+                const doc = iframeRef.current.contentDocument;
 
-            if (language === "html") {
-                iframe.srcdoc = `
-        <html>
-        <head>
-            <style>
-                body {
-                    background: #000;
-                    color: #fff;
-                    font-family: Arial;
-                    padding: 20px;
+                // For HTML, we use srcdoc to reset the frame completely
+                if (selected.name === 'html') {
+                    doc.open();
+                    doc.write(code);
+                    doc.close();
+                    setOutput("Web preview updated.");
+                    setIsLoading(false);
+                } else {
+                    // For JS, we inject a bridge that handles console.log and errors
+                    doc.open();
+                    doc.write(`
+                        <html>
+                        <body>
+                        <script>
+                            (function() {
+                                const oldLog = console.log;
+                                console.log = (...args) => {
+                                    window.parent.postMessage({type: 'log', data: args.join(' ')}, '*');
+                                    oldLog.apply(console, args);
+                                };
+                                window.onerror = (msg) => {
+                                    window.parent.postMessage({type: 'error', data: msg}, '*');
+                                };
+                                try {
+                                    ${code}
+                                    window.parent.postMessage({type: 'finished'}, '*');
+                                } catch (e) {
+                                    window.parent.postMessage({type: 'error', data: e.message}, '*');
+                                }
+                            })();
+                        </script>
+                        </body>
+                        </html>
+                    `);
+                    doc.close();
                 }
-            </style>
-        </head>
-        <body>
-            ${code}
-        </body>
-        </html>
-    `;
+            } catch (err) {
+                setOutput("Execution Error: " + err.message);
+                setIsLoading(false);
             }
-
-            if (language === "css") {
-                iframe.srcdoc = `
-        <html>
-        <body>
-            <style>${code}</style>
-            <h1>CSS Preview</h1>
-        </body>
-        </html>
-    `;
-            }
-
-            if (language === "javascript") {
-
-                const iframe = iframeRef.current;
-                if (!iframe) {
-                    setStatus("Error: iframe not ready");
-                    return;
-                }
-
-                iframe.srcdoc = `
-<html>
-<head>
-<style>
-  body {
-    background: #000;
-    color: #fff;
-    font-family: Arial;
-    padding: 20px;
-  }
-</style>
-</head>
-
-<body>
-<script>
-  window.onerror = function(message) {
-    parent.postMessage({type:"console", data: message}, "*");
-  };
-
-  function send() {
-    parent.postMessage(
-      {type:"console", data: Array.from(arguments).join(" ")},
-      "*"
-    );
-  }
-
-  const originalLog = console.log;
-  console.log = function(...args){
-    send(...args);
-    originalLog.apply(console, args);
-  };
-
-  console.error = console.warn = console.log;
-
-  window.addEventListener("load", function() {
-    try {
-      ${code}
-    } catch (err) {
-      send(err.message);
-    }
-  });
-<\/script>
-</body>
-</html>
-`;
-                setStatus("Execution Finished");
-                return;
-            }
-
-            if (language === "python") {
-                if (!pyodide) {
-                    setStatus("Python loading...");
-                    return;
-                }
-
-                try {
-                    // Capture print output
-                    pyodide.runPython(`
-import sys
-from io import StringIO
-sys.stdout = StringIO()
-        `);
-
-                    pyodide.runPython(code);
-
-                    const result = pyodide.runPython("sys.stdout.getvalue()");
-
-                    setOutput(result);
-                    setStatus("Execution Finished");
-                } catch (err) {
-                    setOutput(err.message);
-                    setStatus("Error");
-                }
-
-                return;
-            }
-
-            if (language === "java") {
-                try {
-                    const match = code.match(/System\.out\.println\((.*?)\);/);
-
-                    if (match) {
-                        let text = match[1]
-                            .replace(/^"(.*)"$/, "$1");
-
-                        setOutput(text);
-                        setStatus("Execution Finished");
-                    } else {
-                        setOutput("No output (Only System.out.println supported)");
-                        setStatus("Execution Finished");
-                    }
-
-                } catch (err) {
-                    setOutput("Java Simulation Error");
-                    setStatus("Error");
-                }
-
-                return;
-            }
-
-            setStatus("Execution Finished");
             return;
         }
-        if (!language) {
-            setStatus("Please select a language");
-            return;
+
+        // BACKEND LANGUAGES (Python/Java/C++/TS)
+        try {
+            const response = await fetch(PISTON_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    language: selected.name,
+                    version: selected.version,
+                    files: [{ content: code }],
+                }),
+            });
+            const data = await response.json();
+            if (data.run) {
+                setOutput(data.run.stdout || data.run.stderr || "Program finished with no output.");
+            } else {
+                setOutput("SERVER: " + data.message);
+            }
+        } catch (error) {
+            setOutput("Connection Error.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    // Capture console logs
-    useEffect(() => {
-        const handler = (event) => {
-            if (event.data?.type === "console") {
-                setOutput((prev) => prev + event.data.data + "\n");
-                setStatus("Execution Finished");
-            }
-        };
-        window.addEventListener("message", handler);
-        return () => window.removeEventListener("message", handler);
-    }, []);
+    const handleLanguageChange = (e) => {
+        const index = parseInt(e.target.value);
+        setLangIndex(index);
+        const lang = LANGUAGES[index].name;
+        if (lang === 'java') setCode('public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello Java");\n  }\n}');
+        else if (lang === 'cpp') setCode('#include <iostream>\n\nint main() {\n    std::cout << "Hello C++";\n    return 0;\n}');
+        else if (lang === 'python') setCode('print("Hello Python")');
+        else if (lang === 'javascript') setCode('document.body.innerHTML = "<h1>Hello JS!</h1>";\nconsole.log("Logged to console");');
+        else if (lang === 'typescript') setCode('let message: string = "Hello TS";\nconsole.log(message);');
+        else setCode('<h1>Hello HTML</h1>');
+        setOutput("Output will appear here...");
+    };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-
-            {/* ===== TOP NAVBAR ===== */}
+        <div className='d-flex flex-column'>
             <div className={`ide_header ${scrolled ? 'scrolled' : ''}`}>
                 <div className="row">
                     <div className="col-lg-4">
@@ -284,14 +151,9 @@ sys.stdout = StringIO()
                                 Upload File
                             </button>
                             <div className="d-flex justify-content-center align-items-center">
-                                <div className="select_wrapper">
-                                    <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-                                        <option value="">Language</option>
-                                        <option value="html">HTML</option>
-                                        <option value="css">CSS</option>
-                                        <option value="javascript">JavaScript</option>
-                                        <option value="python">Python</option>
-                                        <option value="java">Java</option>
+                                <div className="select_wrapper text-black">
+                                    <select value={langIndex} onChange={handleLanguageChange}>
+                                        {LANGUAGES.map((l, i) => <option key={l.name} value={i}>{l.label}</option>)}
                                     </select>
                                 </div>
                             </div>
@@ -299,7 +161,10 @@ sys.stdout = StringIO()
                     </div>
                     <div className="col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
                         <div className="ide_header_right">
-                            <button onClick={runCode} > <i className="bi bi-caret-right-fill"></i> Run  </button>
+                            <button onClick={runCode} disabled={isLoading}>
+                                <i className="bi bi-caret-right-fill"></i>
+                                {isLoading ? "Running..." : "Run"}
+                            </button>
                             <button><i className="bi bi-share-fill"></i> Share</button>
                             <button><i className="bi bi-floppy"></i> Save</button>
                             <button><i className="bi bi-download"></i>Download</button>
@@ -309,93 +174,62 @@ sys.stdout = StringIO()
             </div>
 
             <div className="ide_body">
-                <div className="ide_filename">
-                    {fileName}
-                </div>
-
-                <div className="ide_editor_main py-3">
-                    <div className="row w-100 ">
-                        <div className="col-lg-6">
-                            <Editor
-                                height="100%"
-                                theme="vs-light"
-                                language={
-                                    language === "html"
-                                        ? "html"
-                                        : language === "css"
-                                            ? "css"
-                                            : language === "java"
-                                                ? "java"
-                                                : language
-                                }
-                                value={code}
-                                onChange={(value) => setCode(value)}
-                                options={{
-                                    fontSize: 14,
-                                    minimap: { enabled: false },
-                                    automaticLayout: true,
-                                }}
-                                className="editor_left_ide"
-                            />
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="section_container">
-                                <div className="col-12">
-                                    <div className="output_container">
-                                        <div className="output_header">
-                                            <div className="output_left">
-                                                <span className="dot red"></span>
-                                                <span className="dot yellow"></span>
-                                                <span className="dot green"></span>
-                                                <span className="running_text">{status}</span>
-                                            </div>
-
-                                            <div className="output_center">
-                                                Output
-                                            </div>
-
-                                            <div className="output_right">
-                                                <i className="bi bi-chevron-down"></i>
-                                            </div>
-                                        </div>
-
-                                        {/* SHOW IFRAME FOR HTML & CSS */}
-                                        <div className="d-flex w-100">
-                                            {(language === "html" ||
-                                                language === "css" ||
-                                                language === "javascript") && (
-                                                    <iframe
-                                                        ref={iframeRef}
-                                                        title="output"
-                                                        className="output_iframe"
-                                                    />
-                                                )}
-
-                                            {(language === "javascript" ||
-                                                language === "python" ||
-                                                language === "java") && (
-                                                    <pre className="output_box">
-                                                        {output}
-                                                    </pre>
-                                                )}
-                                        </div>
-                                    </div>
-                                    {/* ===== STATUS BAR ===== */}
-                                    <div style={{
-                                        background: "#f0f0f0",
-                                        padding: "5px 15px",
-                                        fontSize: 14
-                                    }}>
-                                        {language.toUpperCase()} | {status}
-                                    </div>
-
-                                    {/* <iframe ref={iframeRef} style={{ display: "none" }} title="hidden" /> */}
-                                </div>
-                            </div>
-                        </div>
+                {/* <header style={styles.header}>
+                    <div style={styles.logo}>VeLearn <span style={{ fontWeight: 300 }}>IDE</span></div>
+                    <div style={styles.actions}>
+                        <select value={langIndex} onChange={handleLanguageChange} style={styles.select}>
+                            {LANGUAGES.map((l, i) => <option key={l.name} value={i}>{l.label}</option>)}
+                        </select>
+                        <button onClick={runCode} disabled={isLoading} style={styles.runBtn}>
+                            {isLoading ? "Running..." : "Run Code"}
+                        </button>
                     </div>
-                </div>
+                </header> */}
+
+                <main style={styles.main}>
+                    <textarea
+                        style={styles.editor}
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        spellCheck="false"
+                    />
+
+                    <div style={styles.resContainer}>
+                        <div style={styles.resHeader}>CONSOLE / PREVIEW</div>
+
+                        <iframe
+                            ref={iframeRef}
+                            title="preview"
+                            style={{ ...styles.preview, display: (selected.name === 'html' || selected.name === 'javascript') ? 'block' : 'none' }}
+                        />
+
+                        <pre style={{ ...styles.console, display: (selected.name !== 'html' && selected.name !== 'javascript') ? 'block' : 'none' }}>
+                            {output}
+                        </pre>
+
+                        {/* JavaScript Console (Always visible for JS mode) */}
+                        {selected.name === 'javascript' && (
+                            <pre style={styles.jsConsole}>{output}</pre>
+                        )}
+                    </div>
+                </main>
             </div>
         </div>
     );
 }
+
+const styles = {
+    container: { height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#1e1e1e', color: '#fff' },
+    header: { display: 'flex', justifyContent: 'space-between', padding: '10px 20px', background: '#252526', borderBottom: '1px solid #333', alignItems: 'center' },
+    logo: { fontSize: '20px', fontWeight: 'bold', color: '#0078d4' },
+    actions: { display: 'flex', gap: '10px' },
+    select: { background: '#3c3c3c', color: '#fff', border: '1px solid #555', borderRadius: '4px', padding: '5px' },
+    runBtn: { background: '#0078d4', color: '#fff', border: 'none', padding: '5px 20px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' },
+    main: { display: 'flex', flex: 1, overflow: 'hidden' },
+    editor: { flex: 1, background: '#1e1e1e', color: '#d4d4d4', fontFamily: 'monospace', fontSize: '16px', padding: '20px', border: 'none', outline: 'none', resize: 'none' },
+    resContainer: { width: '40%', background: '#000', display: 'flex', flexDirection: 'column', borderLeft: '1px solid #333' },
+    resHeader: { padding: '5px 10px', fontSize: '11px', color: '#666', background: '#111' },
+    console: { flex: 1, padding: '15px', margin: 0, color: '#0f0', whiteSpace: 'pre-wrap', fontSize: '14px', overflowY: 'auto', fontFamily: 'monospace' },
+    jsConsole: { height: '150px', borderTop: '2px solid #333', padding: '10px', margin: 0, color: '#0f0', whiteSpace: 'pre-wrap', fontSize: '13px', overflowY: 'auto', background: '#000' },
+    preview: { flex: 1, width: '100%', background: '#fff', border: 'none' }
+};

@@ -36,7 +36,7 @@ select {
     pointer-events: none;
 }
 
-button:focus,
+/* button:focus, */
 .btn-close:focus {
     box-shadow: none !important;
 }

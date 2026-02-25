@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../Components/Styles/IDE.css"
+import { color } from "framer-motion";
 
 const WANDBOX_API_URL = "https://wandbox.org/api/compile.json";
 
@@ -303,7 +304,7 @@ export default function IDEEditor() {
 
                         {/* Output */}
                         <div style={styles.output}>
-                            <pre style={{ color: isError ? "red" : "#000000" }}>
+                            <pre style={{ color: isError ? "red" : "#ffffff" }}>
                                 {output || "> Ready to execute..."}
                             </pre>
                         </div>
@@ -345,8 +346,8 @@ const styles = {
         maxWidth: "900px",
         margin: "40px auto",
         padding: "20px",
-        background: "#ffffff",
-        color: "#000000",
+        background: "#000000",
+        color: "#ffffff",
         borderRadius: "12px",
     },
     select: {
@@ -359,8 +360,8 @@ const styles = {
         fontFamily: "monospace",
         fontSize: "14px",
         padding: "12px",
-        background: "#ffffff",
-        color: "#000000",
+        background: "#000000",
+        color: "#ffffff",
         borderRadius: "8px",
     },
     input: {
@@ -372,7 +373,8 @@ const styles = {
     },
     output: {
         marginTop: "20px",
-        background: "#ffffff",
+        background: "#000000",
+        color: "#ffffff",
         padding: "15px",
         borderRadius: "8px",
         minHeight: "150px",

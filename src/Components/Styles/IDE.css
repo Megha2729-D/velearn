@@ -10,6 +10,20 @@
 
 .ide_header {
     padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    background-color: #ffffff;
+}
+
+.ide_header.scrolled {
+    box-shadow: 1px 1px 12px -4px #00000069;
+    top: 80px;
+    animation: stuckMoveDown 0.6s;
+}
+
+.ide_body {
+    margin-top: 130px;
 }
 
 .ide_header .select_wrapper select {
@@ -30,8 +44,10 @@
 
 .ide_header_right {
     display: flex;
+    margin-top: 20px;
     gap: 20px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .ide_header_right button {
@@ -67,7 +83,90 @@
     min-height: 500px;
 } */
 
-.editor_left_ide{
-    min-height: 300px;
-    max-height: 300px;
+.editor_left_ide {
+    min-height: 270px;
+    max-height: 270px;
+    overflow-y: auto;
+}
+
+.output_iframe {
+    width: 100%;
+    min-height: 270px;
+    max-height: 270px;
+    border: none;
+    background: #000000;
+    color: #ffffff;
+    overflow-y: auto;
+}
+
+.output_container {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+}
+
+.output_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2c3e73;
+    color: white;
+    padding: 8px 12px;
+    position: relative;
+}
+
+.output_container .output_left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.output_container .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.output_container .red {
+    background: #FF2D07;
+}
+
+.output_container .yellow {
+    background: #FFBD09;
+}
+
+.output_container .green {
+    background: #11DD06;
+}
+
+.output_container .running_text {
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.output_center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 500;
+}
+
+.output_right {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.output_box {
+    background: #1e1e1e;
+    color: #ffffff;
+    padding: 15px;
+    min-height: 270px;
+    margin: 0;
+    font-family: monospace;
+    font-size: 14px;
+    overflow: auto;
 }

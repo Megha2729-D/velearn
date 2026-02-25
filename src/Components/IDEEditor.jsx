@@ -51,12 +51,27 @@ export default function IDEEditor() {
 }`
     };
 
-    // Load default template
     useEffect(() => {
-        setCode(templates[language]);
-        setOutput("");
-    }, [language]);
+        // Reset editor code
+        setCode(templates[language] || "");
 
+        // Reset console output
+        setOutput("");
+
+        // Reset status
+        setStatus("Ready");
+
+        // Reset iframe completely
+        const iframe = iframeRef.current;
+        if (iframe) {
+            iframe.src = "about:blank";
+        }
+        if (language === "html") setFileName("index.html");
+        if (language === "css") setFileName("style.css");
+        if (language === "javascript") setFileName("script.js");
+        if (language === "python") setFileName("main.py");
+        if (language === "java") setFileName("Main.java");
+    }, [language]);
     // Load Pyodide
     useEffect(() => {
         const loadPython = async () => {
@@ -64,7 +79,14 @@ export default function IDEEditor() {
             script.src =
                 "https://cdn.jsdelivr.net/pyodide/v0.24.1/pyodide.js";
             script.onload = async () => {
-                const py = await window.loadPyodide();
+                const py = await window.loadPyodide({
+                    stdout: (text) => {
+                        setOutput(prev => prev + text + "\n");
+                    },
+                    stderr: (text) => {
+                        setOutput(prev => prev + text + "\n");
+                    }
+                });
                 setPyodide(py);
             };
             document.body.appendChild(script);
@@ -80,12 +102,13 @@ export default function IDEEditor() {
 
         if (["html", "css", "javascript"].includes(language)) {
             const iframe = iframeRef.current;
-            const doc = iframe.contentDocument;
-
-            doc.open();
+            if (!iframe) {
+                setStatus("Error: iframe not ready");
+                return;
+            }
 
             if (language === "html") {
-                doc.write(`
+                iframe.srcdoc = `
         <html>
         <head>
             <style>
@@ -101,42 +124,133 @@ export default function IDEEditor() {
             ${code}
         </body>
         </html>
-    `);
+    `;
             }
 
             if (language === "css") {
-                doc.write(`
-      <style>${code}</style>
-      <h1>CSS Preview</h1>
-    `);
+                iframe.srcdoc = `
+        <html>
+        <body>
+            <style>${code}</style>
+            <h1>CSS Preview</h1>
+        </body>
+        </html>
+    `;
             }
 
             if (language === "javascript") {
-                doc.write(`
-      <script>
-        window.addEventListener("error", e => {
-          parent.postMessage({type:"console", data:e.message}, "*");
-        });
 
-        const send = (...args) => {
-          parent.postMessage({type:"console", data:args.join(" ")}, "*");
-        };
+                const iframe = iframeRef.current;
+                if (!iframe) {
+                    setStatus("Error: iframe not ready");
+                    return;
+                }
 
-        console.log = send;
-        console.error = send;
-        console.warn = send;
+                iframe.srcdoc = `
+<html>
+<head>
+<style>
+  body {
+    background: #000;
+    color: #fff;
+    font-family: Arial;
+    padding: 20px;
+  }
+</style>
+</head>
 
-        try {
-          ${code}
-        } catch(err){
-          send(err);
-        }
-      <\/script>
-    `);
+<body>
+<script>
+  window.onerror = function(message) {
+    parent.postMessage({type:"console", data: message}, "*");
+  };
+
+  function send() {
+    parent.postMessage(
+      {type:"console", data: Array.from(arguments).join(" ")},
+      "*"
+    );
+  }
+
+  const originalLog = console.log;
+  console.log = function(...args){
+    send(...args);
+    originalLog.apply(console, args);
+  };
+
+  console.error = console.warn = console.log;
+
+  window.addEventListener("load", function() {
+    try {
+      ${code}
+    } catch (err) {
+      send(err.message);
+    }
+  });
+<\/script>
+</body>
+</html>
+`;
+                setStatus("Execution Finished");
+                return;
             }
 
-            doc.close();
+            if (language === "python") {
+                if (!pyodide) {
+                    setStatus("Python loading...");
+                    return;
+                }
+
+                try {
+                    // Capture print output
+                    pyodide.runPython(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+        `);
+
+                    pyodide.runPython(code);
+
+                    const result = pyodide.runPython("sys.stdout.getvalue()");
+
+                    setOutput(result);
+                    setStatus("Execution Finished");
+                } catch (err) {
+                    setOutput(err.message);
+                    setStatus("Error");
+                }
+
+                return;
+            }
+
+            if (language === "java") {
+                try {
+                    const match = code.match(/System\.out\.println\((.*?)\);/);
+
+                    if (match) {
+                        let text = match[1]
+                            .replace(/^"(.*)"$/, "$1");
+
+                        setOutput(text);
+                        setStatus("Execution Finished");
+                    } else {
+                        setOutput("No output (Only System.out.println supported)");
+                        setStatus("Execution Finished");
+                    }
+
+                } catch (err) {
+                    setOutput("Java Simulation Error");
+                    setStatus("Error");
+                }
+
+                return;
+            }
+
             setStatus("Execution Finished");
+            return;
+        }
+        if (!language) {
+            setStatus("Please select a language");
             return;
         }
     };
@@ -185,10 +299,10 @@ export default function IDEEditor() {
                     </div>
                     <div className="col-lg-8 d-flex justify-content-center justify-content-lg-end align-items-center">
                         <div className="ide_header_right">
-                            <button onClick={runCode} > <i class="bi bi-caret-right-fill"></i> Run  </button>
-                            <button><i class="bi bi-share-fill"></i> Share</button>
-                            <button><i class="bi bi-floppy"></i> Save</button>
-                            <button><i class="bi bi-download"></i>Download</button>
+                            <button onClick={runCode} > <i className="bi bi-caret-right-fill"></i> Run  </button>
+                            <button><i className="bi bi-share-fill"></i> Share</button>
+                            <button><i className="bi bi-floppy"></i> Save</button>
+                            <button><i className="bi bi-download"></i>Download</button>
                         </div>
                     </div>
                 </div>
@@ -246,17 +360,25 @@ export default function IDEEditor() {
                                         </div>
 
                                         {/* SHOW IFRAME FOR HTML & CSS */}
-                                        {(language === "html" || language === "css") ? (
-                                            <iframe
-                                                ref={iframeRef}
-                                                title="output"
-                                                className="output_iframe"
-                                            />
-                                        ) : (
-                                            <pre className="output_box">
-                                                {output}
-                                            </pre>
-                                        )}
+                                        <div className="d-flex w-100">
+                                            {(language === "html" ||
+                                                language === "css" ||
+                                                language === "javascript") && (
+                                                    <iframe
+                                                        ref={iframeRef}
+                                                        title="output"
+                                                        className="output_iframe"
+                                                    />
+                                                )}
+
+                                            {(language === "javascript" ||
+                                                language === "python" ||
+                                                language === "java") && (
+                                                    <pre className="output_box">
+                                                        {output}
+                                                    </pre>
+                                                )}
+                                        </div>
                                     </div>
                                     {/* ===== STATUS BAR ===== */}
                                     <div style={{
@@ -267,7 +389,7 @@ export default function IDEEditor() {
                                         {language.toUpperCase()} | {status}
                                     </div>
 
-                                    <iframe ref={iframeRef} style={{ display: "none" }} title="hidden" />
+                                    {/* <iframe ref={iframeRef} style={{ display: "none" }} title="hidden" /> */}
                                 </div>
                             </div>
                         </div>

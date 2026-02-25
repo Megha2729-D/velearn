@@ -163,6 +163,7 @@
 .output_box {
     background: #1e1e1e;
     color: #ffffff;
+    width: 100%;
     padding: 15px;
     min-height: 270px;
     margin: 0;

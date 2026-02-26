@@ -50,6 +50,7 @@
     flex-wrap: wrap;
 }
 
+.debugging_actions button,
 .ide_header_right button {
     border-radius: 23px;
     background-color: #24B8EC1A;

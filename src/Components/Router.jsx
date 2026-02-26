@@ -25,6 +25,7 @@ import Debugging from "./Debugging";
 import DebuggingWorkspace from "./DebuggingWorkspace";
 import LiveEditor from "./LiveEditor";
 import IDEEditor from "./IDEEditor";
+import IDEEditorOld from "./IDEold";
 
 import RecordedCourseDetails from "./RecordedCourseDetails";
 import Blog from "./Blog";
@@ -171,6 +172,14 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <IDEEditor />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/ide-old"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <IDEEditorOld />
                         </PageTransitionWrapper>
                     }
                 />

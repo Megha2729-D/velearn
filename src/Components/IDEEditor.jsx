@@ -75,6 +75,11 @@ export default function IDEEditor() {
     const [isRunning, setIsRunning] = useState(false);
     const [showInput, setShowInput] = useState(false);
 
+    const [fileName, setFileName] = useState("Main.py");
+    const [exitCode, setExitCode] = useState(null);
+    const [execTime, setExecTime] = useState(null);
+    const [status, setStatus] = useState("Ready");
+
     useEffect(() => {
         const onScroll = () => {
             setScrolled(window.scrollY > 20);
@@ -84,6 +89,15 @@ export default function IDEEditor() {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    useEffect(() => {
+        if (selectedLanguage === "html") setFileName("index.html");
+        if (selectedLanguage === "css") setFileName("style.css");
+        if (selectedLanguage === "javascript") setFileName("script.js");
+        if (selectedLanguage === "python") setFileName("main.py");
+        if (selectedLanguage === "java") setFileName("Main.java");
+        if (selectedLanguage === "cpp") setFileName("main.cpp");
+        if (selectedLanguage === "typescript") setFileName("main.ts");
+    })
     // ---------------------------
     // Local JS execution
     // ---------------------------
@@ -120,55 +134,43 @@ export default function IDEEditor() {
     // Run Code
     // ---------------------------
     const runCode = async () => {
+
         if (!code.trim()) {
             alert("Please write some code first.");
             return;
         }
 
+        const startTime = performance.now();
+
         setIsRunning(true);
+        setStatus("Running...");
         setOutput("🚀 Running...");
         setIsError(false);
+        setExitCode(null);
+        setExecTime(null);
 
         try {
-            // HTML / CSS Preview
-            if (selectedLanguage === "html" || selectedLanguage === "css") {
-                const iframe = document.getElementById("previewFrame");
 
-                let htmlContent = "";
-
-                if (selectedLanguage === "html") {
-                    htmlContent = code;
-                }
-
-                if (selectedLanguage === "css") {
-                    htmlContent = `
-        <html>
-        <head>
-        <style>${code}</style>
-        </head>
-        <body>
-        <h1>CSS Preview</h1>
-        <p>Edit CSS and click Run</p>
-        </body>
-        </html>
-        `;
-                }
-
-                iframe.srcdoc = htmlContent;
-                setOutput("✅ Preview updated");
-                setIsError(false);
-                setIsRunning(false);
-                return;
-            }
-            // Local JS
+            // ---------------------------
+            // Local JavaScript
+            // ---------------------------
             if (selectedLanguage === "javascript") {
                 const result = await executeLocalJS(code);
+
+                const endTime = performance.now();
+
                 setOutput(result.output);
                 setIsError(result.isError);
+                setExecTime(((endTime - startTime) / 1000).toFixed(2) + "s");
+                setExitCode(result.isError ? 1 : 0);
+                setStatus(result.isError ? "Error" : "Success");
                 setIsRunning(false);
                 return;
             }
 
+            // ---------------------------
+            // Other Languages (Wandbox)
+            // ---------------------------
             const compilers =
                 selectedLanguage === "java"
                     ? JAVA_COMPILER_FALLBACKS
@@ -177,54 +179,62 @@ export default function IDEEditor() {
             let lastError = null;
 
             for (const compiler of compilers) {
-                try {
-                    const response = await fetch(WANDBOX_API_URL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            code,
-                            compiler,
-                            stdin: inputData,
-                            save: false,
-                        }),
-                    });
 
-                    const text = await response.text();
-                    if (!response.ok) {
-                        lastError = text;
-                        continue;
-                    }
+                const response = await fetch(WANDBOX_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        code,
+                        compiler,
+                        stdin: inputData,
+                        save: false,
+                    }),
+                });
 
-                    const data = JSON.parse(text);
+                const text = await response.text();
 
-                    if (data.status === "0" || data.status === 0) {
-                        const result =
-                            data.program_output ||
-                            data.program_message ||
-                            "Success (No Output)";
-                        setOutput(result);
-                        setIsError(false);
-                        setIsRunning(false);
-                        return;
-                    } else {
-                        setOutput(
-                            data.program_message ||
-                            data.compiler_error ||
-                            "Execution Error"
-                        );
-                        setIsError(true);
-                        setIsRunning(false);
-                        return;
-                    }
-                } catch (err) {
-                    lastError = err.message;
+                if (!response.ok) {
+                    lastError = text;
+                    continue;
                 }
+
+                const data = JSON.parse(text);
+                const endTime = performance.now();
+
+                if (data.status === "0" || data.status === 0) {
+                    setOutput(
+                        data.program_output ||
+                        data.program_message ||
+                        "Success (No Output)"
+                    );
+                    setIsError(false);
+                    setExitCode(0);
+                    setStatus("Success");
+                } else {
+                    setOutput(
+                        data.program_message ||
+                        data.compiler_error ||
+                        "Execution Error"
+                    );
+                    setIsError(true);
+                    setExitCode(1);
+                    setStatus("Error");
+                }
+
+                setExecTime(((endTime - startTime) / 1000).toFixed(2) + "s");
+                setIsRunning(false);
+                return;
             }
 
             throw new Error(lastError || "All compilers failed");
+
         } catch (error) {
+            const endTime = performance.now();
             setOutput("❌ " + error.message);
             setIsError(true);
+            setExitCode(1);
+            setExecTime(((endTime - startTime) / 1000).toFixed(2) + "s");
+            setStatus("Error");
         } finally {
             setIsRunning(false);
         }
@@ -235,6 +245,17 @@ export default function IDEEditor() {
         setCode(languageTemplates[lang]);
         setOutput("");
         setInputData("");
+        setStatus("Ready");
+        setExitCode(null);
+        setExecTime(null);
+    };
+
+    const clearOutput = () => {
+        setOutput("");
+        setExitCode(null);
+        setExecTime(null);
+        setStatus("Ready");
+        setIsError(false);
     };
 
     return (
@@ -256,10 +277,9 @@ export default function IDEEditor() {
                                     <select
                                         value={selectedLanguage}
                                         onChange={(e) => handleLanguageChange(e.target.value)}
-                                        style={styles.select}
                                     >
-                                        <option value="html">HTML</option>
-                                        <option value="css">CSS</option>
+                                        {/* <option value="html">HTML</option>
+                                        <option value="css">CSS</option> */}
                                         <option value="javascript">JavaScript</option>
                                         <option value="python">Python</option>
                                         <option value="java">Java</option>
@@ -283,19 +303,37 @@ export default function IDEEditor() {
             </div>
 
             <div className="ide_body">
+                <div className="ide_filename">
+                    {fileName}
+                </div>
                 {/* Code Editor */}
                 <div className="row w-100 m-auto">
-                    <div className="col-lg-6">
-                        <textarea
-                            style={styles.editor}
+                    <div className="col-lg-6 px-0">
+                        <textarea className="ide_left_editor"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                         />
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-6 output_container px-0">
+                        <div className="output_header">
+                            <div className="output_left">
+                                <span className="dot red"></span>
+                                <span className="dot yellow"></span>
+                                <span className="dot green"></span>
+                                <span className="running_text">{selectedLanguage.toUpperCase()} | {status}</span>
+                            </div>
+
+                            <div className="output_center">
+                                Output
+                            </div>
+
+                            <div className="output_right">
+                                <i className="bi bi-chevron-down"></i>
+                            </div>
+                        </div>
                         {showInput && (
                             <textarea
-                                style={styles.input}
+                                className="ide_right_output_panel"
                                 value={inputData}
                                 onChange={(e) => setInputData(e.target.value)}
                                 placeholder="Enter input (stdin)..."
@@ -303,7 +341,7 @@ export default function IDEEditor() {
                         )}
 
                         {/* Output */}
-                        <div style={styles.output}>
+                        <div className="ide_right_output_inner">
                             <pre style={{ color: isError ? "red" : "#ffffff" }}>
                                 {output || "> Ready to execute..."}
                             </pre>
@@ -323,60 +361,19 @@ export default function IDEEditor() {
                             </div>
                         )}
                     </div>
+                    <div className="col-12 px-0">
+                        <div className="ide_bottom_bar">
+                            <div>
+                                {selectedLanguage.toUpperCase()}
+                                {exitCode !== null && ` | Exit Code: ${exitCode}`}
+                                {execTime && ` | Executed in: ${execTime}`}
+                            </div>
+
+                            <button onClick={clearOutput}>Clear</button>
+                        </div>
+                    </div>
                 </div>
-                {/* Input Toggle */}
-                {/* <div style={{ marginTop: 10 }}>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={showInput}
-                            onChange={() => setShowInput(!showInput)}
-                        />
-                        Enable Custom Input
-                    </label>
-                </div> */}
             </div>
         </div>
     );
 }
-
-// Basic inline styling
-const styles = {
-    container: {
-        maxWidth: "900px",
-        margin: "40px auto",
-        padding: "20px",
-        background: "#000000",
-        color: "#ffffff",
-        borderRadius: "12px",
-    },
-    select: {
-        padding: "8px",
-        marginBottom: "15px",
-    },
-    editor: {
-        width: "100%",
-        height: "300px",
-        fontFamily: "monospace",
-        fontSize: "14px",
-        padding: "12px",
-        background: "#000000",
-        color: "#ffffff",
-        borderRadius: "8px",
-    },
-    input: {
-        width: "100%",
-        height: "80px",
-        marginTop: "10px",
-        padding: "8px",
-        fontFamily: "monospace",
-    },
-    output: {
-        marginTop: "20px",
-        background: "#000000",
-        color: "#ffffff",
-        padding: "15px",
-        borderRadius: "8px",
-        minHeight: "150px",
-    },
-};

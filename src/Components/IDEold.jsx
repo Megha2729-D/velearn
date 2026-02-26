@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import "../Components/Styles/IDE.css"
 
-export default function IDEEditor() {
+export default function IDEEditorOld() {
     const iframeRef = useRef(null);
 
     const [scrolled, setScrolled] = useState(false);
@@ -98,7 +98,7 @@ export default function IDEEditor() {
     const runCode = async () => {
         setOutput("");
         setStatus("Running...");
-        const startTime = Date.now();
+        // const startTime = Date.now();
 
         if (["html", "css", "javascript"].includes(language)) {
             const iframe = iframeRef.current;

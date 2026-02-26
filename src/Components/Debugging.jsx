@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "../Components/Styles/Debugging.css"
 
 const BASE_API_URL = "https://www.velearn.in/api/";
@@ -210,17 +211,17 @@ class Debugging extends Component {
                                                                 style={{ background: this.getStatusColor(item.status) }}
                                                             >
                                                                 {percent === 0 ? (
-                                                                    <>
+                                                                    <Link to={"/debugging-workspace"} className="text-white">
                                                                         Start <i class="bi bi-chevron-right"></i>
-                                                                    </>
+                                                                    </Link>
                                                                 ) : percent === 100 ? (
                                                                     <>
                                                                         Solved <i class="bi bi-check2-circle"></i>
                                                                     </>
                                                                 ) : (
-                                                                    <>
+                                                                    <Link to={"/debugging-workspace"} className="text-white">
                                                                         Continue <i class="bi bi-chevron-right"></i>
-                                                                    </>
+                                                                    </Link>
                                                                 )}
                                                             </button>
                                                         </div>

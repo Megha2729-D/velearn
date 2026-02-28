@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+:root {
+    --c1: #22346b;
+    --c2: #24b8ec;
+    --heading-font: "Poppins", sans-serif;
+    --body-font: "Noto Sans", sans-serif;
+    --button-shadow: -6px 6px 11px 0px #00000069;
+}
+
+.ds_top_sec {
+    background: url(../../../public/assets/images/live-course/data-science/Main.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* background-position-y: -50px; */
+    padding-top: 120px;
+    position: relative;
+
+}
+
+.ds_top_sec .section_container {
+    position: relative;
+    z-index: 1;
+}
+
+.ds_banner_inner {
+    width: 700px;
+    position: absolute;
+    top: 14px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+
+/* .ds_top_sec::before{
+    position: absolute;
+    background: url(../../../public/assets/images/live-course/data-science/banner-inner.png);
+    background-size: ;
+} */
+.ds_top_sec h1 {
+    font-family: "Anton", sans-serif !important;
+    font-size: 50px;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.ds_banner p {
+    font-size: 14px;
+}
+
+.ds_top_sec form {
+    background: radial-gradient(154.08% 154.72% at -51.35% -54.72%, #ffffff66 0%, #ffffff00 100%);
+    border: 2px solid #ffffff91;
+    border-radius: 19.79px;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+}
+
+.ds_top_sec form label {
+    color: #ffffff;
+}
+
+.ds_top_sec form input {
+    color: #000000;
+    backdrop-filter: blur(13px);
+    background: #FFFFFF;
+    border-radius: 6px;
+    border: none;
+    padding: 3px 10px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.ds_top_sec form button {
+    background-color: var(--c2);
+    border: none;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 5px 30px;
+}
+
+.ds_overview {
+    background: #00000021;
+    padding: 15px 30px;
+    backdrop-filter: blur(13px);
+    border: 0.5px solid #ffffff91;
+    border-radius: 20px;
+}
+
+.ds_overview p {
+    font-size: 16px;
+}
+
+.ds_carrer {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(180deg, #000000 25.25%, #00000057 47.83%, #00000000 80.65%);
+    background-size: cover;
+}
+
+.ds_carrer p:first-child {
+    font-size: 18px;
+}
+
+.ds_carrer_inner {
+    border: 1px dashed #ffffff91;
+    border-radius: 20px;
+    backdrop-filter: blur(13px);
+    padding: 20px;
+    background: #ffffff08;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ds_course_overview {
+    background: url(../../../public/assets/images/live-course/data-science/bg-overview.png), linear-gradient(180deg, #000000 25.25%, #00000057 47.83%, #00000000 80.65%);
+    background-size: cover;
+}
+
+.ds_skills {
+    position: relative;
+    max-width: 900px;
+
+    /* background: url(../../../public/assets/images/live-course/data-science/ds-skill-bg.png);
+    background-size: cover; */
+}
+
+.ds_skills_inner {
+    background: #206d8d;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.ds_skill_inner_body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    width: 400px;
+    animation: rotateFull 15s linear infinite;
+}
+
+@keyframes rotateFull {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ds_skills_inner div {
+    padding: 40px;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.ds_skills_inner:after {
+    background: linear-gradient(135deg,
+            #121826 0%,
+            #142334 25%,
+            #0f3a4a 35%,
+            #267da000 60%,
+            #142334 90%,
+            #121826 100%);
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.ds_skills_parent {
+    position: relative;
+    max-width: 330px;
+    height: 100%;
+}
+
+.ds_skills .ds_skills_parent.ds_skills_parent_one {
+    left: 50%;
+    top: 0;
+    /* animation: moveX 4s ease-in-out infinite alternate; */
+}
+
+.ds_skills .ds_skills_parent.ds_skills_parent_two {
+    left: -5%;
+    bottom: 105%;
+    display: flex;
+    align-items: flex-end;
+    /* animation: moveY 4s ease-in-out infinite alternate; */
+}
+
+@keyframes moveX {
+    from {
+        transform: translateX(10%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes moveY {
+    from {
+        transform: translateY(-10px);
+    }
+
+    to {
+        transform: translateY(10px);
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .ds_skills_inner {
+        padding: 0px 15px;
+    }
+}
+
+@media screen and (min-width: 991px) {
+    .ds_course_overview {
+        line-height: 30px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .ds_top_sec h1 {
+        font-size: 24px;
+    }
+}

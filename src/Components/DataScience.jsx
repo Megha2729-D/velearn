@@ -693,9 +693,9 @@ class DataScience extends Component {
                             <div className="section_container">
                                 <h3 className="text-white text-center fw-bold">Students Share Their Journey into <span className="text-c2"> AI, Data Science & ML</span></h3>
                                 <div className="row w-100 m-auto justify-content-center">
-                                    <div className="col-lg-6 position-relative">
+                                    <div className="col-lg-6 position-relative ds_stories_parent_main">
+                                        <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/skill-stories-1.png`} className="w-100" alt="" />
                                         <div className="ds_stories_parent">
-                                            <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/skill-stories.png`} alt="" />
                                             <Swiper
                                                 modules={[Autoplay]}
                                                 loop={true}

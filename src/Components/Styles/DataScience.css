@@ -425,6 +425,17 @@
     border-radius: 36px;
     font-size: 15.12px;
 }
+
+.ds_stories_parent_main img {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
 /* 
 .ds_stories_text_main {
     line-height: 115px;
@@ -552,7 +563,7 @@
     }
 
     .ds_salary_insight_right {
-        right: -30px;
+        right: -25px;
     }
 
     .ds_salary_insight_parent {

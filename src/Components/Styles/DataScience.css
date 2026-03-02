@@ -494,6 +494,10 @@
 }
 
 @media screen and (max-width: 991px) {
+    .ds_journey .journey_wrap {
+        margin-bottom: 20px;
+    }
+
     .ds_banner_inner {
         width: 90%;
         height: auto;

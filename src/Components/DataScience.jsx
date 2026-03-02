@@ -198,17 +198,17 @@ class DataScience extends Component {
 
     faqData = [
         {
-            question: "Who is this Live Full Stack course designed for?",
+            question: "Who should enroll in this UI/UX Design course?",
             answer: (
                 <>
                     <p>
-                        This course is designed for students, freshers, career switchers, and working professionals who want to learn full stack development through live training, gain real-world project experience, become job-ready developers with strong practical skills, and build a professional portfolio for interviews and receive career and placement guidance.
+                        This UI/UX Design course is ideal for students, fresh graduates, working professionals, developers, graphic designers, and career switchers who want to build a strong foundation in user interface (UI) and user experience (UX) design. No prior design experience is required, making it beginner-friendly and career-oriented.
                     </p>
                 </>
             )
         },
         {
-            question: "Do I need prior coding experience to join this course?",
+            question: "Will I get hands-on experience during the course?",
             answer: (
                 <>
                     <p>No. You do not need any prior coding experience to join this course.</p>
@@ -224,7 +224,7 @@ class DataScience extends Component {
             )
         },
         {
-            question: "What kind of projects will I work on?",
+            question: "What career support do you offer after the UI/UX course?",
             answer: (
                 <>
                     <p>
@@ -246,7 +246,7 @@ class DataScience extends Component {
             )
         },
         {
-            question: "Will this course help me get a job?",
+            question: "Is this UI/UX course suitable for non-design backgrounds?",
             answer: (
                 <>
                     <p>Yes. This course is designed to make you job-ready through:</p>
@@ -322,7 +322,7 @@ class DataScience extends Component {
                                     </div>
 
                                     <div className="col-12 d-flex justify-content-center">
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-6 col-10">
                                             <form action="#">
                                                 <div className="mb-3">
                                                     <div>
@@ -435,7 +435,7 @@ class DataScience extends Component {
                             <div className="row w-100 m-auto justify-content-center">
                                 <div className="col-lg-10 ">
                                     <h3 className="fw-bold text-center text-white">Course Overview</h3>
-                                    <p className="text-white">Our UI/UX Design course is a live, industry-focused training program designed to help students understand user experience principles, interface design, usability, and design thinking in a structured and practical way. This course focuses on creating user-centered digital experiences through research, wireframing, prototyping, and visual design using modern tools and methodologies. Learners work on real-world design projects, ensuring they develop the practical skills and design mindset companies seek when hiring UI/UX designers.</p>
+                                    <p className="text-white text-lg-start text-center">Our UI/UX Design course is a live, industry-focused training program designed to help students understand user experience principles, interface design, usability, and design thinking in a structured and practical way. This course focuses on creating user-centered digital experiences through research, wireframing, prototyping, and visual design using modern tools and methodologies. Learners work on real-world design projects, ensuring they develop the practical skills and design mindset companies seek when hiring UI/UX designers.</p>
                                 </div>
                                 <div className="col-lg-8 mt-4">
                                     <h3 className="fw-bold text-center text-white"> Learn the Most In-Demand Skills to Build a Career <inspan className="text-c2"> AI & Data Science, ML</inspan></h3>
@@ -473,11 +473,389 @@ class DataScience extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-lg-7">
                                     <h3 className="text-center text-white fw-bold"> Take <span className="text-c2"> Your Career</span> to the Next Level with AI, Data Science & ML</h3>
+                                    <div className="row w-100 m-auto">
+                                        <div className="ds_shape_parent">
+                                            <div className="custom-shape">
+                                                <p className="text-white mb-0">Analyze real-world data and gain insights</p>
+                                            </div>
+                                            <div className="custom-shape">
+                                                <p className="text-white mb-0">Master AI & Machine Learning in demand by companies</p>
+                                            </div>
+                                            <div className="custom-shape">
+                                                <p className="text-white mb-0">Apply skills across IT, healthcare, finance & more</p>
+                                            </div>
+                                            <div className="custom-shape">
+                                                <p className="text-white mb-0">Build portfolio-ready projects</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-lg-7 py-5">
+                                    <h3 className="fw-bold text-center text-white">The
+                                        <span className="text-c2"> Tools </span>
+                                        Behind Real-World Data
+                                        <span className="text-c2"> Science & AI</span>
+                                    </h3>
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/ds-tools.png`} className="mt-4 w-100" alt="" />
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="ds_career_outcome">
+                        <div className="section_container">
+                            <div className="row w-100 m-auto justify-content-center">
+
+                                <div className="col-lg-8 pb-5 ds_modules">
+                                    <h3 className="fw-bold text-center text-white">Course Modules – Your Step-by-Step
+                                        <span className="text-c2"> AI, Data Science &  Journey</span>
+                                    </h3>
+                                    <div className="tabs-wrapper" ref={(el) => (this.tabsWrapperRef = el)}>
+                                        <div className="tabs">
+                                            {[1, 2, 3, 4, 5].map((num, index) => (
+                                                <button
+                                                    key={num}
+                                                    ref={this.tabRefs[index]}
+                                                    className={`tab ${activeTab === num ? "active" : ""}`}
+                                                    onClick={() => {
+                                                        const tabEl = this.tabRefs[index].current;
+                                                        const tabRect = tabEl.getBoundingClientRect();
+                                                        const wrapperRect = this.tabsWrapperRef.getBoundingClientRect();
+
+                                                        const centerX = tabRect.left + tabRect.width / 2;
+                                                        const relativeLeft = centerX - wrapperRect.left;
+
+                                                        this.setState({ activeTab: num, contentLeft: relativeLeft });
+                                                    }}
+                                                >
+                                                    Module {num}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div
+                                            className="tab-indicator"
+                                            style={{
+                                                position: "absolute",
+                                                top: "45px",
+                                                left: `${this.state.contentLeft}px`,
+                                                transform: "translateX(-50%)"
+                                            }}
+                                        />
+                                        <div
+                                            className="tab-content-box positioned"
+                                            style={{
+                                                position: "absolute",
+                                                top: "70px",
+                                                left: `${this.state.contentLeft}px`,
+                                                transform: "translateX(-50%)"
+                                            }}
+                                        >
+                                            <h6 className="mb-3">{currentContent.title}</h6>
+                                            <ul>
+                                                {currentContent.points.map((p, i) => (
+                                                    <li key={i}>{p}</li>
+                                                ))}
+                                            </ul>
+                                            {/* <div className="col-12 d-flex justify-content-end">
+                                                <div className="download_icon"><i className="bi bi-download text-white"></i></div>
+                                            </div> */}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-lg-8 py-5">
+                                    <h3 className="fw-bold text-center text-white">Career Outcomes – What <span className="text-c2"> This Course Prepares You For</span></h3>
+                                    <p className="text-center text-white px-lg-5">Explore multiple career paths where businesses actively hire digital marketers with practical, job-ready skills.</p>
+                                    <div className="col-12">
+                                        <div className="row w-100 m-auto flex-lg-row flex-column-reverse justify-content-between overflow-hidden ds_career_parent">
+                                            <div className="col-lg-7 px-0">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/ds-career-roles.png`} className="mt-4 w-100" alt="" />
+                                            </div>
+                                            <div className="col-lg-4 mt-4 mt-lg-0 px-0 d-flex align-items-center justify-content-center">
+                                                <ul>
+                                                    <li>Data Analyst</li>
+                                                    <li>Data Scientist</li>
+                                                    <li>Machine Learning Engineer</li>
+                                                    <li>AI Associate / AI Engineer</li>
+                                                    <li>Business Data Analyst</li>
+                                                    <li>Computer Vision Engineer</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-lg-8 py-5">
+                                    <h3 className="fw-bold text-center text-white">High-Growth Careers with <span className="text-c2"> Strong Salary Potential</span></h3>
+                                    <p className="text-center text-white px-lg-5 small">Build future-ready skills in Data Science, Machine Learning, and AI that are valued across industries.
+                                        These roles drive real business impact through data-driven decisions and intelligent systems.</p>
+                                    <div className="col-12 ds_salary_insight position-relative">
+                                        <div className="ds_salary_insight_left">
+                                            <p className="text-white">Machine Learning / AI Engineer</p>
+                                            <div className="ds_salary_insight_parent">
+                                                <p className="">Entry-Level: ₹8 L – ₹12 L</p>
+                                                <p className="">Mid-Level: ₹15 L – ₹25 L</p>
+                                                <p className="">Senior: ₹30 L – ₹45 L+</p>
+                                            </div>
+                                        </div>
+                                        <div className="ds_salary_insight_right">
+                                            <p className="text-white">Data Scientist</p>
+                                            <div className="ds_salary_insight_parent">
+                                                <p className="">Entry-Level: ₹6 L – ₹10 L</p>
+                                                <p className="">Mid-Level: ₹12 L – ₹22 L</p>
+                                                <p className="">Senior: ₹25 L – ₹40 L+</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 d-flex justify-content-center ds_salary_insight_globe">
+                                            <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/salary-insight-globe.png`} className="m-auto" alt="" />
+                                            <p className="text-white mb-0">Average Annual Salary <br /> ₹20.8 LPA</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="ds_bottom_end">
+                        <div className="ds_journey mb-5">
+                            <div className="from_start_sec pt-lg-5 pt-3 ui_ux_journey">
+                                <div className="container">
+                                    <div className="row justify-content-center">
+                                        <div className="col-lg-7">
+                                            <h3 className="text-white text-center fw-bold px-3 lh-sm">
+                                                A Smart <span className="text-c2"> Learning Journey </span>That Leads to <span className="text-c2"> Real Careers</span>
+                                            </h3>
+                                        </div>
+                                    </div>
+
+                                    <div className="journey_wrap position-relative">
+                                        <div className="journey_bg_icon"></div>
+                                        <div className="dotted_lines">
+                                            <div className="position-relative d-flex justify-content-center">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/dotted-lines.png`} className="dotted-line-img" alt="" />
+                                            </div>
+                                        </div>
+                                        <div className="rocket_wrap">
+                                            <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/rocket.png`} className="rocket_img" alt="" />
+                                        </div>
+                                        <div className="journey_item item_1">
+                                            <div className="parent">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/step-1.png`} alt="" />
+                                                <div>
+                                                    <h6>Free Career Discussion</h6>
+                                                    <p>Connect with experts to choose the right career and course.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="journey_item item_2">
+                                            <div className="parent">
+                                                <div>
+                                                    <h6>Live Trainer-Led Classes</h6>
+                                                    <p>Clear learning path from foundation to expertise.</p>
+                                                </div>
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/step-2.png`} alt="" />
+                                            </div>
+                                        </div>
+
+                                        <div className="journey_item item_3">
+                                            <div className="parent">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/step-3.png`} alt="" />
+                                                <div>
+                                                    <h6>Hands-on Projects & Practice</h6>
+                                                    <p>Every topic includes assignments and real-world projects to build strong, job-ready skills.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="journey_item item_4">
+                                            <div className="parent">
+                                                <div>
+                                                    <h6>Resume & Portfolio Building</h6>
+                                                    <p>We shape your skills into resumes, portfolios, and interview success.</p>
+                                                </div>
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/step-4.png`} alt="" />
+                                            </div>
+                                        </div>
+
+                                        <div className="journey_item item_5">
+                                            <div className="parent">
+                                                <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/ui-ux/journey/step-5.png`} alt="" />
+                                                <div>
+                                                    <h6>End-to-End Placement Support</h6>
+                                                    <p>Train with mock interviews and learn to answer with confidence. Career support that stays until you get hired.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="ds_stories">
+                            <div className="section_container">
+                                <h3 className="text-white text-center fw-bold">Students Share Their Journey into <span className="text-c2"> AI, Data Science & ML</span></h3>
+                                <div className="row w-100 m-auto justify-content-center">
+                                    <div className="col-lg-6 position-relative">
+                                        <div className="ds_stories_parent">
+                                            <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/skill-stories.png`} alt="" />
+                                            <Swiper
+                                                modules={[Autoplay]}
+                                                loop={true}
+                                                centeredSlides={true}
+                                                slidesPerView={1}
+                                                autoplay={{
+                                                    delay: 2000,
+                                                    disableOnInteraction: false,
+                                                }}
+                                            >
+
+                                                {sliderTestimonalData.map((item, index) => (
+                                                    <SwiperSlide key={index}>
+                                                        <div className="ds_testimonial_card position-relative">
+                                                            <p>I joined this course with very little background in Data Science. The step-by-step structure helped me understand Python, data analysis, and ML clearly. Now I feel confident working with real datasets and explaining my projects</p>
+                                                            <div className="col-12 d-flex justify-content-end">
+                                                                <span>-Kavi</span>
+                                                            </div>
+                                                        </div>
+                                                    </SwiperSlide>
+                                                ))}
+                                            </Swiper>
+                                        </div>
+                                        {/* <div className="ds_stories_text_main">
+                                            <div className="ds_stories_text d-block d-lg-none">Skill Stories</div>
+                                            <div className="ds_stories_text d-block d-lg-none">Skill Stories</div>
+                                            <div className="ds_stories_text">Skill Stories</div>
+                                            <div className="ds_stories_text">Skill Stories</div>
+                                            <div className="ds_stories_text">Skill Stories</div>
+                                        </div> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="ds_certification py-3">
+                            <div className="section_container">
+                                <div className="row w-100 m-auto justify-content-center">
+                                    <div className="col-lg-10">
+                                        <h3 className="text-white text-center fw-bold pb-4">A <span className="text-c2"> Certification</span> That Reflects What You Can Do</h3>
+                                        <div className="row">
+                                            <div className="col-lg-6 d-flex flex-column justify-content-center">
+                                                <div className="mb-2">
+                                                    <h5 className="text-white fw-bold mb-3">Design Skill–Verified Certification</h5>
+                                                    <p className="text-white mb-4"> This certification validates your UI thinking, user research, wireframing, and visual design skills — proven through real design tasks and projects.</p>
+                                                </div>
+                                                <div className="mb-2">
+                                                    <h5 className="text-white fw-bold mb-3">Globally Relevant Design Credential</h5>
+                                                    <p className="text-white mb-4">Showcase your UI/UX expertise with a certificate aligned to modern design standards, valued by startups and product teams worldwide.</p>
+                                                </div>
+                                                <div className="mb-2">
+                                                    <h5 className="text-white fw-bold mb-3">Portfolio & Career Booster</h5>
+                                                    <p className="text-white mb-4">More than a certificate — this strengthens your portfolio, resume, and interviews, helping you stand out as a job-ready UI/UX designer.</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 d-flex align-items-center justify-content-center">
+                                                <div className=" d-flex align-items-center justify-content-center">
+                                                    <div className="col-lg-10">
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/ds-certificate.jpg`} className="w-100 rounded-5" alt="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="price_section_parent_top position-relative top-0">
+                            <div className="text-center d-flex justify-content-center">
+                                <div className="row w-100 justify-content-center">
+                                    <div className="col-lg-6 d-flex justify-content-center ">
+                                        <div className="parent_price">
+                                            <div className="price_section d-flex flex-column align-items-center justify-content-center px-2 px-lg-4 py-4">
+                                                {/* PRICE TABS */}
+                                                <h3 className="fw-bold text-white px-3 px-lg-0 mb-1"><span className="text-c2">UI/UX Design </span> specific version</h3>
+                                                <h4 className="text-white pb-4">Velearn Career Access Plan</h4>
+                                                {/* CONTENT BOX */}
+                                                <div className="price_card w-100 text-white">
+                                                    <div className="row w-100 m-auto text-start">
+                                                        <div className="col-6">
+                                                            <ul className="list-unstyled">
+                                                                <li className="d-flex gap-1"><span>✔</span> One-Time Payment – No hidden charges</li>
+                                                                <li className="d-flex gap-1"><span>✔</span> Lifetime Course Access</li>
+                                                                <li className="d-flex gap-1"><span>✔</span> Live Interactive Classes</li>
+                                                            </ul>
+                                                        </div>
+                                                        <div className="col-6">
+                                                            <ul className="list-unstyled">
+                                                                <li className="d-flex gap-1"><span>✔</span> Real-Time Hands-On Projects</li>
+                                                                <li className="d-flex gap-1"><span>✔</span> Portfolio Building & Resume Review</li>
+                                                                <li className="d-flex gap-1"><span>✔</span> Mock Interviews + Placement Support</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex justify-content-center align-items-center gap-3 mb-4 price_header">
+                                                    <div className="price_tab old_price_tab">
+                                                        <div className="butt">
+                                                            <s>₹50,000</s>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="price_tab new_price_tab active">
+                                                        <div className="butt">
+                                                            ₹15,000/-
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="price_card">
+                                                    <button className="mt-3">
+                                                        Apply Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <section className="faq_section pt-5 pt-lg-0 pb-5">
+                            <div className="section_container p-xl text-center mt-lg-5">
+                                <h3 className="section_base_heading text-white">
+                                    Frequently Asked <span className="text-c2"> Questions</span>
+                                </h3>
+
+                                <div className="row mt-2 justify-content-center align-items-center">
+                                    {/* FAQ Accordion */}
+                                    <div className="col-lg-9 text-start">
+                                        {this.faqData.map((item, index) => (
+                                            <div className={`faq_item rounded-3 mb-3  ${this.state.activeFaqIndex === index ? "active" : ""
+                                                }`} key={index}>
+                                                <button
+                                                    className={`faq_question justify-content-between ${this.state.activeFaqIndex === index ? "active" : ""
+                                                        }`}
+                                                    onClick={() => this.toggleFaq(index)}
+                                                >
+                                                    {item.question}
+                                                    <span className="icon">
+                                                        <img
+                                                            src={
+                                                                this.state.activeFaqIndex === index
+                                                                    ? null
+                                                                    : "/assets/images/icons/faq-icon.png"
+                                                            }
+                                                            alt="toggle"
+                                                            className="faq_toggle_icon"
+                                                        />
+                                                    </span>
+                                                </button>
+
+                                                {this.state.activeFaqIndex === index && (
+                                                    <div className="faq_answer text-white">
+                                                        {item.answer}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </>

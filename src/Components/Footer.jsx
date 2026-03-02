@@ -22,7 +22,7 @@ class Footer extends Component {
                                                         <li><Link to="/live-course/full-stack-development">Full Stack Development</Link></li>
                                                         <li><Link to="/live-course/ui-ux-design">UI/UX Design Course</Link></li>
                                                         <li><Link to="/live-course/digital-marketing">Digital Marketing</Link></li>
-                                                        <li><Link to="">Data Science</Link></li>
+                                                        <li><Link to="/live-course/data-science">Data Science</Link></li>
                                                     </ul>
                                                 </div>
                                             </div>

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -215,13 +215,11 @@ const AnimatedRoutes = () => {
 /* ---------- App Router with Preloader ---------- */
 const AppRouter = () => {
     const [loading, setLoading] = useState(true);
+    const location = useLocation();   // ✅ Now safe
 
     useEffect(() => {
-        const handleLoad = () => {
-            setLoading(false);
-        };
+        const handleLoad = () => setLoading(false);
 
-        // If page already loaded (fast reload / cache)
         if (document.readyState === "complete") {
             handleLoad();
         } else {
@@ -231,8 +229,11 @@ const AppRouter = () => {
         return () => window.removeEventListener("load", handleLoad);
     }, []);
 
+    const isPageTwo =
+        location.pathname === "/live-course/data-science";
+
     return (
-        <Router>
+        <>
             <ScrollToTop />
 
             <AnimatePresence mode="wait">
@@ -240,7 +241,7 @@ const AppRouter = () => {
                     <Preloader />
                 ) : (
                     <motion.div
-                        className="first_sec"
+                        className={`first_sec ${isPageTwo ? 'inner_page_ds' : ''}`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.4 }}
@@ -251,7 +252,7 @@ const AppRouter = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </Router>
+        </>
     );
 };
 

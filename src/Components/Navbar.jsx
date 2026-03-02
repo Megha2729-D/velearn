@@ -85,6 +85,7 @@ const Navbar = () => {
     const isNavbarTwo =
         location.pathname === "/live-course/digital-marketing" ||
         location.pathname === "/live-course/data-science";
+
     return (
         <nav className={`v-navbar ${scrolled ? 'scrolled' : ''} ${isNavbarTwo ? 'navbar_two' : ''}`}>
             {/* TOP BANNER */}
@@ -190,11 +191,10 @@ const Navbar = () => {
                                     </span>
 
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-
-                                        <li><NavLink to="/" onClick={handleItemClick}>UI UX Design</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Data Science</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Full Stack Web Development</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Python Full Stack</NavLink></li>
+                                        <li><NavLink to="/live-course/full-stack-development" onClick={handleItemClick}>Full Stack Web Development</NavLink></li>
+                                        <li><NavLink to="/live-course/ui-ux-design" onClick={handleItemClick}>UI UX Design</NavLink></li>
+                                        <li><NavLink to="/live-course/digital-marketing" onClick={handleItemClick}>Digital Marketing</NavLink></li>
+                                        <li><NavLink to="/live-course/data-science" onClick={handleItemClick}>Data Science</NavLink></li>
                                     </ul>
                                 </li>
 
@@ -224,10 +224,7 @@ const Navbar = () => {
                                     </span>
 
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Success stories</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Webinars</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>E-books</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>News letters</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Referral</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Blog</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Become an affiliate</NavLink></li>

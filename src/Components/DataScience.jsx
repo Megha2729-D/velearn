@@ -438,7 +438,7 @@ class DataScience extends Component {
                                     <p className="text-white text-lg-start text-center">Our UI/UX Design course is a live, industry-focused training program designed to help students understand user experience principles, interface design, usability, and design thinking in a structured and practical way. This course focuses on creating user-centered digital experiences through research, wireframing, prototyping, and visual design using modern tools and methodologies. Learners work on real-world design projects, ensuring they develop the practical skills and design mindset companies seek when hiring UI/UX designers.</p>
                                 </div>
                                 <div className="col-lg-8 mt-4">
-                                    <h3 className="fw-bold text-center text-white"> Learn the Most In-Demand Skills to Build a Career <inspan className="text-c2"> AI & Data Science, ML</inspan></h3>
+                                    <h3 className="fw-bold text-center text-white"> Learn the Most In-Demand Skills to Build a Career <span className="text-c2"> AI & Data Science, ML</span></h3>
                                     <div className="col-12 d-flex justify-content-center my-5">
                                         <div className="col-lg-12 ds_skills d-flex justify-content-center">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/ds-skill-bg.png`} className="ds_skill_inner_body" alt="" />

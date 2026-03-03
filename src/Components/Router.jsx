@@ -185,7 +185,7 @@ const AnimatedRoutes = () => {
                     }
                 />
                 <Route
-                    path="/blog"
+                    path="/blogs"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <Blog />

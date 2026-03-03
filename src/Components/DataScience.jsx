@@ -753,7 +753,7 @@ class DataScience extends Component {
                                             <div className="col-lg-6 d-flex align-items-center justify-content-center">
                                                 <div className=" d-flex align-items-center justify-content-center">
                                                     <div className="col-lg-10">
-                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/ds-certificate.jpg`} className="w-100 rounded-5" alt="" />
+                                                        <img src={`${process.env.PUBLIC_URL}/assets/images/live-course/data-science/ds-certificate.png`} className="w-100 rounded-5" alt="" />
                                                     </div>
                                                 </div>
                                             </div>

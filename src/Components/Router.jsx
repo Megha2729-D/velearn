@@ -29,6 +29,7 @@ import IDEEditorOld from "./IDEold";
 
 import RecordedCourseDetails from "./RecordedCourseDetails";
 import Blog from "./Blog";
+import BlogDetails from "./BlogDetails";
 import Webinar from "./Webinar";
 import ContactUs from "./ContactUs";
 /* ---------- Page Transition Wrapper ---------- */
@@ -184,10 +185,18 @@ const AnimatedRoutes = () => {
                     }
                 />
                 <Route
-                    path="/blogs"
+                    path="/blog"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <Blog />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/blog-details"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <BlogDetails />
                         </PageTransitionWrapper>
                     }
                 />

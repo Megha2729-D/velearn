@@ -827,14 +827,18 @@ class HomePage extends Component {
                                                 <p className="text-start">
                                                     Velearn offers a fully integrated online IDE where students can write, run, and test code in a real-time development environment. This hands-on setup helps learners build coding confidence and improve practical programming skills with continuous practice.
                                                 </p>
-                                                <button>Start</button>
+                                                <Link to={"/ide"} className="d-flex justify-content-start">
+                                                    <button>Start</button>
+                                                </Link>
                                             </div>
                                             <div className="pt-3 d-flex flex-column justify-content-start">
                                                 <h4 className="fw-bold text-start">Debugging</h4>
                                                 <p className="text-start">
                                                     Sharpen your problem-solving skills with Velearn’s structured debugging exercises. Students receive curated programs with errors to identify, fix, and optimize—building strong debugging skills essential for industry-ready development
                                                 </p>
-                                                <button>Start</button>
+                                                <Link to={"/debugging"} className="d-flex justify-content-start">
+                                                    <button>Start</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>

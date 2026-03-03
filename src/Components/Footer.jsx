@@ -64,8 +64,8 @@ class Footer extends Component {
                                                 <div>
                                                     <h3>Practice</h3>
                                                     <ul className="p-0">
-                                                        <li><Link to="">IDE</Link></li>
-                                                        <li><Link to="">Debugging</Link></li>
+                                                        <li><Link to="/ide">IDE</Link></li>
+                                                        <li><Link to="/debugging">Debugging</Link></li>
                                                     </ul>
                                                 </div>
                                             </div>

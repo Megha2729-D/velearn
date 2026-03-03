@@ -208,8 +208,8 @@ const Navbar = () => {
                                     </span>
 
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                                        <li><NavLink to="/practice/ide" onClick={handleItemClick}>Online IDE</NavLink></li>
-                                        <li><NavLink to="/practice/debugging" onClick={handleItemClick}>Debugging</NavLink></li>
+                                        <li><NavLink to="/ide" onClick={handleItemClick}>Online IDE</NavLink></li>
+                                        <li><NavLink to="/debugging" onClick={handleItemClick}>Debugging</NavLink></li>
                                         <li><NavLink to="/practice/challenges" onClick={handleItemClick}>Challenges</NavLink></li>
                                     </ul>
                                 </li>
@@ -224,9 +224,9 @@ const Navbar = () => {
                                     </span>
 
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Webinars</NavLink></li>
+                                        <li><NavLink to="/webinar" onClick={handleItemClick}>Webinars</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Referral</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Blog</NavLink></li>
+                                        <li><NavLink to="/blogs" onClick={handleItemClick}>Blog</NavLink></li>
                                         <li><NavLink to="/" onClick={handleItemClick}>Become an affiliate</NavLink></li>
                                     </ul>
                                 </li>

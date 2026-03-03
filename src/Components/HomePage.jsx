@@ -313,7 +313,7 @@ class HomePage extends Component {
                                             <p className="text-white text-center text-lg-start">{course.sub_description}</p>
                                             <Link
                                                 to={`/course-details/${slugify(course.title)}`}
-                                                state={{ courseId: course.id }}
+                                                state={{ courseId: course.id, courseType: course.course_type }}
                                             >
                                                 <button>Explore now</button>
                                             </Link>

@@ -2,36 +2,52 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import HomePage from "./HomePage";
-import LoginPage from "./LoginPage";
-import SignUpPage from "./SignUpPage";
+import ProtectedRoute from "./ProtectedRoute";
+
+import Navbar from "./Layout/Navbar";
+import Footer from "./Layout/Footer";
+import HomePage from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
+import SignUpPage from "./Pages/SignUpPage";
 import ScrollToTop from "./ScrollToTop";
 import Preloader from "./Preloader";
 
-import RecordedCourse from "./RecordedCourse";
-import LiveCourses from "./LiveCourses";
+import RecordedCourse from "./Pages/RecordedCourse/RecordedCourse";
+import RecordedCourseDetails from "./Pages/RecordedCourse/RecordedCourseDetails";
 
-import FullStackDevelopment from "./FullStackDevelopment";
-import UIUX from "./UIUX";
-import DigitalMarketing from "./DigitalMarketing";
-import DataScience from "./DataScience";
+import LiveCourses from "./Pages/LiveCourse/LiveCourses";
+import LiveCourseHistory from "./Pages/LiveCourse/LiveCourseHistory";
+
+import FullStackDevelopment from "./Pages/LiveCourse/FullStackDevelopment";
+import UIUX from "./Pages/LiveCourse/UIUX";
+import DigitalMarketing from "./Pages/LiveCourse/DigitalMarketing";
+import DataScience from "./Pages/LiveCourse/DataScience";
 
 // import CourseDetails from "./CourseDetails";
-import MyCourses from "./MyCourses";
+import MyCourses from "./Pages/MyCourses";
+import ChangePassword from "./Pages/ChangePassword";
+import LearnWrapper from "./Pages/LearnCourse";
+import Profile from "./Pages/Profile";
 
-import Debugging from "./Debugging";
-import DebuggingWorkspace from "./DebuggingWorkspace";
-import LiveEditor from "./LiveEditor";
-import IDEEditor from "./IDEEditor";
-import IDEEditorOld from "./IDEold";
+import Debugging from "./Pages/Debugging";
+import DebuggingWorkspace from "./Pages/DebuggingWorkspace";
+import LiveEditor from "./Pages/LiveEditor";
+import IDEEditor from "./Pages/IDEEditor";
 
-import RecordedCourseDetails from "./RecordedCourseDetails";
-import Blog from "./Blog";
-import BlogDetails from "./BlogDetails";
-import Webinar from "./Webinar";
-import ContactUs from "./ContactUs";
+import Blog from "./Pages/Blog";
+import BlogDetails from "./Pages/BlogDetails";
+import Webinar from "./Pages/Webinar";
+import AboutUs from "./Pages/AboutUs";
+import ContactUs from "./Pages/ContactUs";
+import FAQ from "./Pages/FAQ";
+import HelpCenter from "./Pages/HelpCenter";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
+
+import RefundPolicy from "./Pages/Policies/RefundPolicy";
+import PrivacyPolicy from "./Pages/Policies/PrivacyPolicy";
+import TermsAndConditions from "./Pages/Policies/TermsAndConditions";
+
 /* ---------- Page Transition Wrapper ---------- */
 const PageTransitionWrapper = ({ children, pathname }) => {
     const isHome = pathname === "/";
@@ -97,6 +113,16 @@ const AnimatedRoutes = () => {
                     }
                 />
                 <Route
+                    path="/live-course-history"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ProtectedRoute>
+                                <LiveCourseHistory />
+                            </ProtectedRoute>
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
                     path="/live-course/full-stack-development"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
@@ -140,10 +166,43 @@ const AnimatedRoutes = () => {
                     path="/my-courses"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
-                            <MyCourses />
+                            <ProtectedRoute>
+                                <MyCourses />
+                            </ProtectedRoute>
                         </PageTransitionWrapper>
                     }
                 />
+                <Route
+                    path="/change-password"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ProtectedRoute>
+                                <ChangePassword />
+                            </ProtectedRoute>
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/learn/:slug"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ProtectedRoute>
+                                <LearnWrapper />
+                            </ProtectedRoute>
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        </PageTransitionWrapper>
+                    }
+                />
+
                 <Route
                     path="/debugging"
                     element={
@@ -177,14 +236,6 @@ const AnimatedRoutes = () => {
                     }
                 />
                 <Route
-                    path="/ide-old"
-                    element={
-                        <PageTransitionWrapper pathname={location.pathname}>
-                            <IDEEditorOld />
-                        </PageTransitionWrapper>
-                    }
-                />
-                <Route
                     path="/blogs"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
@@ -193,7 +244,7 @@ const AnimatedRoutes = () => {
                     }
                 />
                 <Route
-                    path="/blog-details"
+                    path="/blog-details/:id"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <BlogDetails />
@@ -209,10 +260,74 @@ const AnimatedRoutes = () => {
                     }
                 />
                 <Route
+                    path="/about-us"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <AboutUs />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
                     path="/contact-us"
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <ContactUs />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/faq"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <FAQ />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/help-center"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <HelpCenter />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/forgot-password"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ForgotPassword />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/reset-password"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ResetPassword />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/refund-policy"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <RefundPolicy />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/privacy-policy"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <PrivacyPolicy />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/terms-and-conditions"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <TermsAndConditions />
                         </PageTransitionWrapper>
                     }
                 />
@@ -224,7 +339,7 @@ const AnimatedRoutes = () => {
 /* ---------- App Router with Preloader ---------- */
 const AppRouter = () => {
     const [loading, setLoading] = useState(true);
-    const location = useLocation();   // ✅ Now safe
+    const location = useLocation();
 
     useEffect(() => {
         const handleLoad = () => setLoading(false);

@@ -52,20 +52,40 @@
     height: 110px;
 }
 
-.contact_form button {
-    padding: 5px 20px;
-    border-radius: 6px;
-    text-wrap: nowrap;
-    display: flex;
-    border: 1px solid var(--c1);
+.contact_submit_btn {
+    padding: 12px 35px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
     color: #ffffff;
-    background-color: var(--c1);
-    transition: all 0.5s ease-out;
+    background: linear-gradient(45deg, var(--c1), #2a4185);
+    box-shadow: 0 4px 15px rgba(34, 52, 107, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-transform: capitalize;
 }
 
-.contact_form button:hover {
-    background-color: var(--c2);
-    transition: all 0.5s ease-out;
+.contact_submit_btn:hover {
+    background: linear-gradient(45deg, var(--c2), #1ea6d9);
+    box-shadow: 0 6px 20px rgba(36, 184, 236, 0.4);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.contact_submit_btn:active {
+    transform: translateY(0);
+}
+
+.contact_submit_btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .contact_details_sub {
@@ -105,18 +125,16 @@
     font-size: 50px;
 }
 
-.contact_details button {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 10px 40px;
-    border-radius: 10px;
-    border: none;
-    transition: all .3s ease-out;
+.contact_submit_btn.btn_light {
+    background: #ffffff;
+    color: var(--c1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.contact_details button:hover {
-    background-color: var(--c2);
-    transition: all .3s ease-out;
+.contact_submit_btn.btn_light:hover {
+    background: var(--c2);
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(36, 184, 236, 0.4);
 }
 
 

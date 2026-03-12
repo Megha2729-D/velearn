@@ -69,6 +69,25 @@
     z-index: 1;
 }
 
+.modalbox form {
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 13.03px;
+    box-shadow: none;
+    z-index: 1;
+}
+
+.modalbox span i {
+    position: absolute;
+    right: -20px;
+    top: -25px;
+    cursor: pointer;
+}
+
+.modalbox form input {
+    width: 100%;
+}
+
 .rc_banner form label {
     color: var(--c1);
 }
@@ -269,6 +288,10 @@
 .combo_syllabus_modal .accordion-button {
     font-weight: 500;
     font-size: 17px;
+}
+
+.combo_syllabus_modal .accordion-button:focus {
+    box-shadow: none;
 }
 
 /* Mobile */

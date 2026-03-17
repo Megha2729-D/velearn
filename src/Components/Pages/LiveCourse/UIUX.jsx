@@ -22,12 +22,20 @@ class UIUX extends Component {
             activeTab: 1,
             activeFaqIndex: 0,
             course_id: 2,
+
             name: "",
             phone: "",
             email: "",
             errors: {},
+
             isEnrolled: false,
             showEnrollSuccessModal: false,
+            showEnrollFormModal: false,
+
+            nameModal: "",
+            phoneModal: "",
+            emailModal: "",
+            modalErrors: {}
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
@@ -63,6 +71,87 @@ class UIUX extends Component {
         }
     }
 
+    handleModalChange = (e) => {
+
+        const { name, value } = e.target;
+
+        this.setState({
+            [name]: value,
+            modalErrors: {
+                ...this.state.modalErrors,
+                [name]: ""
+            }
+        });
+
+    };
+
+    validateModalForm = () => {
+
+        let modalErrors = {};
+        let isValid = true;
+
+        const { nameModal, phoneModal, emailModal } = this.state;
+
+        if (!nameModal.trim()) {
+            modalErrors.nameModal = "Name is required";
+            isValid = false;
+        }
+
+        if (!phoneModal.trim()) {
+            modalErrors.phoneModal = "Phone number is required";
+            isValid = false;
+        }
+        else if (!/^[0-9]{10}$/.test(phoneModal)) {
+            modalErrors.phoneModal = "Enter valid 10 digit phone number";
+            isValid = false;
+        }
+
+        if (!emailModal.trim()) {
+            modalErrors.emailModal = "Email is required";
+            isValid = false;
+        }
+        else if (!/\S+@\S+\.\S+/.test(emailModal)) {
+            modalErrors.emailModal = "Enter valid email address";
+            isValid = false;
+        }
+
+        this.setState({ modalErrors });
+
+        return isValid;
+
+    };
+
+    openEnrollFormModal = () => {
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        this.setState({
+            showEnrollFormModal: true,
+            nameModal: user?.name || "",
+            phoneModal: user?.phonenumber || user?.phone || "",
+            emailModal: user?.email || ""
+        });
+
+    };
+    
+    closeEnrollFormModal = () => {
+        this.setState({ showEnrollFormModal: false });
+    };
+
+    handleCourseAction = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (this.state.isEnrolled) {
+            this.goToLearnPage();
+        }
+        else if (!user) {
+            this.props.navigate("/login");
+        }
+        else {
+            this.openEnrollFormModal();
+        }
+    };
+
     checkEnrollment = (userId, courseId) => {
         const token = localStorage.getItem("token");
         const headers = token ? { "Authorization": `Bearer ${token}` } : {};
@@ -92,15 +181,28 @@ class UIUX extends Component {
     };
 
     handleEnroll = (e) => {
+
         e.preventDefault();
+
         const user = JSON.parse(localStorage.getItem("user"));
+
         if (!user) {
             this.props.navigate("/login");
             return;
         }
-        if (!this.validateForm()) return;
-        const { name, phone, email, course_id } = this.state;
-        const payload = { name, phone, email, course_id, auth_id: user.id };
+
+        if (!this.validateModalForm()) return;
+
+        const { nameModal, phoneModal, emailModal, course_id } = this.state;
+
+        const payload = {
+            name: nameModal,
+            phone: phoneModal,
+            email: emailModal,
+            course_id,
+            auth_id: user.id
+        };
+
         const token = localStorage.getItem("token");
 
         fetch(`${BASE_API_URL}enroll-now`, {
@@ -113,20 +215,40 @@ class UIUX extends Component {
         })
             .then(res => res.json())
             .then(data => {
+
                 if (data.status) {
+
                     toast.success("Enrollment request sent!");
-                    this.setState({ isEnrolled: true, showEnrollSuccessModal: true });
-                } else if (data.message && data.message.toLowerCase().includes("already")) {
-                    this.setState({ isEnrolled: true, showEnrollSuccessModal: true });
+
+                    this.setState({
+                        isEnrolled: true,
+                        showEnrollSuccessModal: true,
+                        showEnrollFormModal: false,
+                        modalErrors: {}
+                    });
+
+                }
+                else if (data.message && data.message.toLowerCase().includes("already")) {
+
                     toast.success(data.message);
-                } else {
+
+                    this.setState({
+                        isEnrolled: true,
+                        showEnrollSuccessModal: true,
+                        showEnrollFormModal: false
+                    });
+
+                }
+                else {
                     toast.error(data.message || "Enrollment failed");
                 }
+
             })
             .catch(err => {
                 console.error(err);
                 toast.error("An error occurred during enrollment");
             });
+
     };
 
     goToLearnPage = () => {
@@ -326,7 +448,7 @@ class UIUX extends Component {
             <>
                 {/* Success Redirect Modal */}
                 {showEnrollSuccessModal && (
-                    <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10001 }}>
+                    <div className="modal fade show d-block" style={{ background: '#000000b3', zIndex: 10001 }}>
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '15px' }}>
                                 <div className="modal-body text-center p-5">
@@ -338,15 +460,15 @@ class UIUX extends Component {
                                         Your request has been received. Would you like to view your live course history now?
                                     </p>
                                     <div className="d-flex gap-3 justify-content-center">
-                                        <button 
-                                            className="btn btn-outline-secondary px-4 py-2" 
+                                        <button
+                                            className="btn btn-outline-secondary px-4 py-2"
                                             onClick={() => this.setState({ showEnrollSuccessModal: false })}
                                             style={{ borderRadius: '10px' }}
                                         >
                                             Stay Here
                                         </button>
-                                        <button 
-                                            className="btn btn-primary px-4 py-2" 
+                                        <button
+                                            className="btn btn-primary px-4 py-2"
                                             onClick={() => this.props.navigate("/live-course-history")}
                                             style={{ borderRadius: '10px', backgroundColor: '#22346b', border: 'none' }}
                                         >
@@ -355,6 +477,91 @@ class UIUX extends Component {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* ENROLL FORM MODAL */}
+                {this.state.showEnrollFormModal && (
+                    <div
+                        className="success_modal_overlay"
+                        onClick={this.closeEnrollFormModal}
+                    >
+                        <div
+                            className="modalbox animate"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <form className="position-relative shadow-0" onSubmit={this.handleEnroll}>
+                                <div className="d-flex position-relative">
+                                    <h4 className="fw-bold">Enroll Now - Full Stack Web Development</h4>
+                                    <span onClick={this.closeEnrollFormModal}><i className="bi bi-x-lg"></i></span>
+                                </div>
+                                <div className="d-flex align-items-start flex-column w-100 my-3">
+                                    <label>Name</label>
+                                    <input
+                                        type="text"
+                                        name="nameModal"
+                                        value={this.state.nameModal}
+                                        onChange={this.handleModalChange}
+                                        className={`form-control ${this.state.modalErrors.nameModal ? "is-invalid" : ""}`}
+                                    />
+
+                                    {this.state.modalErrors.nameModal && (
+                                        <span className="error-msg">{this.state.modalErrors.nameModal}</span>
+                                    )}
+                                </div>
+
+                                <div className="d-flex align-items-start flex-column w-100 my-3">
+                                    <label>Phone Number</label>
+                                    <input
+                                        type="number"
+                                        name="phoneModal"
+                                        value={this.state.phoneModal}
+                                        onChange={this.handleModalChange}
+                                        className={`form-control ${this.state.modalErrors.phoneModal ? "is-invalid" : ""}`}
+                                    />
+
+                                    {this.state.modalErrors.phoneModal && (
+                                        <span className="error-msg">{this.state.modalErrors.phoneModal}</span>
+                                    )}
+                                </div>
+
+                                <div className="d-flex align-items-start flex-column w-100 my-3">
+                                    <label>Email</label>
+                                    <input
+                                        type="email"
+                                        name="emailModal"
+                                        value={this.state.emailModal}
+                                        onChange={this.handleModalChange}
+                                        className={`form-control ${this.state.modalErrors.emailModal ? "is-invalid" : ""}`}
+                                    />
+
+                                    {this.state.modalErrors.emailModal && (
+                                        <span className="error-msg">{this.state.modalErrors.emailModal}</span>
+                                    )}
+                                </div>
+                                <div className="col-12 d-flex justify-content-center">
+                                    {this.state.isEnrolled ? (
+                                        <button
+                                            type="button"
+                                            onClick={this.goToLearnPage}
+                                        >
+                                            Start Course
+                                        </button>
+                                    ) : (
+                                        <button
+                                            type={user ? "submit" : "button"}
+                                            onClick={() => {
+                                                if (!user) {
+                                                    this.props.navigate("/login");
+                                                }
+                                            }}
+                                        >
+                                            {user ? "Enroll Now" : "Login to Enroll"}
+                                        </button>
+                                    )}
+                                </div>
+                            </form>
                         </div>
                     </div>
                 )}
@@ -393,9 +600,9 @@ class UIUX extends Component {
                                         Learn UI/UX design through live classes, hands-on projects, and expert mentorship. Master user research, UX strategy, and modern UI design to become job-ready with a strong portfolio.
                                     </p>
 
-                                    <Link to="/enroll" className="uiux-btn">
-                                        Enroll Now
-                                    </Link>
+                                    <button className="uiux-btn" onClick={this.handleCourseAction}>
+                                        {this.state.isEnrolled ? "Start Course" : "Enroll Now"}
+                                    </button>
 
                                 </div>
                             </div>
@@ -557,8 +764,8 @@ class UIUX extends Component {
 
                                 {/* BUTTON */}
                                 <div>
-                                    <button className="get_start_butt">
-                                        Get Started
+                                    <button className="get_start_butt" onClick={this.handleCourseAction}>
+                                        {this.state.isEnrolled ? "Start Course" : "Get Started"}
                                     </button>
                                 </div>
                             </div>
@@ -956,7 +1163,9 @@ class UIUX extends Component {
                                         </div>
                                     </div>
 
-                                    <button className="apply_btn">Apply Now</button>
+                                    <button className="apply_btn" onClick={this.handleCourseAction}>
+                                        {this.state.isEnrolled ? "Start Course" : "Apply Now"}
+                                    </button>
                                 </div>
                             </div>
                         </div>

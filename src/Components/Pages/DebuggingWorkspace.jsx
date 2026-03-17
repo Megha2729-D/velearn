@@ -11,6 +11,7 @@ export default function DebuggingWorkspace() {
     const location = useLocation();
     const navigate = useNavigate();
     const passedLanguage = location.state?.language || "Python"; // Default to Python if none provided
+    const passedLevel = location.state?.level || "";
 
     const [problems, setProblems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +48,8 @@ export default function DebuggingWorkspace() {
     useEffect(() => {
         const fetchPractices = async () => {
             try {
-                const response = await fetch(`${BASE_API_URL}debugging-practices/${passedLanguage}`);
+                const url = `${BASE_API_URL}debugging-practices/${passedLanguage}${passedLevel ? `?level=${passedLevel}` : ''}`;
+                const response = await fetch(url);
                 const json = await response.json();
                 if (json.status && json.data && json.data.length > 0) {
                     setProblems(json.data);
@@ -269,7 +271,7 @@ export default function DebuggingWorkspace() {
     if (problems.length === 0) {
         return (
             <div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "60vh" }}>
-                <h4>No problems found for {passedLanguage}</h4>
+                <h4>No problems found for {passedLanguage} {passedLevel ? `(${passedLevel})` : ''}</h4>
                 <button className="btn btn-primary mt-3" onClick={() => navigate(-1)}>Go Back</button>
             </div>
         );

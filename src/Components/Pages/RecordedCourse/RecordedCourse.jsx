@@ -152,33 +152,48 @@ class RecordedCourse extends Component {
                                                     <h4 className="fw-bold">{course.title}</h4>
                                                     <p className="mb-2">{course.sub_description}</p>
 
-                                                    <div className="d-flex justify-content-between mt-auto">
+                                                    <div className="d-flex justify-content-between align-items-center gap-3 w-100 mt-auto overflow-hidden">
                                                         <div className="recorded_course_duration">
-                                                            <div>
-                                                                <i className="bi bi-clock pe-1"></i>
-                                                                {course.course_duration}
+                                                            <div className="my-2">
+                                                                <i className="bi bi-clock pe-1 my-2"></i>
+                                                                {course.recorded_content} hours
                                                             </div>
-                                                            <div>
-                                                                {[...Array(5)].map((_, i) => (
-                                                                    <i
-                                                                        key={i}
-                                                                        className="bi bi-star-fill pe-1"
-                                                                    ></i>
-                                                                ))}
-                                                                {course.rating || "(4.6)"}
-                                                            </div>
+                                                            {(course.course_type === "paid" || course.course_type === "combo") && (
+                                                                <div className="d-flex align-items-center mt-2">
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <i className="bi bi-star-fill pe-1"></i>
+                                                                    <span>({course.rating || "4.6"})</span>
+                                                                </div>
+                                                            )}
                                                         </div>
+                                                        <div className="d-flex align-items-center gap-2">
 
-                                                        {course.buy_price && (
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                <span className="new_price">
-                                                                    ₹ {course.buy_price}
-                                                                </span>
-                                                                <s className="old_price">
-                                                                    ₹ {course.mrp_price}
-                                                                </s>
-                                                            </div>
-                                                        )}
+                                                            {(course.course_type === "paid" || course.course_type === "combo") ? (
+                                                                <>
+                                                                    <span className="new_price">&#8377; {course.buy_price}</span>
+                                                                    <span className="old_price">
+                                                                        <s>&#8377; {course.mrp_price}</s>
+                                                                    </span>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    {course.course_type === "free" && (
+                                                                        <div className="recorded_course_duration">
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            <i className="bi bi-star-fill pe-1"></i>
+                                                                            (4.6)
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            )}
+
+                                                        </div>
                                                     </div>
                                                 </div>
 

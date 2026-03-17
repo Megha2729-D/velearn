@@ -51,15 +51,18 @@ const ChangePassword = () => {
             });
 
             if (response.data.status) {
-                setMessage({ type: "success", text: "Password changed successfully!" });
+                setMessage({ type: "success", text: response.data.message || "Password changed successfully!" });
                 setCurrentPassword("");
                 setNewPassword("");
                 setConfirmPassword("");
+            } else {
+                setMessage({ type: "error", text: response.data.message || "Something went wrong" });
             }
         } catch (error) {
             if (error.response && error.response.data) {
                 if (error.response.status === 422) {
                     setErrors(error.response.data.errors || {});
+                    setMessage({ type: "error", text: error.response.data.message || "Validation failed" });
                 } else {
                     setMessage({ type: "error", text: error.response.data.message || "An error occurred" });
                 }

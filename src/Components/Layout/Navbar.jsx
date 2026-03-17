@@ -108,10 +108,23 @@ const Navbar = () => {
             if (searchRef.current && !searchRef.current.contains(e.target)) {
                 setShowResults(false);
             }
+            // Close main menu dropdowns on click outside
+            if (!e.target.closest('.dropdown')) {
+                setDropdownOpen({});
+            }
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    /* ------------------ RESET ON NAVIGATION ------------------ */
+    useEffect(() => {
+        setShowNavbar(false);
+        setDropdownOpen({});
+        setUserDropdownOpen(false);
+        setSubDropdownOpen({});
+        setShowResults(false);
+    }, [location]);
 
     /* ------------------ SCROLL SHADOW ------------------ */
     useEffect(() => {
@@ -138,9 +151,33 @@ const Navbar = () => {
         setSubDropdownOpen({});
     };
 
+    const handleMouseEnter = (key) => {
+        if (window.innerWidth > 991) {
+            setDropdownOpen({ [key]: true });
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (window.innerWidth > 991) {
+            setDropdownOpen({});
+            setSubDropdownOpen({});
+        }
+    };
+
     const toggleSubDropdown = (key, e) => {
         e.stopPropagation();
         setSubDropdownOpen(prev => ({ [key]: !prev[key] }));
+    };
+
+    const handleSubMouseEnter = (key) => {
+        if (window.innerWidth > 991) {
+            setSubDropdownOpen({ [key]: true });
+        }
+    };
+
+    const handleSubMouseLeave = () => {
+        // We don't necessarily want to clear sub-dropdown on its own leave 
+        // because it's inside the main dropdown. But let's see.
     };
 
     const handleItemClick = () => {
@@ -238,13 +275,22 @@ const Navbar = () => {
                         <div className={`nav-elements ${showNavbar ? 'active' : ''}`}>
                             <ul className="mb-0 p-lg-0">
                                 {/* SELF-PACED */}
-                                <li className={`dropdown ${dropdownOpen.selfPaced ? 'open' : ''}`} onClick={(e) => toggleDropdown('selfPaced', e)}>
+                                <li 
+                                    className={`dropdown ${dropdownOpen.selfPaced ? 'open' : ''}`} 
+                                    onClick={(e) => toggleDropdown('selfPaced', e)}
+                                    onMouseEnter={() => handleMouseEnter('selfPaced')}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <span className="dropdown-toggle">
                                         Self-paced Courses <i className="bi bi-chevron-down"></i>
                                     </span>
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
                                         {/* Paid Courses */}
-                                        <li className="sub-dropdown">
+                                        <li 
+                                            className="sub-dropdown"
+                                            onMouseEnter={() => handleSubMouseEnter('group1')}
+                                            onMouseLeave={() => setSubDropdownOpen({})}
+                                        >
                                             <span className="sub-dropdown-toggle" onClick={(e) => toggleSubDropdown('group1', e)}>
                                                 Paid Courses <i className="bi bi-chevron-right"></i>
                                             </span>
@@ -270,7 +316,11 @@ const Navbar = () => {
                                         </li>
 
                                         {/* Free Courses */}
-                                        <li className="sub-dropdown">
+                                        <li 
+                                            className="sub-dropdown"
+                                            onMouseEnter={() => handleSubMouseEnter('group2')}
+                                            onMouseLeave={() => setSubDropdownOpen({})}
+                                        >
                                             <span className="sub-dropdown-toggle" onClick={(e) => toggleSubDropdown('group2', e)}>
                                                 Free Courses <i className="bi bi-chevron-right"></i>
                                             </span>
@@ -298,7 +348,12 @@ const Navbar = () => {
                                 </li>
 
                                 {/* LIVE COURSES */}
-                                <li className={`dropdown ${dropdownOpen.liveCourses ? 'open' : ''}`} onClick={(e) => toggleDropdown('liveCourses', e)}>
+                                <li 
+                                    className={`dropdown ${dropdownOpen.liveCourses ? 'open' : ''}`} 
+                                    onClick={(e) => toggleDropdown('liveCourses', e)}
+                                    onMouseEnter={() => handleMouseEnter('liveCourses')}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <span className="dropdown-toggle">
                                         Live Courses <i className="bi bi-chevron-down"></i>
                                     </span>
@@ -312,17 +367,27 @@ const Navbar = () => {
                                 </li>
 
                                 {/* PRACTICE */}
-                                <li className={`dropdown ${dropdownOpen.practice ? 'open' : ''}`} onClick={(e) => toggleDropdown('practice', e)}>
+                                <li 
+                                    className={`dropdown ${dropdownOpen.practice ? 'open' : ''}`} 
+                                    onClick={(e) => toggleDropdown('practice', e)}
+                                    onMouseEnter={() => handleMouseEnter('practice')}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <span className="dropdown-toggle">Practice <i className="bi bi-chevron-down"></i></span>
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
                                         <li><NavLink to="/ide" onClick={handleItemClick}>Online IDE</NavLink></li>
                                         <li><NavLink to="/debugging" onClick={handleItemClick}>Debugging</NavLink></li>
-                                        <li><NavLink to="/practice/challenges" onClick={handleItemClick}>Challenges</NavLink></li>
+                                        {/* <li><NavLink to="/practice/challenges" onClick={handleItemClick}>Challenges</NavLink></li> */}
                                     </ul>
                                 </li>
 
                                 {/* RESOURCES */}
-                                <li className={`dropdown ${dropdownOpen.resources ? 'open' : ''}`} onClick={(e) => toggleDropdown('resources', e)}>
+                                <li 
+                                    className={`dropdown ${dropdownOpen.resources ? 'open' : ''}`} 
+                                    onClick={(e) => toggleDropdown('resources', e)}
+                                    onMouseEnter={() => handleMouseEnter('resources')}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <span className="dropdown-toggle">Resources <i className="bi bi-chevron-down"></i></span>
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
                                         <li><NavLink to="/webinar" onClick={handleItemClick}>Webinars</NavLink></li>
@@ -385,7 +450,12 @@ const Navbar = () => {
                                         <Link to="/signup" className="btn_signup d-lg-flex d-none">Sign Up</Link>
                                     </>
                                 ) : (
-                                    <div className="user-dropdown position-relative" ref={dropdownRef}>
+                                    <div 
+                                        className="user-dropdown position-relative" 
+                                        ref={dropdownRef}
+                                        onMouseEnter={() => window.innerWidth > 991 && setUserDropdownOpen(true)}
+                                        onMouseLeave={() => window.innerWidth > 991 && setUserDropdownOpen(false)}
+                                    >
                                         <div className={`avatar-icon ${userDropdownOpen ? "active" : ""}`} onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                                             <img src={getProfileImage()} alt="User" />
                                         </div>
@@ -399,6 +469,7 @@ const Navbar = () => {
                                                     <li><Link to="/profile" onClick={() => handleUserMenuClick(false)}>My Profile</Link></li>
                                                     <li><Link to="/my-courses" onClick={() => handleUserMenuClick(false)}>My Courses</Link></li>
                                                     <li><Link to="/live-course-history" onClick={() => handleUserMenuClick(false)}>Live Course History</Link></li>
+                                                    <li><Link to="/courses-certificates" onClick={() => handleUserMenuClick(false)}>Course Certificates</Link></li>
                                                     <li><Link to="/change-password" onClick={() => handleUserMenuClick(false)}>Change Password</Link></li>
                                                     <li><Link to="/faq" onClick={() => handleUserMenuClick(false)}>FAQ</Link></li>
                                                     <li className="logout" onClick={handleLogout}>Sign Out</li>

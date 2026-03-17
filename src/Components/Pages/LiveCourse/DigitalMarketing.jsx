@@ -24,12 +24,20 @@ class DigitalMarketing extends Component {
             activeFaqIndex: 0,
             activePriceTab: 0,
             course_id: 3,
+
             name: "",
             phone: "",
             email: "",
             errors: {},
+
             isEnrolled: false,
+            showEnrollModal: false,
             showEnrollSuccessModal: false,
+
+            nameModal: "",
+            phoneModal: "",
+            emailModal: "",
+            modalErrors: {},
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
@@ -47,12 +55,47 @@ class DigitalMarketing extends Component {
                 name: user.name || "",
                 email: user.email || "",
                 phone: user.phonenumber || user.phone || "",
+                nameModal: user.name || "",
+                emailModal: user.email || "",
+                phoneModal: user.phonenumber || user.phone || "",
             });
             this.checkEnrollment(user.id, this.state.course_id);
         }
 
         this.initTestimonialStack();
     }
+    handleModalChange = (e) => {
+        const { name, value } = e.target;
+
+        this.setState({
+            [name]: value,
+            modalErrors: {
+                ...this.state.modalErrors,
+                [name]: ""
+            }
+        });
+    };
+
+    handleCourseAction = () => {
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            this.props.navigate("/login");
+            return;
+        }
+
+        if (this.state.isEnrolled) {
+            this.goToLearnPage();
+        } else {
+            this.setState({
+                showEnrollModal: true,
+                nameModal: user.name || "",
+                emailModal: user.email || "",
+                phoneModal: user.phonenumber || user.phone || ""
+            });
+        }
+    };
 
     checkEnrollment = (userId, courseId) => {
         const token = localStorage.getItem("token");
@@ -82,34 +125,93 @@ class DigitalMarketing extends Component {
         return isValid;
     };
 
+    validateModalForm = () => {
+        let modalErrors = {};
+        let isValid = true;
+
+        const { nameModal, phoneModal, emailModal } = this.state;
+
+        if (!nameModal.trim()) {
+            modalErrors.nameModal = "Name is required";
+            isValid = false;
+        }
+
+        if (!phoneModal.trim()) {
+            modalErrors.phoneModal = "Phone number is required";
+            isValid = false;
+        } else if (!/^[0-9]{10}$/.test(phoneModal)) {
+            modalErrors.phoneModal = "Enter valid 10 digit phone number";
+            isValid = false;
+        }
+
+        if (!emailModal.trim()) {
+            modalErrors.emailModal = "Email is required";
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(emailModal)) {
+            modalErrors.emailModal = "Enter valid email address";
+            isValid = false;
+        }
+
+        this.setState({ modalErrors });
+
+        return isValid;
+    };
+
     handleEnroll = (e) => {
         e.preventDefault();
+
         const user = JSON.parse(localStorage.getItem("user"));
+
         if (!user) {
             this.props.navigate("/login");
             return;
         }
-        if (!this.validateForm()) return;
-        const { name, phone, email, course_id } = this.state;
-        const payload = { name, phone, email, course_id, auth_id: user.id };
+
+        if (!this.validateModalForm()) return;
+
+        const { nameModal, phoneModal, emailModal, course_id } = this.state;
+
+        const payload = {
+            name: nameModal,
+            phone: phoneModal,
+            email: emailModal,
+            course_id,
+            auth_id: user.id
+        };
+
         const token = localStorage.getItem("token");
 
         fetch(`${BASE_API_URL}enroll-now`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                ...(token ? { "Authorization": `Bearer ${token}` } : {})
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
             },
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
             .then(data => {
                 if (data.status) {
+
                     toast.success("Enrollment request sent!");
-                    this.setState({ isEnrolled: true, showEnrollSuccessModal: true });
+
+                    this.setState({
+                        isEnrolled: true,
+                        showEnrollModal: false,
+                        showEnrollSuccessModal: true,
+                        modalErrors: {}
+                    });
+
                 } else if (data.message && data.message.toLowerCase().includes("already")) {
-                    this.setState({ isEnrolled: true, showEnrollSuccessModal: true });
+
                     toast.success(data.message);
+
+                    this.setState({
+                        isEnrolled: true,
+                        showEnrollModal: false,
+                        showEnrollSuccessModal: true
+                    });
+
                 } else {
                     toast.error(data.message || "Enrollment failed");
                 }
@@ -119,6 +221,11 @@ class DigitalMarketing extends Component {
                 toast.error("An error occurred during enrollment");
             });
     };
+
+    closeEnrollFormModal = () => {
+        this.setState({ showEnrollModal: false });
+    };
+
 
     goToLearnPage = () => {
         this.props.navigate(`/learn/digital-marketing`, {
@@ -279,7 +386,6 @@ class DigitalMarketing extends Component {
         }, 4000);
     };
 
-
     advantages = [
         { title: "Code with Clarity", text: "We break complex concepts into simple, practical steps you can actually apply.", color: "#FF0000" },
         { title: "Build Real Projects", text: "Work on real-world applications instead of toy examples.", color: "#00A2FF" },
@@ -369,20 +475,6 @@ class DigitalMarketing extends Component {
         const currentContent = this.renderContent();
         const user = JSON.parse(localStorage.getItem("user"));
         const plan = this.plans[activePriceTab];
-        // const tools = [
-        //     { name: "React", logo: `${BASE_IMAGE_URL}details-page/tools/react.png`, shadow: "#61DAFB" },
-        //     { name: "CSS", logo: `${BASE_IMAGE_URL}details-page/tools/css.png`, shadow: "#2965F1" },
-        //     { name: "Express JS", logo: `${BASE_IMAGE_URL}details-page/tools/express-js.png`, shadow: "#F3DF1D" },
-        //     { name: "Visual Studio", logo: `${BASE_IMAGE_URL}details-page/tools/vs-code.png`, shadow: "#0080CF" },
-        //     { name: "SQL", logo: `${BASE_IMAGE_URL}details-page/tools/sql.png`, shadow: "#D08001" },
-        //     { name: "Bootstrap", logo: `${BASE_IMAGE_URL}details-page/tools/bootstrap.png`, shadow: "#7952B3" },
-        //     { name: "Mongo DB", logo: `${BASE_IMAGE_URL}details-page/tools/mongodb.png`, shadow: "#9EFF3E" },
-        //     { name: "Tailwind", logo: `${BASE_IMAGE_URL}details-page/tools/tailwind.png`, shadow: "#38BDF8" },
-        //     { name: "Python", logo: `${BASE_IMAGE_URL}details-page/tools/python.png`, shadow: "#DE6B00" },
-        //     { name: "Spring Boot", logo: `${BASE_IMAGE_URL}details-page/tools/spring-boot.png`, shadow: "#6DB33F" },
-        //     { name: "HTML", logo: `${BASE_IMAGE_URL}details-page/tools/html.png`, shadow: "#E44D26" },
-        //     { name: "Django", logo: `${BASE_IMAGE_URL}details-page/tools/django.png`, shadow: "#304F44" },
-        // ];
         const testimonials = [
             {
                 image: "student-1.png",
@@ -432,15 +524,15 @@ class DigitalMarketing extends Component {
                                         Your request has been received. Would you like to view your live course history now?
                                     </p>
                                     <div className="d-flex gap-3 justify-content-center">
-                                        <button 
-                                            className="btn btn-outline-secondary px-4 py-2" 
+                                        <button
+                                            className="btn btn-outline-secondary px-4 py-2"
                                             onClick={() => this.setState({ showEnrollSuccessModal: false })}
                                             style={{ borderRadius: '10px' }}
                                         >
                                             Stay Here
                                         </button>
-                                        <button 
-                                            className="btn btn-primary px-4 py-2" 
+                                        <button
+                                            className="btn btn-primary px-4 py-2"
                                             onClick={() => this.props.navigate("/live-course-history")}
                                             style={{ borderRadius: '10px', backgroundColor: '#22346b', border: 'none' }}
                                         >
@@ -451,6 +543,150 @@ class DigitalMarketing extends Component {
                             </div>
                         </div>
                     </div>
+                )}
+
+                {this.state.showEnrollModal && (
+                    <>
+                        <div
+                            className="success_modal_overlay"
+                            onClick={this.closeEnrollFormModal}
+                        >
+                            <div
+                                className="modalbox animate"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <form className="position-relative shadow-0" onSubmit={this.handleEnroll}>
+                                    <div className="d-flex position-relative">
+                                        <h4 className="fw-bold">Enroll Now - Digital Marketing</h4>
+                                        <span onClick={() => this.setState({ showEnrollModal: false })}><i className="bi bi-x-lg"></i></span>
+                                    </div>
+                                    <div className="d-flex align-items-start flex-column w-100 my-3">
+                                        <label>Name</label>
+                                        <input
+                                            type="text"
+                                            name="nameModal"
+                                            value={this.state.nameModal}
+                                            onChange={this.handleModalChange}
+                                            className={`form-control ${this.state.modalErrors.nameModal ? "is-invalid" : ""}`}
+                                        />
+
+                                        {this.state.modalErrors.nameModal && (
+                                            <span className="error-msg">{this.state.modalErrors.nameModal}</span>
+                                        )}
+                                    </div>
+
+                                    <div className="d-flex align-items-start flex-column w-100 my-3">
+                                        <label>Phone Number</label>
+                                        <input
+                                            type="number"
+                                            name="phoneModal"
+                                            value={this.state.phoneModal}
+                                            onChange={this.handleModalChange}
+                                            className={`form-control ${this.state.modalErrors.phoneModal ? "is-invalid" : ""}`}
+                                        />
+
+                                        {this.state.modalErrors.phoneModal && (
+                                            <span className="error-msg">{this.state.modalErrors.phoneModal}</span>
+                                        )}
+                                    </div>
+
+                                    <div className="d-flex align-items-start flex-column w-100 my-3">
+                                        <label>Email</label>
+                                        <input
+                                            type="email"
+                                            name="emailModal"
+                                            value={this.state.emailModal}
+                                            onChange={this.handleModalChange}
+                                            className={`form-control ${this.state.modalErrors.emailModal ? "is-invalid" : ""}`}
+                                        />
+
+                                        {this.state.modalErrors.emailModal && (
+                                            <span className="error-msg">{this.state.modalErrors.emailModal}</span>
+                                        )}
+                                    </div>
+                                    <div className="col-12 d-flex justify-content-center">
+                                        {this.state.isEnrolled ? (
+                                            <button
+                                                type="button"
+                                                onClick={this.goToLearnPage}
+                                            >
+                                                Start Course
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type={user ? "submit" : "button"}
+                                                onClick={() => {
+                                                    if (!user) {
+                                                        this.props.navigate("/login");
+                                                    }
+                                                }}
+                                            >
+                                                {user ? "Enroll Now" : "Login to Enroll"}
+                                            </button>
+                                        )}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                        {/* <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.7)" }}>
+                            <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content p-4">
+
+                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 className="fw-bold">Enroll Now</h4>
+                                        <button
+                                            className="btn-close"
+                                            onClick={() => this.setState({ showEnrollModal: false })}
+                                        ></button>
+                                    </div>
+
+                                    <form onSubmit={this.handleEnroll}>
+
+                                        <div className="mb-3">
+                                            <label>Name</label>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={this.state.name}
+                                                onChange={this.handleChange}
+                                                className="form-control"
+                                            />
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label>Phone</label>
+                                            <input
+                                                type="number"
+                                                name="phone"
+                                                value={this.state.phone}
+                                                onChange={this.handleChange}
+                                                className="form-control"
+                                            />
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label>Email</label>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={this.state.email}
+                                                onChange={this.handleChange}
+                                                className="form-control"
+                                            />
+                                        </div>
+
+                                        <button type="submit" className="btn btn-primary w-100">
+                                            Enroll Now
+                                        </button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div> */}
+                    </>
                 )}
                 <div className="dm_main pb-1">
                     <div className="bg-white dm_top_sec">
@@ -465,7 +701,9 @@ class DigitalMarketing extends Component {
                                             <p className="text-white mt-4">
                                                 This live Digital Marketing training program is designed to build job-ready skills through hands-on campaign execution, real-time tools, and expert mentorship— preparing you for high-growth roles in today’s digital economy.
                                             </p>
-                                            <button>Enroll Now</button>
+                                            <button onClick={this.handleCourseAction}>
+                                                {this.state.isEnrolled ? "Start Course" : "Enroll Now"}
+                                            </button>
                                             <div className="pagination_parent d-lg-flex d-none">
                                                 <Link to={"/"}>Home</Link>
                                                 <span className="px-2"> /</span>
@@ -625,7 +863,9 @@ class DigitalMarketing extends Component {
                                                     <p>Learn performance tracking, optimization, and ROI measurement</p>
                                                 </div>
                                             </div>
-                                            <button>Start Learning</button>
+                                            <button type="button" onClick={this.handleCourseAction}>
+                                                {this.state.isEnrolled ? "Start Course" : "Start Learning"}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -832,7 +1072,9 @@ class DigitalMarketing extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <button>Start Learning</button>
+                                    <button type="button" onClick={this.handleCourseAction}>
+                                        {this.state.isEnrolled ? "Start Course" : "Start Learning"}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1070,7 +1312,7 @@ class DigitalMarketing extends Component {
                                         <div className="parent_price">
                                             <div className="price_section d-flex flex-column align-items-center justify-content-center px-2 px-lg-4 py-4">
                                                 {/* PRICE TABS */}
-                                                <h3 className="fw-bold mb-3 text-white px-3 px-lg-0">Full Stack Unlimited Access Plan</h3>
+                                                <h3 className="fw-bold mb-3 text-white px-3 px-lg-2">Digital Marketing Unlimited Access Plan</h3>
 
                                                 <div className="d-flex justify-content-center align-items-center gap-3 mb-4 price_header">
                                                     <div className="price_tab old_price_tab">
@@ -1106,8 +1348,8 @@ class DigitalMarketing extends Component {
                                                         </div>
                                                     </div>
 
-                                                    <button className="mt-3">
-                                                        Apply Now
+                                                    <button type="button" onClick={this.handleCourseAction}>
+                                                        {this.state.isEnrolled ? "Start Course" : "Apply Now"}
                                                     </button>
                                                 </div>
                                             </div>

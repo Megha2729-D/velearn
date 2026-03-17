@@ -12,6 +12,24 @@
     z-index: 1 !important;
 }
 
+.modalbox form label {
+    color: var(--c1);
+}
+
+.modalbox form button {
+    background-color: var(--c2);
+    color: #ffffff;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 22.53px;
+    transition: all .3s ease-out;
+}
+
+.modalbox form button:hover {
+    background-color: var(--c1);
+    transition: all .3s ease-out;
+}
+
 .grecaptcha-badge {
     z-index: 1;
 }
@@ -609,6 +627,7 @@ img {
 .dropdown.open .dropdown-menu {
     opacity: 1;
     visibility: visible;
+    display: block;
     transform: translateY(0);
 }
 
@@ -691,6 +710,10 @@ img {
     /* box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); */
     border-radius: 0;
     padding: 10px 0;
+}
+
+.nav-elements .dropdown-menu .sub-dropdown-menu.open {
+    display: block;
 }
 
 .sub-dropdown-toggle {
@@ -1227,7 +1250,7 @@ img {
 }
 
 .accordion-button:focus {
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .footer_sec .accordion-button::after,
@@ -1430,10 +1453,54 @@ img {
     font-size: 25px;
 }
 
-.v-about .phone-img {
-    width: 100px;
-    height: 100px;
-    transform: rotate(5deg);
+.v-about .talk_to_us_card {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.v-about .talk_to_us_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.v-about .talk_icon_box {
+    width: 65px;
+    height: 65px;
+    background: #24b8ec1a;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.v-about .phone-img-dynamic {
+    width: 35px;
+    height: 35px;
+}
+
+.v-about .call_details h4 a {
+    color: var(--c1);
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.v-about .contact_link_btn {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--c2);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap 0.3s ease;
+}
+
+.v-about .contact_link_btn:hover {
+    gap: 10px;
 }
 
 .v-about .abt_left_content {
@@ -1442,7 +1509,7 @@ img {
 }
 
 .v-about .call_details p {
-    font-size: 19px;
+    font-size: 17px;
 }
 
 .v-about .call_details a {
@@ -3143,6 +3210,7 @@ section {
     height: 55px;
     border: none;
     position: relative;
+    cursor: pointer;
 }
 
 .career_launch .get_started_butt .get_started_button button {
@@ -4487,6 +4555,7 @@ section {
         padding-right: 75px !important;
     }
 
+/* 
     .nav-elements .dropdown-menu .sub-dropdown:hover .sub-dropdown-menu {
         display: block;
     }
@@ -4496,7 +4565,8 @@ section {
         visibility: visible;
         display: block;
         transform: translateY(0);
-    }
+    } 
+*/
 }
 
 @media screen and (max-width: 910px) {

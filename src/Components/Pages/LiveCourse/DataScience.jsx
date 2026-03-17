@@ -31,7 +31,9 @@ class DataScience extends Component {
             email: "",
             errors: {},
             isEnrolled: false,
-            showEnrollSuccessModal: false,
+
+            showEnrollModal: false,   // ADD
+            showEnrollSuccessModal: false
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
@@ -55,6 +57,26 @@ class DataScience extends Component {
             this.checkEnrollment(user.id, this.state.course_id);
         }
     }
+
+    closeEnrollModal = () => {
+        this.setState({ showEnrollModal: false });
+    };
+
+    handleCourseAction = () => {
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            this.props.navigate("/login");
+            return;
+        }
+
+        if (this.state.isEnrolled) {
+            this.goToLearnPage();
+        } else {
+            this.setState({ showEnrollModal: true });
+        }
+    };
 
     checkEnrollment = (userId, courseId) => {
         const token = localStorage.getItem("token");
@@ -419,15 +441,15 @@ class DataScience extends Component {
                                         Your request has been received. Would you like to view your live course history now?
                                     </p>
                                     <div className="d-flex gap-3 justify-content-center">
-                                        <button 
-                                            className="btn btn-outline-secondary px-4 py-2" 
+                                        <button
+                                            className="btn btn-outline-secondary px-4 py-2"
                                             onClick={() => this.setState({ showEnrollSuccessModal: false })}
                                             style={{ borderRadius: '10px' }}
                                         >
                                             Stay Here
                                         </button>
-                                        <button 
-                                            className="btn btn-primary px-4 py-2" 
+                                        <button
+                                            className="btn btn-primary px-4 py-2"
                                             onClick={() => this.props.navigate("/live-course-history")}
                                             style={{ borderRadius: '10px', backgroundColor: '#22346b', border: 'none' }}
                                         >
@@ -906,7 +928,7 @@ class DataScience extends Component {
                                         <div className="parent_price">
                                             <div className="price_section d-flex flex-column align-items-center justify-content-center px-2 px-lg-4 py-4">
                                                 {/* PRICE TABS */}
-                                                <h3 className="fw-bold text-white px-3 px-lg-0 mb-1"><span className="text-c2">UI/UX Design </span> specific version</h3>
+                                                <h3 className="fw-bold text-white px-3 px-lg-0 mb-1"><span className="text-c2">Data Science </span> specific version</h3>
                                                 <h4 className="text-white pb-4">Velearn Career Access Plan</h4>
                                                 {/* CONTENT BOX */}
                                                 <div className="price_card w-100 text-white">
@@ -941,8 +963,12 @@ class DataScience extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="price_card">
-                                                    <button className="mt-3">
-                                                        Apply Now
+                                                    <button
+                                                        className="mt-3"
+                                                        type="button"
+                                                        onClick={this.handleCourseAction}
+                                                    >
+                                                        {this.state.isEnrolled ? "Start Course" : "Apply Now"}
                                                     </button>
                                                 </div>
                                             </div>

@@ -22,6 +22,18 @@ class Debugging extends Component {
     componentDidMount() {
         this.fetchDebuggingGroups();
         this.loadLocalProgress();
+
+        // Safety fallback for loading state
+        this.loadingTimeout = setTimeout(() => {
+            if (this.state.isLoading) {
+                console.warn("Loading timed out after 5s. Forcing isLoading to false.");
+                this.setState({ isLoading: false });
+            }
+        }, 5000);
+    }
+
+    componentWillUnmount() {
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
     }
 
     loadLocalProgress = () => {
@@ -35,14 +47,19 @@ class Debugging extends Component {
 
     fetchDebuggingGroups = async () => {
         try {
+            console.log("Fetching from:", `${BASE_API_URL}debugging-groups`);
             const response = await fetch(`${BASE_API_URL}debugging-groups`);
             const json = await response.json();
+            console.log("API Response:", json);
             if (json.status) {
-                this.setState({ challenges: json.data, isLoading: false });
+                this.setState({ challenges: json.data || [], isLoading: false });
+            } else {
+                console.warn("API returned status false for debugging-groups", json);
+                this.setState({ challenges: [], isLoading: false });
             }
         } catch (error) {
             console.error("Error fetching debugging groups", error);
-            this.setState({ isLoading: false });
+            this.setState({ challenges: [], isLoading: false });
         }
     }
     getProgress = (questions, total) => {
@@ -90,35 +107,44 @@ class Debugging extends Component {
             "New": 3
         };
 
-        const filteredChallenges = this.state.challenges
-            .filter(item => {
+        const challenges = Array.isArray(this.state.challenges) ? this.state.challenges : [];
 
+        const filteredChallenges = challenges
+            .filter(item => {
                 const matchLanguage =
                     this.state.selectedLanguage === "All" ||
-                    item.language === this.state.selectedLanguage;
+                    (item.language && item.language === this.state.selectedLanguage);
 
                 const matchLevel =
                     this.state.selectedLevel === "All" ||
-                    item.level === this.state.selectedLevel;
+                    (item.level && item.level === this.state.selectedLevel);
 
-                const matchSearch =
-                    item.language.toLowerCase().includes(this.state.search);
+                const searchLower = (this.state.search || "").toLowerCase();
+                const matchSearch = !searchLower ||
+                    (item.language && item.language.toLowerCase().includes(searchLower)) ||
+                    (item.description && item.description.toLowerCase().includes(searchLower)) ||
+                    (item.details && item.details.toLowerCase().includes(searchLower)) ||
+                    (item.title && item.title.toLowerCase().includes(searchLower));
 
                 return matchLanguage && matchLevel && matchSearch;
             })
             .sort((a, b) => {
+                const orderA = statusOrder[a.status] || 4;
+                const orderB = statusOrder[b.status] || 4;
 
-                // 1️⃣ Status order (Solved > Progress > New)
-                if (statusOrder[a.status] !== statusOrder[b.status]) {
-                    return statusOrder[a.status] - statusOrder[b.status];
+                if (orderA !== orderB) {
+                    return orderA - orderB;
                 }
 
-                // 2️⃣ Inside same status → highest progress first
                 const progressA = this.getProgress(a.questions, a.total);
                 const progressB = this.getProgress(b.questions, b.total);
 
                 return progressB - progressA;
             });
+
+        console.log("Total Challenges:", challenges.length);
+        console.log("Filtered Challenges:", filteredChallenges.length);
+        console.log("Is Loading:", this.state.isLoading);
 
         const visibleChallenges = filteredChallenges.slice(0, this.state.visible);
 
@@ -145,7 +171,7 @@ class Debugging extends Component {
                                                         <div className="select_wrapper w-100">
                                                             <select className="w-100" name="languages" onChange={this.handleLanguageChange}>
                                                                 <option value="All">All</option>
-                                                                {[...new Set(this.state.challenges.map(c => c.language))].map(lang => (
+                                                                {[...new Set(this.state.challenges.filter(c => c.language).map(c => c.language))].map(lang => (
                                                                     <option key={lang} value={lang}>{lang}</option>
                                                                 ))}
                                                             </select>
@@ -184,88 +210,120 @@ class Debugging extends Component {
                                 <div className="debug_container mt-3">
                                     <div className="row">
 
-                                        {visibleChallenges.map(item => {
-                                            const langKey = item.language.toLowerCase();
-                                            const localSolvedCount = this.state.solvedInLocal[langKey] ? this.state.solvedInLocal[langKey].length : 0;
-
-                                            // Combine with server if needed, or just prioritize local for dynamic feel
-                                            const questionsCompleted = Math.max(item.questions, localSolvedCount);
-                                            const percent = this.getProgress(questionsCompleted, item.total);
-
-                                            // Adjust status based on progress
-                                            let currentStatus = item.status;
-                                            if (percent === 100) currentStatus = "Solved";
-                                            else if (percent > 0) currentStatus = "Progress";
-
-                                            return (
-                                                <div className="col-lg-4 mb-4" key={item.id}>
-                                                    <div className="debug_card text-decoration-none">
-
-                                                        <span className={`badge ${this.levelColor(item.level)}`} style={{ background: this.getStatusColor(currentStatus) }}>
-                                                            {item.level}
-                                                        </span>
-
-                                                        <div className="d-flex align-items-center justify-content-between  mt-5">
-                                                            <div className="d-flex align-items-start">
-                                                                <img src={`${BASE_IMAGE_URL}debugging/icon/${item.icon}`} className="debug_icon" alt="" />
-                                                                <h3 className="mb-0 mt-2">{item.language}</h3>
-                                                            </div>
-                                                            <span className="status_badge" >
-                                                                {currentStatus}
-                                                            </span>
-                                                        </div>
-                                                        <p className="track">Debugging Track</p>
-
-                                                        {/* Progress Bar */}
-                                                        <div className="progressbar">
-                                                            <div
-                                                                className="progressfill"
-                                                                style={{
-                                                                    width: percent + "%",
-                                                                    background: this.getStatusColor(currentStatus)
-                                                                }}
-                                                            ></div>
-                                                        </div>
-
-                                                        {/* Question Stats */}
-                                                        <div className="stats">
-                                                            <span>Questions Completed</span>
-                                                            <span>{questionsCompleted}/{item.total}</span>
-                                                        </div>
-
-                                                        {/* Bottom Section */}
-                                                        <div className="bottom">
-                                                            <span>Submissions: {this.state.submissionCounts[langKey] || item.submissions}</span>
-                                                            <button
-                                                                className="continue"
-                                                                style={{ background: this.getStatusColor(currentStatus) }}
-                                                            >
-                                                                {percent === 0 ? (
-                                                                    <Link to={"/debugging-workspace"} state={{ language: item.language }} className="text-white">
-                                                                        Start <i className="bi bi-chevron-right"></i>
-                                                                    </Link>
-                                                                ) : percent === 100 ? (
-                                                                    <>
-                                                                        Solved <i className="bi bi-check2-circle"></i>
-                                                                    </>
-                                                                ) : (
-                                                                    <Link to={"/debugging-workspace"} state={{ language: item.language }} className="text-white">
-                                                                        Continue <i className="bi bi-chevron-right"></i>
-                                                                    </Link>
-                                                                )}
-                                                            </button>
-                                                        </div>
+                                        {this.state.isLoading ? (
+                                            <div className="col-12 text-center py-5">
+                                                <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </div>
+                                                <p className="mt-3 text-secondary">Fetching debugging tracks...</p>
+                                            </div>
+                                        ) : filteredChallenges.length === 0 ? (
+                                            <div className="col-12 text-center py-5 no_results_wrapper">
+                                                <div className="empty_state_illust">
+                                                    <i className="bi bi-search mb-3 d-block"></i>
+                                                    <h3 className="msg_title">No more records</h3>
+                                                    <p className="msg_desc">Debugging details are empty based on your current selection.</p>
+                                                    <div className="d-flex gap-2 justify-content-center">
+                                                        <button className="reset_btn btn-sm" onClick={() => this.setState({ search: "", selectedLanguage: "All", selectedLevel: "All" })}>
+                                                            Clear Filters
+                                                        </button>
+                                                        <button className="reset_btn btn-sm" style={{ background: "#64748b" }} onClick={() => this.fetchDebuggingGroups()}>
+                                                            Refresh
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            );
-                                        })}
+                                            </div>
+                                        ) : (
+                                            visibleChallenges.map((item, idx) => {
+                                                const langKey = item.language ? item.language.toLowerCase() : "unknown";
+                                                const localSolvedCount = this.state.solvedInLocal[langKey] ? this.state.solvedInLocal[langKey].length : 0;
+
+                                                // Combine with server if needed, or just prioritize local for dynamic feel
+                                                const questionsCompleted = Math.max(item.questions, localSolvedCount);
+                                                const percent = this.getProgress(questionsCompleted, item.total);
+
+                                                // Adjust status based on progress
+                                                let currentStatus = item.status;
+                                                if (percent === 100) currentStatus = "Solved";
+                                                else if (percent > 0) currentStatus = "Progress";
+
+                                                return (
+                                                    <div className="col-lg-4 mb-4" key={item.id || idx}>
+                                                        <div className="debug_card text-decoration-none">
+
+                                                            <span className={`badge ${this.levelColor(item.level)}`}>
+                                                                {item.level}
+                                                            </span>
+
+                                                            <div className="d-flex align-items-center justify-content-between  mt-5">
+                                                                <div className="d-flex align-items-start">
+                                                                    <img src={`${BASE_IMAGE_URL}debugging/icon/${item.icon}`} className="debug_icon" alt="" />
+                                                                    <h3 className="mb-0 mt-2">{item.language}</h3>
+                                                                </div>
+                                                                <span className="status_badge" >
+                                                                    {currentStatus}
+                                                                </span>
+                                                            </div>
+                                                            <p className="debug_desc_text mt-2 mb-0">
+                                                                {item.description || item.details || item.subtitle || "Master the logic and fix bugs in this track."}
+                                                            </p>
+                                                            <p className="track">Debugging Track</p>
+
+                                                            {/* Progress Bar */}
+                                                            <div className="progressbar">
+                                                                <div
+                                                                    className="progressfill"
+                                                                    style={{
+                                                                        width: percent + "%",
+                                                                        background: this.getStatusColor(currentStatus)
+                                                                    }}
+                                                                ></div>
+                                                            </div>
+
+                                                            {/* Question Stats */}
+                                                            <div className="stats">
+                                                                <span>Questions Completed</span>
+                                                                <span>{questionsCompleted}/{item.total}</span>
+                                                            </div>
+
+                                                            {/* Bottom Section */}
+                                                            <div className="bottom">
+                                                                <span>Submissions: {this.state.submissionCounts[langKey] || item.submissions}</span>
+                                                                <button
+                                                                    className="continue"
+                                                                    style={{ background: this.getStatusColor(currentStatus) }}
+                                                                >
+                                                                    {percent === 0 ? (
+                                                                        <Link to={"/debugging-workspace"} state={{ language: item.language, level: item.level }} className="text-white">
+                                                                            Start <i className="bi bi-chevron-right"></i>
+                                                                        </Link>
+                                                                    ) : percent === 100 ? (
+                                                                        <>
+                                                                            Solved <i className="bi bi-check2-circle"></i>
+                                                                        </>
+                                                                    ) : (
+                                                                        <Link to={"/debugging-workspace"} state={{ language: item.language, level: item.level }} className="text-white">
+                                                                            Continue <i className="bi bi-chevron-right"></i>
+                                                                        </Link>
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })
+                                        )}
 
                                     </div>
 
                                     {/* Show More Button */}
-                                    {this.state.visible < filteredChallenges.length && (
+                                    {this.state.visible < filteredChallenges.length ? (
                                         <div className="show_more">
                                             <button onClick={this.loadMore}>Show More</button>
+                                        </div>
+                                    ) : filteredChallenges.length > 0 && (
+                                        <div className="show_more no_more_records">
+                                            <p className="text-muted">No more records</p>
                                         </div>
                                     )}
 

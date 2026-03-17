@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 import "../Styles/Webinar.css"
 
 const BASE_API_URL = "https://www.velearn.in/api/";
@@ -26,6 +28,13 @@ class Webinar extends Component {
         },
         auth_id: null,
         loadingSubmit: false,
+        
+        // Subscription form state
+        subscribeName: "",
+        subscribeEmail: "",
+        subscribePhone: "",
+        isSubscribed: false,
+        loadingSubscribe: false,
 
         categories: [
             "Full Stack Development",
@@ -169,6 +178,60 @@ class Webinar extends Component {
             this.setState({ loadingSubmit: false });
         }
     };
+    handleSubscribeChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    handleSubscribeSubmit = async (e) => {
+        e.preventDefault();
+        const { subscribeName, subscribeEmail, subscribePhone } = this.state;
+
+        if (!subscribeName || !subscribeEmail || !subscribePhone) {
+            toast.error("Please fill in all fields");
+            return;
+        }
+
+        this.setState({ loadingSubscribe: true });
+
+        try {
+            let recaptcha_token = "";
+            if (window.grecaptcha) {
+                recaptcha_token = await new Promise((resolve) => {
+                    window.grecaptcha.ready(() => {
+                        window.grecaptcha.execute('6LcbtYYsAAAAAJW-RyO1ZLIWHZ-RyWS6H3gAGgCj', { action: 'webinar_subscribe' }).then(resolve);
+                    });
+                });
+            }
+
+            const response = await axios.post(`${BASE_API_URL}contacts/send-mail`, {
+                name: subscribeName,
+                phone_number: subscribePhone,
+                email_id: subscribeEmail,
+                course: "Webinar Subscription",
+                message: "I want to subscribe for upcoming webinar updates.",
+                country_code: "+91",
+                recaptcha_token
+            });
+
+            if (response.data.status || response.data.id) {
+                toast.success("Subscribed successfully! We will notify you about upcoming webinars.");
+                this.setState({
+                    subscribeName: "",
+                    subscribeEmail: "",
+                    subscribePhone: "",
+                    isSubscribed: true
+                });
+            } else {
+                toast.error(response.data.message || "Failed to subscribe");
+            }
+        } catch (error) {
+            toast.error("Something went wrong. Please try again later.");
+            console.error("Webinar subscribe error:", error);
+        } finally {
+            this.setState({ loadingSubscribe: false });
+        }
+    };
+
     // Close Success Modal
     closeSuccessModal = () => {
         this.setState({
@@ -503,18 +566,44 @@ class Webinar extends Component {
                                 <h3 className="text-black text-center fw-bold">Subscribe now!</h3>
                                 <div className="row justify-content-center">
                                     <div className="col-lg-6">
-                                        <form action="#">
+                                        <form onSubmit={this.handleSubscribeSubmit}>
                                             <div className="my-4">
-                                                <input type="text" name="name" id="name" placeholder="Your Name" />
+                                                <input 
+                                                    type="text" 
+                                                    name="subscribeName" 
+                                                    id="subscribeName" 
+                                                    placeholder="Your Name" 
+                                                    value={this.state.subscribeName} 
+                                                    onChange={this.handleSubscribeChange} 
+                                                    required 
+                                                />
                                             </div>
                                             <div className="my-4">
-                                                <input type="email" name="email" id="email" placeholder="E-mail ID" />
+                                                <input 
+                                                    type="email" 
+                                                    name="subscribeEmail" 
+                                                    id="subscribeEmail" 
+                                                    placeholder="E-mail ID" 
+                                                    value={this.state.subscribeEmail} 
+                                                    onChange={this.handleSubscribeChange} 
+                                                    required 
+                                                 />
                                             </div>
                                             <div className="my-4">
-                                                <input type="number" name="phone" id="phone" placeholder="Phone no" />
+                                                <input 
+                                                    type="number" 
+                                                    name="subscribePhone" 
+                                                    id="subscribePhone" 
+                                                    placeholder="Phone no" 
+                                                    value={this.state.subscribePhone} 
+                                                    onChange={this.handleSubscribeChange} 
+                                                    required 
+                                                />
                                             </div>
                                             <div className="col-12 d-flex justify-content-center">
-                                                <button>Submit</button>
+                                                <button type="submit" disabled={this.state.loadingSubscribe}>
+                                                    {this.state.loadingSubscribe ? "Subscribing..." : "Submit"}
+                                                </button>
                                             </div>
                                         </form>
                                     </div>

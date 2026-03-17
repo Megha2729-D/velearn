@@ -28,6 +28,7 @@ import MyCourses from "./Pages/MyCourses";
 import ChangePassword from "./Pages/ChangePassword";
 import LearnWrapper from "./Pages/LearnCourse";
 import Profile from "./Pages/Profile";
+import CoursesCertificates from "./Pages/CoursesCertificates";
 
 import Debugging from "./Pages/Debugging";
 import DebuggingWorkspace from "./Pages/DebuggingWorkspace";
@@ -202,7 +203,26 @@ const AnimatedRoutes = () => {
                         </PageTransitionWrapper>
                     }
                 />
-
+                <Route
+                    path="/profile"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/courses-certificates"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ProtectedRoute>
+                                <CoursesCertificates />
+                            </ProtectedRoute>
+                        </PageTransitionWrapper>
+                    }
+                />
                 <Route
                     path="/debugging"
                     element={
@@ -216,14 +236,6 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <DebuggingWorkspace />
-                        </PageTransitionWrapper>
-                    }
-                />
-                <Route
-                    path="/live-editor"
-                    element={
-                        <PageTransitionWrapper pathname={location.pathname}>
-                            <LiveEditor />
                         </PageTransitionWrapper>
                     }
                 />

@@ -1,6 +1,8 @@
 import { Component, createRef } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { Link, NavLink } from 'react-router-dom';
+import axios from "axios";
+import { toast } from "react-hot-toast";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -137,6 +139,12 @@ class HomePage extends Component {
                 })
                 .catch(err => console.error("Failed to check enrollments:", err));
         }
+
+        // Fetch contact details for dynamic "Talk to us" section
+        // Note: As there might not be a specific 'settings' or 'contact-info' endpoint, 
+        // we'll use the hardcoded values from ContactUs.jsx or fetch if endpoint is known.
+        // Assuming there might be a general settings endpoint in the future.
+        // For now, keeping it ready for dynamic integration.
     }
 
     state = {
@@ -146,6 +154,14 @@ class HomePage extends Component {
         activeImage: "testimonial/arun-vikkashamuthu.png",
         recordedCourses: {},
         enrolledCoursesList: [],
+        contactDetails: {
+            phone: "99887 76655", // default fallback
+            email: "velearn@gmail.com"
+        },
+        contactName: "",
+        contactPhone: "",
+        contactEmail: "",
+        isSubmitting: false,
     };
 
     testimonialData = [
@@ -268,6 +284,59 @@ class HomePage extends Component {
                 this.state.activeFaqIndex === index ? null : index
         });
     };
+    handleContactChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    handleContactSubmit = async (e) => {
+        e.preventDefault();
+        const { contactName, contactPhone, contactEmail } = this.state;
+
+        if (!contactName || !contactPhone || !contactEmail) {
+            toast.error("Please fill in all fields");
+            return;
+        }
+
+        this.setState({ isSubmitting: true });
+
+        try {
+            let recaptcha_token = "";
+            if (window.grecaptcha) {
+                recaptcha_token = await new Promise((resolve) => {
+                    window.grecaptcha.ready(() => {
+                        window.grecaptcha.execute('6LcbtYYsAAAAAJW-RyO1ZLIWHZ-RyWS6H3gAGgCj', { action: 'homepage_contact' }).then(resolve);
+                    });
+                });
+            }
+
+            const response = await axios.post(`${BASE_API_URL}contacts/send-mail`, {
+                name: contactName,
+                phone_number: contactPhone,
+                email_id: contactEmail,
+                course: "General Inquiry (Home Page)",
+                message: "I am interested in Demo/Discounts. Please contact me.",
+                country_code: "+91",
+                recaptcha_token
+            });
+
+            if (response.data.status || response.data.id) {
+                toast.success("Details sent successfully! We will contact you soon.");
+                this.setState({
+                    contactName: "",
+                    contactPhone: "",
+                    contactEmail: "",
+                });
+            } else {
+                toast.error(response.data.message || "Failed to send details");
+            }
+        } catch (error) {
+            toast.error("Something went wrong. Please try again later.");
+            console.error("Home contact error:", error);
+        } finally {
+            this.setState({ isSubmitting: false });
+        }
+    };
+
     render() {
         const CATEGORY_ORDER = [
             "Software Development",
@@ -401,12 +470,23 @@ class HomePage extends Component {
                                         Fully explained in <span>தமிழ்</span>
                                     </p>
                                     <div className="col-12 mt-5">
-                                        <div className="d-flex align-items-center">
-                                            <img src={`${BASE_IMAGE_URL}icons/phone.png`} className="phone-img" alt="" />
-                                            <div className="call_details">
-                                                <p className="text-c2 mb-0 fw-bold">Have any questions ?</p>
-                                                <p className="fw-bold mb-0"> <a href="tel:">5555555555</a></p>
+                                        <div className="talk_to_us_card">
+                                            <div className="d-flex align-items-center gap-3">
+                                                <div className="talk_icon_box">
+                                                    <img src={`${BASE_IMAGE_URL}icons/phone.png`} className="phone-img-dynamic" alt="phone" />
+                                                </div>
+                                                <div className="call_details">
+                                                    <p className="text-c2 mb-0 fw-bold">Demo, Discounts, or Questions?</p>
+                                                    <h4 className="fw-bold mb-0">
+                                                        <a href={`tel:+91${this.state.contactDetails.phone.replace(/\s+/g, '')}`}>
+                                                            Talk to us: +91 {this.state.contactDetails.phone}
+                                                        </a>
+                                                    </h4>
+                                                </div>
                                             </div>
+                                            <Link to="/contact-us" className="mt-3 d-inline-block text-decoration-none">
+                                                <span className="contact_link_btn">Contact Us Page <i className="bi bi-arrow-right-short"></i></span>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -1154,23 +1234,46 @@ class HomePage extends Component {
                         <div className="container">
                             <div className="col-12 d-flex justify-content-center">
                                 <div className="col-lg-5 col-xl-7">
-                                    <form action="#">
+                                    <form onSubmit={this.handleContactSubmit}>
                                         <div className="col-12 d-flex justify-content-center">
                                             <div className="col-lg-8">
                                                 <h3 className="fw-bold text-c1 mb-4 text-center lh-base">Demo, Discounts, or Questions?<span className="text-c2"> Talk to us.</span></h3>
                                             </div>
                                         </div>
                                         <div>
-                                            <input type="text" placeholder="Name" />
+                                            <input 
+                                                type="text" 
+                                                name="contactName"
+                                                placeholder="Name" 
+                                                value={this.state.contactName}
+                                                onChange={this.handleContactChange}
+                                                required
+                                            />
                                         </div>
                                         <div>
-                                            <input type="text" placeholder="Phone No" />
+                                            <input 
+                                                type="number" 
+                                                name="contactPhone"
+                                                placeholder="Phone No" 
+                                                value={this.state.contactPhone}
+                                                onChange={this.handleContactChange}
+                                                required
+                                            />
                                         </div>
                                         <div>
-                                            <input type="text" placeholder="Email" />
+                                            <input 
+                                                type="email" 
+                                                name="contactEmail"
+                                                placeholder="Email" 
+                                                value={this.state.contactEmail}
+                                                onChange={this.handleContactChange}
+                                                required
+                                            />
                                         </div>
                                         <div className="col-12 d-flex justify-content-center">
-                                            <button>Submit</button>
+                                            <button type="submit" disabled={this.state.isSubmitting}>
+                                                {this.state.isSubmitting ? "Sending..." : "Submit"}
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

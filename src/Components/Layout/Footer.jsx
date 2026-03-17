@@ -150,7 +150,7 @@ class Footer extends Component {
                                         </button>
                                     </h2>
                                     <div id="collapseLiveCourses" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                                        <div className="accordion-body">
+                                        <div className="accordion-body px-0">
                                             <ul className="p-0">
                                                 <li><Link to="/live-course/full-stack-development">Full Stack Development</Link></li>
                                                 <li><Link to="/live-course/ui-ux-design">UI/UX Design Course</Link></li>
@@ -174,7 +174,7 @@ class Footer extends Component {
                                         </button>
                                     </h2>
                                     <div id="collapseTrending" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                                        <div className="accordion-body">
+                                        <div className="accordion-body px-0">
                                             <ul className="p-0">
                                                 {this.state.trendingCourses.map(course => {
                                                     const isEnrolled = this.state.enrolledCourses.some(c => c.id === course.id);
@@ -211,7 +211,7 @@ class Footer extends Component {
                                         </button>
                                     </h2>
                                     <div id="collapseSelfPaced" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                                        <div className="accordion-body">
+                                        <div className="accordion-body px-0">
                                             <ul className="p-0">
                                                 <li><Link to="">Paid Courses</Link></li>
                                                 <li><Link to="">Free Courses</Link></li>
@@ -233,7 +233,7 @@ class Footer extends Component {
                                         </button>
                                     </h2>
                                     <div id="collapseResources" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                                        <div className="accordion-body">
+                                        <div className="accordion-body px-0">
                                             <ul className="p-0">
                                                 <li><Link to="/webinar">Webinars</Link></li>
                                                 <li><Link to="/blogs">Blogs</Link></li>
@@ -255,7 +255,7 @@ class Footer extends Component {
                                         </button>
                                     </h2>
                                     <div id="collapsePractice" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                                        <div className="accordion-body">
+                                        <div className="accordion-body px-0">
                                             <ul className="p-0">
                                                 <li><Link to="/ide">IDE</Link></li>
                                                 <li><Link to="/debugging">Debugging</Link></li>
@@ -275,7 +275,7 @@ class Footer extends Component {
                                         </button>
                                     </h2>
                                     <div id="collapseCompany" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
-                                        <div className="accordion-body">
+                                        <div className="accordion-body px-0">
                                             <ul className="p-0">
                                                 <li><Link to="/refund-policy">Refund Policy</Link></li>
                                                 <li><Link to="/faq">FAQs</Link></li>

@@ -10,6 +10,7 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const [errors, setErrors] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,33 +22,31 @@ const ForgotPassword = () => {
 
         setLoading(true);
         setMessage("");
+        setErrors({});
 
         try {
-            // reCAPTCHA Token
-            const recaptcha_token = await new Promise((resolve) => {
-                window.grecaptcha.ready(() => {
-                    window.grecaptcha.execute('6LcbtYYsAAAAAJW-RyO1ZLIWHZ-RyWS6H3gAGgCj', { action: 'forgot_password' }).then(resolve);
-                });
-            });
-
-            const response = await axios.post(`${BASE_API_URL}forgot-password`, { email, recaptcha_token });
+            const response = await axios.post(`${BASE_API_URL}forgot-password`, { email });
             
             if (response.data.status) {
                 toast.success(response.data.message);
-                setMessage("Please check your email for the password reset instructions.");
+                setMessage(response.data.message || "Please check your email for the password reset instructions.");
                 setEmail("");
             } else {
                 toast.error(response.data.message || "Failed to send reset link");
             }
         } catch (error) {
-            const errorMessage = error.response?.data?.message || "Something went wrong. Please try again later.";
-            toast.error(errorMessage);
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors || {});
+                toast.error(error.response.data.message || "Validation failed");
+            } else {
+                const errorMessage = error.response?.data?.message || "Something went wrong. Please try again later.";
+                toast.error(errorMessage);
+            }
             console.error("Forgot password error:", error);
         } finally {
             setLoading(false);
         }
     };
-
     return (
         <div className="forgot-password-page">
             <div className="forgot-password-card">
@@ -81,6 +80,7 @@ const ForgotPassword = () => {
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
+                                {errors.email && <div className="text-danger small mt-1">{errors.email[0]}</div>}
                             </div>
 
                             <button

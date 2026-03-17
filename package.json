@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.28.6",
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-javascript": "^6.2.4",
@@ -16,6 +17,7 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "framer-motion": "^12.23.24",
+    "html2pdf.js": "^0.14.0",
     "monaco-editor": "^0.55.1",
     "react": "^19.2.0",
     "react-circular-progressbar": "^2.2.0",

@@ -16,6 +16,7 @@ const ResetPassword = () => {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const emailParam = searchParams.get("email");
@@ -44,25 +45,18 @@ const ResetPassword = () => {
         }
 
         setLoading(true);
+        setErrors({});
 
         try {
-            // reCAPTCHA Token
-            const recaptcha_token = await new Promise((resolve) => {
-                window.grecaptcha.ready(() => {
-                    window.grecaptcha.execute('6LcbtYYsAAAAAJW-RyO1ZLIWHZ-RyWS6H3gAGgCj', { action: 'reset_password' }).then(resolve);
-                });
-            });
-
             const response = await axios.post(`${BASE_API_URL}reset-password`, {
                 email,
                 token,
                 password,
-                password_confirmation: passwordConfirmation,
-                recaptcha_token
+                password_confirmation: passwordConfirmation
             });
 
             if (response.data.status) {
-                toast.success("Password reset successful! Redirecting to login...");
+                toast.success(response.data.message || "Password reset successful! Redirecting to login...");
                 setTimeout(() => {
                     navigate("/login");
                 }, 2000);
@@ -70,7 +64,12 @@ const ResetPassword = () => {
                 toast.error(response.data.message || "Reset failed");
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || "Something went wrong. Please try again later.");
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors || {});
+                toast.error(error.response.data.message || "Validation failed");
+            } else {
+                toast.error(error.response?.data?.message || "Something went wrong. Please try again later.");
+            }
         } finally {
             setLoading(false);
         }
@@ -116,6 +115,7 @@ const ResetPassword = () => {
                                     <i className={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}></i>
                                 </span>
                             </div>
+                            {errors.password && <div className="text-danger small mt-1">{errors.password[0]}</div>}
                         </div>
 
                         <div className="reset-form-group">
@@ -128,6 +128,7 @@ const ResetPassword = () => {
                                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                                 required
                             />
+                            {errors.password_confirmation && <div className="text-danger small mt-1">{errors.password_confirmation[0]}</div>}
                         </div>
 
                         <button 

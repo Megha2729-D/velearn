@@ -175,10 +175,9 @@ class ReferAndEarn extends Component {
                                                                         </p>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
-                                                        <div className="col-lg-6">
+                                                        <div className="col-lg-6 mt-5 mt-lg-0">
                                                             <div className="row">
                                                                 <div className="col-1">
                                                                     <div className="refer_count_steps">4</div>

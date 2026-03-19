@@ -92,8 +92,9 @@ class Footer extends Component {
                                                 <div>
                                                     <h3>Self Paced Courses</h3>
                                                     <ul className="p-0">
-                                                        <li><Link to="">Paid Courses</Link></li>
-                                                        <li><Link to="">Free Courses</Link></li>
+                                                        <li><Link to="/recorded-course/paid">Paid Courses</Link></li>
+                                                        <li><Link to="/recorded-course/combo">Combo Courses</Link></li>
+                                                        <li><Link to="/recorded-course/free">Free Courses</Link></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -106,7 +107,7 @@ class Footer extends Component {
                                                         <li><Link to="/webinar">Webinars</Link></li>
                                                         <li><Link to="/blogs">Blogs</Link></li>
                                                         <li><Link to="">Rewards & Referrals</Link></li>
-                                                        <li><Link to="">Become An Affilliate</Link></li>
+                                                        {/* <li><Link to="">Become An Affilliate</Link></li> */}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -213,8 +214,9 @@ class Footer extends Component {
                                     <div id="collapseSelfPaced" className="accordion-collapse collapse" data-bs-parent="#footerAccordion">
                                         <div className="accordion-body px-0">
                                             <ul className="p-0">
-                                                <li><Link to="">Paid Courses</Link></li>
-                                                <li><Link to="">Free Courses</Link></li>
+                                                <li><Link to="/recorded-course/paid">Paid Courses</Link></li>
+                                                <li><Link to="/recorded-course/combo">Combo Courses</Link></li>
+                                                <li><Link to="/recorded-course/free">Free Courses</Link></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -238,7 +240,7 @@ class Footer extends Component {
                                                 <li><Link to="/webinar">Webinars</Link></li>
                                                 <li><Link to="/blogs">Blogs</Link></li>
                                                 <li><Link to="">Rewards & Referrals</Link></li>
-                                                <li><Link to="">Become An Affilliate</Link></li>
+                                                {/* <li><Link to="">Become An Affilliate</Link></li> */}
                                             </ul>
                                         </div>
                                     </div>

@@ -13,6 +13,7 @@ import ScrollToTop from "./ScrollToTop";
 import Preloader from "./Preloader";
 
 import RecordedCourse from "./Pages/RecordedCourse/RecordedCourse";
+import AllCourses from "./Pages/RecordedCourse/AllCourses";
 import RecordedCourseDetails from "./Pages/RecordedCourse/RecordedCourseDetails";
 
 import LiveCourses from "./Pages/LiveCourse/LiveCourses";
@@ -34,6 +35,7 @@ import Debugging from "./Pages/Debugging";
 import DebuggingWorkspace from "./Pages/DebuggingWorkspace";
 import LiveEditor from "./Pages/LiveEditor";
 import IDEEditor from "./Pages/IDEEditor";
+import ReferAndEarn from "./Pages/ReferAndEarn";
 
 import Blog from "./Pages/Blog";
 import BlogDetails from "./Pages/BlogDetails";
@@ -102,6 +104,14 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <RecordedCourse />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/recorded-course/:filter"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <AllCourses />
                         </PageTransitionWrapper>
                     }
                 />
@@ -244,6 +254,14 @@ const AnimatedRoutes = () => {
                     element={
                         <PageTransitionWrapper pathname={location.pathname}>
                             <IDEEditor />
+                        </PageTransitionWrapper>
+                    }
+                />
+                <Route
+                    path="/refer-and-earn"
+                    element={
+                        <PageTransitionWrapper pathname={location.pathname}>
+                            <ReferAndEarn />
                         </PageTransitionWrapper>
                     }
                 />

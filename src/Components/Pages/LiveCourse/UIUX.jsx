@@ -31,11 +31,7 @@ class UIUX extends Component {
             isEnrolled: false,
             showEnrollSuccessModal: false,
             showEnrollFormModal: false,
-
-            nameModal: "",
-            phoneModal: "",
-            emailModal: "",
-            modalErrors: {}
+            showConfirmModal: false
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
@@ -85,40 +81,22 @@ class UIUX extends Component {
 
     };
 
-    validateModalForm = () => {
-
-        let modalErrors = {};
+    validateForm = () => {
+        let errors = {};
         let isValid = true;
-
-        const { nameModal, phoneModal, emailModal } = this.state;
-
-        if (!nameModal.trim()) {
-            modalErrors.nameModal = "Name is required";
+        if (!this.state.name.trim()) { errors.name = "Name is required"; isValid = false; }
+        if (!this.state.phone.trim()) { errors.phone = "Phone is required"; isValid = false; }
+        else if (!/^[0-9]{10}$/.test(this.state.phone)) {
+            errors.phone = "Enter valid 10 digit phone number";
             isValid = false;
         }
-
-        if (!phoneModal.trim()) {
-            modalErrors.phoneModal = "Phone number is required";
+        if (!this.state.email.trim()) { errors.email = "Email is required"; isValid = false; }
+        else if (!/\S+@\S+\.\S+/.test(this.state.email)) {
+            errors.email = "Enter valid email address";
             isValid = false;
         }
-        else if (!/^[0-9]{10}$/.test(phoneModal)) {
-            modalErrors.phoneModal = "Enter valid 10 digit phone number";
-            isValid = false;
-        }
-
-        if (!emailModal.trim()) {
-            modalErrors.emailModal = "Email is required";
-            isValid = false;
-        }
-        else if (!/\S+@\S+\.\S+/.test(emailModal)) {
-            modalErrors.emailModal = "Enter valid email address";
-            isValid = false;
-        }
-
-        this.setState({ modalErrors });
-
+        this.setState({ errors });
         return isValid;
-
     };
 
     openEnrollFormModal = () => {
@@ -127,9 +105,9 @@ class UIUX extends Component {
 
         this.setState({
             showEnrollFormModal: true,
-            nameModal: user?.name || "",
-            phoneModal: user?.phonenumber || user?.phone || "",
-            emailModal: user?.email || ""
+            name: user?.name || "",
+            phone: user?.phonenumber || user?.phone || "",
+            email: user?.email || ""
         });
 
     };
@@ -170,41 +148,30 @@ class UIUX extends Component {
         this.setState({ [e.target.name]: e.target.value, errors: { ...this.state.errors, [e.target.name]: "" } });
     };
 
-    validateForm = () => {
-        let errors = {};
-        let isValid = true;
-        if (!this.state.name.trim()) { errors.name = "Name is required"; isValid = false; }
-        if (!this.state.email.trim()) { errors.email = "Email is required"; isValid = false; }
-        if (!this.state.phone) { errors.phone = "Phone is required"; isValid = false; }
-        this.setState({ errors });
-        return isValid;
-    };
 
     handleEnroll = (e) => {
-
-        e.preventDefault();
-
+        if (e) e.preventDefault();
         const user = JSON.parse(localStorage.getItem("user"));
-
         if (!user) {
             this.props.navigate("/login");
             return;
         }
+        if (!this.validateForm()) return;
+        this.setState({ showConfirmModal: true });
+    };
 
-        if (!this.validateModalForm()) return;
-
-        const { nameModal, phoneModal, emailModal, course_id } = this.state;
-
+    confirmEnroll = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const { name, phone, email, course_id } = this.state;
         const payload = {
-            name: nameModal,
-            phone: phoneModal,
-            email: emailModal,
+            name: name,
+            phone: phone,
+            email: email,
             course_id,
             auth_id: user.id
         };
-
         const token = localStorage.getItem("token");
-
+        this.setState({ showConfirmModal: false });
         fetch(`${BASE_API_URL}enroll-now`, {
             method: "POST",
             headers: {
@@ -215,46 +182,33 @@ class UIUX extends Component {
         })
             .then(res => res.json())
             .then(data => {
-
                 if (data.status) {
-
                     toast.success("Enrollment request sent!");
-
                     this.setState({
                         isEnrolled: true,
                         showEnrollSuccessModal: true,
                         showEnrollFormModal: false,
-                        modalErrors: {}
+                        errors: {}
                     });
-
-                }
-                else if (data.message && data.message.toLowerCase().includes("already")) {
-
+                } else if (data.message && data.message.toLowerCase().includes("already")) {
                     toast.success(data.message);
-
                     this.setState({
                         isEnrolled: true,
                         showEnrollSuccessModal: true,
                         showEnrollFormModal: false
                     });
-
-                }
-                else {
+                } else {
                     toast.error(data.message || "Enrollment failed");
                 }
-
             })
             .catch(err => {
                 console.error(err);
                 toast.error("An error occurred during enrollment");
             });
-
     };
 
     goToLearnPage = () => {
-        this.props.navigate(`/learn/ui-ux-design`, {
-            state: { courseId: this.state.course_id }
-        });
+        this.props.navigate(`/live-course-history`);
     };
 
     componentWillUnmount() {
@@ -443,12 +397,47 @@ class UIUX extends Component {
         const { activeTab } = this.state;
         const currentContent = this.renderContent();
         const user = JSON.parse(localStorage.getItem("user"));
-        const { showEnrollSuccessModal } = this.state;
+        const { showEnrollSuccessModal, showConfirmModal } = this.state;
         return (
             <>
+                {/* Confirmation Modal */}
+                {showConfirmModal && (
+                    <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10002 }}>
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '15px' }}>
+                                <div className="modal-body text-center p-5">
+                                    <div className="mb-4">
+                                        <i className="bi bi-question-circle-fill text-warning" style={{ fontSize: '70px' }}></i>
+                                    </div>
+                                    <h3 className="fw-bold mb-3">Confirm Enrollment</h3>
+                                    <p className="text-muted mb-4">
+                                        Are you sure you want to enroll in the <strong>UI/UX Design</strong> live program?
+                                    </p>
+                                    <div className="d-flex gap-3 justify-content-center">
+                                        <button
+                                            className="btn btn-outline-secondary px-4 py-2"
+                                            onClick={() => this.setState({ showConfirmModal: false })}
+                                            style={{ borderRadius: '10px' }}
+                                        >
+                                            No, Cancel
+                                        </button>
+                                        <button
+                                            className="btn btn-primary px-4 py-2"
+                                            onClick={this.confirmEnroll}
+                                            style={{ borderRadius: '10px', backgroundColor: '#22346b', border: 'none' }}
+                                        >
+                                            Yes, Enroll Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Success Redirect Modal */}
                 {showEnrollSuccessModal && (
-                    <div className="modal fade show d-block" style={{ background: '#000000b3', zIndex: 10001 }}>
+                    <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10001 }}>
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '15px' }}>
                                 <div className="modal-body text-center p-5">
@@ -500,14 +489,14 @@ class UIUX extends Component {
                                     <label>Name</label>
                                     <input
                                         type="text"
-                                        name="nameModal"
-                                        value={this.state.nameModal}
-                                        onChange={this.handleModalChange}
-                                        className={`form-control ${this.state.modalErrors.nameModal ? "is-invalid" : ""}`}
+                                        name="name"
+                                        value={this.state.name}
+                                        onChange={this.handleChange}
+                                        className={`form-control ${this.state.errors.name ? "is-invalid" : ""}`}
                                     />
 
-                                    {this.state.modalErrors.nameModal && (
-                                        <span className="error-msg">{this.state.modalErrors.nameModal}</span>
+                                    {this.state.errors.name && (
+                                        <span className="error-msg">{this.state.errors.name}</span>
                                     )}
                                 </div>
 
@@ -515,14 +504,14 @@ class UIUX extends Component {
                                     <label>Phone Number</label>
                                     <input
                                         type="number"
-                                        name="phoneModal"
-                                        value={this.state.phoneModal}
-                                        onChange={this.handleModalChange}
-                                        className={`form-control ${this.state.modalErrors.phoneModal ? "is-invalid" : ""}`}
+                                        name="phone"
+                                        value={this.state.phone}
+                                        onChange={this.handleChange}
+                                        className={`form-control ${this.state.errors.phone ? "is-invalid" : ""}`}
                                     />
 
-                                    {this.state.modalErrors.phoneModal && (
-                                        <span className="error-msg">{this.state.modalErrors.phoneModal}</span>
+                                    {this.state.errors.phone && (
+                                        <span className="error-msg">{this.state.errors.phone}</span>
                                     )}
                                 </div>
 
@@ -530,14 +519,14 @@ class UIUX extends Component {
                                     <label>Email</label>
                                     <input
                                         type="email"
-                                        name="emailModal"
-                                        value={this.state.emailModal}
-                                        onChange={this.handleModalChange}
-                                        className={`form-control ${this.state.modalErrors.emailModal ? "is-invalid" : ""}`}
+                                        name="email"
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
+                                        className={`form-control ${this.state.errors.email ? "is-invalid" : ""}`}
                                     />
 
-                                    {this.state.modalErrors.emailModal && (
-                                        <span className="error-msg">{this.state.modalErrors.emailModal}</span>
+                                    {this.state.errors.email && (
+                                        <span className="error-msg">{this.state.errors.email}</span>
                                     )}
                                 </div>
                                 <div className="col-12 d-flex justify-content-center">

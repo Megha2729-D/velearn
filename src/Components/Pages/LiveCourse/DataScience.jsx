@@ -32,8 +32,9 @@ class DataScience extends Component {
             errors: {},
             isEnrolled: false,
 
-            showEnrollModal: false,   // ADD
-            showEnrollSuccessModal: false
+            showEnrollModal: false,
+            showEnrollSuccessModal: false,
+            showConfirmModal: false
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
@@ -107,17 +108,28 @@ class DataScience extends Component {
     };
 
     handleEnroll = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         const user = JSON.parse(localStorage.getItem("user"));
         if (!user) {
             this.props.navigate("/login");
             return;
         }
         if (!this.validateForm()) return;
-        const { name, phone, email, course_id } = this.state;
-        const payload = { name, phone, email, course_id, auth_id: user.id };
-        const token = localStorage.getItem("token");
+        this.setState({ showConfirmModal: true });
+    };
 
+    confirmEnroll = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const { name, phone, email, course_id } = this.state;
+        const payload = {
+            name: name,
+            phone: phone,
+            email: email,
+            course_id,
+            auth_id: user.id
+        };
+        const token = localStorage.getItem("token");
+        this.setState({ showConfirmModal: false });
         fetch(`${BASE_API_URL}enroll-now`, {
             method: "POST",
             headers: {
@@ -130,10 +142,19 @@ class DataScience extends Component {
             .then(data => {
                 if (data.status) {
                     toast.success("Enrollment request sent!");
-                    this.setState({ isEnrolled: true, showEnrollSuccessModal: true });
+                    this.setState({
+                        isEnrolled: true,
+                        showEnrollModal: false,
+                        showEnrollSuccessModal: true,
+                        errors: {}
+                    });
                 } else if (data.message && data.message.toLowerCase().includes("already")) {
-                    this.setState({ isEnrolled: true, showEnrollSuccessModal: true });
                     toast.success(data.message);
+                    this.setState({
+                        isEnrolled: true,
+                        showEnrollModal: false,
+                        showEnrollSuccessModal: true
+                    });
                 } else {
                     toast.error(data.message || "Enrollment failed");
                 }
@@ -145,9 +166,7 @@ class DataScience extends Component {
     };
 
     goToLearnPage = () => {
-        this.props.navigate(`/learn/data-science`, {
-            state: { courseId: this.state.course_id }
-        });
+        this.props.navigate(`/live-course-history`);
     };
 
     componentWillUnmount() {
@@ -423,10 +442,45 @@ class DataScience extends Component {
             },
         ];
         const sliderTestimonalData = [...testimonials, ...testimonials];
-        const { showEnrollSuccessModal } = this.state;
+        const { showEnrollSuccessModal, showConfirmModal } = this.state;
 
         return (
             <>
+                {/* Confirmation Modal */}
+                {showConfirmModal && (
+                    <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10002 }}>
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '15px' }}>
+                                <div className="modal-body text-center p-5">
+                                    <div className="mb-4">
+                                        <i className="bi bi-question-circle-fill text-warning" style={{ fontSize: '70px' }}></i>
+                                    </div>
+                                    <h3 className="fw-bold mb-3">Confirm Enrollment</h3>
+                                    <p className="text-muted mb-4">
+                                        Are you sure you want to enroll in the <strong>Data Science</strong> live program?
+                                    </p>
+                                    <div className="d-flex gap-3 justify-content-center">
+                                        <button
+                                            className="btn btn-outline-secondary px-4 py-2"
+                                            onClick={() => this.setState({ showConfirmModal: false })}
+                                            style={{ borderRadius: '10px' }}
+                                        >
+                                            No, Cancel
+                                        </button>
+                                        <button
+                                            className="btn btn-primary px-4 py-2"
+                                            onClick={this.confirmEnroll}
+                                            style={{ borderRadius: '10px', backgroundColor: '#22346b', border: 'none' }}
+                                        >
+                                            Yes, Enroll Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Success Redirect Modal */}
                 {showEnrollSuccessModal && (
                     <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10001 }}>

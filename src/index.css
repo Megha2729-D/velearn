@@ -1478,9 +1478,10 @@ img {
     align-items: center;
 }
 
-.v-about .phone-img-dynamic {
-    width: 35px;
-    height: 35px;
+.v-about .phone-img {
+    height: 100px;
+    transform: rotate(5deg);
+    width: 100px;
 }
 
 .v-about .call_details h4 a {
@@ -1509,7 +1510,7 @@ img {
 }
 
 .v-about .call_details p {
-    font-size: 17px;
+    font-size: 19px;
 }
 
 .v-about .call_details a {
@@ -4555,7 +4556,7 @@ section {
         padding-right: 75px !important;
     }
 
-/* 
+    /* 
     .nav-elements .dropdown-menu .sub-dropdown:hover .sub-dropdown-menu {
         display: block;
     }

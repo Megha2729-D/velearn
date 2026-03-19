@@ -607,49 +607,36 @@ class RecordedCourseDetails extends Component {
         const { course, loading, error } = this.state;
         const user = JSON.parse(localStorage.getItem("user"));
 
-        if (loading) return <div className="d-flex justify-content-center align-items-center">
-            <svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fillOpacity="0.6" />
-
-                <text x="400" y="240" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontSize="52" fill="#22346b">LOADING...</text>
-
-                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fillOpacity="0.8" />
-
-                <g transform="translate(180, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" strokeWidth="3" fill="white" />
-                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" strokeWidth="3" strokeLinecap="round" />
-                </g>
-
-                <g transform="translate(580, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fillOpacity="0.2" />
-                </g>
-
-                <path d="M300 380 Q310 340 330 380" fill="#24b8ec" opacity="0.6" />
-                <path d="M500 380 Q510 350 530 380" fill="#22346b" opacity="0.4" />
-            </svg>
-        </div>;
-        if (error) return <div className="d-flex justify-content-center align-items-center">
-            <svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M150 150C150 100 250 50 400 50C550 50 650 100 650 200C650 300 550 350 400 350C250 350 150 300 150 200Z" fill="#FDF6E3" fillOpacity="0.6" />
-
-                <text x="400" y="240" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontSize="52" fill="#22346b">COURSE</text>
-                <text x="400" y="300" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontSize="42" fill="#24b8ec">NOT FOUND</text>
-
-                <path d="M180 380Q400 420 620 380L600 400Q400 440 200 400Z" fill="#22346b" fillOpacity="0.8" />
-
-                <g transform="translate(180, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M20 35 L45 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <circle cx="55" cy="35" r="12" stroke="#22346b" strokeWidth="3" fill="white" />
-                    <line x1="63" y1="43" x2="70" y2="50" stroke="#22346b" strokeWidth="3" strokeLinecap="round" />
-                </g>
-
-                <g transform="translate(580, 300)">
-                    <circle cx="15" cy="15" r="10" fill="#22346b" /> <rect x="10" y="25" width="10" height="35" rx="5" fill="#24b8ec" /> <path d="M10 35 L-15 35" stroke="#22346b" strokeWidth="4" strokeLinecap="round" /> <path d="M-15 35 L-80 10 L-80 60 Z" fill="#24b8ec" fillOpacity="0.2" />
-                </g>
-
-                <path d="M300 380 Q310 340 330 380" fill="#24b8ec" opacity="0.6" />
-                <path d="M500 380 Q510 350 530 380" fill="#22346b" opacity="0.4" />
-            </svg>
-        </div>;
+        if (loading) {
+            return (
+                <div className="loading-container p-5">
+                    <div className="loading-spinner">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <p className="loading-text">Exploring course details...</p>
+                </div>
+            );
+        }
+        if (error) {
+            return (
+                <div className="container py-5">
+                    <div className="status-message-container">
+                        <div className="status-icon-box">
+                            <i className="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <h2 className="status-title">Course Not Found</h2>
+                        <p className="status-desc">
+                            We couldn't find the course you're looking for. It might have been moved or is currently unavailable.
+                        </p>
+                        <Link to="/recorded-course" className="btn_theme_primary px-5 py-2">
+                            Browse All Courses
+                        </Link>
+                    </div>
+                </div>
+            );
+        }
 
         const commonOutcomes = [
             "Industry-Ready Practical Skills",
@@ -676,13 +663,14 @@ class RecordedCourseDetails extends Component {
                                 <div className="rc_banner_content">
                                     <h1>{course.title}</h1>
                                     <p>{course.sub_description}</p>
-                                    <div className="d-flex justify-content-start mt-3">
+                                    <div className="d-flex justify-content-start mt-4">
                                         {this.state.isEnrolled ? (
                                             <button
                                                 type="button"
                                                 onClick={this.goToLearnPage}
+                                                className="btn_theme_primary"
                                             >
-                                                Start Course
+                                                Continue Your Learning
                                             </button>
                                         ) : (
                                             <button
@@ -694,8 +682,9 @@ class RecordedCourseDetails extends Component {
                                                         this.openEnrollFormModal();
                                                     }
                                                 }}
+                                                className="btn_theme_primary"
                                             >
-                                                {user ? "Enroll Now" : "Login to Enroll"}
+                                                {user ? "Secure Your Seat" : "Login to Enroll"}
                                             </button>
                                         )}
                                     </div>
@@ -791,19 +780,21 @@ class RecordedCourseDetails extends Component {
                                             <button
                                                 type="button"
                                                 onClick={this.goToLearnPage}
+                                                className="btn_theme_primary w-100"
                                             >
-                                                Start Course
+                                                Open Classroom
                                             </button>
                                         ) : (
                                             <button
                                                 type={user ? "submit" : "button"}
+                                                className="btn_theme_primary w-100"
                                                 onClick={() => {
                                                     if (!user) {
                                                         this.props.navigate("/login");
                                                     }
                                                 }}
                                             >
-                                                {user ? "Enroll Now" : "Login to Enroll"}
+                                                {user ? "Start Learning" : "Login to Enroll"}
                                             </button>
                                         )}
                                     </div>

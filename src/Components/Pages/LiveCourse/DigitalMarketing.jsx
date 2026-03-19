@@ -33,11 +33,7 @@ class DigitalMarketing extends Component {
             isEnrolled: false,
             showEnrollModal: false,
             showEnrollSuccessModal: false,
-
-            nameModal: "",
-            phoneModal: "",
-            emailModal: "",
-            modalErrors: {},
+            showConfirmModal: false
         };
 
         this.tabRefs = [1, 2, 3, 4, 5].map(() => createRef());
@@ -54,10 +50,7 @@ class DigitalMarketing extends Component {
             this.setState({
                 name: user.name || "",
                 email: user.email || "",
-                phone: user.phonenumber || user.phone || "",
-                nameModal: user.name || "",
-                emailModal: user.email || "",
-                phoneModal: user.phonenumber || user.phone || "",
+                phone: user.phonenumber || user.phone || ""
             });
             this.checkEnrollment(user.id, this.state.course_id);
         }
@@ -158,29 +151,28 @@ class DigitalMarketing extends Component {
     };
 
     handleEnroll = (e) => {
-        e.preventDefault();
-
+        if (e) e.preventDefault();
         const user = JSON.parse(localStorage.getItem("user"));
-
         if (!user) {
             this.props.navigate("/login");
             return;
         }
+        if (!this.validateForm()) return;
+        this.setState({ showConfirmModal: true });
+    };
 
-        if (!this.validateModalForm()) return;
-
-        const { nameModal, phoneModal, emailModal, course_id } = this.state;
-
+    confirmEnroll = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const { name, phone, email, course_id } = this.state;
         const payload = {
-            name: nameModal,
-            phone: phoneModal,
-            email: emailModal,
+            name: name,
+            phone: phone,
+            email: email,
             course_id,
             auth_id: user.id
         };
-
         const token = localStorage.getItem("token");
-
+        this.setState({ showConfirmModal: false });
         fetch(`${BASE_API_URL}enroll-now`, {
             method: "POST",
             headers: {
@@ -192,26 +184,20 @@ class DigitalMarketing extends Component {
             .then(res => res.json())
             .then(data => {
                 if (data.status) {
-
                     toast.success("Enrollment request sent!");
-
                     this.setState({
                         isEnrolled: true,
                         showEnrollModal: false,
                         showEnrollSuccessModal: true,
-                        modalErrors: {}
+                        errors: {}
                     });
-
                 } else if (data.message && data.message.toLowerCase().includes("already")) {
-
                     toast.success(data.message);
-
                     this.setState({
                         isEnrolled: true,
                         showEnrollModal: false,
                         showEnrollSuccessModal: true
                     });
-
                 } else {
                     toast.error(data.message || "Enrollment failed");
                 }
@@ -228,9 +214,7 @@ class DigitalMarketing extends Component {
 
 
     goToLearnPage = () => {
-        this.props.navigate(`/learn/digital-marketing`, {
-            state: { courseId: this.state.course_id }
-        });
+        this.props.navigate(`/live-course-history`);
     };
 
     componentWillUnmount() {
@@ -506,10 +490,45 @@ class DigitalMarketing extends Component {
             },
         ];
         const sliderTestimonalData = [...testimonials, ...testimonials];
-        const { showEnrollSuccessModal } = this.state;
+        const { showEnrollSuccessModal, showConfirmModal } = this.state;
 
         return (
             <>
+                {/* Confirmation Modal */}
+                {showConfirmModal && (
+                    <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10002 }}>
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '15px' }}>
+                                <div className="modal-body text-center p-5">
+                                    <div className="mb-4">
+                                        <i className="bi bi-question-circle-fill text-warning" style={{ fontSize: '70px' }}></i>
+                                    </div>
+                                    <h3 className="fw-bold mb-3">Confirm Enrollment</h3>
+                                    <p className="text-muted mb-4">
+                                        Are you sure you want to enroll in the <strong>Digital Marketing</strong> live program?
+                                    </p>
+                                    <div className="d-flex gap-3 justify-content-center">
+                                        <button
+                                            className="btn btn-outline-secondary px-4 py-2"
+                                            onClick={() => this.setState({ showConfirmModal: false })}
+                                            style={{ borderRadius: '10px' }}
+                                        >
+                                            No, Cancel
+                                        </button>
+                                        <button
+                                            className="btn btn-primary px-4 py-2"
+                                            onClick={this.confirmEnroll}
+                                            style={{ borderRadius: '10px', backgroundColor: '#22346b', border: 'none' }}
+                                        >
+                                            Yes, Enroll Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Success Redirect Modal */}
                 {showEnrollSuccessModal && (
                     <div className="modal fade show d-block" style={{ background: 'rgba(0,0,0,0.7)', zIndex: 10001 }}>
@@ -564,14 +583,14 @@ class DigitalMarketing extends Component {
                                         <label>Name</label>
                                         <input
                                             type="text"
-                                            name="nameModal"
-                                            value={this.state.nameModal}
-                                            onChange={this.handleModalChange}
-                                            className={`form-control ${this.state.modalErrors.nameModal ? "is-invalid" : ""}`}
+                                            name="name"
+                                            value={this.state.name}
+                                            onChange={this.handleChange}
+                                            className={`form-control ${this.state.errors.name ? "is-invalid" : ""}`}
                                         />
 
-                                        {this.state.modalErrors.nameModal && (
-                                            <span className="error-msg">{this.state.modalErrors.nameModal}</span>
+                                        {this.state.errors.name && (
+                                            <span className="error-msg">{this.state.errors.name}</span>
                                         )}
                                     </div>
 
@@ -579,14 +598,14 @@ class DigitalMarketing extends Component {
                                         <label>Phone Number</label>
                                         <input
                                             type="number"
-                                            name="phoneModal"
-                                            value={this.state.phoneModal}
-                                            onChange={this.handleModalChange}
-                                            className={`form-control ${this.state.modalErrors.phoneModal ? "is-invalid" : ""}`}
+                                            name="phone"
+                                            value={this.state.phone}
+                                            onChange={this.handleChange}
+                                            className={`form-control ${this.state.errors.phone ? "is-invalid" : ""}`}
                                         />
 
-                                        {this.state.modalErrors.phoneModal && (
-                                            <span className="error-msg">{this.state.modalErrors.phoneModal}</span>
+                                        {this.state.errors.phone && (
+                                            <span className="error-msg">{this.state.errors.phone}</span>
                                         )}
                                     </div>
 
@@ -594,14 +613,14 @@ class DigitalMarketing extends Component {
                                         <label>Email</label>
                                         <input
                                             type="email"
-                                            name="emailModal"
-                                            value={this.state.emailModal}
-                                            onChange={this.handleModalChange}
-                                            className={`form-control ${this.state.modalErrors.emailModal ? "is-invalid" : ""}`}
+                                            name="email"
+                                            value={this.state.email}
+                                            onChange={this.handleChange}
+                                            className={`form-control ${this.state.errors.email ? "is-invalid" : ""}`}
                                         />
 
-                                        {this.state.modalErrors.emailModal && (
-                                            <span className="error-msg">{this.state.modalErrors.emailModal}</span>
+                                        {this.state.errors.email && (
+                                            <span className="error-msg">{this.state.errors.email}</span>
                                         )}
                                     </div>
                                     <div className="col-12 d-flex justify-content-center">

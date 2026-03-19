@@ -14,6 +14,7 @@ const Navbar = () => {
     const [subDropdownOpen, setSubDropdownOpen] = useState({});
     const [user, setUser] = useState(null);
     const [paidCourses, setPaidCourses] = useState([]);
+    const [comboCourses, setComboCourses] = useState([]);
     const [freeCourses, setFreeCourses] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -83,8 +84,9 @@ const Navbar = () => {
             .then(res => {
                 if (res.data.status) {
                     const courses = res.data.data;
-                    setPaidCourses(courses.filter(c => parseFloat(c.buy_price) > 0).slice(0, 5));
-                    setFreeCourses(courses.filter(c => parseFloat(c.buy_price) === 0).slice(0, 5));
+                    setPaidCourses(courses.filter(c => c.course_type === 'paid').slice(0, 5));
+                    setComboCourses(courses.filter(c => c.course_type === 'combo').slice(0, 5));
+                    setFreeCourses(courses.filter(c => c.course_type === 'free').slice(0, 5));
                 }
             })
             .catch(err => console.log("Course fetch error", err));
@@ -244,8 +246,11 @@ const Navbar = () => {
         location.pathname === "/live-course/digital-marketing" ||
         location.pathname === "/live-course/data-science";
 
+    const isNavbarRefer =
+        location.pathname === "/refer-and-earn";
+
     return (
-        <nav className={`v-navbar ${scrolled ? 'scrolled' : ''} ${isNavbarTwo ? 'navbar_two' : ''}`}>
+        <nav className={`v-navbar ${scrolled ? 'scrolled' : ''} ${isNavbarTwo ? 'navbar_two' : ''} ${isNavbarRefer ? 'navbarRefer' : ''}`}>
             {/* TOP BANNER */}
             <div className="top-banner">
                 <p className='mb-0 py-1'>New batch offer live. Start your IT journey now.</p>
@@ -275,8 +280,8 @@ const Navbar = () => {
                         <div className={`nav-elements ${showNavbar ? 'active' : ''}`}>
                             <ul className="mb-0 p-lg-0">
                                 {/* SELF-PACED */}
-                                <li 
-                                    className={`dropdown ${dropdownOpen.selfPaced ? 'open' : ''}`} 
+                                <li
+                                    className={`dropdown ${dropdownOpen.selfPaced ? 'open' : ''}`}
                                     onClick={(e) => toggleDropdown('selfPaced', e)}
                                     onMouseEnter={() => handleMouseEnter('selfPaced')}
                                     onMouseLeave={handleMouseLeave}
@@ -286,7 +291,7 @@ const Navbar = () => {
                                     </span>
                                     <ul className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
                                         {/* Paid Courses */}
-                                        <li 
+                                        <li
                                             className="sub-dropdown"
                                             onMouseEnter={() => handleSubMouseEnter('group1')}
                                             onMouseLeave={() => setSubDropdownOpen({})}
@@ -310,21 +315,51 @@ const Navbar = () => {
                                                     );
                                                 })}
                                                 <li>
-                                                    <NavLink to="/recorded-course" onClick={handleItemClick}>All Courses</NavLink>
+                                                    <NavLink to="/recorded-course/paid" onClick={handleItemClick}>View All Paid</NavLink>
                                                 </li>
                                             </ul>
                                         </li>
 
-                                        {/* Free Courses */}
-                                        <li 
+                                        {/* Combo Courses */}
+                                        <li
                                             className="sub-dropdown"
                                             onMouseEnter={() => handleSubMouseEnter('group2')}
                                             onMouseLeave={() => setSubDropdownOpen({})}
                                         >
                                             <span className="sub-dropdown-toggle" onClick={(e) => toggleSubDropdown('group2', e)}>
-                                                Free Courses <i className="bi bi-chevron-right"></i>
+                                                Paid Combo <i className="bi bi-chevron-right"></i>
                                             </span>
                                             <ul className={`sub-dropdown-menu ${subDropdownOpen.group2 ? 'open' : ''}`}>
+                                                {comboCourses.map(course => {
+                                                    const isEnrolled = enrolledCourses.some(c => c.id === course.id);
+                                                    return (
+                                                        <li key={course.id}>
+                                                            <NavLink
+                                                                to={isEnrolled ? `/learn/${course.slug}` : `/course-details/${course.slug}`}
+                                                                state={{ courseId: course.id, courseType: course.course_type }}
+                                                                onClick={handleItemClick}
+                                                            >
+                                                                {course.title}
+                                                            </NavLink>
+                                                        </li>
+                                                    );
+                                                })}
+                                                <li>
+                                                    <NavLink to="/recorded-course/combo" onClick={handleItemClick}>View All Combo</NavLink>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        {/* Free Courses */}
+                                        <li
+                                            className="sub-dropdown"
+                                            onMouseEnter={() => handleSubMouseEnter('group3')}
+                                            onMouseLeave={() => setSubDropdownOpen({})}
+                                        >
+                                            <span className="sub-dropdown-toggle" onClick={(e) => toggleSubDropdown('group3', e)}>
+                                                Free Courses <i className="bi bi-chevron-right"></i>
+                                            </span>
+                                            <ul className={`sub-dropdown-menu ${subDropdownOpen.group3 ? 'open' : ''}`}>
                                                 {freeCourses.map(course => {
                                                     const isEnrolled = enrolledCourses.some(c => c.id === course.id);
                                                     return (
@@ -340,7 +375,7 @@ const Navbar = () => {
                                                     );
                                                 })}
                                                 <li>
-                                                    <NavLink to="/recorded-course" onClick={handleItemClick}>All Courses</NavLink>
+                                                    <NavLink to="/recorded-course/free" onClick={handleItemClick}>View All Free</NavLink>
                                                 </li>
                                             </ul>
                                         </li>
@@ -348,8 +383,8 @@ const Navbar = () => {
                                 </li>
 
                                 {/* LIVE COURSES */}
-                                <li 
-                                    className={`dropdown ${dropdownOpen.liveCourses ? 'open' : ''}`} 
+                                <li
+                                    className={`dropdown ${dropdownOpen.liveCourses ? 'open' : ''}`}
                                     onClick={(e) => toggleDropdown('liveCourses', e)}
                                     onMouseEnter={() => handleMouseEnter('liveCourses')}
                                     onMouseLeave={handleMouseLeave}
@@ -367,8 +402,8 @@ const Navbar = () => {
                                 </li>
 
                                 {/* PRACTICE */}
-                                <li 
-                                    className={`dropdown ${dropdownOpen.practice ? 'open' : ''}`} 
+                                <li
+                                    className={`dropdown ${dropdownOpen.practice ? 'open' : ''}`}
                                     onClick={(e) => toggleDropdown('practice', e)}
                                     onMouseEnter={() => handleMouseEnter('practice')}
                                     onMouseLeave={handleMouseLeave}
@@ -382,8 +417,8 @@ const Navbar = () => {
                                 </li>
 
                                 {/* RESOURCES */}
-                                <li 
-                                    className={`dropdown ${dropdownOpen.resources ? 'open' : ''}`} 
+                                <li
+                                    className={`dropdown ${dropdownOpen.resources ? 'open' : ''}`}
                                     onClick={(e) => toggleDropdown('resources', e)}
                                     onMouseEnter={() => handleMouseEnter('resources')}
                                     onMouseLeave={handleMouseLeave}
@@ -394,7 +429,7 @@ const Navbar = () => {
                                         <li><NavLink to="/" onClick={handleItemClick}>Referral</NavLink></li>
                                         <li><NavLink to="/blogs" onClick={handleItemClick}>Blog</NavLink></li>
                                         <li><NavLink to="/faq" onClick={handleItemClick}>FAQ</NavLink></li>
-                                        <li><NavLink to="/" onClick={handleItemClick}>Become an affiliate</NavLink></li>
+                                        {/* <li><NavLink to="/" onClick={handleItemClick}>Become an affiliate</NavLink></li> */}
                                     </ul>
                                 </li>
                             </ul>
@@ -450,8 +485,8 @@ const Navbar = () => {
                                         <Link to="/signup" className="btn_signup d-lg-flex d-none">Sign Up</Link>
                                     </>
                                 ) : (
-                                    <div 
-                                        className="user-dropdown position-relative" 
+                                    <div
+                                        className="user-dropdown position-relative"
                                         ref={dropdownRef}
                                         onMouseEnter={() => window.innerWidth > 991 && setUserDropdownOpen(true)}
                                         onMouseLeave={() => window.innerWidth > 991 && setUserDropdownOpen(false)}

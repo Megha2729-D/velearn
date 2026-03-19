@@ -1,5 +1,7 @@
 import { Component } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation, useParams } from "react-router-dom";
+import Preloader from "../../Preloader";
+
 const BASE_API_URL = "https://www.velearn.in/api/";
 const BASE_IMAGE_URL = `https://brainiacchessacademy.com/assets/images/`;
 const BASE_DYNAMIC_IMAGE_URL = "https://velearn.in/public/uploads/";
@@ -10,12 +12,17 @@ class RecordedCourse extends Component {
         activeCategory: "Software Development",
         courses: [],
         enrolledCourses: [],
+        isLoading: true,
+        isMoreLoading: false,
         visibleCount: {
-            paid: 4,
-            free: 4,
-            combo: 4,
+            paid: 8,
+            free: 8,
+            combo: 8,
         },
     };
+
+    loadMoreRef = null;
+    observer = null;
 
     categories = [
         "Software Development",
@@ -26,7 +33,7 @@ class RecordedCourse extends Component {
     ];
 
     componentDidMount() {
-        fetch(`${BASE_API_URL}recorded-course`)
+        const fetchCourses = fetch(`${BASE_API_URL}recorded-course`)
             .then((res) => res.json())
             .then((data) => {
                 // console.log("API Response:", data);
@@ -38,16 +45,76 @@ class RecordedCourse extends Component {
             .catch((err) => console.error("Failed to fetch courses:", err));
 
         const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
-            fetch(`${BASE_API_URL}my-courses/${user.id}`)
+        const fetchEnrolled = user
+            ? fetch(`${BASE_API_URL}my-courses/${user.id}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.status) {
                         this.setState({ enrolledCourses: data.data.all || [] });
                     }
                 })
-                .catch(err => console.error("Failed to fetch enrolled courses:", err));
+                .catch(err => console.error("Failed to fetch enrolled courses:", err))
+            : Promise.resolve();
+
+        Promise.all([fetchCourses, fetchEnrolled]).finally(() => {
+            this.setState({ isLoading: false }, () => {
+                this.setupIntersectionObserver();
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        if (this.observer) {
+            this.observer.disconnect();
         }
+    }
+
+    setupIntersectionObserver() {
+        const options = {
+            root: null,
+            rootMargin: '100px',
+            threshold: 0.1
+        };
+
+        this.observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !this.state.isMoreLoading && this.hasMoreToLoad()) {
+                this.handleLoadMore();
+            }
+        }, options);
+
+        if (this.loadMoreRef) {
+            this.observer.observe(this.loadMoreRef);
+        }
+    }
+
+    hasMoreToLoad() {
+        const { filter } = this.props;
+        const types = filter ? [filter] : ["paid", "free", "combo"];
+        
+        return types.some(type => {
+            const filtered = this.state.courses
+                .filter((c) => c.course_type === type)
+                .filter((c) => c.categories?.includes(this.state.activeCategory))
+                .filter((c) => c.title.toLowerCase().includes(this.state.search.toLowerCase()));
+            
+            return filtered.length > this.state.visibleCount[type];
+        });
+    }
+
+    handleLoadMore() {
+        this.setState({ isMoreLoading: true });
+        
+        // Brief delay to show preloader as requested
+        setTimeout(() => {
+            this.setState(prevState => ({
+                visibleCount: {
+                    paid: prevState.visibleCount.paid + 8,
+                    free: prevState.visibleCount.free + 8,
+                    combo: prevState.visibleCount.combo + 8
+                },
+                isMoreLoading: false
+            }));
+        }, 1000);
     }
 
     renderExploreSection() {
@@ -67,7 +134,10 @@ class RecordedCourse extends Component {
                                 key={index}
                                 className={`category_pill ${this.state.activeCategory === cat ? "active" : ""
                                     }`}
-                                onClick={() => this.setState({ activeCategory: cat })}
+                                onClick={() => this.setState({ 
+                                    activeCategory: cat,
+                                    visibleCount: { paid: 8, free: 8, combo: 8 }
+                                })}
                             >
                                 {cat}
                             </button>
@@ -83,7 +153,10 @@ class RecordedCourse extends Component {
                                     placeholder="Search"
                                     value={this.state.search}
                                     onChange={(e) =>
-                                        this.setState({ search: e.target.value })
+                                        this.setState({ 
+                                            search: e.target.value,
+                                            visibleCount: { paid: 8, free: 8, combo: 8 }
+                                        })
                                     }
                                 />
                                 <i className="bi bi-search"></i>
@@ -205,64 +278,68 @@ class RecordedCourse extends Component {
                             })
                         ) : (
                             <div className="col-12 text-center py-5">
-                                <p className="text-muted">
-                                    No courses available in this category.
-                                </p>
+                                <div className="no_courses_empty_state p-5 rounded-4 shadow-sm bg-light border border-dashed text-center mx-auto" style={{ maxWidth: '600px' }}>
+                                    <div className="mb-4">
+                                        <i className="bi bi-book-half display-1 text-muted opacity-25"></i>
+                                    </div>
+                                    <h3 className="fw-bold mb-3">No {badgeText} Courses Available</h3>
+                                    <p className="text-muted mb-4">
+                                        We currently don't have any {badgeText.toLowerCase()} courses listed under the <strong>{this.state.activeCategory}</strong> category. 
+                                        {this.state.search && <span> matching <strong>"{this.state.search}"</strong>.</span>}
+                                    </p>
+                                </div>
                             </div>
                         )}
                     </div>
-
-                    {filteredCourses.length > this.state.visibleCount[courseType] && (
-                        <div className="col-12 d-flex justify-content-center more_butt_parent">
-                            <div
-                                style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                    this.setState((prevState) => ({
-                                        visibleCount: {
-                                            ...prevState.visibleCount,
-                                            [courseType]: prevState.visibleCount[courseType] + 4,
-                                        },
-                                    }))
-                                }
-                            >
-                                <div className="col-12 d-flex justify-content-center more_butt_parent">
-                                    <div className="d-flex more_butt">
-                                        <div className="butt">Show More</div>
-                                        <div className="icon_redirect">
-                                            <i className="bi bi-arrow-right-short"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {/* {filteredCourses.length > 0 && (
-                        <div className="col-12 d-flex justify-content-center more_butt_parent">
-                            <NavLink to="/recorded-course">
-                                <div className="d-flex more_butt">
-                                    <div className="butt">Show More</div>
-                                    <div className="icon_redirect">
-                                        <i className="bi bi-arrow-right-short"></i>
-                                    </div>
-                                </div>
-                            </NavLink>
-                        </div>
-                    )} */}
                 </div>
             </section>
         );
     }
 
     render() {
+        const { filter } = this.props;
+
+        if (this.state.isLoading) {
+            return <Preloader />;
+        }
+
         return (
             <>
                 {this.renderExploreSection()}
-                {this.renderCoursesByType("paid", "Paid", "paid_butt")}
-                {this.renderCoursesByType("free", "Free", "free_butt")}
-                {this.renderCoursesByType("combo", "Combo", "combo_butt")}
+                {(!filter || filter === "paid") && this.renderCoursesByType("paid", "Paid", "paid_butt")}
+                {(!filter || filter === "free") && this.renderCoursesByType("free", "Free", "free_butt")}
+                {(!filter || filter === "combo") && this.renderCoursesByType("combo", "Combo", "combo_butt")}
+
+                {/* Loading Trigger / Preloader for More Content */}
+                {this.hasMoreToLoad() && (
+                    <div 
+                        ref={el => {
+                            if (this.observer) {
+                                if (this.loadMoreRef) this.observer.unobserve(this.loadMoreRef);
+                                if (el) this.observer.observe(el);
+                            }
+                            this.loadMoreRef = el;
+                        }} 
+                        className="d-flex justify-content-center py-5 mb-5"
+                    >
+                        <div className="loader" style={{ transform: 'scale(0.6)' }}>
+                            <div className="spinner"></div>
+                            <div className="logo-bg">
+                                <img src={`https://brainiacchessacademy.com/assets/images/logo-icon.png`} alt="" style={{ width: '40px' }} />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </>
         );
     }
 }
 
-export default RecordedCourse;
+const RecordedCourseWrapper = (props) => {
+    const location = useLocation();
+    const params = useParams();
+    const filter = params.filter || location.state?.filter;
+    return <RecordedCourse {...props} filter={filter} />;
+};
+
+export default RecordedCourseWrapper;

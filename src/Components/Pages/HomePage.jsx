@@ -470,7 +470,17 @@ class HomePage extends Component {
                                         Fully explained in <span>தமிழ்</span>
                                     </p>
                                     <div className="col-12 mt-5">
-                                        <div className="talk_to_us_card">
+                                        <div class="d-flex align-items-center">
+                                            <img className="phone-img" alt="" src={`${BASE_IMAGE_URL}icons/phone.png`} />
+                                            <div class="call_details">
+                                                <p class="text-c2 mb-0 fw-bold">Have any questions ?</p>
+                                                <p class="fw-bold mb-0">
+                                                    <a href="tel:">5555555555</a>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* <div className="talk_to_us_card">
                                             <div className="d-flex align-items-center gap-3">
                                                 <div className="talk_icon_box">
                                                     <img src={`${BASE_IMAGE_URL}icons/phone.png`} className="phone-img-dynamic" alt="phone" />
@@ -487,7 +497,7 @@ class HomePage extends Component {
                                             <Link to="/contact-us" className="mt-3 d-inline-block text-decoration-none">
                                                 <span className="contact_link_btn">Contact Us Page <i className="bi bi-arrow-right-short"></i></span>
                                             </Link>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -1241,30 +1251,30 @@ class HomePage extends Component {
                                             </div>
                                         </div>
                                         <div>
-                                            <input 
-                                                type="text" 
+                                            <input
+                                                type="text"
                                                 name="contactName"
-                                                placeholder="Name" 
+                                                placeholder="Name"
                                                 value={this.state.contactName}
                                                 onChange={this.handleContactChange}
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <input 
-                                                type="number" 
+                                            <input
+                                                type="number"
                                                 name="contactPhone"
-                                                placeholder="Phone No" 
+                                                placeholder="Phone No"
                                                 value={this.state.contactPhone}
                                                 onChange={this.handleContactChange}
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <input 
-                                                type="email" 
+                                            <input
+                                                type="email"
                                                 name="contactEmail"
-                                                placeholder="Email" 
+                                                placeholder="Email"
                                                 value={this.state.contactEmail}
                                                 onChange={this.handleContactChange}
                                                 required

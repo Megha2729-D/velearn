@@ -72,7 +72,8 @@
 }
 
 .refer_bottom_content {
-    background: linear-gradient(#000000, #000000), url(../../../public/assets/images/refer-and-earn/re-bg.png);
+    /* background: url(../../../public/assets/images/refer-and-earn/re-bg.png), linear-gradient(#000000, #000000); */
+    background: linear-gradient(#000000, #000000);
     background-size: cover;
     position: relative;
 }
@@ -84,6 +85,14 @@
     border-radius: 30px;
     padding: 10px 40px;
     color: #ffffff;
+    transition: all .3s ease-out;
+}
+
+.refer_butt:hover {
+    background: #FFC200;
+    border: 1px solid #FFD12E;
+    color: #000000;
+    transition: all .3s ease-out;
 }
 
 .refer_count_steps {

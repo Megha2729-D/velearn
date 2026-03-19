@@ -12,7 +12,12 @@ class ReferAndEarn extends Component {
             activeFaqIndex: 0,
         };
     }
-
+    componentDidMount() {
+        document.body.classList.add("bg-refer");
+    }
+    componentWillUnmount() {
+        document.body.classList.remove("bg-refer");
+    }
     faqData = [
         {
             question: "Who should enroll in this UI/UX Design course?",

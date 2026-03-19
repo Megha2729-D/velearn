@@ -72,8 +72,8 @@
 }
 
 .refer_bottom_content {
-    /* background: url(../../../public/assets/images/refer-and-earn/re-bg.png), linear-gradient(#000000, #000000); */
-    background: linear-gradient(#000000, #000000);
+    background: url(../../../public/assets/images/refer-and-earn/re-bg.png), linear-gradient(#000000, #000000);
+    /* background: linear-gradient(#000000, #000000); */
     background-size: cover;
     position: relative;
 }
@@ -162,6 +162,10 @@
 
 .navbarRefer .top-banner {
     display: none;
+}
+
+.bg-refer {
+    background: #0c4052;
 }
 
 @media screen and (min-width: 992px) {
